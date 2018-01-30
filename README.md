@@ -22,3 +22,9 @@ These will cover any specific features, outlines or documentation that a program
 [Hardware](hardware/README.md "Hardware")
 
 [Software](software/README.md "Software")
+
+## System
+
+The following is an early rought diagram
+
+![RoughOutline](Chassis_Controller.png)
