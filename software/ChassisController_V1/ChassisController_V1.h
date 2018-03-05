@@ -11,16 +11,15 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-#include "MCP2515_CC.h"
+#include "MCP2515.h"
 #include <stdlib.h>
 
-#define NUM_INVERTERS	4
+#define NUM_INVERTERS		4
 #define NUM_ACCUMULATORS	1
-#define NUM_CMU_PER_AMU	6
-#define CMU_CELL_COUNT	8
+#define NUM_CMU_PER_AMU		6
+#define CMU_CELL_COUNT		8
 
-
-#define STATUS_REG GPIOR0
+#define STATUS_REG 			GPIOR0
 #define CAN1_DataWaiting	1
 #define CAN2_DataWaiting	2
 #define CAN3_DataWaiting	4
@@ -31,40 +30,38 @@
 #define HEARTBEAT_PDM_ID	0x09000000
 #define HEARTBEAT_WHEEL_ID	0x00400000
 
-#define PEDAL_BRAKE_HIGH	900	//temp value
-#define PEDAL_BRAKE_LOW		100	//temp value
-#define PEDAL_BRAKE_LIGHT_ON 512 //temp value, must update with testing
+#define PEDAL_BRAKE_HIGH		900	//temp value
+#define PEDAL_BRAKE_LOW			100	//temp value
+#define PEDAL_BRAKE_LIGHT_ON 	512 //temp value, must update with testing
 
-#define PEDAL_THROTTLE_HIGH	900	//temp value
-#define PEDAL_THROTTLE_LOW	100	//temp value
+#define PEDAL_THROTTLE_HIGH		900	//temp value
+#define PEDAL_THROTTLE_LOW		100	//temp value
 #define PEDAL_DELTA_THRESH_L	50
 #define PEDAL_DELTA_THRESH_H	150
 
 //ADC channel allocation
-#define PEDAL_BRAKE_CH1		10	
-#define PEDAL_BRAKE_CH2		8
-#define PEDAL_THROTTLE_CH1	5
-#define PEDAL_THROTTLE_CH2	2
-#define RADIATOR_RIGHT		0	//AN5
-#define RADIATOR_LEFT		12	//AN10
+#define PEDAL_BRAKE_CH1			10	
+#define PEDAL_BRAKE_CH2			8
+#define PEDAL_THROTTLE_CH1		5
+#define PEDAL_THROTTLE_CH2		2
+#define RADIATOR_RIGHT			0	//AN5
+#define RADIATOR_LEFT			12	//AN10
 #define PRESSURE_BRAKE_FRONT	11	//AN6
 #define PRESSURE_BRAKE_REAR		7	//AN7
-#define STEERING_ANGLE			4//AN8
+#define STEERING_ANGLE			4	//AN8
 //single sensor, no error checking
 
 #define PRESSURE_BRAKE_HIGH		1022
 #define PRESSURE_BRAKE_LOW		1
 
+#define ADC_SAMPLES				10
 
-#define ADC_SAMPLES	10
-
-#define ERROR_PEDALS 1
-#define ERROR_BRAKE_PRESSURE 2
+#define ERROR_PEDALS 			1
+#define ERROR_BRAKE_PRESSURE 	2
 #define ERROR_INVERTER_RESPONSE 3
-#define ERROR_CAN2_RESPONSE	4
+#define ERROR_CAN2_RESPONSE		4
 
-
-#define PDM_BRAKELIGHT 16				//byte 0
+#define PDM_BRAKELIGHT 		16			//byte 0
 #define PDM_ATOMIC_ALARM	32			//byte 0
 #define PDM_SHUTDOWN_PLUS	64			//byte 0
 #define PDM_SHUTDOWN_MINUS	128			//byte 0
@@ -96,7 +93,6 @@
 #define SHDN_DRIVER_ESTOP			16
 #define IGNITION_PORT				PINJ
 #define IGNITION_PIN				PJ6
-
 
 unsigned int avgVolts = 0;
 unsigned int avgTemp = 0;
@@ -187,16 +183,15 @@ uint8_t tempBuffer[10];
 
 void flash_LED(unsigned char times);
 
-#define INVERTERS 1
-#define PDM_H 2
-#define AMU_H	3
-#define WHEEL 4
-#define INVERTERS_ALL 0b1111
-#define TORQUE_COMMAND 3
-#define NORMAL 1
-#define ACCUMULATOR_FRONT 1
-#define ACCUMULATOR_REAR 2
-
+#define INVERTERS 			1
+#define PDM_H 				2
+#define AMU_H				3
+#define WHEEL 				4
+#define INVERTERS_ALL 		0b1111
+#define TORQUE_COMMAND 		3
+#define NORMAL 				1
+#define ACCUMULATOR_FRONT 	1
+#define ACCUMULATOR_REAR 	2
 
 void shutdown_state(uint16_t shutdownFlag);
 void UART_sendRealTimeData (void);

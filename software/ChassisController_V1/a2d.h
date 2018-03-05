@@ -13,8 +13,6 @@
 //		which can be found at http://www.gnu.org/licenses/gpl.txt
 //
 //*****************************************************************************
-
-
 #ifndef A2D_H
 #define A2D_H
 
@@ -131,8 +129,4 @@ unsigned short a2dmVFrom_a2d(unsigned short a2dBits,unsigned short a2dmVmax,unsi
 
 void d2a_10bit(unsigned short d2a); //sets the d2a value onthe R2R port/s
 
-
-
-
 #endif
-

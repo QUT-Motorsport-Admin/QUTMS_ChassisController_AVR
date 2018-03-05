@@ -1,99 +1,134 @@
-/*
- * ChassisController_V1.c
- *
- * Created: 5/12/2016 1:55:19 AM
- * Author : julius
- */ 
+// ===================================================================
+// ChassisController_V1.c
+//
+// Author : julius
+// Created: 5/12/2016 1:55:19 AM
+// Last Altered: 
+// ===================================================================
+
 #include "ChassisController_V1.h"
 #include "SPI.h"
-#include "MCP2515_CC.h"
+#include "MCP2515.h"
 #include "uart.h"
 #include "a2d.h"
 
-
-
+/**
+ * LED_flash()
+ * Input:	times - The amount of times to make the LED blink
+ * Returns: none
+ * 
+ * Makes the LED blink a set number of times.
+ **/
 void LED_flash(unsigned char times)
 {
 	for(uint8_t i = 0; i < times; i++)
 	{
-		PORTK ^= 0b00100000;
+		PORTK ^= 1<<PINK5;
 		_delay_ms(50);
-		PORTK ^= 0b00100000;
+		PORTK ^= 1<<PINK5;
 		_delay_ms(50);
 	}
 }
+
+/**
+ * LED_toggle()
+ * Input:	none
+ * Returns: none
+ * 
+ * Switches between the two statues of the LED (on -> off or off -> on)
+ **/
 void LED_toggle()
 {
-	PORTK ^= 0b00100000;
+	PORTK ^= 1<<PINK5;
 }
+
+/**
+ * LED_off()
+ * Input:	none
+ * Returns: none
+ * 
+ * Turns off the LED
+ **/
 void LED_off()
 {
 	PORTK &= ~(1<<PINK5);
 }
 
+/**
+ * ExternalInterrupt_init()
+ * Input:	none
+ * Returns: none
+ * 
+ * Sets up the microcontroller to allow external interrupts. The External Interrupts are triggered by the INT7:0 pin or any of the PCINT23:0 pins.
+ * 
+ * Reference: ATmega Datasheet Chapter 15 (External Interrupts)
+ **/
 void ExternalInterrupt_init()
 {
 	//INT1 for CAN1, INT0 for CAN2, PCINT7 for CAN3
 	EICRA |= (2<<ISC00)|(2<<ISC10);
-	EIMSK = (1<<INT0) | (1<<INT1);
-	//enable interrupts fot PCINT7:0
-	PCICR = (1<<PCIE0)|(1<<PCIE1);
+	EIMSK  = (1<<INT0) | (1<<INT1);
+	//Enable interrupts for PCINT7:0
+	PCICR  = (1<<PCIE0)|(1<<PCIE1);
 	PCMSK0 = (1<<PCINT7);
 	PCMSK1 = (1<<PCINT15);
 }
 
+/**
+ * IO_init()
+ * Input:	none
+ * Returns: none
+ * 
+ * Configures the pins required for IO. Each port pin consists of three register bits: DDxn, PORTxn, and PINxn set by the following registers
+ * 	DDRx   - Sets the direction of PINxn in bit DDxn (1 -> output, 0 -> input)
+ * 	PORTx  - Activates the pull-up resistor for PINxn in bit PORTxn. The pull-up resistor will only be activated if written as logic 1 AND set as an input
+ *  PINx   - The Port Input Pins I/O location is read only. 
+ *           Writing a logic one to a bit in the PINx Register, will result in a toggle in the corresponding bit in the Data Register
+ * 		     Writing a logic one to PINxn toggles the value of PORTxn, independent on the value of DDRxn
+ * 
+ * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
+ **/
 void IO_init()
 {
 	//pins 8, 9 and 14 for MCP2515_STB high so the things respond (PE6, PE7, PH2)
-	DDRE = 0b11000010;		//PE0 = RS232 RX1; PE1 = RS232 TX1;  PE6 = STB_CAN1; PE7 = STB_CAN2;
+	DDRE  = 0b11000010;		//PE0 = RS232 RX1; PE1 = RS232 TX1;  PE6 = STB_CAN1; PE7 = STB_CAN2;
 	PORTE = 0b00000000;		
-	DDRH = 0b00000111;		//PH0 = CS_CAN1; PH1 = CS_CAN2; PH2 = STB_CAN3
+	DDRH  = 0b00000111;		//PH0 = CS_CAN1; PH1 = CS_CAN2; PH2 = STB_CAN3
 	PORTH = 0b00000011;		//CS_CAN1 high; CS_CAN2 high;
 	//pins 12, 13, 19 for the CS for each MCP2515 PH0, PH1, PB0)
 
 	//pin 21 for MOSI, pin 20  for SCK (PB2, PB1)
-	DDRB = 0b01100111;		//PB0 = CS_CAN3; PB1 = SCK; PB2 = MOSI; PB3 = MISO; PB5 = High drive A; PB6 = Low drive A; PB7 = CAN3_INT; 
+	DDRB  = 0b01100111;		//PB0 = CS_CAN3; PB1 = SCK; PB2 = MOSI; PB3 = MISO; PB5 = High drive A; PB6 = Low drive A; PB7 = CAN3_INT; 
 	PORTB = 0b00000001;		//set CS_CAN3 high;
 	
-	DDRL = 0b00011000;		//PB3 = High drive B; PB4 = Low Drive B;
+	DDRL  = 0b00011000;		//PB3 = High drive B; PB4 = Low Drive B;
 	PORTL = 0b00000000;
 	
-	DDRD = 0b11001000;		//PD0 = CAN2_INT; PD1 = CAN1_INT; PD2 = RS232 RX2; PD3 = RS232 TX2; PD6 = CAN1_TXPIN; PD7 = CAN2_TXPIN;
-	DDRD = 0b00000000;
+	DDRD  = 0b11001000;		//PD0 = CAN2_INT; PD1 = CAN1_INT; PD2 = RS232 RX2; PD3 = RS232 TX2; PD6 = CAN1_TXPIN; PD7 = CAN2_TXPIN;
+	DDRD  = 0b00000000;
 	
-	DDRC = 0b00001000;		//PC3 = CAN3_TXPIN;
-	PORTC= 0b00000000;
+	DDRC  = 0b00001000;		//PC3 = CAN3_TXPIN;
+	PORTC = 0b00000000;
 	
-	DDRJ = 0b00000000;		//PORTJ is used for digital input;
+	DDRJ  = 0b00000000;		//PORTJ is used for digital input;
 	
-	DDRA = 0b00011000;		//PA3 = ENABLE_B; PA4 = ENABLE_A; PA1 = dig input; PA2 = dig input;
-	PORTA |= (1<<PINA4);
-	DDRK = 0b00100000;		//PK5 = debugging LED;
+	DDRA  = 0b00011000;		//PA3 = ENABLE_B; PA4 = ENABLE_A; PA1 = dig input; PA2 = dig input;
+	PORTA = 0b00010000;
+	DDRK  = 0b00100000;		//PK5 = debugging LED;
 	PORTK = 0b00100000;
 	
 	ExternalInterrupt_init();
-	//pin 26 is INT for CAN3
-	
-	//ping 43 and 44 for CAN2 and CAN1, PG2 and PA7
-	/*DDRA  = 0b00110000;		//PA5 = LED2; PA4 = LED1
-	DDRB  = 0b11110111;		//PB7 = INJ3; PB6 = INJ2; PB5 = INJ1; PB4 = AUX1; PB3 = MISO; PB2 = MOSI; PB1 = SCK; PB0 = SS
-	DDRC  = 0b01000001;		//PC7 = SF_INJ12; PC6 = EN_INJ; PC1 = ST_AUX12; PC0 = CAN_SS
-	DDRD  = 0b10001000;		//PD7 = CAN_TX0; PD5 = RTI2; PD4 = RTI1; PD3 = TX1; PD2 = RX1; PD1 = CAN_INT; PD0 = CAS2
-	DDRE  = 0b00111010;		//PE7 = CAS1; PE6 = RTI3; PE5 = INJ4; PE4 = AUX4; PE3 = AUX3; PE2 = ST_AUX34; PE1 = TX0; PE0 = RX0
-	DDRF  = 0b00000000;		//PORTF ALL ADCS
-	DDRG  = 0b00111010;		//PG5 = AUX2; PG4 = Pulldown2; PG3 = Pulldown1; PG2 = ST_INJ34; PG1 = EN_AUX
-		
-	PORTA |= 0b11100000;	//turn on digital input pull-ups, turn LED2 on;
-	PORTB |= 0b00011000;
-	PORTC |= 0b00000001;	//set CAN_SS high
-
-	PORTC |= 1;										//set CAN_CS high
-		
-	//interrupts
-	EICRA = 0b00001000;		//enable INT1 on falling edges
-	EIMSK = 0b00000010;		//enable INT1
-	}*/
 }
+
+/**
+ * Timer_init()
+ * Input:	none
+ * Returns: none
+ * 
+ * Initiates a timer set on Clear Timer Compare Match (CTC) Mode.
+ * 
+ * Reference: ATmega Datasheet Chapter 17 (16-bit Timer/Counter)
+ **/
 void Timer_init()
 {
 	TCCR1A = 0b00000000;			//CTC mode
@@ -101,6 +136,18 @@ void Timer_init()
 	OCR1A =  312;					//312 gives 50Hz main comms speed
 	TIMSK1 = 0b00000010;			//turn on compare interrupt for OCR1A
 }
+
+/**
+ * sendHeartbeat()
+ * Input:	destination	-	The device that will receive the packet	
+ * 			type		-	What sort of command to send
+ * 			address		-	The specific address in the device to transmit to
+ * Returns: none
+ * 
+ * Send a CAN packet to a specific device in the can in order to maintain comm updates
+ * 
+ * Reference: MCP2515 Datasheet Chapter 3 (Message Transmission)
+ **/
 void sendHeartbeat(unsigned char destination, unsigned char type, unsigned char address)
 {	
 	uint8_t mob;
@@ -108,30 +155,24 @@ void sendHeartbeat(unsigned char destination, unsigned char type, unsigned char 
 	switch(destination)
 	{
 		case INVERTERS:
-		
 			//obtain a mob that is free
 			mob = MCP2515_findFreeTxBuffer(MCP2515_CAN1);
 			//type = what sort of command. address is which inverters should listen, status is whether the inverters are active or not.
 			ID = (HEARTBEAT_INV_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|inverterStatus);	
 			//transmit the packet.
-			MCP2515_TX(MCP2515_CAN1,mob, 8, (uint8_t*)currentTorqueDemand, ID);
+			MCP2515_TX(MCP2515_CAN1, mob, 8, (uint8_t*)currentTorqueDemand, ID);
 			break;
-		
 		case PDM_H:
-		
 			//unsigned char TXstatus = MCP2515_reg_read(MCP2515_CAN2, 0x30);		//check the tx reg status
 			//obtain a mob that is free
 			mob = MCP2515_findFreeTxBuffer(MCP2515_CAN2);
 			//type = what sort of command. address is which address of pdm, normal heartbeat packet;
 			ID = (HEARTBEAT_PDM_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
 			//transmit the packet.
-			
 			pdm.flags[0]=10;
 			MCP2515_TX(MCP2515_CAN2,mob, 4, pdm.flags, ID);
 			break;
-		
 		case AMU_H:
-			
 			//obtain a mob that is free
 			mob = MCP2515_findFreeTxBuffer(MCP2515_CAN2);
 			//type = what sort of command. address is which address of AMU, normal heartbeat packet;
@@ -140,7 +181,6 @@ void sendHeartbeat(unsigned char destination, unsigned char type, unsigned char 
 			MCP2515_TX(MCP2515_CAN2,mob, 4, accumulators[0].flags, ID);
 			break;
 		case WHEEL:
-		
 			//obtain a mob that is free
 			mob = MCP2515_findFreeTxBuffer(MCP2515_CAN3);
 			//type = what sort of command. address is which address of AMU, normal heartbeat packet;
@@ -151,10 +191,15 @@ void sendHeartbeat(unsigned char destination, unsigned char type, unsigned char 
 			break;
 		
 	}
-
-			
 }
 
+/**
+ * ADC_read_AVG()
+ * Input:	ch	-
+ * Returns: 
+ * 
+ * 
+ **/
 uint16_t ADC_read_AVG(uint8_t ch)
 {
 	uint32_t adcSUM = 0;
@@ -165,6 +210,14 @@ uint16_t ADC_read_AVG(uint8_t ch)
 	return (uint16_t)(adcSUM/ADC_SAMPLES);
 }
 
+/**
+ * Pressure_brake_read()
+ * Input:	front	-
+ * 			rear	-
+ * Returns: 
+ * 
+ * 
+ **/
 uint8_t Pressure_brake_read(uint16_t * front, uint16_t * rear)
 {
 	uint16_t tmp = 0;
@@ -180,6 +233,14 @@ uint8_t Pressure_brake_read(uint16_t * front, uint16_t * rear)
 		
 }
 
+/**
+ * Pedal_read()
+ * Input:	brake		-
+ * 			throttle	-
+ * Returns: 
+ * 
+ * 
+ **/
 uint8_t Pedal_read(uint16_t * brake, uint16_t * throttle)
 {
 	uint16_t primary = 0;
@@ -227,6 +288,13 @@ uint8_t Pedal_read(uint16_t * brake, uint16_t * throttle)
 	return 1;
 }
 
+/**
+ * UART_processByte()
+ * Input:	data	-
+ * Returns: none
+ * 
+ * 
+ **/
 void UART_processByte(char data)
 {
 	//PORTA ^= 32;
@@ -254,17 +322,29 @@ void UART_processByte(char data)
 	}
 }
 
+/**
+ * UART_parseInput()
+ * Input:	s	-
+ * Returns: none
+ * 
+ * 
+ **/
 void UART_parseInput(unsigned char* s)
 {
 	UART_parsePoke(s);
 	uart1_putc('D');		//reply with the header byte (preserved - 33 bytes should follow)
 	UART_sendRealTimeData();
-
 	
 	s[0] = '\0';				// clear the header byte
-	
 }
 
+/**
+ * UART_parsePoke()
+ * Input:	s	-
+ * Returns: none
+ * 
+ * 
+ **/
 void UART_parsePoke(unsigned char* s)
 {
 	uint16_t addr = ((uint16_t)(s[1]) << 8);
@@ -314,6 +394,13 @@ void UART_parsePoke(unsigned char* s)
 	}
 }
 
+/**
+ * UART_sendRealTimeData()
+ * Input:	none
+ * Returns: none
+ * 
+ * 
+ **/
 void UART_sendRealTimeData (void)
 {
 	uint8_t outgoingString[34];
@@ -363,7 +450,6 @@ void UART_sendRealTimeData (void)
 	outgoingString[30] = 128;
 	outgoingString[31] = 128;
 	
-	
 	for(int i = 0; i < 4; i++)
 	{
 		for(int j = 0; j < 7; j++)
@@ -380,11 +466,25 @@ void UART_sendRealTimeData (void)
 	for (int i = 0; i < 32; i++) uart1_putc(outgoingString[i]);
 }
 
+/**
+ * error_state()
+ * Input:	error	-
+ * Returns: none
+ * 
+ * 
+ **/
 void error_state(uint16_t error)
 {
 	//do error reporting here
 }
 
+/**
+ * shutdown_probe()
+ * Input:	none
+ * Returns: none
+ * 
+ * 
+ **/
 void shutdown_probe()
 {
 	if(STOP_BRAKE_OVERTRAVEL)shutdown_state(SHDN_BRAKE_OVERTRAVEL);
@@ -394,11 +494,27 @@ void shutdown_probe()
 	if(STOP_RIGHT_FRONT_UPRIGHT)shutdown_state(SHDN_RIGHT_FRONT_UPRIGHT);
 }
 
+/**
+ * shutdown_state()
+ * Input:	shutdownFlag	-
+ * Returns: none
+ * 
+ * 
+ **/
 void shutdown_state(uint16_t shutdownFlag)
 {
 	//do shutdown reporting here
 }
 
+/**
+ * CAN1_Process()
+ * Input:	numBytes	-
+ * 			data		-
+ * 			ID			-
+ * Returns: 
+ * 
+ * 
+ **/
 uint8_t CAN1_Process(uint8_t numBytes, uint8_t * data, uint32_t ID)
 {
 	//loop through all inverters
@@ -421,6 +537,15 @@ uint8_t CAN1_Process(uint8_t numBytes, uint8_t * data, uint32_t ID)
 	return 0;
 }
 
+/**
+ * CAN2_Process()
+ * Input:	numBytes	-
+ * 			data		-
+ * 			ID			-
+ * Returns: 
+ * 
+ * 
+ **/
 uint8_t CAN2_Process(uint8_t numBytes, uint8_t * data, uint32_t ID)
 {
 	if(ID & HEARTBEAT_PDM_ID)
@@ -434,11 +559,25 @@ uint8_t CAN2_Process(uint8_t numBytes, uint8_t * data, uint32_t ID)
 	return 0;
 }
 
+/**
+ * CAN3_Process()
+ * Input:	none
+ * Returns: none
+ * 
+ * 
+ **/
 void CAN3_Process()
 {
 	
 }
 
+/**
+ * main()
+ * Input:	none
+ * Returns: 
+ * 
+ * 
+ **/
 int main(void)
 {
 	_delay_ms(5);
@@ -487,21 +626,18 @@ int main(void)
 	//define the pedal positions.
 	uint16_t throttle=0, brake=0, brakePressureF=0, brakePressureR=0;
 	//read the pedal values, error state if the thresholds are out of order.
-	if(Pedal_read(&throttle, &brake) == 0)error_state(ERROR_PEDALS);	//read the initial state of the pedal. if it is
+	if(Pedal_read(&brake, &throttle) == 0)error_state(ERROR_PEDALS);	//read the initial state of the pedal. if it is
 	if(Pressure_brake_read(&brakePressureF, &brakePressureR) == 0)error_state(ERROR_BRAKE_PRESSURE);
 
 	uint8_t steeringWheelData[8]={0,0,0,255,0,255,0,255};
     while (1) 
     {
-
 		MCP2515_TX(MCP2515_CAN3, MCP2515_findFreeTxBuffer(MCP2515_CAN3),8,steeringWheelData,0x400000);
-		steeringWheelData[1]++;
-		
+		steeringWheelData[1]++;	
 		
 		//check for available TX buffer
 		unsigned int AN1_voltage = a2d_10bitCh(4);
 		unsigned int AN2_voltage = a2d_10bitCh(3);
-		
 		
 		if(STATUS_REG & CAN1_DataWaiting)
 		{
@@ -532,7 +668,6 @@ int main(void)
 			STATUS_REG &= ~(CAN1_DataWaiting);
 		}
 		
-		
 		if(STATUS_REG & CAN2_DataWaiting)
 		{
 			uint8_t status = MCP2515_check_receive_status(MCP2515_CAN2);
@@ -561,10 +696,7 @@ int main(void)
 		{
 			
 		}
-		
-		
-		
-		
+
 		if((PINA & 128) == 128) inverterStatus = 0;
 		else inverterStatus = 1;
 		
@@ -590,9 +722,7 @@ int main(void)
 		if(Pressure_brake_read(&brakePressureF, &brakePressureR) == 0)error_state(ERROR_BRAKE_PRESSURE);
 		
 		steeringAngle = ADC_read_AVG(STEERING_ANGLE);
-		
-		
-		
+
 		uint16_t temp_ADC_read = a2d_10bitCh(1);
 		int i = 0;
 		
@@ -609,6 +739,13 @@ int main(void)
 	return 0;
 }
 
+/**
+ * CAN3_Process()
+ * Input:	none
+ * Returns: none
+ * 
+ * 
+ **/
 ISR(INT1_vect)	//CAN 1
 {
 	STATUS_REG |= CAN1_DataWaiting;
@@ -668,9 +805,7 @@ ISR(PCINT1_vect)		//ignition switch function
 
 ISR(TIMER1_COMPA_vect)
 {
-	//sendHeartbeat(INVERTERS);			//send can packets to devices at the prescribed intervals
 	heartbeatTimer++;
-	//LED_toggle();
 	if((heartbeatTimer%2) > 0)sendHeartbeat(INVERTERS, TORQUE_COMMAND, INVERTERS_ALL);
 	
 	switch(heartbeatTimer)
@@ -681,7 +816,6 @@ ISR(TIMER1_COMPA_vect)
 		case 24:
 			sendHeartbeat(AMU_H, NORMAL, ACCUMULATOR_FRONT);
 			break;
-
 		case 48:
 			sendHeartbeat(WHEEL, NORMAL, 1);
 			break;
@@ -690,8 +824,5 @@ ISR(TIMER1_COMPA_vect)
 	}
 	
 	if(heartbeatTimer > 48)heartbeatTimer = 0;		//500ms round robin for comms updates
-	
-	
-	//	sendHeartbeat();			//send can packets to devices at the prescribed intervals
 }
 

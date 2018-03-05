@@ -20,16 +20,11 @@
 #include <stdio.h>
 #include <string.h>			// include string support
 
-
-
-
 // functions
-
 
 // initialize a2d converter
 void a2dInit(unsigned char prescale, unsigned char ref)
 {
-
 	// Set to Single Mode, ADC Auto Trigger OFF, ADC Int OFF, Prescale 0
 	ADCSRA = 0; //clear!
 
@@ -47,10 +42,7 @@ void a2dInit(unsigned char prescale, unsigned char ref)
 
 	int input = a2d_10bit();
 	input = a2d_10bit();
-
-
 }
-
 
 // turn On a2d converter
 void a2dOn(void)

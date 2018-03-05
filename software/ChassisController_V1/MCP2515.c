@@ -1,6 +1,6 @@
 
 #include "SPI.h"
-#include "MCP2515_CC.h"
+#include "MCP2515.h"
 
 void MCP2515_init(uint8_t CANbus)
 {
@@ -90,6 +90,7 @@ void MCP2515_bit_modify(uint8_t CANbus,uint8_t reg_address, uint8_t reg_value, u
 	MCP2515_CS_high(CANbus);			//set the CS.
 }
 
+
 uint8_t MCP2515_receive_status(uint8_t CANbus)
 {
 	uint8_t mcp2515_status[2];
@@ -118,11 +119,12 @@ uint8_t MCP2515_receive_status(uint8_t CANbus)
  *
  * This function also automatically clears the interrupt flag CANINTF.RX0IF(in this case)
  */
-void MCP2515_RxBufferRead(uint8_t CANbus, uint8_t * data, uint8_t startingAddress)
+void MCP2515_RxBufferRead(uint8_t CANbus, uint8_t * data, uint8_t rxBuffer)
 {
 
+
 	//the following line combines the instruction(0b10010000), with: 0b100 for rxb0 or 0b000 for rxb1, and: 0b10 for data starting at data0, or 0b00 for SIDH
-	uint8_t instruction = 0b10010000|((startingAddress > 0x70)<<2)|((startingAddress == MCP2515_RXB0D0 || startingAddress == MCP2515_RXB1D0)<<1);
+	uint8_t instruction = 0b10010000|((rxBuffer > 0x70)<<2)|((rxBuffer == MCP2515_RXB0D0 || rxBuffer == MCP2515_RXB1D0)<<1);
 	MCP2515_CS_low(CANbus);			//lower CS.
 	SPI_send_byte(instruction);							//send instruction for stream of data
 	//loop counts to 8 or 12 depending on whether bit 1 of instruction is set.
@@ -131,6 +133,30 @@ void MCP2515_RxBufferRead(uint8_t CANbus, uint8_t * data, uint8_t startingAddres
 		*data = SPI_send_byte(0x00);
 		data++;
 	}
+		MCP2515_CS_high(CANbus);				//raise CS.
+}
+void MCP2515_PullCanPacket(uint8_t CANbus, uint8_t mob,uint8_t * numBytes , uint8_t * data, uint32_t * ID)
+{
+
+	//the following line combines the instruction(0b10010000), with: 0b100 for rxb0 or 0b000 for rxb1, and: 0b10 for data starting at data0, or 0b00 for SIDH
+	uint8_t instruction = 0b10010000|((mob > 0x70)<<2);
+	MCP2515_CS_low(CANbus);			//lower CS.
+	SPI_send_byte(instruction);							//send instruction for stream of data
+	//loop counts to 8 or 12 depending on whether bit 1 of instruction is set.
+	uint8_t tmpData[13];
+	for(uint8_t counter = 0; counter < 13; counter++)
+	{
+		tmpData[counter] = SPI_send_byte(0x00);
+	}
+	*ID  = ((uint32_t)(tmpData[0]&0b11111111)<<21);
+	*ID |= ((uint32_t)(tmpData[1]&0b11100000)<<13);
+	*ID |= ((uint32_t)(tmpData[1]&0b00000011)<<16);
+	*ID |= ((uint32_t)(tmpData[2]&0b11111111)<<8);
+	*ID |= ((uint32_t)(tmpData[3]&0b11111111));
+	*numBytes = tmpData[12] & 0b00001111;
+	memcpy(data, &tmpData[4], *numBytes);
+	
+	
 	MCP2515_CS_high(CANbus);				//raise CS.
 }
 
@@ -150,15 +176,15 @@ uint8_t MCP2515_findFreeTxBuffer(uint8_t CANbus)
 	//uint8_t MCP2515_TxBuffer = 0;
 	//flash_LED(1,RED_LED);
 	//MCP2515_TxBuffer = (MCP2515_reg_read(CANbus, MCP2515_CANINTF)& 0b00011100);			//get interrupt status, only the txbuffer empty ones though
-	if		((MCP2515_reg_read(CANbus, MCP2515_TX0) & 0b00001000)== 0)						//if tx0 is free,
+	if		((MCP2515_reg_read(CANbus, MCP2515_TX0) & 0b00001000) == 0)						//if tx0 is free,
 	{
 		return MCP2515_TX0;
 	}
-	else if	((MCP2515_reg_read(CANbus, MCP2515_TX1) & 0b00001000)== 0)						//if tx1 is free,
+	else if	((MCP2515_reg_read(CANbus, MCP2515_TX1) & 0b00001000) == 0)						//if tx1 is free,
 	{
 		return MCP2515_TX1;
 	}
-	else if	((MCP2515_reg_read(CANbus, MCP2515_TX2) & 0b00001000)== 0)						//if tx2 is free,
+	else if	((MCP2515_reg_read(CANbus, MCP2515_TX2) & 0b00001000) == 0)						//if tx2 is free,
 	{
 		return MCP2515_TX2;
 	}
@@ -274,7 +300,7 @@ uint8_t MCP2515_send_test(uint8_t CANbus)
 	{
 		//flash_LED(1, YELLOW_LED, 50);
 		//MCP2515_tx(AMU,free_buffer,DEVICE_ID,0x00,AUDIT_REQUEST,0,&data);		//send a CAN packet from a free buffer, with recipient of our CMU ID, type audit request (to now get others to talk), with 1 byte of zeros
-		MCP2515_TX(CANbus, MCP2515_findFreeTxBuffer(CANbus), 1, &data, ((uint32_t)1<<27));
+		MCP2515_TX(CANbus, free_buffer, 1, &data, ((uint32_t)1<<27));
 		return 1;					//return successful
 	}
 	else

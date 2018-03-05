@@ -13,6 +13,9 @@
 #define MCP2515_CAN2_PIN_CS		PINH1			//pin 13
 #define MCP2515_CAN3_PIN_CS		PINB0			//pin 19
 
+#define MCP2515_CAN1	1
+#define MCP2515_CAN2	2
+#define MCP2515_CAN3	4
 //#define MCP2515_CAN1_PORT_CS	PORTH			//pin 12
 //#define MCP2515_CAN2_PORT_CS	PORTH			//pin 13
 //#define MCP2515_CAN3_PORT_CS	PORTB			//pin 19
@@ -128,15 +131,17 @@
 
 #define MCP2515_BFPCTRL  	0x0C		//***
 
-void	MCP2515_init();
-void	MCP2515_TX(int8_t mob, uint8_t numBytes, uint8_t * data, uint32_t ID);
-void 	MCP2515_reg_write(uint8_t reg_address, uint8_t reg_value);
-void 	MCP2515_instruction(uint8_t instruction);
-void 	MCP2515_bit_modify(uint8_t reg_address, uint8_t reg_value, uint8_t reg_mask);
-void	MCP2515_FilterInit(uint8_t filterNum, uint32_t filterID);
-void	MCP2515_RxBufferRead(uint8_t * data, uint8_t startingAddress);
-uint8_t MCP2515_receive_status();
-uint8_t MCP2515_reg_read(uint8_t reg_address);
-uint8_t MCP2515_RXInit(int8_t mob, uint32_t IDmsk);
-uint8_t MCP2515_check_receive_status();
-uint8_t MCP2515_findFreeTxBuffer();
+void	MCP2515_init(uint8_t CANbus);
+void	MCP2515_TX(uint8_t CANbus, int8_t mob, uint8_t numBytes, uint8_t * data, uint32_t ID);
+void 	MCP2515_reg_write(uint8_t CANbus, uint8_t reg_address, uint8_t reg_value);
+void 	MCP2515_instruction(uint8_t CANbus, uint8_t instruction);
+void 	MCP2515_bit_modify(uint8_t CANbus, uint8_t reg_address, uint8_t reg_value, uint8_t reg_mask);
+void	MCP2515_FilterInit(uint8_t CANbus, uint8_t filterNum, uint32_t filterID);
+void	MCP2515_RxBufferRead(uint8_t CANbus, uint8_t * data, uint8_t rxBuffer);
+uint8_t MCP2515_receive_status(uint8_t CANbus);
+uint8_t MCP2515_reg_read(uint8_t CANbus, uint8_t reg_address);
+uint8_t MCP2515_RXInit(uint8_t CANbus, int8_t mob, uint32_t IDmsk);
+uint8_t MCP2515_check_receive_status(uint8_t CANbus);
+uint8_t MCP2515_findFreeTxBuffer(uint8_t CANbus);
+uint8_t MCP2515_send_test(uint8_t CANbus);
+void MCP2515_PullCanPacket(uint8_t CANbus, uint8_t mob,uint8_t * numBytes , uint8_t * data, uint32_t * ID);
