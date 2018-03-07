@@ -129,6 +129,42 @@ void io_init()
 }
 
 /**
+ * firmware_init()
+ * Input:	none
+ * Returns: none
+ * 
+ * Set up all devices in the ATmega and MCP2515. Initiates structs to hold data from other devices
+ **/
+void firmware_init()
+{
+	io_init();
+	SPI_init();
+	uart1_init(19200);
+	a2dInit(ADC_PRESCALE_DIV64, ADC_REFERENCE_AVCC); // Turns ON also
+	MCP2515_init(MCP2515_CAN1);
+	MCP2515_init(MCP2515_CAN2);
+	MCP2515_init(MCP2515_CAN3);
+	
+	// Enable interrupts
+	sei();
+
+	// Enable the pullup on the input. This allows the pin to be active low
+	PORTJ |= (1<<PINJ6);
+
+	// Initialise inverter structs
+	for(uint8_t i = 0; i < NUM_INVERTERS; i++)
+	{
+		inverters[i].ID=1<<i;
+		inverters[i].current = 0;
+		inverters[i].duty = 0;
+		inverters[i].RPM = 0;
+		inverters[i].temperature = 0;
+	}
+
+	accumulators[0].ID=ACCUMULATOR_FRONT;
+}
+
+/**
  * timer_init()
  * Input:	none
  * Returns: none
@@ -199,6 +235,25 @@ void send_heartbeat(unsigned char destination, unsigned char type, unsigned char
 			break;
 		
 	}
+}
+
+/**
+ * pdm_init()
+ * Input:	none
+ * Returns: none
+ * 
+ * Precharge the motor controllers and then enable relays to allow the starting of the car
+ **/
+void pdm_init() 
+{
+	pdm.flags[0] |= PDM_ATOMIC_ALARM;						// Turn on the ready to drive alarm (RTD sound)
+	pdm.flags[1] |= PDM_PRECHARGE;							// Begin precharging the Motor controllers
+	send_heartbeat(PDM_H, NORMAL, 1);
+	_delay_ms(2000);
+	pdm.flags[0] &= ~PDM_ATOMIC_ALARM;						// Stop sounding the RTD, we are ready to drive after one last transmission
+	pdm.flags[0] |= PDM_SHUTDOWN_PLUS|PDM_SHUTDOWN_MINUS;	// Enable the relays to allow the starting of the car.
+	pdm.flags[1] &= ~(PDM_PRECHARGE);						// Shutdown the precharge circuit after 2 seconds. should be more than enough time
+	send_heartbeat(PDM_H, NORMAL, 1);
 }
 
 /**
@@ -717,25 +772,6 @@ void torque_calculate_current_demand()
 }
 
 /**
- * pdm_init()
- * Input:	none
- * Returns: none
- * 
- * Precharge the motor controllers and then enable relays to allow the starting of the car
- **/
-void pdm_init() 
-{
-	pdm.flags[0] |= PDM_ATOMIC_ALARM;						// Turn on the ready to drive alarm (RTD sound)
-	pdm.flags[1] |= PDM_PRECHARGE;							// Begin precharging the Motor controllers
-	send_heartbeat(PDM_H, NORMAL, 1);
-	_delay_ms(2000);
-	pdm.flags[0] &= ~PDM_ATOMIC_ALARM;						// Stop sounding the RTD, we are ready to drive after one last transmission
-	pdm.flags[0] |= PDM_SHUTDOWN_PLUS|PDM_SHUTDOWN_MINUS;	// Enable the relays to allow the starting of the car.
-	pdm.flags[1] &= ~(PDM_PRECHARGE);						// Shutdown the precharge circuit after 2 seconds. should be more than enough time
-	send_heartbeat(PDM_H, NORMAL, 1);
-}
-
-/**
  * main()
  * Input:	none
  * Returns: 0 if the process finished with no errors
@@ -749,19 +785,10 @@ int main(void)
 {
 	_delay_ms(5);
 
-	io_init();
-	SPI_init();
-	uart1_init(19200);
-	a2dInit(ADC_PRESCALE_DIV64, ADC_REFERENCE_AVCC); // Turns ON also
-	MCP2515_init(MCP2515_CAN1);
-	MCP2515_init(MCP2515_CAN2);
-	MCP2515_init(MCP2515_CAN3);
-	
-	sei();
+	// Set up all devices to make the firmware actually run
+	firmware_init();
 
-	// Enable the pullup on the input. This allows the pin to be active low
-	PORTJ |= (1<<PINJ6);
-
+	// Start the time that manages when to send heartbeats to the other devices in the CAN bus
 	timer_init();
 
 	// Wait for the ignition pin to be pressed
@@ -773,27 +800,16 @@ int main(void)
 		_delay_ms(1000);		
 	}
 	
+	// Precharge the motor controllers, allow car start
 	pdm_init();
-	
-	// Initialise inverter structs
-	for(uint8_t i = 0; i < NUM_INVERTERS; i++)
-	{
-		inverters[i].ID=1<<i;
-		inverters[i].current = 0;
-		inverters[i].duty = 0;
-		inverters[i].RPM = 0;
-		inverters[i].temperature = 0;
-	}
-
-	accumulators[0].ID=ACCUMULATOR_FRONT;
 	
 	// Define the pedal positions.
 	uint16_t throttle=0, brake=0, brakePressureF=0, brakePressureR=0;
-
 	// Read the pedal values, error state if the thresholds are out of order.
 	if(pedal_read(&brake, &throttle) == 0)error_state(ERROR_PEDALS);	
 	if(pressure_brake_read(&brakePressureF, &brakePressureR) == 0)error_state(ERROR_BRAKE_PRESSURE);
 
+	// 
 	uint8_t steeringWheelData[8]={0,0,0,255,0,255,0,255};
 
 	// Manage the car while it runs
@@ -811,8 +827,10 @@ int main(void)
 		if((PINA & 128) == 128) inverterStatus = 0;
 		else inverterStatus = 1;
 		
+		// 
 		torque_calculate_current_demand();
 		
+		// Check if data has been received from UART and process it if it has
 		if(isCharAvailable_1() == 1)uart_process_byte(receiveChar_1());
 		
 		//NEW STUFF, COMMENT OUT WHEN ADDING IT
