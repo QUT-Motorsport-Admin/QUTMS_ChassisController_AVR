@@ -22,6 +22,9 @@ These will cover any specific features, outlines or documentation that a program
 
 ## System
 
+This link is for the UART comms, it may be updated in the future to include the CANBUS system. This document specs out the UART interface that the chassis controller will be using to communicate to the Configuration Software.
+[QUTMS_UART_Packet_Def](https://docs.google.com/spreadsheets/d/1M0LFDXtBvufXvVOvwZmF34SnBRF86Ai6lYGNQQMeDdA/edit?usp=sharing "QUTMS_UART_Packet_Def")
+
 The following is an early rought diagram
 
 ![RoughOutline](Chassis_Controller.png)

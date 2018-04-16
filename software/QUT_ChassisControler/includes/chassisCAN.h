@@ -1,0 +1,10 @@
+#define STATUS_REG 			GPIOR0
+#define CAN1_DataWaiting	1
+#define CAN2_DataWaiting	2
+#define CAN3_DataWaiting	4
+#define IGNITION			8
+
+#define HEARTBEAT_INV_ID	0x0C000000
+#define	HEARTBEAT_AMU_ID	0x0A000000
+#define HEARTBEAT_PDM_ID	0x09000000
+#define HEARTBEAT_WHEEL_ID	0x00400000

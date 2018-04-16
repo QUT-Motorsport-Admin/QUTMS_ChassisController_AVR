@@ -298,7 +298,6 @@ uint8_t pressure_brake_read(uint16_t * front, uint16_t * rear)
 	*rear = tmp;
 	
 	return 1;
-		
 }
 
 /**
@@ -331,7 +330,6 @@ uint8_t pedal_read(uint16_t * brake, uint16_t * throttle)
 	if(delta > PEDAL_DELTA_THRESH_L && delta < PEDAL_DELTA_THRESH_H)
 	{
 		*brake = primary;
-		 
 		if(*brake > PEDAL_BRAKE_LIGHT_ON)
 		{
 			//check if the brake light is already on.
@@ -835,9 +833,11 @@ int main(void)
 		
 		//NEW STUFF, COMMENT OUT WHEN ADDING IT
 		//read the pedal values, error state if the thresholds are out of order.
-		if(pedal_read(&brake, &throttle) == 0)error_state(ERROR_PEDALS);
+		if(pedal_read(&brake, &throttle) == 0)
+            error_state(ERROR_PEDALS);
 		//read the pressure readings, checking for invalid values.
-		if(pressure_brake_read(&brakePressureF, &brakePressureR) == 0)error_state(ERROR_BRAKE_PRESSURE);
+		if(pressure_brake_read(&brakePressureF, &brakePressureR) == 0)
+            error_state(ERROR_BRAKE_PRESSURE);
 		
 		steeringAngle = adc_read_avg(STEERING_ANGLE);
 
@@ -893,7 +893,7 @@ ISR(PCINT0_vect)//CAN 3
  * PCINT1_vect
  * 
  * Change a bit in the STATUS_REG to show that the ignition switch has been activated. This will allow the first loop in the 
- * main() function to prooceed.
+ * main() function to proceed.
  **/
 ISR(PCINT1_vect)		//ignition switch function
 {
