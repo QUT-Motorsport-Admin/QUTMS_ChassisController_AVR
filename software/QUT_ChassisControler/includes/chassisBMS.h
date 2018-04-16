@@ -1,3 +1,12 @@
+/**
+ * @file chassisShutDown
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Defines and outlines all varibles and definitions related to the Battery Mangement System
+ **/
+
+#include <stdlib.h>
+#include <avr/io.h>
 
 // Sets up CMU structs
 typedef struct CMU

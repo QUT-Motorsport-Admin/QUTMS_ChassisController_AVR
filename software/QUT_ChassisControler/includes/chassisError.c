@@ -1,4 +1,13 @@
 /**
+ * @file chassisShutDown.h
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Handles functions, calls and utilities related to the Error system
+ **/
+
+#include "chassisError.h";
+
+/**
  * error_state()
  * Input:	error	-
  * Returns: none

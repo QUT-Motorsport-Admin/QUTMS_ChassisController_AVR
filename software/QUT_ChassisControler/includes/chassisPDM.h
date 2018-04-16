@@ -2,8 +2,11 @@
  * @file chassisPDM
  * @author Jonn Dillon
  * @date file creation 16/4/2018
- * @description This file defines all functions and operations related to the Power Distribution Unit and Shutdown board
+ * @description This file defines all functions and operations related to the Power Distribution Unit
  **/
+
+#include <stdlib.h>
+#include <avr/io.h>
 
 #define PDM_BRAKELIGHT 		16			//byte 0
 #define PDM_ATOMIC_ALARM	32			//byte 0

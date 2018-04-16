@@ -1,4 +1,13 @@
 /**
+ * @file chassisShutDown
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Handles functions, calls and utilities related to the CANBUS's
+ **/
+
+#include "chassisCAN.h";
+
+/**
  * send_heartbeat()
  * Input:	destination	-	The device that will receive the packet	
  * 			type		-	What sort of command to send

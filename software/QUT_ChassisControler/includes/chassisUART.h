@@ -2,9 +2,12 @@
  * @file chassisUART
  * @author Jonn Dillon
  * @date file creation 12/4/2018
- * @description 
+ * @description Defines and outlines all varibles and definitions related to the UART communications process
  **/
 
+#include <stdlib.h>
+#include <avr/io.h>
+#include <../main.h>
 
 /**
  * @function        uart_process_stdin

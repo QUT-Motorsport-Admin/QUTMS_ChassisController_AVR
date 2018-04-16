@@ -1,3 +1,13 @@
+/**
+ * @file chassisShutDown
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Defines and outlines all variables and definitions related to everything related to input within the car.
+ **/
+
+#include <stdlib.h>
+#include <avr/io.h>
+
 #define PEDAL_BRAKE_HIGH		900	//temp value
 #define PEDAL_BRAKE_LOW			100	//temp value
 #define PEDAL_BRAKE_LIGHT_ON 	512 //temp value, must update with testing
@@ -11,6 +21,7 @@ typedef struct STEERINGWHEEL
 {
 	uint8_t flags[4];
 
-}STEERINGWHEEL;
+} STEERINGWHEEL;
 
 struct STEERINGWHEEL steeringWheel;
+uint16_t	 steeringAngle = 0;

@@ -15,6 +15,7 @@
  **/
 void torque_calculate_current_demand()
 {
+    unsigned int currentTorqueDemand[4] = {0, 0, 0, 0};
 	unsigned int AN1_voltage = a2d_10bitCh(4);
 	unsigned int AN2_voltage = a2d_10bitCh(3);
 	unsigned int temp_currentTorqueDemand = AN1_voltage / 4;
@@ -24,7 +25,7 @@ void torque_calculate_current_demand()
 	
 	if(currentTorqueDemand[0] > 250) PORTA |= 32;
 	else PORTA &= 223;
-
+    
 	itoa(currentTorqueDemand[0], tempBuffer, 10);
 	uart1_puts(tempBuffer);
 	uart1_puts("\r\n");

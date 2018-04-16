@@ -1,3 +1,13 @@
+/**
+ * @file chassisShutDown
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Defines and outlines all varibles and definitions related to the Shut Down Board
+ **/
+
+#include <stdlib.h>
+#include <avr/io.h>
+
 //shutdown circuits
 //seg 4 pin 63 dig 1 pinj0	//inertia switch
 //seg 5 pin 64 dig 2 pinj1	//left front upright

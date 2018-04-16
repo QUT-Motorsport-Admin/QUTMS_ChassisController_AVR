@@ -1,11 +1,11 @@
 /**
- * @file chassisUART
+ * @file chassisUART.c
  * @author Jonn Dillon
  * @date 12/4/2018
- * @description 
+ * @description Handles all major communications functions, and related utilities in and out of the MCU.
  **/
 
-#include "uart.h";
+#include "chassisUART.h";
 
 /**
  * Example Code:

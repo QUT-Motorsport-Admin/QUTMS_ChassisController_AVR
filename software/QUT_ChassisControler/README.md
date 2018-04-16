@@ -2,13 +2,17 @@
 
 This file will cover the spec & implimentation for the new chassis controller software. This version of the software is V2, taking over the older software written by Julius in 12/2016.
 
+## Conventions
+
+### Naming
+
+All of the functions that are/will be coded for the project should be `<module>_<name>`. This way all operations are inherently namespaced and wont cause conflict. It will also mean that code will be instantly more readable.
+
 ## Spec
 
 ### Processes
 
 #### Main
-
-
 
 #### StartUp
 

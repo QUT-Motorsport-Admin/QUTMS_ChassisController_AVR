@@ -1,4 +1,13 @@
 /**
+ * @file chassisShutDown
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Handles functions, calls and utilities related to the Inverters/Motor Controllers.
+ **/
+
+#include "chassisInverter.h";
+
+/**
  * inverters_save_data()
  * Input:	data	-	The data received from the inverters in the CAN bus
  * Returns: 0 if there was something wrong with the CAN packet resulting in no inverter being found from the ID given. 1 if execution is nominal

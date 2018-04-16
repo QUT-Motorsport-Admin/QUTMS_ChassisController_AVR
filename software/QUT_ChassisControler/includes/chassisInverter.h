@@ -1,3 +1,13 @@
+/**
+ * @file chassisShutDown
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Defines and outlines all varibles and definitions related to the Inverter/Motor Controller board
+ **/
+
+#include <stdlib.h>
+#include <avr/io.h>
+
 typedef struct Inverter
 {
 	uint8_t ID;
@@ -8,3 +18,8 @@ typedef struct Inverter
 }Inverter;
 
 struct Inverter inverters[NUM_INVERTERS];
+
+unsigned char inverterStatus = 0;
+unsigned int currentRPM = 0;
+unsigned int inverterTemp = 0;
+unsigned int inverterDCcurrent = 0;

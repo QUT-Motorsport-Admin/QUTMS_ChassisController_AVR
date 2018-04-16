@@ -1,3 +1,14 @@
+/**
+ * @file chassisShutDown
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Defines and outlines all varibles and definitions related to 
+ *              the on chip analog to digital conversion, specific to the chassis
+ **/
+
+#include <stdlib.h>
+#include <avr/io.h>
+
 //ADC channel allocation
 #define PEDAL_BRAKE_CH1			10	
 #define PEDAL_BRAKE_CH2			8

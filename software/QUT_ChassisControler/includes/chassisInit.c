@@ -1,3 +1,9 @@
+/**
+ * @file chassisShutDown
+ * @author Jonn Dillon
+ * @date 16/4/2018
+ * @description Handles all initialisation processes for the chassis controller
+ **/
 
 /**
  * external_interrupt_init()
