@@ -5,11 +5,11 @@
 ### What
 What is the system
 ### Why
-Why is it there, whats its main purpose
+Why is it there, what's its main purpose
 ### How
-How dose it work, interact with other systems, whats its responding too, whats its enacting on
+How does it work, interact with other systems, what's it responding to, what's it enacting on
 ### Where
-Where dose it sit in the grand scheme of things, whats its heirachy, where is it physicaly in the car
+Where does it sit in the grand scheme of things, what's its heirachy, where is it physically in the car
 ### Who
 Who are the people that have worked on it over time
 
@@ -25,6 +25,6 @@ These will cover any specific features, outlines or documentation that a program
 This link is for the UART comms, it may be updated in the future to include the CANBUS system. This document specs out the UART interface that the chassis controller will be using to communicate to the Configuration Software.
 [QUTMS_UART_Packet_Def](https://docs.google.com/spreadsheets/d/1M0LFDXtBvufXvVOvwZmF34SnBRF86Ai6lYGNQQMeDdA/edit?usp=sharing "QUTMS_UART_Packet_Def")
 
-The following is an early rought diagram
+The following is an early rough diagram
 
 ![RoughOutline](Chassis_Controller.png)
