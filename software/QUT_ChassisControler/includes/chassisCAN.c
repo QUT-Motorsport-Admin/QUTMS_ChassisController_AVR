@@ -8,11 +8,16 @@
 #include "chassisCAN.h"
 #include "../utils/MCP2515.c"
 
-
+/**
+*
+**/
 void MCP2515_wrapper_send(uint8_t CANbus, uint8_t numBytes, uint8_t * data, uint32_t ID) {
     MCP2515_TX(CANbus, MCP2515_findFreeTxBuffer(CANbus), numBytes, data, ID);
 }
 
+/**
+*
+**/
 uint32_t MCP2515_wrapper_ID_constructor(uint32_t sendingID, unsigned char type, unsigned char address, uint32_t status) {
     return (
         sendingID|                  // Sending ID, ( First 8 bits, define the device to send to)
@@ -22,6 +27,19 @@ uint32_t MCP2515_wrapper_ID_constructor(uint32_t sendingID, unsigned char type, 
     );
 }
 
+/**
+*	Serves as a wrapper for the MCP2515_PullCanPacket(..) in MCP2515.h - For more info
+*	refer to that.
+*
+*	Example Code:
+*		uint8_t data[8];
+*		uint32_t ID;
+*		uint8_t numBytes;
+*
+*		CAN_pull_packet(MCP2515_CANx, &numBytes, data, &ID); - Where x is the CAN bus number
+*
+*	Reference: Microchip MCP2515 Datasheet Chapter 4 (Message Reception)
+**/
 void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t* ID) {
 	// Receive the status of the buffers RXB0 and RXB1
 	uint8_t status = MCP2515_check_receive_status(CANbus);
@@ -40,8 +58,16 @@ void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t*
 		default:
 			break;
 	}
+	
+	// Send the data to be processed by an external function that has been linked to this pointer
+	(*CAN_process_data_ptr)(CANbus, data, numBytes, ID);
 }
 
+/**
+* 	Combines the ID with the relevant flag information to send to each CAN bus stream.
+*
+*	Example Code:
+**/
 void CAN_send_heartbeat(unsigned char destination, unsigned char type, unsigned char address) {
 	uint32_t ID = 0; 
 	switch(destination) {
@@ -67,19 +93,21 @@ void CAN_send_heartbeat(unsigned char destination, unsigned char type, unsigned 
 	}
 }
 
-void CAN_process_received_data() {
+/**
+*	Verifies if any of the CAN bus streams have data waiting and then calls CAN_pull_packet to receive that 
+*	data.
+**/
+void CAN_check_for_data() {
 	// Details about the message we're attemping to pull from the CAN bus
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
 
+	void CAN_process_data(uint8_t CANbus, uint8_t data, uint8_t numBytes, uint32_t ID) 
 	// Process data from CAN1
 	if(STATUS_REG & CAN1_DataWaiting) {
 		// Get the data from the CAN bus and process it
 		CAN_pull_packet(MCP2515_CAN1, &numBytes, data, &ID);
-		if(inverters_save_data(data) == 0) {
-			error_state(ERROR_INVERTER_RESPONSE);
-		}
 		
 		STATUS_REG &= ~(CAN1_DataWaiting);
 	}
@@ -88,14 +116,17 @@ void CAN_process_received_data() {
 	if(STATUS_REG & CAN2_DataWaiting) {
 		// Get the data from the CAN bus and process it
 		CAN_pull_packet(MCP2515_CAN2, &numBytes, data, &ID);
-		// Do something with the data here
+
+		STATUS_REG &= ~(CAN2_DataWaiting);
 	}
 
 	// Process data from CAN3
 	if(STATUS_REG & CAN3_DataWaiting) {
 		// Get the data from the CAN bus and process it
 		CAN_pull_packet(MCP2515_CAN3, &numBytes, data, &ID);
-		// Do something with the data here
+		
+
+		STATUS_REG &= ~(CAN3_DataWaiting);
 	}
 }
 

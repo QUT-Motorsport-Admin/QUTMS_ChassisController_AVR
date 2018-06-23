@@ -10,6 +10,9 @@
 #define F_CPU 16000000UL
 #endif
 
+#ifndef MAIN_H
+#define MAIN_H
+
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
@@ -41,3 +44,5 @@ unsigned int T1_temp = 0;
 #define NORMAL 				1
 #define ACCUMULATOR_FRONT 	1
 #define ACCUMULATOR_REAR 	2
+
+#endif // MAIN_H

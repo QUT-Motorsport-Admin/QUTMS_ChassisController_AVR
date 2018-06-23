@@ -32,6 +32,26 @@ void torque_calculate_current_demand()
 }
 
 /**
+*	Processes the data received from the CAN bus. Nominally will only be called from the CAN_pull_packet(..) function
+*	in chassisCAN.h
+**/
+void CAN_process_data(uint8_t CANbus, uint8_t* data, uint8_t* numBytes, uint32_t* ID) {
+	switch(CANbus) {
+		case MCP2515_CAN1:
+			if(inverters_save_data(data) == 0) {
+				error_state(ERROR_INVERTER_RESPONSE);
+			}
+			break;
+		case MCP2515_CAN2:
+			break;
+		case MCP2515_CAN3:
+			break;
+		default:
+			break;
+	}
+}
+
+/**
  * main()
  * Input:	none
  * Returns: 0 if the process finished with no errors
@@ -50,6 +70,9 @@ int main(void)
 
 	// Start the time that manages when to send heartbeats to the other devices in the CAN bus
 	timer_init();
+
+	// Set the function pointer that will be used to process data from the CAN bus
+	CAN_process_data_ptr = &CAN_process_data;
 
 	// Wait for the ignition pin to be pressed
 	while((STATUS_REG & IGNITION) == 0)		
@@ -80,7 +103,7 @@ int main(void)
 		steeringWheelData[1]++;	
 
 		// Process data in the CAN bus if any have been received
-		CAN_process_received_data();
+		CAN_check_for_data();
 
 		if((PINA & 128) == 128) inverterStatus = 0;
 		else inverterStatus = 1;
