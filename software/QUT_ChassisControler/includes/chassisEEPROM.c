@@ -29,7 +29,7 @@
  * Example Code:
  * 
  **/
-unsigned char eeprom_read(uint8_t address)
+unsigned char eeprom_read(uint16_t address)
 {
     // Wait for completion of previous write (wait for write enable bit to be 0).
     while(EECR & (1<<EEPE));
@@ -50,7 +50,7 @@ unsigned char eeprom_read(uint8_t address)
  * Example Code:
  * 
  **/
-void eeprom_write(uint8_t address, unsigned char data) {
+void eeprom_write(uint16_t address, unsigned char data) {
     // Wait for completion of previous write (wait for write enable bit to be 0).
     while(EECR & (1<<EEPE));
 

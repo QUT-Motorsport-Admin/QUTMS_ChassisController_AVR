@@ -18,10 +18,10 @@
  * @author                    Joshua Copeland
  * @date_created              23/6/18
  * @date_modified             N/A
- * @param   uint8_t           address     - Address of EEPROM memory to read from
+ * @param   uint16_t          address     - Address of EEPROM memory to read from
  * @returns unsigned char                 - Byte present in the target EEPROM address
  **/
-unsigned char eeprom_read(uint8_t address);
+unsigned char eeprom_read(uint16_t address);
 
 
 /**
@@ -34,6 +34,6 @@ unsigned char eeprom_read(uint8_t address);
  * @param   unsigned char    data        - Byte to be written to the target EEPROM address
  * @returns void                         - Returns 1 when sucessful/completed
  **/
-void eeprom_write(uint8_t address, unsigned char data);
+void eeprom_write(uint16_t address, unsigned char data);
 
 #endif // CHASSIS_EEPROM_H
