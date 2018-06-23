@@ -12,6 +12,8 @@
 /**
  * @function        uart_process_stdin
  * @description     Will mashal the incoming byte stream into useable numbers
+ *                  This should called everytime there is an an avliable byte
+ *                  in the stdIN buffer
  * @author          Jonn Dillon
  * @date_created    12/8/18
  * @date_modified   N/A

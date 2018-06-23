@@ -13,7 +13,7 @@
  * uint8_t compeltedInt;
  * if(uart_process_stdin(uartByte, &completedInt)) {
  *     // Run code here on completedInt
- *     // Idealy you would process for the command given in the uart
+ *     // Ideally you would process for the command given in the uart
  * }
  **/
 int uart_process_stdin(char byte, int &completedInt)
@@ -41,7 +41,7 @@ int uart_process_stdin(char byte, int &completedInt)
 /**
  * Example Code:
  * unsigned char *uartData = ... something
- * uart_send_data(uartData);
+ * uart_send_data(uartData, uartData.length);
  **/
 int uart_send_data(unsigned char* s, int length) {
     // Prefixes 'D'

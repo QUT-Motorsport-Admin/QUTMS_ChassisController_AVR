@@ -6,6 +6,25 @@
  **/
 
 #include "chassisCAN.h";
+#include "../utils/MCP2515.c";
+
+
+void MCP2515_wrapper_send(uint8_t CANbus, uint8_t numBytes, uint8_t * data, uint32_t ID) {
+    MCP2515_TX(CANbus, MCP2515_findFreeTxBuffer(CANbus), numBytes, data, ID);
+}
+
+uint32_t MCP2515_wrapper_ID_constructor(uint32_t sendingID, unsigned char type, unsigned char address, uint32_t status) {
+    return (
+        sendingID|                  // Sending ID, ( First 8 bits, define the device to send to)
+        ((uint32_t)type<<18)|       // What sort of command to send
+        ((uint32_t)address<<13)|    // Specific address
+        status                      // SubID?
+    );
+}
+
+
+
+// OLD ------------------------------------------------------------------------
 
 /**
  * send_heartbeat()
@@ -20,42 +39,46 @@
  **/
 void send_heartbeat(unsigned char destination, unsigned char type, unsigned char address)
 {	
-	uint8_t mob;
+	uint8_t freeTxBuffer;
 	uint32_t ID = 0;
 	switch(destination)
 	{
-		case INVERTERS:
-			//obtain a mob that is free
-			mob = MCP2515_findFreeTxBuffer(MCP2515_CAN1);
+		case INVERTERS_ID:
+			//obtain a freeTxBuffer that is free
+			freeTxBuffer = MCP2515_findFreeTxBuffer(MCP2515_CAN1);
 			//type = what sort of command. address is which inverters should listen, status is whether the inverters are active or not.
-			ID = (HEARTBEAT_INV_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|inverterStatus);	
+			// ID = (HEARTBEAT_INV_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|inverterStatus);
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_INV, type, address, inverterStatus);
 			//transmit the packet.
-			MCP2515_TX(MCP2515_CAN1, mob, 8, (uint8_t*)currentTorqueDemand, ID);
+			MCP2515_TX(MCP2515_CAN1, freeTxBuffer, 8, (uint8_t*)currentTorqueDemand, ID);
 			break;
-		case PDM_H:
+		case PDM_ID:
 			//unsigned char TXstatus = MCP2515_reg_read(MCP2515_CAN2, 0x30);		//check the tx reg status
-			//obtain a mob that is free
-			mob = MCP2515_findFreeTxBuffer(MCP2515_CAN2);
+			//obtain a freeTxBuffer that is free
+			freeTxBuffer = MCP2515_findFreeTxBuffer(MCP2515_CAN2);
 			//type = what sort of command. address is which address of pdm, normal heartbeat packet;
-			ID = (HEARTBEAT_PDM_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
+			// ID = (HEARTBEAT_PDM_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_PDM, type, address, 1);
 			//transmit the packet.
 			pdm.flags[0]=10;
-			MCP2515_TX(MCP2515_CAN2,mob, 4, pdm.flags, ID);
+			MCP2515_TX(MCP2515_CAN2, freeTxBuffer, 4, pdm.flags, ID);
 			break;
-		case AMU_H:
-			//obtain a mob that is free
-			mob = MCP2515_findFreeTxBuffer(MCP2515_CAN2);
+		case AMU_ID:
+			//obtain a freeTxBuffer that is free
+			freeTxBuffer = MCP2515_findFreeTxBuffer(MCP2515_CAN2);
 			//type = what sort of command. address is which address of AMU, normal heartbeat packet;
-			ID = (HEARTBEAT_AMU_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
+			// ID = (HEARTBEAT_AMU_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_AMU, type, address, 1);
 			//transmit the packet.
-			MCP2515_TX(MCP2515_CAN2,mob, 4, accumulators[0].flags, ID);
+			MCP2515_TX(MCP2515_CAN2, freeTxBuffer, 4, accumulators[0].flags, ID);
 			break;
-		case WHEEL:
-			//obtain a mob that is free
-			mob = MCP2515_findFreeTxBuffer(MCP2515_CAN3);
+		case WHEEL_ID:
+			//obtain a freeTxBuffer that is free
+			freeTxBuffer = MCP2515_findFreeTxBuffer(MCP2515_CAN3);
 			//type = what sort of command. address is which address of AMU, normal heartbeat packet;
-			ID = (HEARTBEAT_WHEEL_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
-			MCP2515_TX(MCP2515_CAN3,mob, 4, steeringWheel.flags, ID);
+			// ID = (HEARTBEAT_WHEEL_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_WHEEL, type, address, 1);
+			MCP2515_TX(MCP2515_CAN3, freeTxBuffer, 4, steeringWheel.flags, ID);
 			break;
 		default:
 			break;
