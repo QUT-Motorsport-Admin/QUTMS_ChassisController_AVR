@@ -24,10 +24,10 @@
 #include "chassisUART.h";
 
 /**
- * See pages 42 & 43 of datasheet for example code this is based off.
+ * See section 8.3.1 of datasheet for sample code this is based on.
  * 
  * Example Code:
- * 
+ * unsigned char Character = eeprom_read(50);
  **/
 unsigned char eeprom_read(uint16_t address)
 {
@@ -45,10 +45,10 @@ unsigned char eeprom_read(uint16_t address)
 }
 
 /**
- * See pages 42 & 43 of datasheet for example code this is based off.
+ * See section 8.3.1 of datasheet for sample code this is based on.
  * 
  * Example Code:
- * 
+ * eeprom_write(50,'A');
  **/
 void eeprom_write(uint16_t address, unsigned char data) {
     // Wait for completion of previous write (wait for write enable bit to be 0).
