@@ -147,19 +147,19 @@ uint8_t can1_process()
 				case 1:
 					//pull the data off the MCP2515 and place in memory
 					MCP2515_PullCanPacket(MCP2515_CAN1, MCP2515_RXB0SIDH, &numBytes, data, &ID);
-					if(inverters_save_data(data) == 0)throw_error_code(ERROR_INVERTER_RESPONSE);
+					if(inverters_save_data(data) == 0)throw_error_code(ERROR, ERROR_INVERTER_RESPONSE);
 					break;
 				// Message in RXB1
 				case 2:
 					MCP2515_PullCanPacket(MCP2515_CAN1, MCP2515_RXB1SIDH, &numBytes, data, &ID );
-					if(inverters_save_data(data) == 0)throw_error_code(ERROR_INVERTER_RESPONSE);
+					if(inverters_save_data(data) == 0)throw_error_code(ERROR, ERROR_INVERTER_RESPONSE);
 					break;
 				// Message in both buffers
 				case 3:
 					MCP2515_PullCanPacket(MCP2515_CAN1, MCP2515_RXB0SIDH, &numBytes, data, &ID );
-					if(inverters_save_data(data) == 0)throw_error_code(ERROR_INVERTER_RESPONSE);
+					if(inverters_save_data(data) == 0)throw_error_code(ERROR, ERROR_INVERTER_RESPONSE);
 					MCP2515_PullCanPacket(MCP2515_CAN1, MCP2515_RXB1SIDH, &numBytes, data, &ID );
-					if(inverters_save_data(data) == 0)throw_error_code(ERROR_INVERTER_RESPONSE);
+					if(inverters_save_data(data) == 0)throw_error_code(ERROR, ERROR_INVERTER_RESPONSE);
 					break;
 				default:
 					break;
@@ -214,17 +214,17 @@ void can2_process()
 		{
 			case 1:
 				MCP2515_PullCanPacket(MCP2515_CAN2, MCP2515_RXB0SIDH, &numBytes, data, &ID);
-				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR_CAN2_RESPONSE);
+				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR, ERROR_CAN2_RESPONSE);
 				break;
 			case 2:
 				MCP2515_PullCanPacket(MCP2515_CAN2, MCP2515_RXB1SIDH, &numBytes, data, &ID);
-				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR_CAN2_RESPONSE);
+				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR, ERROR_CAN2_RESPONSE);
 				break;
 			case 3:
 				MCP2515_PullCanPacket(MCP2515_CAN2, MCP2515_RXB0SIDH, &numBytes, data, &ID);
-				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR_CAN2_RESPONSE);
+				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR, ERROR_CAN2_RESPONSE);
 				MCP2515_PullCanPacket(MCP2515_CAN2, MCP2515_RXB1SIDH, &numBytes, data, &ID);
-				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR_CAN2_RESPONSE);
+				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR, ERROR_CAN2_RESPONSE);
 				break;
 		}
 	}
