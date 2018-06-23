@@ -5,8 +5,8 @@
  * @description Handles functions, calls and utilities related to the CANBUS's
  **/
 
-#include "chassisCAN.h";
-#include "../utils/MCP2515.c";
+#include "chassisCAN.h"
+#include "../utils/MCP2515.c"
 
 
 void MCP2515_wrapper_send(uint8_t CANbus, uint8_t numBytes, uint8_t * data, uint32_t ID) {
@@ -22,7 +22,82 @@ uint32_t MCP2515_wrapper_ID_constructor(uint32_t sendingID, unsigned char type, 
     );
 }
 
+void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t* ID) {
+	// Receive the status of the buffers RXB0 and RXB1
+	uint8_t status = MCP2515_check_receive_status(CANbus);
+	// Check which receive buffer contains the data (or if both contain) by checking bits 7:6
+	switch(status>>6) {
+		case 1:	// Message in RXB0
+			MCP2515_PullCanPacket(CANbus, MCP2515_RXB0SIDH, numBytes, data, ID);
+			break;
+		case 2: // Message in RXB1
+			MCP2515_PullCanPacket(CANbus, MCP2515_RXB0SIDH, numBytes, data, ID);
+			break;
+		case 3: // Message in both buffers
+			MCP2515_PullCanPacket(CANbus, MCP2515_RXB0SIDH, numBytes, data, ID);
+			MCP2515_PullCanPacket(CANbus, MCP2515_RXB0SIDH, numBytes, data, ID);
+			break;
+		default:
+			break;
+	}
+}
 
+void CAN_send_heartbeat(unsigned char destination, unsigned char type, unsigned char address) {
+	uint32_t ID = 0; 
+	switch(destination) {
+		case INVERTERS_ID:
+			// type = what sort of command. address = which inverters should listen. inverterStatus = whether the inverters are active or not.
+			ID = MCP2515_wrapper_ID_constructor(CAN_ID_INV, type, address, inverterStatus);
+			MCP2515_wrapper_send(MCP2515_CAN1, 8, (uint8_t*)currentTorqueDemand, ID);
+		case PDM_ID:
+			// type = what sort of command. address = which address of pdm, normal heartbeat packet.
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_PDM, type, address, 1);
+			pdm.flags[0]=10;
+			MCP2515_wrapper_send(MCP2515_CAN2, 4, pdm.flags, ID);
+		case AMU_ID:
+			// type = what sort of command. address = which address of AMU, normal heartbeat packet;
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_AMU, type, address, 1);
+			MCP2515_wrapper_send(MCP2515_CAN2, 4, accumulators[0].flags, ID);
+		case WHEEL_ID:
+			// type = what sort of command. address = which address of wheel, normal heartbeat packet;
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_WHEEL, type, address, 1);
+			MCP2515_wrapper_send(MCP2515_CAN3, 4, steeringWheel.flags, ID);
+		default:
+			break;
+	}
+}
+
+void CAN_process_received_data() {
+	// Details about the message we're attemping to pull from the CAN bus
+	uint8_t data[8];
+	uint32_t ID;
+	uint8_t numBytes;
+
+	// Process data from CAN1
+	if(STATUS_REG & CAN1_DataWaiting) {
+		// Get the data from the CAN bus and process it
+		CAN_pull_packet(MCP2515_CAN1, &numBytes, data, &ID);
+		if(inverters_save_data(data) == 0) {
+			error_state(ERROR_INVERTER_RESPONSE);
+		}
+		
+		STATUS_REG &= ~(CAN1_DataWaiting);
+	}
+
+	// Process data from CAN2
+	if(STATUS_REG & CAN2_DataWaiting) {
+		// Get the data from the CAN bus and process it
+		CAN_pull_packet(MCP2515_CAN2, &numBytes, data, &ID);
+		// Do something with the data here
+	}
+
+	// Process data from CAN3
+	if(STATUS_REG & CAN3_DataWaiting) {
+		// Get the data from the CAN bus and process it
+		CAN_pull_packet(MCP2515_CAN3, &numBytes, data, &ID);
+		// Do something with the data here
+	}
+}
 
 // OLD ------------------------------------------------------------------------
 
@@ -87,7 +162,7 @@ void send_heartbeat(unsigned char destination, unsigned char type, unsigned char
 }
 
 /**
- * can1_process()
+ * CAN1_process()
  * Input:	none
  * Returns: none
  * 
@@ -133,7 +208,7 @@ uint8_t can1_process()
 }
 
 /**
- * can2_save_data()
+ * CAN2_save_data()
  * Input:	data	-	The data received from the CAN2 bus
  * Returns: 0 if there was something wrong with the CAN packet resulting in no IDs being matched. 1 if execution is nominal
  * 
@@ -155,7 +230,7 @@ uint8_t can2_save_data(uint32_t ID, uint8_t data)
 }
 
 /**
- * can2_process()
+ * CAN2_process()
  * Input:	none
  * Returns: none
  * 
@@ -196,7 +271,7 @@ void can2_process()
 }
 
 /**
- * can3_process()
+ * CAN3_process()
  * Input:	none
  * Returns: none
  * 

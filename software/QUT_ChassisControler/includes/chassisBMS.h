@@ -5,6 +5,7 @@
  * @description Defines and outlines all varibles and definitions related to the Battery Mangement System
  **/
 
+
 #include <stdlib.h>
 #include <avr/io.h>
 

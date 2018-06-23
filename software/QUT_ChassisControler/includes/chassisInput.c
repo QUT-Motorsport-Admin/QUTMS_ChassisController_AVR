@@ -69,7 +69,7 @@ uint8_t pedal_read(uint16_t * brake, uint16_t * throttle)
 			{
 				//if not, set it and send the can packet immediately
 				pdm.flags[0] |= PDM_BRAKELIGHT;
-				send_heartbeat(PDM_H, NORMAL, 1);
+				CAN_send_heartbeat(PDM_H, NORMAL, 1);
 			}
 		}
 	}

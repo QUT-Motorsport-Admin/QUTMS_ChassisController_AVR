@@ -36,10 +36,6 @@ unsigned char operatingMode = 0;
 
 unsigned int T1_temp = 0;
 
-#define INVERTERS 			1
-#define PDM_H 				2
-#define AMU_H				3
-#define WHEEL 				4
 #define INVERTERS_ALL 		0b1111
 #define TORQUE_COMMAND 		3
 #define NORMAL 				1

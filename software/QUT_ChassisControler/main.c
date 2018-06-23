@@ -54,7 +54,7 @@ int main(void)
 	// Wait for the ignition pin to be pressed
 	while((STATUS_REG & IGNITION) == 0)		
 	{
-		//send_heartbeat(PDM_H, NORMAL, 1);	
+		// send_heartbeat(PDM_H, NORMAL, 1);	
 		led_toggle();			// This will slow flash the LED to indicate idle mode before ignition
 		
 		_delay_ms(1000);		
@@ -76,13 +76,11 @@ int main(void)
     while (1) 
     {
 		// Send the steering wheel data to the CAN bus
-		MCP2515_TX(MCP2515_CAN3, MCP2515_findFreeTxBuffer(MCP2515_CAN3),8,steeringWheelData,0x400000);
+		MCP2515_wrapper_send(MCP2515_CAN3, 8,steeringWheelData,0x400000);
 		steeringWheelData[1]++;	
 
 		// Process data in the CAN bus if any have been received
-		can1_process();
-		can2_process();
-		can3_process();
+		CAN_process_received_data();
 
 		if((PINA & 128) == 128) inverterStatus = 0;
 		else inverterStatus = 1;
@@ -205,18 +203,18 @@ ISR(PCINT1_vect)		//ignition switch function
 ISR(TIMER1_COMPA_vect)
 {
 	heartbeatTimer++;
-	if((heartbeatTimer%2) > 0)send_heartbeat(INVERTERS, TORQUE_COMMAND, INVERTERS_ALL);
+	if((heartbeatTimer%2) > 0)CAN_send_heartbeat(INVERTERS_ID, TORQUE_COMMAND, INVERTERS_ALL);
 	
 	switch(heartbeatTimer)
 	{
 		case 12:
-			send_heartbeat(PDM_H, NORMAL, 1);
+			CAN_send_heartbeat(PDM_ID, NORMAL, 1);
 			break;
 		case 24:
-			send_heartbeat(AMU_H, NORMAL, ACCUMULATOR_FRONT);
+			CAN_send_heartbeat(AMU_ID, NORMAL, ACCUMULATOR_FRONT);
 			break;
 		case 48:
-			send_heartbeat(WHEEL, NORMAL, 1);
+			CAN_send_heartbeat(WHEEL_ID, NORMAL, 1);
 			break;
 		default:
 			break;
