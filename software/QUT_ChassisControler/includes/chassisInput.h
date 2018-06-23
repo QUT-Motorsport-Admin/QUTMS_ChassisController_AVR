@@ -5,6 +5,9 @@
  * @description Defines and outlines all variables and definitions related to everything related to input within the car.
  **/
 
+#ifndef CHASSIS_INPUT_H
+#define CHASSIS_INPUT_H
+
 #include <stdlib.h>
 #include <avr/io.h>
 
@@ -25,3 +28,5 @@ typedef struct STEERINGWHEEL
 
 struct STEERINGWHEEL steeringWheel;
 uint16_t	 steeringAngle = 0;
+
+#endif // CHASSIS_INPUT_H

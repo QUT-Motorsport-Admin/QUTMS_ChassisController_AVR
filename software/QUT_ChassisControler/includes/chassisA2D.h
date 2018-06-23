@@ -6,6 +6,9 @@
  *              the on chip analog to digital conversion, specific to the chassis
  **/
 
+#ifndef CHASSIS_A2D_H
+#define CHASSIS_A2D_H
+
 #include <stdlib.h>
 #include <avr/io.h>
 
@@ -25,3 +28,5 @@
 #define PRESSURE_BRAKE_LOW		1
 
 #define ADC_SAMPLES				10
+
+#endif // CHASSIS_A2D_H

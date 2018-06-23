@@ -5,6 +5,9 @@
  * @description Functionality for reading and writing bytes to and from EEPROM
  **/
 
+#ifndef CHASSIS_EEPROM_H
+#define CHASSIS_EEPROM_H
+
 #include <stdlib.h>
 #include <avr/io.h>
 #include <../main.h>
@@ -32,3 +35,5 @@ unsigned char eeprom_read(uint8_t address);
  * @returns void                         - Returns 1 when sucessful/completed
  **/
 void eeprom_write(uint8_t address, unsigned char data);
+
+#endif // CHASSIS_EEPROM_H

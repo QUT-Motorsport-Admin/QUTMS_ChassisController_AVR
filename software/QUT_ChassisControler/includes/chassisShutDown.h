@@ -5,6 +5,9 @@
  * @description Defines and outlines all varibles and definitions related to the Shut Down Board
  **/
 
+#ifndef CHASSIS_SHUTDOWN_H
+#define CHASSIS_SHUTDOWN_H
+
 #include <stdlib.h>
 #include <avr/io.h>
 
@@ -35,3 +38,5 @@
 #define SHDN_DRIVER_ESTOP			16
 #define IGNITION_PORT				PINJ
 #define IGNITION_PIN				PJ6
+
+#endif // CHASSIS_SHUTDOWN_H

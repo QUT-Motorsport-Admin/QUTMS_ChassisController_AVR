@@ -5,6 +5,9 @@
  * @description Defines and outlines all varibles and definitions related to the CANBUS system
  **/
 
+#ifndef CHASSIS_CAN_H
+#define CHASSIS_CAN_H
+
 #include <stdlib.h>
 #include <avr/io.h>
 
@@ -34,3 +37,5 @@ uint8_t tempBuffer[10];
 
 #define CANselect PORTC &= ~1
 #define CANdeselect	  PORTC |= 1
+
+#endif // CHASSIS_CAN_H

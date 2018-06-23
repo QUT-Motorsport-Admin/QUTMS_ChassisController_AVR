@@ -4,7 +4,8 @@
  * @date 16/4/2018
  * @description Defines and outlines all varibles and definitions related to the Battery Mangement System
  **/
-
+#ifndef CHASSIS_BMS_H
+#define CHASSIS_BMS_H
 
 #include <stdlib.h>
 #include <avr/io.h>
@@ -41,3 +42,5 @@ unsigned int maxVolts = 0;
 unsigned int maxTemp = 0;
 
 unsigned char cellBalancing = 0;
+
+#endif // CHASSIS_BMS_H

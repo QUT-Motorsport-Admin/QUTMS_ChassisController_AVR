@@ -5,6 +5,9 @@
  * @description This file defines all functions and operations related to the Power Distribution Unit
  **/
 
+#ifndef CHASSIS_PDM_H
+#define CHASSIS_PDM_H
+
 #include <stdlib.h>
 #include <avr/io.h>
 
@@ -19,3 +22,5 @@ typedef struct PDM { uint8_t flags[4]; } PDM;
 struct PDM pdm;
 
 unsigned char PDM_data[4] = {2, 0, 0, 0};
+
+#endif // CHASSIS_PDM_H

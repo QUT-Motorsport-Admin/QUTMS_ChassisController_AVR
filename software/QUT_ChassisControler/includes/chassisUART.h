@@ -5,6 +5,9 @@
  * @description Defines and outlines all varibles and definitions related to the UART communications process
  **/
 
+#ifndef CHASSIS_UART_H
+#define CHASSIS_UART_H
+
 #include <stdlib.h>
 #include <avr/io.h>
 #include <../main.h>
@@ -36,3 +39,5 @@ int uart_process_stdin(char byte, int &completedInt);
  * @returns void            - Returns 1 when sucessful/completed
  **/
 int uart_send_data(unsigned char* s, int length);
+
+#endif // CHASSIS_UART_H

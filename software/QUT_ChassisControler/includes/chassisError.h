@@ -5,6 +5,9 @@
  * @description Defines and outlines all varibles and definitions related to the error system.
  **/
 
+#ifndef CHASSIS_ERROR_H
+#define CHASSIS_ERROR_H
+
 #include <stdlib.h>
 #include <avr/io.h>
 
@@ -33,3 +36,5 @@
  * @returns void
  * */
 void send_error_message(char start[], char message[]);
+
+#endif // CHASSIS_ERROR_H
