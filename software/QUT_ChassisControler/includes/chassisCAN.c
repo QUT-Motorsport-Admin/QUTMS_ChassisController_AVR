@@ -11,14 +11,14 @@
 /**
 *
 **/
-void MCP2515_wrapper_send(uint8_t CANbus, uint8_t numBytes, uint8_t * data, uint32_t ID) {
+void CAN_send(uint8_t CANbus, uint8_t numBytes, uint8_t * data, uint32_t ID) {
     MCP2515_TX(CANbus, MCP2515_findFreeTxBuffer(CANbus), numBytes, data, ID);
 }
 
 /**
 *
 **/
-uint32_t MCP2515_wrapper_ID_constructor(uint32_t sendingID, unsigned char type, unsigned char address, uint32_t status) {
+uint32_t CAN_ID_constructor(uint32_t sendingID, unsigned char type, unsigned char address, uint32_t status) {
     return (
         sendingID|                  // Sending ID, ( First 8 bits, define the device to send to)
         ((uint32_t)type<<18)|       // What sort of command to send
@@ -57,76 +57,6 @@ void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t*
 			break;
 		default:
 			break;
-	}
-	
-	// Send the data to be processed by an external function that has been linked to this pointer
-	(*CAN_process_data_ptr)(CANbus, data, numBytes, ID);
-}
-
-/**
-* 	Combines the ID with the relevant flag information to send to each CAN bus stream.
-*
-*	Example Code:
-**/
-void CAN_send_heartbeat(unsigned char destination, unsigned char type, unsigned char address) {
-	uint32_t ID = 0; 
-	switch(destination) {
-		case INVERTERS_ID:
-			// type = what sort of command. address = which inverters should listen. inverterStatus = whether the inverters are active or not.
-			ID = MCP2515_wrapper_ID_constructor(CAN_ID_INV, type, address, inverterStatus);
-			MCP2515_wrapper_send(MCP2515_CAN1, 8, (uint8_t*)currentTorqueDemand, ID);
-		case PDM_ID:
-			// type = what sort of command. address = which address of pdm, normal heartbeat packet.
-            ID = MCP2515_wrapper_ID_constructor(CAN_ID_PDM, type, address, 1);
-			pdm.flags[0]=10;
-			MCP2515_wrapper_send(MCP2515_CAN2, 4, pdm.flags, ID);
-		case AMU_ID:
-			// type = what sort of command. address = which address of AMU, normal heartbeat packet;
-            ID = MCP2515_wrapper_ID_constructor(CAN_ID_AMU, type, address, 1);
-			MCP2515_wrapper_send(MCP2515_CAN2, 4, accumulators[0].flags, ID);
-		case WHEEL_ID:
-			// type = what sort of command. address = which address of wheel, normal heartbeat packet;
-            ID = MCP2515_wrapper_ID_constructor(CAN_ID_WHEEL, type, address, 1);
-			MCP2515_wrapper_send(MCP2515_CAN3, 4, steeringWheel.flags, ID);
-		default:
-			break;
-	}
-}
-
-/**
-*	Verifies if any of the CAN bus streams have data waiting and then calls CAN_pull_packet to receive that 
-*	data.
-**/
-void CAN_check_for_data() {
-	// Details about the message we're attemping to pull from the CAN bus
-	uint8_t data[8];
-	uint32_t ID;
-	uint8_t numBytes;
-
-	void CAN_process_data(uint8_t CANbus, uint8_t data, uint8_t numBytes, uint32_t ID) 
-	// Process data from CAN1
-	if(STATUS_REG & CAN1_DataWaiting) {
-		// Get the data from the CAN bus and process it
-		CAN_pull_packet(MCP2515_CAN1, &numBytes, data, &ID);
-		
-		STATUS_REG &= ~(CAN1_DataWaiting);
-	}
-
-	// Process data from CAN2
-	if(STATUS_REG & CAN2_DataWaiting) {
-		// Get the data from the CAN bus and process it
-		CAN_pull_packet(MCP2515_CAN2, &numBytes, data, &ID);
-
-		STATUS_REG &= ~(CAN2_DataWaiting);
-	}
-
-	// Process data from CAN3
-	if(STATUS_REG & CAN3_DataWaiting) {
-		// Get the data from the CAN bus and process it
-		CAN_pull_packet(MCP2515_CAN3, &numBytes, data, &ID);
-		
-
-		STATUS_REG &= ~(CAN3_DataWaiting);
 	}
 }
 

@@ -38,36 +38,11 @@ uint8_t tempBuffer[10];
 #define CANselect PORTC &= ~1
 #define CANdeselect	  PORTC |= 1
 
-// Pointer to the function that will process the resulting data
-void (*CAN_process_data_ptr)(uint8_t, uint8_t, uint8_t, uint32_t);
-
 // ===================================== FUNCTION DECLARATIONS =====================================
 
-/**
- * @function        CAN_send_heartbeat
- * @description     Called periodically in order to send packets through the CAN bus to the other systems
-                    in the car. The packets will contain data with flags set for each system, sensor status,
-                    etc. 
- * @author          
- * @date_created    
- * @date_modified   23/06/2018
- * @param   unsigned char destination - 
-            unsigned char type        -
-            unsigned char address     -
- * @returns void
- **/
-void CAN_send_heartbeat(unsigned char destination, unsigned char type, unsigned char address);
-
-/**
- * @function        CAN_check_for_data
- * @description     Checks if any of the 3 streams in the CAN bus contain data. The data will then be send via
-                    a function pointer to be processed elsewhere
- * @author          
- * @date_created    
- * @date_modified   23/06/2018
- * @param   void
- * @returns void
- **/
-void CAN_check_for_data();
+// TODO: Comment when functions are finalised
+void CAN_send(uint8_t CANbus, uint8_t numBytes, uint8_t * data, uint32_t ID);
+uint32_t CAN_ID_constructor(uint32_t sendingID, unsigned char type, unsigned char address, uint32_t status);
+void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t* ID);
 
 #endif // CHASSIS_CAN_H

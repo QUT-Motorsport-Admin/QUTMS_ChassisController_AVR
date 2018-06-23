@@ -32,20 +32,32 @@ void torque_calculate_current_demand()
 }
 
 /**
-*	Processes the data received from the CAN bus. Nominally will only be called from the CAN_pull_packet(..) function
-*	in chassisCAN.h
+*	Called periodically in order to send packets through the CAN bus to the other systems
+*  	in the car. The packets will contain data with flags set for each system, sensor status, etc. 
 **/
-void CAN_process_data(uint8_t CANbus, uint8_t* data, uint8_t* numBytes, uint32_t* ID) {
-	switch(CANbus) {
-		case MCP2515_CAN1:
-			if(inverters_save_data(data) == 0) {
-				error_state(ERROR_INVERTER_RESPONSE);
-			}
-			break;
-		case MCP2515_CAN2:
-			break;
-		case MCP2515_CAN3:
-			break;
+void CAN_send_heartbeat(unsigned char destination, unsigned char type, unsigned char address) {
+	uint32_t ID = 0; 
+	switch(destination) {
+		case INVERTERS_ID:
+			// type = what sort of command. address = which inverters should listen. inverterStatus = whether the inverters are active or not.
+			ID = MCP2515_wrapper_ID_constructor(CAN_ID_INV, type, address, inverterStatus);
+			MCP2515_wrapper_send(MCP2515_CAN1, 8, (uint8_t*)currentTorqueDemand, ID);
+		case PDM_ID:
+			// type = what sort of command. address = which address of pdm, normal heartbeat packet.
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_PDM, type, address, 1);
+			pdm.flags[0]=10;
+			MCP2515_wrapper_send(MCP2515_CAN2, 4, pdm.flags, ID);
+		case AMU_ID:
+			// type = what sort of command. address = which address of AMU, normal heartbeat packet;
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_AMU, type, address, 1);
+			MCP2515_wrapper_send(MCP2515_CAN2, 4, accumulators[0].flags, ID);
+		case WHEEL_ID:
+			// type = what sort of command. address = which address of wheel, normal heartbeat packet;
+            ID = MCP2515_wrapper_ID_constructor(CAN_ID_WHEEL, type, address, 1);
+			MCP2515_wrapper_send(MCP2515_CAN3, 4, steeringWheel.flags, ID);
+			// Send the steering wheel data to the CAN bus - Taken from main.c inside the while(1), TODO: find what to do with this later
+			//MCP2515_wrapper_send(MCP2515_CAN3, 8,steeringWheelData,0x400000);
+			//steeringWheelData[1]++;	
 		default:
 			break;
 	}
@@ -96,15 +108,7 @@ int main(void)
 	uint8_t steeringWheelData[8]={0,0,0,255,0,255,0,255};
 
 	// Manage the car while it runs
-    while (1) 
-    {
-		// Send the steering wheel data to the CAN bus
-		MCP2515_wrapper_send(MCP2515_CAN3, 8,steeringWheelData,0x400000);
-		steeringWheelData[1]++;	
-
-		// Process data in the CAN bus if any have been received
-		CAN_check_for_data();
-
+    while (1) {
 		if((PINA & 128) == 128) inverterStatus = 0;
 		else inverterStatus = 1;
 		
@@ -141,35 +145,47 @@ int main(void)
 }
 
 // -------------------------------------------------- Interrupt Service Routines --------------------------------------------------
-
 /**
- * INT1_vect
- * 
- * Change a bit in the STATUS_REG to show that CAN1 has data that needs to be processed
+ * Called when there is data waiting on CAN1
  **/
-ISR(INT1_vect)	//CAN 1
-{
-	STATUS_REG |= CAN1_DataWaiting;
+ISR(INT1_vect) {
+	// Details about the message we're attemping to pull from the CAN bus
+	uint8_t data[8];
+	uint32_t ID;
+	uint8_t numBytes;
+
+	// Get the data from the CAN bus and process it
+	CAN_pull_packet(MCP2515_CAN1, &numBytes, data, &ID);
+
+	if(inverters_save_data(data, &ID) == 0) {
+		error_state(ERROR_INVERTER_RESPONSE);
+	}
 }
 
 /**
- * INT0_vect
- * 
- * Change a bit in the STATUS_REG to show that CAN2 has data that needs to be processed
+ * Called when there is data waiting on CAN2
  **/
-ISR(INT0_vect)	//CAN 2
-{
-	STATUS_REG |= CAN2_DataWaiting;
+ISR(INT0_vect)	{
+	// Details about the message we're attemping to pull from the CAN bus
+	uint8_t data[8];
+	uint32_t ID;
+	uint8_t numBytes;
+
+	// Get the data from the CAN bus and process it
+	CAN_pull_packet(MCP2515_CAN2, &numBytes, data, &ID);
 }
 
 /**
- * PCINT0_vect
- * 
- * Change a bit in the STATUS_REG to show that CAN3 has data that needs to be processed
+ * Called when there is data waiting on CAN3
  **/
-ISR(PCINT0_vect)//CAN 3
-{
-	STATUS_REG |= CAN3_DataWaiting;
+ISR(PCINT0_vect) {
+	// Details about the message we're attemping to pull from the CAN bus
+	uint8_t data[8];
+	uint32_t ID;
+	uint8_t numBytes;
+
+	// Get the data from the CAN bus and process it
+	CAN_pull_packet(MCP2515_CAN3, &numBytes, data, &ID);
 }
 
 /**
