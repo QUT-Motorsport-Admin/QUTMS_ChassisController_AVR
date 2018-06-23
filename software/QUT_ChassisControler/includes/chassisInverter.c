@@ -10,7 +10,7 @@
 /**
  * inverters_save_data()
  * Input:	data	-	The data received from the inverters in the CAN bus
- * Returns: 0 if there was something wrong with the CAN packet resulting in no inverter being found from the ID given. 1 if execution is nominal
+ * Returns: 0 if there was something wrong with the CAN packet resulting in no inverter being found from the ID given. 1 if execution is normal
  * 
  * Process the data that was received from the inverters and saves it to the proper variables
  **/

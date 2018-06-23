@@ -66,8 +66,8 @@ int main(void)
 	// Define the pedal positions.
 	uint16_t throttle=0, brake=0, brakePressureF=0, brakePressureR=0;
 	// Read the pedal values, error state if the thresholds are out of order.
-	if(pedal_read(&brake, &throttle) == 0)error_state(ERROR_PEDALS);	
-	if(pressure_brake_read(&brakePressureF, &brakePressureR) == 0)error_state(ERROR_BRAKE_PRESSURE);
+	if(pedal_read(&brake, &throttle) == 0)throw_error_code(ERROR_PEDALS);	
+	if(pressure_brake_read(&brakePressureF, &brakePressureR) == 0)throw_error_code(ERROR_BRAKE_PRESSURE);
 
 	// 
 	uint8_t steeringWheelData[8]={0,0,0,255,0,255,0,255};
@@ -94,10 +94,10 @@ int main(void)
 		//NEW STUFF, COMMENT OUT WHEN ADDING IT
 		//read the pedal values, error state if the thresholds are out of order.
 		if(pedal_read(&brake, &throttle) == 0)
-            error_state(ERROR_PEDALS);
+            throw_error_code(ERROR_PEDALS);
 		//read the pressure readings, checking for invalid values.
 		if(pressure_brake_read(&brakePressureF, &brakePressureR) == 0)
-            error_state(ERROR_BRAKE_PRESSURE);
+            throw_error_code(ERROR_BRAKE_PRESSURE);
 		
 		steeringAngle = adc_read_avg(STEERING_ANGLE);
 
