@@ -5,30 +5,9 @@
  * @brief Contains functions for reading and writing data to and from the EEPROM storage
  **/
 
-/**
- * EEPROM Acronym Information
- * 
- * EEPROM registers, see section 8.6 of datasheet for more information.
- * EEAR: EEPROM Address Register
- * EEDR: EEPROM Data Register
- * EECR: EEPROM Control Register
- * 
- * EECR bits, see section 8.6.4 of datasheet for more information.
- * Bits 5-4 EEPM1 & EEPM0: EEPROM Programming Mode Bits
- * Bit 3 EERIE: EEPROM Ready Interrupt Enable
- * Bit 2 EEMPE: EEPROM Master Write Enable
- * Bit 1 EEPE: EEPROM Write Enable
- * Bit 0 EERE: EEPROM Read Enable
- **/
-
 #include "chassisEEPROM.h";
 
-/**
- * See section 8.3.1 of datasheet for sample code this is based on.
- * 
- * Example Code:
- * unsigned char Character = eeprom_read(50);
- **/
+// Function for reading from EEPROM, see header file for more info.
 unsigned char eeprom_read(uint16_t address)
 {
     // Wait for completion of previous write (wait for write enable bit to be 0).
@@ -44,12 +23,7 @@ unsigned char eeprom_read(uint16_t address)
     return EEDR;
 }
 
-/**
- * See section 8.3.1 of datasheet for sample code this is based on.
- * 
- * Example Code:
- * eeprom_write(50,'A');
- **/
+// Function for writing to EEPROM, see header file for more info.
 void eeprom_write(uint16_t address, unsigned char data) {
     // Wait for completion of previous write (wait for write enable bit to be 0).
     while(EECR & (1<<EEPE));
