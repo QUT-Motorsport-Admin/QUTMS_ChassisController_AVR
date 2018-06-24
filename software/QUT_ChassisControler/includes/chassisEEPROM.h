@@ -10,7 +10,6 @@
 
 #include <stdlib.h>
 #include <avr/io.h>
-#include <../main.h>
 
 /**
  * Chassis setting specification (which EEPROM addresses holds which settings)

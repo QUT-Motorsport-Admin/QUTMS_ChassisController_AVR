@@ -21,7 +21,7 @@
  * Bit 0 EERE: EEPROM Read Enable
  **/
 
-#include "chassisUART.h";
+#include "chassisEEPROM.h";
 
 /**
  * See section 8.3.1 of datasheet for sample code this is based on.
