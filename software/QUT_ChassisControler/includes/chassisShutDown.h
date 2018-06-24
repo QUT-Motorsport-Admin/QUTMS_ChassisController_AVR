@@ -1,8 +1,8 @@
 /**
- * @file chassisShutDown
+ * @file chassisShutDown.h
  * @author Jonn Dillon
  * @date 16/4/2018
- * @description Defines and outlines all varibles and definitions related to the Shut Down Board
+ * @brief Defines and outlines all varibles and definitions related to the Shut Down Board
  **/
 
 #ifndef CHASSIS_SHUTDOWN_H

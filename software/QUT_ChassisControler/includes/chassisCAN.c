@@ -1,8 +1,8 @@
 /**
- * @file chassisShutDown
+ * @file chassisCAN.c
  * @author Jonn Dillon
  * @date 16/4/2018
- * @description Handles functions, calls and utilities related to the CANBUS's
+ * @brief Handles functions, calls and utilities related to the CANBUS's
  **/
 
 #include "chassisCAN.h"
@@ -28,8 +28,8 @@ uint32_t CAN_ID_constructor(uint32_t sendingID, unsigned char type, unsigned cha
 }
 
 /**
-*	Serves as a wrapper for the MCP2515_PullCanPacket(..) in MCP2515.h - For more info
-*	refer to that.
+* @brief	Serves as a wrapper for the MCP2515_PullCanPacket(..) in MCP2515.h - For more info
+*			refer to that.
 *
 *	Example Code:
 *		uint8_t data[8];
@@ -39,6 +39,15 @@ uint32_t CAN_ID_constructor(uint32_t sendingID, unsigned char type, unsigned cha
 *		CAN_pull_packet(MCP2515_CANx, &numBytes, data, &ID); - Where x is the CAN bus number
 *
 *	Reference: Microchip MCP2515 Datasheet Chapter 4 (Message Reception)
+*
+* @param CANbus
+* @param numBytes
+* @param data
+* @param ID
+*
+* @return void
+* 
+* @author Pedro Alves
 **/
 void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t* ID) {
 	// Receive the status of the buffers RXB0 and RXB1

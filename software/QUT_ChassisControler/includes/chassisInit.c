@@ -1,19 +1,16 @@
 /**
- * @file chassisShutDown
+ * @file chassisInit.c
  * @author Jonn Dillon
  * @date 16/4/2018
- * @description Handles all initialisation processes for the chassis controller
+ * @brief Handles all initialisation processes for the chassis controller
  **/
 
 /**
- * external_interrupt_init()
- * Input:	none
- * Returns: none
- * 
- * Sets up the microcontroller to allow external interrupts. The External Interrupts are triggered by the INT7:0 pin or any of the PCINT23:0 pins.
+ * @brief Sets up the microcontroller to allow external interrupts. The External Interrupts are triggered by the INT7:0 pin or any of the PCINT23:0 pins.
  * 
  * Reference: ATmega Datasheet Chapter 15 (External Interrupts)
- **/
+ * 
+ */
 void external_interrupt_init()
 {
 	//INT1 for CAN1, INT0 for CAN2, PCINT7 for CAN3
@@ -26,19 +23,19 @@ void external_interrupt_init()
 }
 
 /**
- * io_init()
- * Input:	none
- * Returns: none
+ * @brief Configures the pins required for IO. Each port pin consists of three register bits: DDxn, PORTxn, and PINxn set by the following registers
  * 
- * Configures the pins required for IO. Each port pin consists of three register bits: DDxn, PORTxn, and PINxn set by the following registers
  * 	DDRx   - Sets the direction of PINxn in bit DDxn (1 -> output, 0 -> input)
+ * 
  * 	PORTx  - Activates the pull-up resistor for PINxn in bit PORTxn. The pull-up resistor will only be activated if written as logic 1 AND set as an input
+ * 
  *  PINx   - The Port Input Pins I/O location is read only. 
- *           Writing a logic one to a bit in the PINx Register, will result in a toggle in the corresponding bit in the Data Register
+ *           Writing a logic one to a bit in the PINx Register, will result in a toggle in the corresponding bit in the Data Register.
  * 		     Writing a logic one to PINxn toggles the value of PORTxn, independent on the value of DDRxn
  * 
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
- **/
+ * 
+ */
 void io_init()
 {
 	//pins 8, 9 and 14 for MCP2515_STB high so the things respond (PE6, PE7, PH2)
@@ -73,12 +70,9 @@ void io_init()
 }
 
 /**
- * firmware_init()
- * Input:	none
- * Returns: none
+ * @brief Set up all devices in the ATmega and MCP2515. Initiates structs to hold data from other devices
  * 
- * Set up all devices in the ATmega and MCP2515. Initiates structs to hold data from other devices
- **/
+ */
 void firmware_init()
 {
 	io_init();
@@ -109,14 +103,11 @@ void firmware_init()
 }
 
 /**
- * timer_init()
- * Input:	none
- * Returns: none
- * 
- * Initiates a timer set on Clear Timer Compare Match (CTC) Mode.
+ * @brief Initiates a timer set on Clear Timer Compare Match (CTC) Mode.
  * 
  * Reference: ATmega Datasheet Chapter 17 (16-bit Timer/Counter)
- **/
+ * 
+ */
 void timer_init()
 {
 	TCCR1A = 0b00000000;			//CTC mode

@@ -1,8 +1,8 @@
 /**
- * @file chassisShutDown
+ * @file chassisInverter.h
  * @author Jonn Dillon
  * @date 16/4/2018
- * @description Defines and outlines all varibles and definitions related to the Inverter/Motor Controller board
+ * @brief Defines and outlines all varibles and definitions related to the Inverter/Motor Controller board
  **/
 
 #ifndef CHASSIS_INVERTER_H

@@ -1,8 +1,8 @@
 /**
- * @file chassisPDM
+ * @file chassisPDM.h
  * @author Jonn Dillon
  * @date file creation 16/4/2018
- * @description This file defines all functions and operations related to the Power Distribution Unit
+ * @brief This file defines all functions and operations related to the Power Distribution Unit
  **/
 
 #ifndef CHASSIS_PDM_H

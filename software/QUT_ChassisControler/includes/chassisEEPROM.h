@@ -1,8 +1,8 @@
 /**
- * @file chassisEEPROM
+ * @file chassisEEPROM.h
  * @author Joshua Copeland
  * @date file creation 23/6/2018
- * @description Functionality for reading and writing bytes to and from EEPROM
+ * @brief Functionality for reading and writing bytes to and from EEPROM
  **/
 
 #ifndef CHASSIS_EEPROM_H

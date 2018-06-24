@@ -1,8 +1,8 @@
 /**
- * @file chassisShutDown
+ * @file chassisInverter.c
  * @author Jonn Dillon
  * @date 16/4/2018
- * @description Handles functions, calls and utilities related to the Inverters/Motor Controllers.
+ * @brief Handles functions, calls and utilities related to the Inverters/Motor Controllers.
  **/
 
 #include "chassisInverter.h";

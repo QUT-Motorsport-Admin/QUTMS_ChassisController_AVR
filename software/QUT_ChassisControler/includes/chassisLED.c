@@ -1,8 +1,8 @@
 /**
- * @file chassisShutDown
+ * @file chassisLED.c
  * @author Jonn Dillon
  * @date 16/4/2018
- * @description Handles all operations related to the onboard LED
+ * @brief Handles all operations related to the onboard LED
  **/
 
 /**

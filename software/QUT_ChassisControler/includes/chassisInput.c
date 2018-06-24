@@ -1,8 +1,8 @@
 /**
- * @file chassisInput
+ * @file chassisInput.c
  * @author Jonn Dillon
  * @date 13/4/2018
- * @description 
+ * @brief
  **/
 
 #include "chassisInput.h";

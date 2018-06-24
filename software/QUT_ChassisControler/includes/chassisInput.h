@@ -1,8 +1,8 @@
 /**
- * @file chassisShutDown
+ * @file chassisInput.h
  * @author Jonn Dillon
  * @date 16/4/2018
- * @description Defines and outlines all variables and definitions related to everything related to input within the car.
+ * @brief Defines and outlines all variables and definitions related to everything related to input within the car.
  **/
 
 #ifndef CHASSIS_INPUT_H

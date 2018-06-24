@@ -1,8 +1,8 @@
 /**
- * @file chassisPDM
+ * @file chassisPDM.c
  * @author Jonn Dillon
  * @date 16/4/2018
- * @description Handles functions, calls and utilities related to the Power Distribution Board
+ * @brief Handles functions, calls and utilities related to the Power Distribution Board
  **/
 
 #include "chassisPDM.h"

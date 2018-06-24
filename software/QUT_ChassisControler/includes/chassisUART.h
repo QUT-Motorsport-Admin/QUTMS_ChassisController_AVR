@@ -1,8 +1,8 @@
 /**
- * @file chassisUART
+ * @file chassisUART.h
  * @author Jonn Dillon
  * @date file creation 12/4/2018
- * @description Defines and outlines all varibles and definitions related to the UART communications process
+ * @brief Defines and outlines all varibles and definitions related to the UART communications process
  **/
 
 #ifndef CHASSIS_UART_H

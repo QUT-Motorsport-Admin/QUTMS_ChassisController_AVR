@@ -2,7 +2,7 @@
  * @file chassisEEPROM.c
  * @author Joshua Copeland
  * @date 23/6/2018
- * @description Contains functions for reading and writing data to and from the EEPROM storage
+ * @brief Contains functions for reading and writing data to and from the EEPROM storage
  **/
 
 /**
