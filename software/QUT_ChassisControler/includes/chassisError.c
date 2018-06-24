@@ -36,6 +36,7 @@ void throw_error_code(uint16_t severity, uint16_t error_code)
 void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16_t part_number) 
 {
 	switch (error_code) {
+		/* OLD
 		// Example - Error Codes TBD
 		case ERROR_BRAKE_PRESSURE:					
 			switch (severity) {
@@ -54,7 +55,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 				send_error_message(ERRORSTRING, "BRAKE %d PRESSURE CRITICAL", part_number);
 				break;
 			}			
-		break;
+		break;*/
 	
 		case GEARBOX_TEMPERATURE_LOW:					
 			switch (severity) {
@@ -292,6 +293,74 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 				case ERROR:
 				// Logging behaviour for Error-level logs
 				send_error_message(ERRORSTRING, "CAR HAS OVERTURNED", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+
+		case BATTERY_CHARGE:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Battery %d Charge Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Battery %d Charge Low", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "BATTERY %d CHARGE CRITICAL", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case BATTERY_TEMPERATURE_LOW:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Battery %d Temperature Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Battery %d Temperature Abnormally Low!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "BATTERY %d TEMPERATURE CRITICALLY LOW", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+
+		case BATTERY_TEMPERATURE_HIGH:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Battery %d Temperature Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Battery %d Temperature Abnormally High!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "BATTERY %d TEMPERATURE CRITICALLY HIGH", part_number);
 				// Additional Error Handling
 				break;
 			}			

@@ -33,7 +33,9 @@
 #define STEERING_ANGLE_RIGHT		14
 #define THROTTLE_ERROR				15		// Throttle Errors
 #define CAR_UPRIGHT_ERROR			16		// Upright Sensors Error
-
+#define BATTERY_CHARGE				17		// Battery Errors
+#define BATTERY_TEMPERATURE_LOW		18
+#define BATTERY_TEMPERATURE_HIGH	19
 
 // Error Severity Levels
 #define INFO 1 // Everything is all gravy baby
