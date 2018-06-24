@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>QUTMS Chassis Controller: /home/shanehavers/Git/QUTMS_ChassisController/software/QUT_ChassisControler/includes/chassisEEPROM.c File Reference</title>
+<title>QUTMS Chassis Controller: C:/Users/Comvar/Documents/GitHub/QUTMS_ChassisController/software/QUT_ChassisControler/includes/chassisEEPROM.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -76,13 +76,15 @@ $(function() {
 
 <p>Contains functions for reading and writing data to and from the EEPROM storage.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &quot;<a class="el" href="chassisUART_8h_source.html">chassisUART.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="chassisEEPROM_8h_source.html">chassisEEPROM.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a582f4f1b2b1c97117e6cd9a5f92f5e13"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8c.html#a582f4f1b2b1c97117e6cd9a5f92f5e13">eeprom_read</a> (uint16_t address)</td></tr>
+<tr class="memdesc:a582f4f1b2b1c97117e6cd9a5f92f5e13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a byte from EEPROM. Reference: ATmega Datasheet Section 8.3.1 Code Examples.  <a href="#a582f4f1b2b1c97117e6cd9a5f92f5e13">More...</a><br /></td></tr>
 <tr class="separator:a582f4f1b2b1c97117e6cd9a5f92f5e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acefcbfdf896e44079972a7a2207dd9dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8c.html#acefcbfdf896e44079972a7a2207dd9dc">eeprom_write</a> (uint16_t address, unsigned char data)</td></tr>
+<tr class="memdesc:acefcbfdf896e44079972a7a2207dd9dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a byte to EEPROM. Reference: ATmega Datasheet Section 8.3.1 Code Examples.  <a href="#acefcbfdf896e44079972a7a2207dd9dc">More...</a><br /></td></tr>
 <tr class="separator:acefcbfdf896e44079972a7a2207dd9dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
@@ -105,10 +107,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>EEPROM Acronym Information</p>
-<p>EEPROM registers, see section 8.6 of datasheet for more information. EEAR: EEPROM Address Register EEDR: EEPROM Data Register EECR: EEPROM Control Register</p>
-<p>EECR bits, see section 8.6.4 of datasheet for more information. Bits 5-4 EEPM1 &amp; EEPM0: EEPROM Programming Mode Bits Bit 3 EERIE: EEPROM Ready Interrupt Enable Bit 2 EEMPE: EEPROM Master Write Enable Bit 1 EEPE: EEPROM Write Enable Bit 0 EERE: EEPROM Read Enable See section 8.3.1 of datasheet for sample code this is based on.</p>
-<p>Example Code: unsigned char Character = eeprom_read(50); </p>
+
+<p>Reads a byte from EEPROM. Reference: ATmega Datasheet Section 8.3.1 Code Examples. </p>
+<p>Example Code: unsigned char Character = eeprom_read(50);</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>The address of EEPROM to read from. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>unsigned char The byte written to the EEPROM data register. </dd></dl>
 
 </div>
 </div>
@@ -137,8 +145,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>See section 8.3.1 of datasheet for sample code this is based on.</p>
-<p>Example Code: eeprom_write(50,'A'); </p>
+
+<p>Writes a byte to EEPROM. Reference: ATmega Datasheet Section 8.3.1 Code Examples. </p>
+<p>Example Code: eeprom_write(50,'A');</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">address</td><td>The address of EEPROM to write to. </td></tr>
+    <tr><td class="paramname">data</td><td>The byte to write to EEPROM. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>

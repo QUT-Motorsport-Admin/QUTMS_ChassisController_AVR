@@ -25,24 +25,25 @@ LICENSE:
 ************************************************************************/
 
 /** 
- *  @defgroup pfleury_uart UART Library
- *  @code #include <uart.h> @endcode
+ * @file uart.h 
+ * @defgroup pfleury_uart UART Library
+ * @code #include <uart.h> @endcode
  * 
- *  @brief Interrupt UART library using the built-in UART with transmit and receive circular buffers. 
+ * @brief Interrupt UART library using the built-in UART with transmit and receive circular buffers. 
  *
- *  This library can be used to transmit and receive data through the built in UART. 
+ * This library can be used to transmit and receive data through the built in UART. 
  *
- *  An interrupt is generated when the UART has finished transmitting or
- *  receiving a byte. The interrupt handling routines use circular buffers
- *  for buffering received and transmitted data.
+ * An interrupt is generated when the UART has finished transmitting or
+ * receiving a byte. The interrupt handling routines use circular buffers
+ * for buffering received and transmitted data.
  *
- *  The UART_RX_BUFFER_SIZE and UART_TX_BUFFER_SIZE constants define
- *  the size of the circular buffers in bytes. Note that these constants must be a power of 2.
- *  You may need to adapt this constants to your target and your application by adding 
- *  CDEFS += -DUART_RX_BUFFER_SIZE=nn -DUART_RX_BUFFER_SIZE=nn to your Makefile.
+ * The UART_RX_BUFFER_SIZE and UART_TX_BUFFER_SIZE constants define
+ * the size of the circular buffers in bytes. Note that these constants must be a power of 2.
+ * You may need to adapt this constants to your target and your application by adding 
+ * CDEFS += -DUART_RX_BUFFER_SIZE=nn -DUART_RX_BUFFER_SIZE=nn to your Makefile.
  *
- *  @note Based on Atmel Application Note AVR306
- *  @author Peter Fleury pfleury@gmx.ch  http://jump.to/fleury
+ * @note Based on Atmel Application Note AVR306
+ * @author Peter Fleury pfleury@gmx.ch  http://jump.to/fleury
  */
  
 /**@{*/
@@ -54,8 +55,8 @@ LICENSE:
 
 
 /* Set BAUD Rate */
-#define UART_BAUD_RATE 19200      //<<USER TO SET THIS>>
-#define UART1_BAUD_RATE 19200      //<<USER TO SET THIS>>
+#define UART_BAUD_RATE 19200    /**< UART baud rate, user to set this */
+#define UART1_BAUD_RATE 19200   /**< UART1 baud rate, user to set this */
 
 
 /** @brief  UART Baudrate Expression
@@ -72,21 +73,21 @@ LICENSE:
 
 
 /** Size of the circular receive buffer, must be power of 2 */
-#ifndef UART_RX_BUFFER_SIZE
-#define UART_RX_BUFFER_SIZE 32			
+#ifndef UART_RX_BUFFER_SIZE     
+#define UART_RX_BUFFER_SIZE 32      /**< UART RX buffer size */		
 #endif
 
 #ifndef UART1_RX_BUFFER_SIZE
-#define UART1_RX_BUFFER_SIZE 32			
+#define UART1_RX_BUFFER_SIZE 32     /**< UART1 RX buffer size */	
 #endif
 
 /** Size of the circular transmit buffer, must be power of 2 */
 #ifndef UART_TX_BUFFER_SIZE
-#define UART_TX_BUFFER_SIZE 32
+#define UART_TX_BUFFER_SIZE 32      /**< UART TX buffer size */
 #endif
 
 #ifndef UART1_TX_BUFFER_SIZE
-#define UART1_TX_BUFFER_SIZE 32
+#define UART1_TX_BUFFER_SIZE 32     /**< UART1 TX buffer size */
 #endif
 
 
@@ -98,10 +99,10 @@ LICENSE:
 /* 
 ** high byte error return code of uart_getc()
 */
-#define UART_FRAME_ERROR      0x0800              /* Framing Error by UART       */
-#define UART_OVERRUN_ERROR    0x0400              /* Overrun condition by UART   */
-#define UART_BUFFER_OVERFLOW  0x0200              /* receive ringbuffer overflow */
-#define UART_NO_DATA          0x0100              /* no receive data available   */
+#define UART_FRAME_ERROR        0x0800  /**< Framing Error by UART       */
+#define UART_OVERRUN_ERROR      0x0400  /**< Overrun condition by UART   */
+#define UART_BUFFER_OVERFLOW    0x0200  /**< receive ringbuffer overflow */
+#define UART_NO_DATA            0x0100  /**< no receive data available   */
 
 
 /*
@@ -111,12 +112,13 @@ LICENSE:
 
 
 /**
-   @brief   Initialize UART and set baudrate 
+   @brief   Initialize UART and set baudrate
    @param   baudrate Specify baudrate using macro UART_BAUD_SELECT()
    @return  none
 */
 extern void uart_init(unsigned int baudrate);
 
+/** @brief Same as uart_init() for UART1 */
 extern void uart1_init(unsigned int baudrate);
 
 
@@ -147,6 +149,7 @@ extern void uart1_init(unsigned int baudrate);
  */
 extern unsigned int uart_getc(void);
 
+/** @brief Same as uart_getc() for UART1 */
 extern unsigned int uart1_getc(void);
 
 
@@ -157,6 +160,7 @@ extern unsigned int uart1_getc(void);
  */
 extern void uart_putc(unsigned char data);
 
+/** @brief Same as uart_putc() for UART1 */
 extern void uart1_putc(unsigned char data_1);
 
 /**
@@ -171,6 +175,7 @@ extern void uart1_putc(unsigned char data_1);
  */
 extern void uart_puts(const char *s );
 
+/** @brief Same as uart_puts() for UART1 */
 extern void uart1_puts(const char *t );
 
 
@@ -187,14 +192,13 @@ extern void uart1_puts(const char *t );
  */
 extern void uart_puts_p(const char *s );
 
+/** @brief Same as uart_puts_p() for UART1 */
 extern void uart1_puts_p(const char *t );
 
-
+/** @brief A port key. */
 unsigned char portKey;
 
-/**
- * @brief    Macro to automatically put a string constant into program memory
- */
+/** @brief Macro to automatically put a string constant into program memory */
 #define uart_puts_P(__s)       uart_puts_p(PSTR(__s))
 
 
@@ -214,12 +218,14 @@ extern void uart1_puts_p(const char *s );
 
 /**@}*/
 
-
+/** @brief Does the RX0 bit of UCSR0A (USART Status and Control Register for UART) indicate a char has been received? */
 char isCharAvailable(void);
+/** @brief Does the RX0 bit of UCSR1A (USART Status and Control Register for UART1) indicate a char has been received? */
 char isCharAvailable_1(void);
 
+/** @brief Return the char in the UDR0 register */
 char receiveChar(void);
+/** @brief See if a char is avaliable for UART */
 char receiveChar_1(void);
 
-#endif // UART_H 
-
+#endif // UART_H

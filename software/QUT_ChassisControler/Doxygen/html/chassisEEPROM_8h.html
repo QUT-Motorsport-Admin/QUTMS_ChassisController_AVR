@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.14"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>QUTMS Chassis Controller: /home/shanehavers/Git/QUTMS_ChassisController/software/QUT_ChassisControler/includes/chassisEEPROM.h File Reference</title>
+<title>QUTMS Chassis Controller: C:/Users/Comvar/Documents/GitHub/QUTMS_ChassisController/software/QUT_ChassisControler/includes/chassisEEPROM.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -68,6 +68,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">chassisEEPROM.h File Reference</div>  </div>
@@ -78,22 +79,435 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;stdlib.h&gt;</code><br />
 <code>#include &lt;avr/io.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="main_8h_source.html">../main.h</a>&gt;</code><br />
 </div>
 <p><a href="chassisEEPROM_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:a4de883d3a13ed0d135a11e762e5d58b1"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a4de883d3a13ed0d135a11e762e5d58b1">EEPROM_UINT16_THROTTLE_PEDAL_RHS_0</a>&#160;&#160;&#160;0x000</td></tr>
+<tr class="separator:a4de883d3a13ed0d135a11e762e5d58b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e2c0d132cb6aa96e3c1ce518fa58bee"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a2e2c0d132cb6aa96e3c1ce518fa58bee">EEPROM_UINT16_THROTTLE_PEDAL_RHS_100</a>&#160;&#160;&#160;0x002</td></tr>
+<tr class="separator:a2e2c0d132cb6aa96e3c1ce518fa58bee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4e088fa9156a5b389a596a329a36285"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#aa4e088fa9156a5b389a596a329a36285">EEPROM_UINT16_THROTTLE_PEDAL_LHS_0</a>&#160;&#160;&#160;0x004</td></tr>
+<tr class="separator:aa4e088fa9156a5b389a596a329a36285"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc559beed41a8af27adbbfc3befd2e21"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#adc559beed41a8af27adbbfc3befd2e21">EEPROM_UINT16_THROTTLE_PEDAL_LHS_100</a>&#160;&#160;&#160;0x006</td></tr>
+<tr class="separator:adc559beed41a8af27adbbfc3befd2e21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5c7e9390a953491652e1da69901b8a3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#ae5c7e9390a953491652e1da69901b8a3">EEPROM_UINT16_BRAKE_PEDAL_RHS_0</a>&#160;&#160;&#160;0x008</td></tr>
+<tr class="separator:ae5c7e9390a953491652e1da69901b8a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57fc4c02acebda6828f1ffebbad26efc"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a57fc4c02acebda6828f1ffebbad26efc">EEPROM_UINT16_BRAKE_PEDAL_RHS_100</a>&#160;&#160;&#160;0x00a</td></tr>
+<tr class="separator:a57fc4c02acebda6828f1ffebbad26efc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1493a27e1a093c683b0147d0507a8089"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a1493a27e1a093c683b0147d0507a8089">EEPROM_UINT16_BRAKE_PEDAL_LHS_0</a>&#160;&#160;&#160;0x00c</td></tr>
+<tr class="separator:a1493a27e1a093c683b0147d0507a8089"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acffe18766af10dbab6d8c405ae69c1b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#acffe18766af10dbab6d8c405ae69c1b5">EEPROM_UINT16_BRAKE_PEDAL_LHS_100</a>&#160;&#160;&#160;0x00e</td></tr>
+<tr class="separator:acffe18766af10dbab6d8c405ae69c1b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf07c614484dd13af45687b41da250ec"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#abf07c614484dd13af45687b41da250ec">EEPROM_UINT16_STEERING_ANGLE_ZERO_POINT</a>&#160;&#160;&#160;0x010</td></tr>
+<tr class="separator:abf07c614484dd13af45687b41da250ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5d1ba9aab2ea45ab4134432105250d3"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#ab5d1ba9aab2ea45ab4134432105250d3">EEPROM_UINT16_STEERING_ANGLE_RADIANS_PER_VOLT</a>&#160;&#160;&#160;0X012</td></tr>
+<tr class="separator:ab5d1ba9aab2ea45ab4134432105250d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc6561f752a57722237b035ccaaac88e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#acc6561f752a57722237b035ccaaac88e">EEPROM_UINT8_BRAKE_PRESSURE_FRONT_VOLTS_PER_BAR</a>&#160;&#160;&#160;0x020</td></tr>
+<tr class="separator:acc6561f752a57722237b035ccaaac88e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a244109f2cb23ffb8f6442d7beea75b5b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a244109f2cb23ffb8f6442d7beea75b5b">EEPROM_UINT8_BRAKE_PRESSURE_REAR_VOLTS_PER_BAR</a>&#160;&#160;&#160;0x021</td></tr>
+<tr class="separator:a244109f2cb23ffb8f6442d7beea75b5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8b8f9dab5cf415fc39520deaa5d6ced"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#af8b8f9dab5cf415fc39520deaa5d6ced">EEPROM_UINT8_REGEN_0_POINT</a>&#160;&#160;&#160;0x030</td></tr>
+<tr class="separator:af8b8f9dab5cf415fc39520deaa5d6ced"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10cbb715fa1d2dcfb41d560599f2c141"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a10cbb715fa1d2dcfb41d560599f2c141">EEPROM_UINT8_REGEN_RAMP_AMPS_PER_PERCENT</a>&#160;&#160;&#160;0x031</td></tr>
+<tr class="separator:a10cbb715fa1d2dcfb41d560599f2c141"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc914358c3747308be0596919ce93aab"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#adc914358c3747308be0596919ce93aab">EEPROM_UINT8_REGEN_100_POINT</a>&#160;&#160;&#160;0x032</td></tr>
+<tr class="separator:adc914358c3747308be0596919ce93aab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29fd0571a75574856a10a7bdcd870c70"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a29fd0571a75574856a10a7bdcd870c70">EEPROM_UINT8_MAX_TORQUE_FRONT_INVERTERS</a>&#160;&#160;&#160;0x033</td></tr>
+<tr class="separator:a29fd0571a75574856a10a7bdcd870c70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad529de79bb1c9161cfe50f18b8cf1f4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#aad529de79bb1c9161cfe50f18b8cf1f4">EEPROM_UINT8_MAX_TORQUE_REAR_INVERTERS</a>&#160;&#160;&#160;0x034</td></tr>
+<tr class="separator:aad529de79bb1c9161cfe50f18b8cf1f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a19775e675692d63b1e8a1894161fa0fa"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a19775e675692d63b1e8a1894161fa0fa">EEPROM_UINT8_MAX_REGEN_FRONT_INVERTERS</a>&#160;&#160;&#160;0x040</td></tr>
+<tr class="separator:a19775e675692d63b1e8a1894161fa0fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa26722ba93dec36b070bb6637a62e445"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#aa26722ba93dec36b070bb6637a62e445">EEPROM_UINT8_MAX_REGEN_REAR_INVERTERS</a>&#160;&#160;&#160;0x041</td></tr>
+<tr class="separator:aa26722ba93dec36b070bb6637a62e445"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad5d01591c0e465a4b67c9f2a67c5d5b0"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#ad5d01591c0e465a4b67c9f2a67c5d5b0">EEPROM_UINT8_NUMBER_OF_ACCUMULATORS_FITTED</a>&#160;&#160;&#160;0x050</td></tr>
+<tr class="separator:ad5d01591c0e465a4b67c9f2a67c5d5b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a519ec52e3a2af8cc2ea0e466aa64d67f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a519ec52e3a2af8cc2ea0e466aa64d67f">EEPROM_UINT8_NUMBER_OF_INVERTERS_FITTED</a>&#160;&#160;&#160;0x051</td></tr>
+<tr class="separator:a519ec52e3a2af8cc2ea0e466aa64d67f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f37ea8f9ae8e684cbdc261e93e8499f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a8f37ea8f9ae8e684cbdc261e93e8499f">EEPROM_UINT8_T64_INITIAL_TABLE</a>&#160;&#160;&#160;0x100</td></tr>
+<tr class="separator:a8f37ea8f9ae8e684cbdc261e93e8499f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53f18fa943af18219aa0fe02257a5a7b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a53f18fa943af18219aa0fe02257a5a7b">EEPROM_UINT8_T64_SUSTAINED_TABLE</a>&#160;&#160;&#160;0x200</td></tr>
+<tr class="separator:a53f18fa943af18219aa0fe02257a5a7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9aecde83b8a82a967679b9f8ec16e7c2"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a9aecde83b8a82a967679b9f8ec16e7c2">EEPROM_UINT8_T64_FRONT_REAR_BIAS</a>&#160;&#160;&#160;0x300</td></tr>
+<tr class="separator:a9aecde83b8a82a967679b9f8ec16e7c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a582f4f1b2b1c97117e6cd9a5f92f5e13"><td class="memItemLeft" align="right" valign="top">unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#a582f4f1b2b1c97117e6cd9a5f92f5e13">eeprom_read</a> (uint16_t address)</td></tr>
+<tr class="memdesc:a582f4f1b2b1c97117e6cd9a5f92f5e13"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a byte from EEPROM. Reference: ATmega Datasheet Section 8.3.1 Code Examples.  <a href="#a582f4f1b2b1c97117e6cd9a5f92f5e13">More...</a><br /></td></tr>
 <tr class="separator:a582f4f1b2b1c97117e6cd9a5f92f5e13"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acefcbfdf896e44079972a7a2207dd9dc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisEEPROM_8h.html#acefcbfdf896e44079972a7a2207dd9dc">eeprom_write</a> (uint16_t address, unsigned char data)</td></tr>
+<tr class="memdesc:acefcbfdf896e44079972a7a2207dd9dc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a byte to EEPROM. Reference: ATmega Datasheet Section 8.3.1 Code Examples.  <a href="#acefcbfdf896e44079972a7a2207dd9dc">More...</a><br /></td></tr>
 <tr class="separator:acefcbfdf896e44079972a7a2207dd9dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Functionality for reading and writing bytes to and from EEPROM. </p>
 <dl class="section author"><dt>Author</dt><dd>Joshua Copeland </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>file creation 23/6/2018 </dd></dl>
-</div><h2 class="groupheader">Function Documentation</h2>
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a1493a27e1a093c683b0147d0507a8089"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1493a27e1a093c683b0147d0507a8089">&#9670;&nbsp;</a></span>EEPROM_UINT16_BRAKE_PEDAL_LHS_0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_BRAKE_PEDAL_LHS_0&#160;&#160;&#160;0x00c</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of left-hand side brake pedal at 0%. </p>
+
+</div>
+</div>
+<a id="acffe18766af10dbab6d8c405ae69c1b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acffe18766af10dbab6d8c405ae69c1b5">&#9670;&nbsp;</a></span>EEPROM_UINT16_BRAKE_PEDAL_LHS_100</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_BRAKE_PEDAL_LHS_100&#160;&#160;&#160;0x00e</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of left-hand side brake pedal at 100%. </p>
+
+</div>
+</div>
+<a id="ae5c7e9390a953491652e1da69901b8a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5c7e9390a953491652e1da69901b8a3">&#9670;&nbsp;</a></span>EEPROM_UINT16_BRAKE_PEDAL_RHS_0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_BRAKE_PEDAL_RHS_0&#160;&#160;&#160;0x008</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of right-hand side brake pedal at 0%. </p>
+
+</div>
+</div>
+<a id="a57fc4c02acebda6828f1ffebbad26efc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57fc4c02acebda6828f1ffebbad26efc">&#9670;&nbsp;</a></span>EEPROM_UINT16_BRAKE_PEDAL_RHS_100</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_BRAKE_PEDAL_RHS_100&#160;&#160;&#160;0x00a</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of right-hand side brake pedal at 100%. </p>
+
+</div>
+</div>
+<a id="ab5d1ba9aab2ea45ab4134432105250d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5d1ba9aab2ea45ab4134432105250d3">&#9670;&nbsp;</a></span>EEPROM_UINT16_STEERING_ANGLE_RADIANS_PER_VOLT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_STEERING_ANGLE_RADIANS_PER_VOLT&#160;&#160;&#160;0X012</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for how many radians the steering wheel turns per volt. Actual value is x1000. </p>
+
+</div>
+</div>
+<a id="abf07c614484dd13af45687b41da250ec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf07c614484dd13af45687b41da250ec">&#9670;&nbsp;</a></span>EEPROM_UINT16_STEERING_ANGLE_ZERO_POINT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_STEERING_ANGLE_ZERO_POINT&#160;&#160;&#160;0x010</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of steering wheel's zero point. </p>
+
+</div>
+</div>
+<a id="aa4e088fa9156a5b389a596a329a36285"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa4e088fa9156a5b389a596a329a36285">&#9670;&nbsp;</a></span>EEPROM_UINT16_THROTTLE_PEDAL_LHS_0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_THROTTLE_PEDAL_LHS_0&#160;&#160;&#160;0x004</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of left-hand side throttle pedal at 0%. </p>
+
+</div>
+</div>
+<a id="adc559beed41a8af27adbbfc3befd2e21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc559beed41a8af27adbbfc3befd2e21">&#9670;&nbsp;</a></span>EEPROM_UINT16_THROTTLE_PEDAL_LHS_100</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_THROTTLE_PEDAL_LHS_100&#160;&#160;&#160;0x006</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of left-hand side throttle pedal at 100%. </p>
+
+</div>
+</div>
+<a id="a4de883d3a13ed0d135a11e762e5d58b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4de883d3a13ed0d135a11e762e5d58b1">&#9670;&nbsp;</a></span>EEPROM_UINT16_THROTTLE_PEDAL_RHS_0</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_THROTTLE_PEDAL_RHS_0&#160;&#160;&#160;0x000</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Chassis setting specification (which EEPROM addresses holds which settings) Follows specification outlined in QUTMS_share/ChassisControl_firmware/Chassis_Settings_v1EEPROM address for calibration value of right-hand side throttle pedal at 0%. </p>
+
+</div>
+</div>
+<a id="a2e2c0d132cb6aa96e3c1ce518fa58bee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e2c0d132cb6aa96e3c1ce518fa58bee">&#9670;&nbsp;</a></span>EEPROM_UINT16_THROTTLE_PEDAL_RHS_100</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT16_THROTTLE_PEDAL_RHS_100&#160;&#160;&#160;0x002</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of right-hand side throttle pedal at 100%. </p>
+
+</div>
+</div>
+<a id="acc6561f752a57722237b035ccaaac88e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc6561f752a57722237b035ccaaac88e">&#9670;&nbsp;</a></span>EEPROM_UINT8_BRAKE_PRESSURE_FRONT_VOLTS_PER_BAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_BRAKE_PRESSURE_FRONT_VOLTS_PER_BAR&#160;&#160;&#160;0x020</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for volts per bar for front brake pressure. Actual value is x100. </p>
+
+</div>
+</div>
+<a id="a244109f2cb23ffb8f6442d7beea75b5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a244109f2cb23ffb8f6442d7beea75b5b">&#9670;&nbsp;</a></span>EEPROM_UINT8_BRAKE_PRESSURE_REAR_VOLTS_PER_BAR</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_BRAKE_PRESSURE_REAR_VOLTS_PER_BAR&#160;&#160;&#160;0x021</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for volts per bar for rear brake pressure. Actual value is x100. </p>
+
+</div>
+</div>
+<a id="a19775e675692d63b1e8a1894161fa0fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19775e675692d63b1e8a1894161fa0fa">&#9670;&nbsp;</a></span>EEPROM_UINT8_MAX_REGEN_FRONT_INVERTERS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_MAX_REGEN_FRONT_INVERTERS&#160;&#160;&#160;0x040</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for maximum regeneration of front inverters. </p>
+
+</div>
+</div>
+<a id="aa26722ba93dec36b070bb6637a62e445"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa26722ba93dec36b070bb6637a62e445">&#9670;&nbsp;</a></span>EEPROM_UINT8_MAX_REGEN_REAR_INVERTERS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_MAX_REGEN_REAR_INVERTERS&#160;&#160;&#160;0x041</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for maximum regeneration of rear inverters. </p>
+
+</div>
+</div>
+<a id="a29fd0571a75574856a10a7bdcd870c70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a29fd0571a75574856a10a7bdcd870c70">&#9670;&nbsp;</a></span>EEPROM_UINT8_MAX_TORQUE_FRONT_INVERTERS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_MAX_TORQUE_FRONT_INVERTERS&#160;&#160;&#160;0x033</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for maximum torque of front inverters. </p>
+
+</div>
+</div>
+<a id="aad529de79bb1c9161cfe50f18b8cf1f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad529de79bb1c9161cfe50f18b8cf1f4">&#9670;&nbsp;</a></span>EEPROM_UINT8_MAX_TORQUE_REAR_INVERTERS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_MAX_TORQUE_REAR_INVERTERS&#160;&#160;&#160;0x034</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for maximum torque of rear inverters. </p>
+
+</div>
+</div>
+<a id="ad5d01591c0e465a4b67c9f2a67c5d5b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5d01591c0e465a4b67c9f2a67c5d5b0">&#9670;&nbsp;</a></span>EEPROM_UINT8_NUMBER_OF_ACCUMULATORS_FITTED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_NUMBER_OF_ACCUMULATORS_FITTED&#160;&#160;&#160;0x050</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for number of accumulators fitted. </p>
+
+</div>
+</div>
+<a id="a519ec52e3a2af8cc2ea0e466aa64d67f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a519ec52e3a2af8cc2ea0e466aa64d67f">&#9670;&nbsp;</a></span>EEPROM_UINT8_NUMBER_OF_INVERTERS_FITTED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_NUMBER_OF_INVERTERS_FITTED&#160;&#160;&#160;0x051</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for number of inverters fitted. </p>
+
+</div>
+</div>
+<a id="af8b8f9dab5cf415fc39520deaa5d6ced"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8b8f9dab5cf415fc39520deaa5d6ced">&#9670;&nbsp;</a></span>EEPROM_UINT8_REGEN_0_POINT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_REGEN_0_POINT&#160;&#160;&#160;0x030</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of 0% regenerative braking. </p>
+
+</div>
+</div>
+<a id="adc914358c3747308be0596919ce93aab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc914358c3747308be0596919ce93aab">&#9670;&nbsp;</a></span>EEPROM_UINT8_REGEN_100_POINT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_REGEN_100_POINT&#160;&#160;&#160;0x032</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for calibration value of 100% regenerative braking. </p>
+
+</div>
+</div>
+<a id="a10cbb715fa1d2dcfb41d560599f2c141"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a10cbb715fa1d2dcfb41d560599f2c141">&#9670;&nbsp;</a></span>EEPROM_UINT8_REGEN_RAMP_AMPS_PER_PERCENT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_REGEN_RAMP_AMPS_PER_PERCENT&#160;&#160;&#160;0x031</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for amps of regenerative braking per percent. </p>
+
+</div>
+</div>
+<a id="a9aecde83b8a82a967679b9f8ec16e7c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9aecde83b8a82a967679b9f8ec16e7c2">&#9670;&nbsp;</a></span>EEPROM_UINT8_T64_FRONT_REAR_BIAS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_T64_FRONT_REAR_BIAS&#160;&#160;&#160;0x300</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for start of front/read bias table. Table address range is 0x300-0x33f. </p>
+
+</div>
+</div>
+<a id="a8f37ea8f9ae8e684cbdc261e93e8499f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f37ea8f9ae8e684cbdc261e93e8499f">&#9670;&nbsp;</a></span>EEPROM_UINT8_T64_INITIAL_TABLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_T64_INITIAL_TABLE&#160;&#160;&#160;0x100</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for start of initial table. Table address range is 0x100-0x13f. </p>
+
+</div>
+</div>
+<a id="a53f18fa943af18219aa0fe02257a5a7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53f18fa943af18219aa0fe02257a5a7b">&#9670;&nbsp;</a></span>EEPROM_UINT8_T64_SUSTAINED_TABLE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define EEPROM_UINT8_T64_SUSTAINED_TABLE&#160;&#160;&#160;0x200</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>EEPROM address for start of sustained table. Table address range is 0x200-0x33f. </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
 <a id="a582f4f1b2b1c97117e6cd9a5f92f5e13"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a582f4f1b2b1c97117e6cd9a5f92f5e13">&#9670;&nbsp;</a></span>eeprom_read()</h2>
 
@@ -109,18 +523,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>eeprom_read  Reads a byte of data from the specified address of EEPROM storage </p><dl class="section author"><dt>Author</dt><dd>Joshua Copeland  23/6/18  N/A </dd></dl>
+
+<p>Reads a byte from EEPROM. Reference: ATmega Datasheet Section 8.3.1 Code Examples. </p>
+<p>Example Code: unsigned char Character = eeprom_read(50);</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">uint16_t</td><td>address - Address of EEPROM memory to read from </td></tr>
+    <tr><td class="paramname">address</td><td>The address of EEPROM to read from. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>unsigned char - Byte present in the target EEPROM address</dd></dl>
-<p>EEPROM Acronym Information</p>
-<p>EEPROM registers, see section 8.6 of datasheet for more information. EEAR: EEPROM Address Register EEDR: EEPROM Data Register EECR: EEPROM Control Register</p>
-<p>EECR bits, see section 8.6.4 of datasheet for more information. Bits 5-4 EEPM1 &amp; EEPM0: EEPROM Programming Mode Bits Bit 3 EERIE: EEPROM Ready Interrupt Enable Bit 2 EEMPE: EEPROM Master Write Enable Bit 1 EEPE: EEPROM Write Enable Bit 0 EERE: EEPROM Read Enable See section 8.3.1 of datasheet for sample code this is based on.</p>
-<p>Example Code: unsigned char Character = eeprom_read(50); </p>
+<dl class="section return"><dt>Returns</dt><dd>unsigned char The byte written to the EEPROM data register. </dd></dl>
 
 </div>
 </div>
@@ -149,17 +561,17 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>eeprom_write  Writes a byte of data to the specified address of EEPROM storage </p><dl class="section author"><dt>Author</dt><dd>Joshua Copeland  23/6/18  N/A </dd></dl>
+
+<p>Writes a byte to EEPROM. Reference: ATmega Datasheet Section 8.3.1 Code Examples. </p>
+<p>Example Code: eeprom_write(50,'A');</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">uint8_t</td><td>address - The address of EEPROM memory to write to </td></tr>
-    <tr><td class="paramname">unsigned</td><td>char data - Byte to be written to the target EEPROM address </td></tr>
+    <tr><td class="paramname">address</td><td>The address of EEPROM to write to. </td></tr>
+    <tr><td class="paramname">data</td><td>The byte to write to EEPROM. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>void - Returns 1 when sucessful/completed</dd></dl>
-<p>See section 8.3.1 of datasheet for sample code this is based on.</p>
-<p>Example Code: eeprom_write(50,'A'); </p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>

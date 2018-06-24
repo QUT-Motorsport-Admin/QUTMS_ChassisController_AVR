@@ -2,11 +2,12 @@ var indexSectionsWithContent =
 {
   0: "_acefilmpqrstu",
   1: "acips",
-  2: "acm",
-  3: "_acefilpstu",
-  4: "aprs",
-  5: "u",
-  6: "q"
+  2: "acmu",
+  3: "_acefilprstu",
+  4: "p",
+  5: "aeprs",
+  6: "u",
+  7: "q"
 };
 
 var indexSectionNames =
@@ -15,9 +16,10 @@ var indexSectionNames =
   1: "classes",
   2: "files",
   3: "functions",
-  4: "defines",
-  5: "groups",
-  6: "pages"
+  4: "variables",
+  5: "defines",
+  6: "groups",
+  7: "pages"
 };
 
 var indexSectionLabels =
@@ -26,8 +28,9 @@ var indexSectionLabels =
   1: "Classes",
   2: "Files",
   3: "Functions",
-  4: "Macros",
-  5: "Modules",
-  6: "Pages"
+  4: "Variables",
+  5: "Macros",
+  6: "Modules",
+  7: "Pages"
 };
 
