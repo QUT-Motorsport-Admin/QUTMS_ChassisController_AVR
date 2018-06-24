@@ -1,9 +1,11 @@
 /**
- * @file chassisShutDown.h
+ * @brief Handles functions, calls and utilities related to the Error system
+ * 
+ * @file chassisError.c
  * @author Jonn Dillon
- * @date 16/4/2018
- * @description Handles functions, calls and utilities related to the Error system
- **/
+ * @date 2018-04-16
+ * 
+ */
 
 #include "chassisError.h";
 

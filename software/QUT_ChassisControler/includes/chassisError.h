@@ -1,9 +1,10 @@
 /**
- * @file chassisShutDown
+ * @brief Defines and outlines all varibles and definitions related to the error system.
+ * 
+ * @file chassisError.h
  * @author Jonn Dillon
- * @date 16/4/2018
- * @description Defines and outlines all varibles and definitions related to the error system.
- **/
+ * @date 2018-04-16
+ */
 
 #ifndef CHASSIS_ERROR_H
 #define CHASSIS_ERROR_H
@@ -38,43 +39,39 @@
 #define ERRORSTRING "##ERROR##"
 
 /**
- * @function        throw_error_code
- * @description     Generates an error message, and takes the necessary actions depending on the severity and error.
- *                  Uses 0 as the part number
- * @author          Shane Havers
- * @date_created    24/06/2018
- * @date_modified   N/A
- * @param   severity	- Severity of the error (INFO, WARN, or ERROR)
- * @param   error_code	- Error to report 
- * @returns void  
- * */
+ * @brief Generates an error message, and takes the necessary actions depending on the severity and error. Uses 0 as the part number
+ * @author Shane Havers 
+ * 
+ * @param severity Severity of the error (INFO, WARN, or ERROR)
+ * @param error_code Error to report 
+ * 
+ * @return void
+ */
 void throw_error_code(uint16_t severity, uint16_t error_code);
 
+/**
+ * @brief Generatres an error message, and takes the necessary actions depending on the severity and error
+ * @author Shane Havers
+ * 
+ * @param severity Severity of the error (INFO, WARN, or ERROR)
+ * @param error_code Error to report
+ * @param part_number The number of the part generating the error (i.e. Gearbox 1, Radiator 2 etc.)
+ * 
+ * @return void
+ * 
+ */
+void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16_t part_number);
 
 /**
- * @function        throw_error_code_with_number
- * @description     Generates an error message, and takes the necessary actions depending on the severity and error
- * @author          Shane Havers
- * @date_created    24/06/2018
- * @date_modified   N/A
- * @param   severity	- Severity of the error (INFO, WARN, or ERROR)
- * @param   error_code	- Error to report
- * @param   part_number - The number of the part generating the error (i.e. Gearbox 1, Radiator 2 etc.)
- * @returns void  
- * */
-void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16_t part_number)
-
-/**
- * @function        send_error_message
- * @description     Formats a 50-character long log message, and sends it over UART
- * @author          Shane Havers
- * @date_created    23/06/2018
- * @date_modified   24/06/2018
- * @param   char[]      start       - String representation of log level
- * @param   char[]      message     - Message to send - should not exceed 40 characters
- * @param   uint16_t    part_number - The number of the part generating the error (i.e. Gearbox 1, Radiator 2 etc.)
- * @returns void
- * */
-void send_error_message(char start[], char message[], uint16_t part_number) 
+ * @brief Formats a 50-character long log message, and sends it over UART
+ * @author Shane Havers
+ * 
+ * @param start String representation of log level
+ * @param message Message to send - should not exceed 40 characters
+ * @param part_number The number of the part generating the error (i.e. Gearbox 1, Radiator 2 etc.)
+ * 
+ * @return void
+ */
+void send_error_message(char start[], char message[], uint16_t part_number);
 
 #endif // CHASSIS_ERROR_H
