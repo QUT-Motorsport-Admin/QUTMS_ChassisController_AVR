@@ -39,17 +39,17 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 			switch (severity) {
 				case INFO:
 				// Logging behaviour for Info-level logs
-				send_error_message(INFOSTRING, "Brake %d Pressue Normal")
+				send_error_message(INFOSTRING, "Brake %d Pressue Normal", part_number)
 				break;
 
 				case WARN;
 				// Loggging behaviour for Warning-level logs
-				send_error_message(WARNSTRING, "Brake %d pressure abnormal!");
+				send_error_message(WARNSTRING, "Brake %d pressure abnormal!", part_number);
 				break;
 
 				case ERROR:
 				// Loggign behaviour for Error-level logs
-				send_error_message(ERRORSTRING, "BRAKE %d PRESSURE CRITICAL");
+				send_error_message(ERRORSTRING, "BRAKE %d PRESSURE CRITICAL", part_number);
 				break;
 			}			
 		break;
@@ -60,19 +60,19 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 		// 	switch (severity) {
 		// 		case INFO:
 		// 		// Logging behaviour for Info-level logs
-		// 		send_error_message(INFOSTRING, "Info Description")
+		// 		send_error_message(INFOSTRING, "Info Description", part_number)
 		//		// Additional Info Handling
 		// 		break;
 
 		// 		case WARN;
 		// 		// Loggging behaviour for Warning-level logs
-		// 		send_error_message(WARNSTRING, "Warning Description!");
+		// 		send_error_message(WARNSTRING, "Warning Description!", part_number);
 		//		// Additional Warning Handling
 		// 		break;
 
 		// 		case ERROR:
 		// 		// Loggign behaviour for Error-level logs
-		// 		send_error_message(ERRORSTRING, "ERROR DESCRIPTION");
+		// 		send_error_message(ERRORSTRING, "ERROR DESCRIPTION", part_number);
 		//		// Additional Error Handling
 		// 		break;
 		// 	}			
