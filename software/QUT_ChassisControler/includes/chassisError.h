@@ -14,20 +14,26 @@
 
 #define MAX_ERROR_MESSAGE_LENGTH 40
 
+// Old
 #define ERROR_PEDALS 			1
 #define ERROR_BRAKE_PRESSURE 	2
 #define ERROR_INVERTER_RESPONSE 3
 #define ERROR_CAN2_RESPONSE		4
 
-/* Gearbox Error Codes */
-#define GEARBOX_TEMPERATURE_GOOD 5
-#define GEARBOX_TEMPERATURE_HIGH 6
-#define GEARBOX_TEMPERATURE_LOW 7
+// Error Codes
+#define GEARBOX_TEMPERATURE_LOW 	5		// Gearbox Errors
+#define GEARBOX_TEMPERATURE_HIGH 	6
+#define RADIATOR_TEMPERATURE_LOW	7		// Radiator Errors
+#define RADIATOR_TEMPERATURE_HIGH	8
+#define BRAKES_PRESSURE_LOW			9		// Brakes Errors
+#define BRAKES_PRESSURE_HIGH		10
+#define BRAKES_POSITION_LOW			11
+#define BRAKES_POSITION_HIGH		12
+#define STEERING_ANGLE_LEFT			13		// Steering Errors (too far left/right)
+#define STEERING_ANGLE_RIGHT		14
+#define THROTTLE_ERROR				15		// Throttle Errors
+#define CAR_UPRIGHT_ERROR			16		// Upright Sensors Error
 
-/* Radiator Error Codes */
-#define RADIATOR_TEMPERATURE_GOOD 17
-#define RADIATOR_TEMPERATURE_HIGH 18
-#define RADIATOR_TEMPERATURE_LOW 19
 
 // Error Severity Levels
 #define INFO 1 // Everything is all gravy baby

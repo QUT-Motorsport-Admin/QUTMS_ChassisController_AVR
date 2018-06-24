@@ -41,10 +41,10 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 			switch (severity) {
 				case INFO:
 				// Logging behaviour for Info-level logs
-				send_error_message(INFOSTRING, "Brake %d Pressue Normal", part_number)
+				send_error_message(INFOSTRING, "Brake %d Pressue Normal", part_number);
 				break;
 
-				case WARN;
+				case WARN:
 				// Loggging behaviour for Warning-level logs
 				send_error_message(WARNSTRING, "Brake %d pressure abnormal!", part_number);
 				break;
@@ -55,25 +55,266 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 				break;
 			}			
 		break;
-		
+	
+		case GEARBOX_TEMPERATURE_LOW:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Gearbox %d Temperature Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Gearbox %d Temperature Abnormally Low!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "GEARBOX %d TEMPERATURE CRITICALLY LOW", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case GEARBOX_TEMPERATURE_HIGH:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Gearbox %d Temperature Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Gearbox %d Temperature Abnormally High!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "GEARBOX %d TEMPERATURE CRITICALLY HIGH", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case RADIATOR_TEMPERATURE_LOW:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Radiator %d Temperature Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Radiator %d Temperature Abnormally Low!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "RADIATOR %d TEMPERATURE CRITICALLY LOW", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case RADIATOR_TEMPERATURE_HIGH:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Radiator %d Temperature Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Radiator %d Temperature Abnormally High!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "RADIATOR %d TEMPERATURE CRITICALLY HIGH", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case BRAKES_PRESSURE_LOW:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Brakes %d Pressure Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Brakes %d Pressure Abnormally Low!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "BRAKES %d PRESSURE CRITICALLY LOW", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case BRAKES_PRESSURE_HIGH:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Brakes %d Pressure Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Brakes %d Pressure Abnormally High!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "BRAKES %d PRESSURE CRITICALLY HIGH", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case BRAKES_POSITION_LOW:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Brakes %d Position Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Brakes %d Position Abnormally Low!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "BRAKES %d POSITION CRITICALLY LOW", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case BRAKES_POSITION_HIGH:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Brakes %d Pressure Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(WARNSTRING, "Brakes %d Pressure Abnormally High!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "BRAKES %d PRESSURE CRITICALLY HIGH", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case STEERING_ANGLE_LEFT:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Steering Angle Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "STEERING ANGLE OUTSIDE LEFT PARAMETER", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case STEERING_ANGLE_RIGHT:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Steering Angle Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "STEERING ANGLE OUTSIDE RIGHT PARAMETER", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+
+		case THROTTLE_ERROR:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Throttle Function Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "THROTTLE CRITICAL MALFUNCTION", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+		case CAR_UPRIGHT_ERROR:					
+			switch (severity) {
+				case INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(INFOSTRING, "Car is upright", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERRORSTRING, "CAR HAS OVERTURNED", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
 		// Template for new error codes, copy and uncomment to use
 		// If the description contains a single %d, it can be used to indicate a part number
 		// case ERROR_CODE:					
 		// 	switch (severity) {
 		// 		case INFO:
 		// 		// Logging behaviour for Info-level logs
-		// 		send_error_message(INFOSTRING, "Info Description", part_number)
+		// 		send_error_message(INFOSTRING, "Info Description", part_number);
 		//		// Additional Info Handling
 		// 		break;
 
-		// 		case WARN;
+		// 		case WARN:
 		// 		// Loggging behaviour for Warning-level logs
 		// 		send_error_message(WARNSTRING, "Warning Description!", part_number);
 		//		// Additional Warning Handling
 		// 		break;
 
 		// 		case ERROR:
-		// 		// Loggign behaviour for Error-level logs
+		// 		// Logging behaviour for Error-level logs
 		// 		send_error_message(ERRORSTRING, "ERROR DESCRIPTION", part_number);
 		//		// Additional Error Handling
 		// 		break;
