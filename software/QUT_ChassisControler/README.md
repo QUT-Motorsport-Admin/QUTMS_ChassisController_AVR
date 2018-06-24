@@ -29,7 +29,7 @@ This function should periodicly check to see the various state changes and most 
     * 24 times: Check Accumulators
     * 48 times: Check Steering Wheel
 
-### Iterupts
+### Interrupts
 
 ### CANBUS
 There are three CANBUS's. Each is defined as a level of importance/system. These bus's controllers are on the chassis controller, using the MCP2515 chip.
