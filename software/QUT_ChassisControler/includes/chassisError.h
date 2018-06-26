@@ -12,13 +12,13 @@
 #include <stdlib.h>
 #include <avr/io.h>
 
-#define MAX_ERROR_MESSAGE_LENGTH 40
+#define MAX_ERROR_MESSAGE_LENGTH 40 /**< Error messages (excluding the severity level string) should not exceed this length */
 
 // Old
-#define ERROR_PEDALS 			1
-#define ERROR_BRAKE_PRESSURE 	2
-#define ERROR_INVERTER_RESPONSE 3
-#define ERROR_CAN2_RESPONSE		4
+#define ERROR_PEDALS 			1 /**< OLD ERROR CODE Error with Pedals*/
+#define ERROR_BRAKE_PRESSURE 	2 /**< OLD ERROR CODE Error with Brake Pressure*/
+#define ERROR_INVERTER_RESPONSE 3 /**< OLD ERROR CODE Error with Inverter*/
+#define ERROR_CAN2_RESPONSE		4 /**< OLD ERROR CODE Error with CAN2 Response*/
 
 // Error Codes
 #define GEARBOX_TEMPERATURE_LOW 	5		// Gearbox Errors
@@ -38,16 +38,23 @@
 #define BATTERY_TEMPERATURE_HIGH	19
 
 // Error Severity Levels
-#define INFO 1 // Everything is all gravy baby
-#define WARN 2 // Cause for concern
-#define ERROR 3 // System critical, consider shutting down
+#define INFO 1 /**< Low Severity Level - Everything is all gravy baby */
+#define WARN 2 /**< Moderate Severity Level - This is cause for concern */
+#define ERROR 3 /**< Critical Severity Level - Consider shutting the car down */
 
-#define INFOSTRING "INFO"
-#define WARNSTRING "!WARNING!"
-#define ERRORSTRING "##ERROR##"
+#define INFOSTRING "INFO" /**< String Representation of Low Severity Level */
+#define WARNSTRING "!WARNING!" /**< String Representation of Moderate Severity Level */
+#define ERRORSTRING "##ERROR##" /**< String Representation of Critical Severity Level */
 
 /**
- * @brief Generates an error message, and takes the necessary actions depending on the severity and error. Uses 0 as the part number
+ * @brief Generates an error message, and takes the necessary actions depending on the severity and error. 
+ * 
+ * Uses 0 as the part number.
+ * 
+ * Example Code: 
+ * 
+ * throw_error_code(WARN, STEERING_ANGLE_LEFT);
+ * 
  * @author Shane Havers 
  * 
  * @param severity Severity of the error (INFO, WARN, or ERROR)
@@ -58,7 +65,12 @@
 void throw_error_code(uint16_t severity, uint16_t error_code);
 
 /**
- * @brief Generatres an error message, and takes the necessary actions depending on the severity and error
+ * @brief Generatres an error message, and takes the necessary actions depending on the severity and error.
+ * 
+ * Example Code:
+ * 
+ * throw_error_code_with_number(ERROR, GEARBOX_TEMPERATURE_HIGH, 3);
+ * 
  * @author Shane Havers
  * 
  * @param severity Severity of the error (INFO, WARN, or ERROR)
@@ -72,6 +84,10 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
 /**
  * @brief Formats a 50-character long log message, and sends it over UART
+ * 
+ * This method is called by throw_error_code() and throw_error_code_with_number().
+ * There shouldn't be any need to call it anywhere else. 
+ * 
  * @author Shane Havers
  * 
  * @param start String representation of log level

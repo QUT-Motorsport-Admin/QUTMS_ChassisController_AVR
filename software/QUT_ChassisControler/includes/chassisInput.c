@@ -2,7 +2,7 @@
  * @file chassisInput.c
  * @author Jonn Dillon
  * @date 13/4/2018
- * @brief
+ * @brief Manages inputs to car subsystems
  **/
 
 #include "chassisInput.h";
