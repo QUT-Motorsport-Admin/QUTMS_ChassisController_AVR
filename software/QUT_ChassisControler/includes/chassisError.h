@@ -21,21 +21,21 @@
 #define ERROR_CAN2_RESPONSE		4 /**< OLD ERROR CODE Error with CAN2 Response*/
 
 // Error Codes
-#define GEARBOX_TEMPERATURE_LOW 	5		// Gearbox Errors
-#define GEARBOX_TEMPERATURE_HIGH 	6
-#define RADIATOR_TEMPERATURE_LOW	7		// Radiator Errors
-#define RADIATOR_TEMPERATURE_HIGH	8
-#define BRAKES_PRESSURE_LOW			9		// Brakes Errors
-#define BRAKES_PRESSURE_HIGH		10
-#define BRAKES_POSITION_LOW			11
-#define BRAKES_POSITION_HIGH		12
-#define STEERING_ANGLE_LEFT			13		// Steering Errors (too far left/right)
-#define STEERING_ANGLE_RIGHT		14
-#define THROTTLE_ERROR				15		// Throttle Errors
-#define CAR_UPRIGHT_ERROR			16		// Upright Sensors Error
-#define BATTERY_CHARGE				17		// Battery Errors
-#define BATTERY_TEMPERATURE_LOW		18
-#define BATTERY_TEMPERATURE_HIGH	19
+#define GEARBOX_TEMPERATURE_LOW 	5 /**< Error Code: Gearbox X Temperature Too Low */
+#define GEARBOX_TEMPERATURE_HIGH 	6 /**< Error Code: Gearbox X Temperature Too High*/
+#define RADIATOR_TEMPERATURE_LOW	7 /**< Error Code: Radiator X Temperature Too Low */
+#define RADIATOR_TEMPERATURE_HIGH	8 /**< Error Code: Radiator X Temperature Too High */
+#define BRAKES_PRESSURE_LOW			9 /**< Error Code: Brake X Pressure Too Low */
+#define BRAKES_PRESSURE_HIGH		10 /**< Error Code: Brake X Pressure Too High */
+#define BRAKES_POSITION_LOW			11 /**< Error Code: Brake X Position Too Low */
+#define BRAKES_POSITION_HIGH		12 /**< Error Code: Brake X Position Too High */
+#define STEERING_ANGLE_LEFT			13 /**< Error Code: Steering Wheel Turned Too Far Left */
+#define STEERING_ANGLE_RIGHT		14 /**< Error Code: Steering Wheel Turned Too Far Right */
+#define THROTTLE_ERROR				15 /**< Error Code: Problem With Throttle */
+#define CAR_UPRIGHT_ERROR			16 /**< Error Code: Car No Longer Upgright (Has Rolled) */
+#define BATTERY_CHARGE				17 /**< Error Code: Problem with Battery Charge */
+#define BATTERY_TEMPERATURE_LOW		18 /**< Error Code: Battery Temperature Too Low */
+#define BATTERY_TEMPERATURE_HIGH	19 /**< Error Code: Battery Temperature Too High */
 
 // Error Severity Levels
 #define INFO 1 /**< Low Severity Level - Everything is all gravy baby */
