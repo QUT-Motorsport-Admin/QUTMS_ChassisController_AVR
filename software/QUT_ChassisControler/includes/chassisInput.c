@@ -10,6 +10,32 @@
 // OLD ------------------------------------------------------------------------
 
 /**
+ * getTorqueDemand
+ * Input:	none
+ * Returns: returns the current torque command value as a percentage between 0 and 100, -1 for any errors
+ * 
+ * 
+ * 
+ * Reference: 	ATmega Datasheet Chapter 13 (I/O-Ports)
+ * 				ATmega Datasheet Chapter 26 (ADC - Analog to Digital Converter)
+ **/
+int8_t input_get_torque_percent()
+{
+    unsigned int currentTorqueDemand[4] = {0, 0, 0, 0};
+	unsigned int AN1_voltage = a2d_10bitCh(4);
+	unsigned int AN2_voltage = a2d_10bitCh(3);
+	unsigned int temp_currentTorqueDemand = AN1_voltage / 4;
+	if (temp_currentTorqueDemand > 256) temp_currentTorqueDemand = 0;
+	if (temp_currentTorqueDemand < 10) temp_currentTorqueDemand = 0;
+	currentTorqueDemand[0] = temp_currentTorqueDemand;
+	
+	if(currentTorqueDemand[0] > 250) PORTA |= 32;
+	else PORTA &= 223;
+}
+
+/**
+ * 
+/**
  * pressure_brake_read()
  * Input:	front	-	A pointer to the variable that holds the digital value of the front brake pressure
  * 			rear	-	A pointer to the variable that holds the digital value of the rear brake pressure
@@ -18,7 +44,7 @@
  * 
  * Reference: ATmega Datasheet Chapter 26 (ADC - Analog to Digital Converter)
  **/
-uint8_t pressure_brake_read(uint16_t * front, uint16_t * rear)
+uint8_t input_get_brake_percent(uint16_t * front, uint16_t * rear)
 {
 	uint16_t tmp = 0;
 	tmp = adc_read_avg(PRESSURE_BRAKE_FRONT);							// Get the pressure in the front brake
