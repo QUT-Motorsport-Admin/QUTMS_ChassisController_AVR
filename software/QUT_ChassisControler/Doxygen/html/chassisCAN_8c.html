@@ -82,11 +82,11 @@ $(function() {
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a20eb58086bbe13c5e47c1d553f34323f"><td class="memItemLeft" align="right" valign="top"><a id="a20eb58086bbe13c5e47c1d553f34323f"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>CAN_send</b> (uint8_t CANbus, uint8_t numBytes, uint8_t *data, uint32_t ID)</td></tr>
+<tr class="memitem:a20eb58086bbe13c5e47c1d553f34323f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisCAN_8c.html#a20eb58086bbe13c5e47c1d553f34323f">CAN_send</a> (uint8_t CANbus, uint8_t numBytes, uint8_t *data, uint32_t ID)</td></tr>
+<tr class="memdesc:a20eb58086bbe13c5e47c1d553f34323f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serves as a wrapper for MCP2515_TX in MCP2515_TX.h - for more info refer to that.  <a href="#a20eb58086bbe13c5e47c1d553f34323f">More...</a><br /></td></tr>
 <tr class="separator:a20eb58086bbe13c5e47c1d553f34323f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aef86d71af0b95f74fae739174f9dc961"><td class="memItemLeft" align="right" valign="top"><a id="aef86d71af0b95f74fae739174f9dc961"></a>
-uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>CAN_ID_constructor</b> (uint32_t sendingID, unsigned char type, unsigned char address, uint32_t status)</td></tr>
+<tr class="memitem:aef86d71af0b95f74fae739174f9dc961"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisCAN_8c.html#aef86d71af0b95f74fae739174f9dc961">CAN_ID_constructor</a> (uint32_t sendingID, unsigned char type, unsigned char address, uint32_t status)</td></tr>
+<tr class="memdesc:aef86d71af0b95f74fae739174f9dc961"><td class="mdescLeft">&#160;</td><td class="mdescRight">Construct a unique CAN packet identifier.  <a href="#aef86d71af0b95f74fae739174f9dc961">More...</a><br /></td></tr>
 <tr class="separator:aef86d71af0b95f74fae739174f9dc961"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8d6961c4b3530752223ca08bc95978af"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisCAN_8c.html#a8d6961c4b3530752223ca08bc95978af">CAN_pull_packet</a> (uint8_t CANbus, uint8_t *numBytes, uint8_t *data, uint32_t *ID)</td></tr>
 <tr class="memdesc:a8d6961c4b3530752223ca08bc95978af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serves as a wrapper for the MCP2515_PullCanPacket(..) in <a class="el" href="MCP2515_8h_source.html">MCP2515.h</a> - For more info refer to that.  <a href="#a8d6961c4b3530752223ca08bc95978af">More...</a><br /></td></tr>
@@ -121,7 +121,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>CAN_ID_constructo
         </tr>
       </table>
 </div><div class="memdoc">
-<p>CAN1_process() Input: none Returns: none</p>
+<p>CAN1_process()</p>
+<p>DEPRECATED</p>
+<p>Input: none Returns: none</p>
 <p>Checks if have received any data from the other devices in the CAN1 bus then proceeds to pull data off the CAN bus to be processed and saved to memory</p>
 <p>Reference: MCP2515 Datasheet Chapter 12 (SPI Interface) </p>
 
@@ -141,7 +143,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>CAN_ID_constructo
         </tr>
       </table>
 </div><div class="memdoc">
-<p>CAN2_process() Input: none Returns: none</p>
+<p>CAN2_process()</p>
+<p>DEPRECATED</p>
+<p>Input: none Returns: none</p>
 <p>Checks if have received any data from the other devices in the CAN2 bus then proceeds to pull data off the CAN bus to be processed and saved to memory</p>
 <p>Not fully implemented yet. Data is pulled from CAN2 bus but nothing is done with it</p>
 <p>Reference: MCP2515 Datasheet Chapter 12 (SPI Interface) </p>
@@ -173,7 +177,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>CAN_ID_constructo
         </tr>
       </table>
 </div><div class="memdoc">
-<p>CAN2_save_data() Input: data - The data received from the CAN2 bus Returns: 0 if there was something wrong with the CAN packet resulting in no IDs being matched. 1 if execution is nominal</p>
+<p>CAN2_save_data()</p>
+<p>DEPRECATED</p>
+<p>Input: data - The data received from the CAN2 bus Returns: 0 if there was something wrong with the CAN packet resulting in no IDs being matched. 1 if execution is nominal</p>
 <p>Not implemented yet</p>
 <p>Process the data that was received fom CAN2 </p>
 
@@ -193,10 +199,64 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>CAN_ID_constructo
         </tr>
       </table>
 </div><div class="memdoc">
-<p>CAN3_process() Input: none Returns: none</p>
+<p>CAN3_process()</p>
+<p>DEPRECATED</p>
+<p>Input: none Returns: none</p>
 <p>Checks if have received any data from the other devices in the CAN3 bus then proceeds to pull data off the CAN bus to be processed and saved to memory</p>
 <p>Not implemented yet</p>
 <p>Reference: MCP2515 Datasheet Chapter 12 (SPI Interface) </p>
+
+</div>
+</div>
+<a id="aef86d71af0b95f74fae739174f9dc961"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef86d71af0b95f74fae739174f9dc961">&#9670;&nbsp;</a></span>CAN_ID_constructor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t CAN_ID_constructor </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>sendingID</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">unsigned char&#160;</td>
+          <td class="paramname"><em>address</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>status</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Construct a unique CAN packet identifier. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">sendingID</td><td>First 8 bits, define the device to send to </td></tr>
+    <tr><td class="paramname">type</td><td>What sort of command to send </td></tr>
+    <tr><td class="paramname">address</td><td>Specific address to send to </td></tr>
+    <tr><td class="paramname">status</td><td>Sub ID? </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>uint32_t A unique CAN packet identifer </dd></dl>
 
 </div>
 </div>
@@ -239,20 +299,74 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>CAN_ID_constructo
 </div><div class="memdoc">
 
 <p>Serves as a wrapper for the MCP2515_PullCanPacket(..) in <a class="el" href="MCP2515_8h_source.html">MCP2515.h</a> - For more info refer to that. </p>
-<p>Example Code: uint8_t data[8]; uint32_t ID; uint8_t numBytes;</p>
-<p>CAN_pull_packet(MCP2515_CANx, &amp;numBytes, data, &amp;ID); - Where x is the CAN bus number</p>
+<p>Example Code:</p>
+<p>uint8_t data[8];</p>
+<p>uint32_t ID;</p>
+<p>uint8_t numBytes;</p>
+<p>CAN_pull_packet(MCP2515_CANx, &amp;numBytes, data, &amp;ID); // Where x is the CAN bus number</p>
 <p>Reference: Microchip MCP2515 Datasheet Chapter 4 (Message Reception)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">CANbus</td><td></td></tr>
-    <tr><td class="paramname">numBytes</td><td></td></tr>
-    <tr><td class="paramname">data</td><td></td></tr>
-    <tr><td class="paramname">ID</td><td></td></tr>
+    <tr><td class="paramname">CANbus</td><td>The CAN Bus to pull data from - use #defines in <a class="el" href="MCP2515_8h_source.html">MCP2515.h</a> </td></tr>
+    <tr><td class="paramname">numBytes</td><td>Pointer to store number of bytes in </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to store data in </td></tr>
+    <tr><td class="paramname">ID</td><td>Pointer to store packet identifier</td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>void</dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Pedro Alves </dd></dl>
+
+</div>
+</div>
+<a id="a20eb58086bbe13c5e47c1d553f34323f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20eb58086bbe13c5e47c1d553f34323f">&#9670;&nbsp;</a></span>CAN_send()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CAN_send </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>CANbus</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>numBytes</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t&#160;</td>
+          <td class="paramname"><em>ID</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Serves as a wrapper for MCP2515_TX in MCP2515_TX.h - for more info refer to that. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">CANbus</td><td>CAN bus to send data on. Use #defines in MCP2515_TX.h </td></tr>
+    <tr><td class="paramname">numBytes</td><td>Number of bytes to send </td></tr>
+    <tr><td class="paramname">data</td><td>Pointer to data to send </td></tr>
+    <tr><td class="paramname">ID</td><td>CAN Packet Identifier. Use CAN_ID_constructor. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -287,7 +401,9 @@ uint32_t&#160;</td><td class="memItemRight" valign="bottom"><b>CAN_ID_constructo
         </tr>
       </table>
 </div><div class="memdoc">
-<p><a class="el" href="chassisCAN_8c.html#a67a27cc44354a74c7f992d77d2fa8788">send_heartbeat()</a> Input: destination - The device that will receive the packet type - What sort of command to send address - The specific address in the device to transmit to Returns: none</p>
+<p><a class="el" href="chassisCAN_8c.html#a67a27cc44354a74c7f992d77d2fa8788">send_heartbeat()</a></p>
+<p>DEPRECATED</p>
+<p>Input: destination - The device that will receive the packet type - What sort of command to send address - The specific address in the device to transmit to Returns: none</p>
 <p>Send a CAN packet to a specific device in the CAN bus in order to maintain comm updates</p>
 <p>Reference: MCP2515 Datasheet Chapter 3 (Message Transmission) </p>
 

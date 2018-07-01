@@ -119,6 +119,12 @@ Macros</h2></td></tr>
 <tr class="separator:ac4e5c6b0210f6b992a9e807b0a22b7dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe1f99cf1ac1bc06f6f7bd44898e286c"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8h.html#abe1f99cf1ac1bc06f6f7bd44898e286c">CAR_UPRIGHT_ERROR</a>&#160;&#160;&#160;16</td></tr>
 <tr class="separator:abe1f99cf1ac1bc06f6f7bd44898e286c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02e55917e398396eff21930f7d8156b7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8h.html#a02e55917e398396eff21930f7d8156b7">BATTERY_CHARGE</a>&#160;&#160;&#160;17</td></tr>
+<tr class="separator:a02e55917e398396eff21930f7d8156b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae396d3970608309e65133fcbcc7a0510"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8h.html#ae396d3970608309e65133fcbcc7a0510">BATTERY_TEMPERATURE_LOW</a>&#160;&#160;&#160;18</td></tr>
+<tr class="separator:ae396d3970608309e65133fcbcc7a0510"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4c2e746a13aed00141c1d7c0a5666eb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8h.html#ae4c2e746a13aed00141c1d7c0a5666eb">BATTERY_TEMPERATURE_HIGH</a>&#160;&#160;&#160;19</td></tr>
+<tr class="separator:ae4c2e746a13aed00141c1d7c0a5666eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae1103fea1e1b3c41ca3322d5389f7162"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8h.html#ae1103fea1e1b3c41ca3322d5389f7162">INFO</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:ae1103fea1e1b3c41ca3322d5389f7162"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a271d8f7f52be750e5c744a394ec71344"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8h.html#a271d8f7f52be750e5c744a394ec71344">WARN</a>&#160;&#160;&#160;2</td></tr>
@@ -149,6 +155,51 @@ Functions</h2></td></tr>
 <dl class="section author"><dt>Author</dt><dd>Jonn Dillon </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>2018-04-16 </dd></dl>
 </div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a02e55917e398396eff21930f7d8156b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02e55917e398396eff21930f7d8156b7">&#9670;&nbsp;</a></span>BATTERY_CHARGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BATTERY_CHARGE&#160;&#160;&#160;17</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Error Code: Problem with Battery Charge </p>
+
+</div>
+</div>
+<a id="ae4c2e746a13aed00141c1d7c0a5666eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4c2e746a13aed00141c1d7c0a5666eb">&#9670;&nbsp;</a></span>BATTERY_TEMPERATURE_HIGH</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BATTERY_TEMPERATURE_HIGH&#160;&#160;&#160;19</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Error Code: Battery Temperature Too High </p>
+
+</div>
+</div>
+<a id="ae396d3970608309e65133fcbcc7a0510"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae396d3970608309e65133fcbcc7a0510">&#9670;&nbsp;</a></span>BATTERY_TEMPERATURE_LOW</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define BATTERY_TEMPERATURE_LOW&#160;&#160;&#160;18</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Error Code: Battery Temperature Too Low </p>
+
+</div>
+</div>
 <a id="ac35d5c43df1fad0ed144d38adabf66a8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac35d5c43df1fad0ed144d38adabf66a8">&#9670;&nbsp;</a></span>BRAKES_POSITION_HIGH</h2>
 
@@ -220,7 +271,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Error Code: Car no longer upright </p>
+<p>Error Code: Car No Longer Upgright (Has Rolled) </p>
 
 </div>
 </div>
@@ -430,7 +481,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Error Code: Steering Wheel Too Far to the Left </p>
+<p>Error Code: Steering Wheel Turned Too Far Left </p>
 
 </div>
 </div>
@@ -445,7 +496,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Error Code: Sterring Wheel Too Far to the Right </p>
+<p>Error Code: Steering Wheel Turned Too Far Right </p>
 
 </div>
 </div>
@@ -460,7 +511,7 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Error Code: Error with the Throttle </p>
+<p>Error Code: Problem With Throttle </p>
 
 </div>
 </div>

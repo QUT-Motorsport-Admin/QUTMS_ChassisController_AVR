@@ -8,16 +8,12 @@
 #include "chassisCAN.h"
 #include "../utils/MCP2515.c"
 
-/**
-*
-**/
+// Serves as a wrapper for MCP2515_TX in MCP2515_TX.h - for more info refer to that.
 void CAN_send(uint8_t CANbus, uint8_t numBytes, uint8_t * data, uint32_t ID) {
     MCP2515_TX(CANbus, MCP2515_findFreeTxBuffer(CANbus), numBytes, data, ID);
 }
 
-/**
-*
-**/
+// Construct a unique CAN packet identifier
 uint32_t CAN_ID_constructor(uint32_t sendingID, unsigned char type, unsigned char address, uint32_t status) {
     return (
         sendingID|                  // Sending ID, ( First 8 bits, define the device to send to)
@@ -27,28 +23,7 @@ uint32_t CAN_ID_constructor(uint32_t sendingID, unsigned char type, unsigned cha
     );
 }
 
-/**
-* @brief	Serves as a wrapper for the MCP2515_PullCanPacket(..) in MCP2515.h - For more info
-*			refer to that.
-*
-*	Example Code:
-*		uint8_t data[8];
-*		uint32_t ID;
-*		uint8_t numBytes;
-*
-*		CAN_pull_packet(MCP2515_CANx, &numBytes, data, &ID); - Where x is the CAN bus number
-*
-*	Reference: Microchip MCP2515 Datasheet Chapter 4 (Message Reception)
-*
-* @param CANbus
-* @param numBytes
-* @param data
-* @param ID
-*
-* @return void
-* 
-* @author Pedro Alves
-**/
+// Serves as a wrapper for the MCP2515_PullCanPacket(..) in MCP2515.h - For more info refer to that.
 void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t* ID) {
 	// Receive the status of the buffers RXB0 and RXB1
 	uint8_t status = MCP2515_check_receive_status(CANbus);
@@ -73,6 +48,9 @@ void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t*
 
 /**
  * send_heartbeat()
+ * 
+ * DEPRECATED
+ * 
  * Input:	destination	-	The device that will receive the packet	
  * 			type		-	What sort of command to send
  * 			address		-	The specific address in the device to transmit to
@@ -133,6 +111,9 @@ void send_heartbeat(unsigned char destination, unsigned char type, unsigned char
 
 /**
  * CAN1_process()
+ * 
+ * DEPRECATED
+ * 
  * Input:	none
  * Returns: none
  * 
@@ -179,6 +160,9 @@ uint8_t can1_process()
 
 /**
  * CAN2_save_data()
+ * 
+ * DEPRECATED
+ * 
  * Input:	data	-	The data received from the CAN2 bus
  * Returns: 0 if there was something wrong with the CAN packet resulting in no IDs being matched. 1 if execution is nominal
  * 
@@ -201,6 +185,9 @@ uint8_t can2_save_data(uint32_t ID, uint8_t data)
 
 /**
  * CAN2_process()
+ * 
+ * DEPRECATED
+ * 
  * Input:	none
  * Returns: none
  * 
@@ -242,6 +229,9 @@ void can2_process()
 
 /**
  * CAN3_process()
+ * 
+ * DEPRECATED
+ * 
  * Input:	none
  * Returns: none
  * 
