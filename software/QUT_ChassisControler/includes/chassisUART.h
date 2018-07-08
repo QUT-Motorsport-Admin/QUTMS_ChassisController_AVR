@@ -10,7 +10,6 @@
 
 #include <stdlib.h>
 #include <avr/io.h>
-#include <../main.h>
 
 /**
  * @function        uart_process_stdin
@@ -24,7 +23,7 @@
  * @param   uint_t  &completedInt   - The buffer to be filled with the full int if sucessful
  * @returns uint_t                  - Returns 1 if the &completedInt was filled, 0 otherwise
  **/
-int uart_process_stdin(char byte, int &completedInt);
+int uart_process_stdin(char byte, uint8_t *completedInt);
 
 
 /**

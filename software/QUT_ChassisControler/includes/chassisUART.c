@@ -5,18 +5,18 @@
  * @brief Handles all major communications functions, and related utilities in and out of the MCU.
  **/
 
-#include "chassisUART.h";
+#include "chassisUART.h"
 
 /**
  * Example Code:
  * char uartByte = uartBuffer.next();
- * uint8_t compeltedInt;
+ * uint8_t *completedInt;
  * if(uart_process_stdin(uartByte, &completedInt)) {
  *     // Run code here on completedInt
  *     // Ideally you would process for the command given in the uart
  * }
  **/
-int uart_process_stdin(char byte, int &completedInt)
+int uart_process_stdin(char byte, uint8_t *completedInt)
 {
     // Makes 'global' values to store all STDIN info.
 	static unsigned char count = 0;
@@ -43,7 +43,7 @@ int uart_process_stdin(char byte, int &completedInt)
  * unsigned char *uartData = ... something
  * uart_send_data(uartData, uartData.length);
  **/
-int uart_send_data(unsigned char* s, int length) {
+int uart_send_data(unsigned char* s, uint8_t length) {
     // Prefixes 'D'
     uart1_putc('D');
     // Checks to see how ever many last bytes are not full

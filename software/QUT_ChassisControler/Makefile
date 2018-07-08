@@ -45,7 +45,7 @@ TARGET = main
 
 
 # List C source files here. (C dependencies are automatically generated.)
-SRC =	$(TARGET).c \
+SRC = $(TARGET).c \
 	utils/a2d.h \
 	utils/a2d.c \
 	utils/MCP2515.h \
@@ -54,23 +54,24 @@ SRC =	$(TARGET).c \
 	utils/SPI.c \
 	utils/uart.h \
 	utils/uart10x.c \
+	includes/chassisInit.h \
+	includes/chassisInit.c \
 	includes/chassisUART.h \
 	includes/chassisUART.c \
 	includes/chassisCAN.h \
-	includes/chassisCAN.c
+	includes/chassisCAN.c \
+	includes/chassisPDM.h \
+	includes/chassisPDM.c \
+	includes/chassisError.h \
+	includes/chassisError.c
 
 	# includes/ad2Util.c \
 	# includes/chassisA2D.h \
 	# includes/chassisBMS.h \
-	# includes/chassisError.h \
-	# includes/chassisError.c \
-	# includes/chassisInit.c \
 	# includes/chassisInput.h \
 	# includes/chassisInput.c \
 	# includes/chassisInverter.h \
 	# includes/chassisInverter.c \
-	# includes/chassisPDM.h \
-	# includes/chassisPDM.c \
 	# includes/chassisShutDown.h \
 	# includes/chassisShutDown.c \
 	# Uncomment and shuffle the above as needed
@@ -180,8 +181,8 @@ CFLAGS += -fshort-enums
 #CFLAGS += -Wstrict-prototypes
 #CFLAGS += -mshort-calls
 #CFLAGS += -fno-unit-at-a-time
-#CFLAGS += -Wundef
-#CFLAGS += -Wunreachable-code
+CFLAGS += -Wundef
+CFLAGS += -Wunreachable-code
 #CFLAGS += -Wsign-compare
 CFLAGS += -Wa,-adhlns=$(<:%.c=$(OBJDIR)/%.lst)
 CFLAGS += $(patsubst %,-I%,$(EXTRAINCDIRS))

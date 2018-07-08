@@ -21,27 +21,30 @@
 // #define ERROR_CAN2_RESPONSE		4 /**< OLD ERROR CODE Error with CAN2 Response*/
 
 // Error Codes
-#define ERROR_GENERAL                   (1)     /**< Error Code: Generic error for the system */
+#define ERROR_GENERAL                       (0)     /**< Error Code: Generic error for the system */
 
-#define ERROR_CANBUS_1                  (2)     /**< Error Code: */
-#define ERROR_CANBUS_1                  (3)     /**< Error Code: */
-#define ERROR_CANBUS_1                  (4)     /**< Error Code: */
+#define ERROR_CANBUS_1_NO_RESPONSE          (111)   /**< Error Code: CANBUS 1 has no response */
+#define ERROR_CANBUS_1_RESPONSE_MALFORMED   (112)   /**< Error Code: CANBUS 1's response was malformed */
+#define ERROR_CANBUS_2_NO_RESPONSE          (121)   /**< Error Code: CANBUS 2 has no response */
+#define ERROR_CANBUS_2_RESPONSE_MALFORMED   (122)   /**< Error Code: CANBUS 2's reponse was malformed */
+#define ERROR_CANBUS_3_NO_RESPONSE          (131)   /**< Error Code: CANBUS 3 has no response */
+#define ERROR_CANBUS_3_RESPONSE_MALFORMED   (132)   /**< Error Code: CANBUS 3's reponse was malformed */
 
-#define ERROR_GEARBOX_TEMPERATURE_LOW 	(5)     /**< Error Code: Gearbox X Temperature Too Low */
-#define ERROR_GEARBOX_TEMPERATURE_HIGH 	(6)     /**< Error Code: Gearbox X Temperature Too High*/
-#define ERROR_RADIATOR_TEMPERATURE_LOW	(7)     /**< Error Code: Radiator X Temperature Too Low */
-#define ERROR_RADIATOR_TEMPERATURE_HIGH	(8)     /**< Error Code: Radiator X Temperature Too High */
-#define ERROR_BRAKES_PRESSURE_LOW		(9)     /**< Error Code: Brake X Pressure Too Low */
-#define ERROR_BRAKES_PRESSURE_HIGH		(10)    /**< Error Code: Brake X Pressure Too High */
-#define ERROR_BRAKES_POSITION_LOW		(11)    /**< Error Code: Brake X Position Too Low */
-#define ERROR_BRAKES_POSITION_HIGH		(12)    /**< Error Code: Brake X Position Too High */
-#define ERROR_STEERING_ANGLE_LEFT		(13)    /**< Error Code: Steering Wheel Turned Too Far Left */
-#define ERROR_STEERING_ANGLE_RIGHT		(14)    /**< Error Code: Steering Wheel Turned Too Far Right */
-#define ERROR_THROTTLE_ERROR			(15)    /**< Error Code: Problem With Throttle */
-#define ERROR_CAR_UPRIGHT_ERROR			(16)    /**< Error Code: Car No Longer Upgright (Has Rolled) */
-#define ERROR_BATTERY_CHARGE			(17)    /**< Error Code: Problem with Battery Charge */
-#define ERROR_BATTERY_TEMPERATURE_LOW	(18)    /**< Error Code: Battery Temperature Too Low */
-#define ERROR_BATTERY_TEMPERATURE_HIGH	(19)    /**< Error Code: Battery Temperature Too High */
+#define ERROR_GEARBOX_TEMPERATURE_LOW 	    (2)     /**< Error Code: Gearbox X Temperature Too Low */
+#define ERROR_GEARBOX_TEMPERATURE_HIGH 	    (3)     /**< Error Code: Gearbox X Temperature Too High*/
+#define ERROR_RADIATOR_TEMPERATURE_LOW	    (4)     /**< Error Code: Radiator X Temperature Too Low */
+#define ERROR_RADIATOR_TEMPERATURE_HIGH	    (5)     /**< Error Code: Radiator X Temperature Too High */
+#define ERROR_BRAKES_PRESSURE_LOW		    (6)     /**< Error Code: Brake X Pressure Too Low */
+#define ERROR_BRAKES_PRESSURE_HIGH		    (7)     /**< Error Code: Brake X Pressure Too High */
+#define ERROR_BRAKES_POSITION_LOW		    (8)     /**< Error Code: Brake X Position Too Low */
+#define ERROR_BRAKES_POSITION_HIGH		    (9)     /**< Error Code: Brake X Position Too High */
+#define ERROR_STEERING_ANGLE_LEFT		    (10)    /**< Error Code: Steering Wheel Turned Too Far Left */
+#define ERROR_STEERING_ANGLE_RIGHT		    (11)    /**< Error Code: Steering Wheel Turned Too Far Right */
+#define ERROR_THROTTLE_ERROR			    (12)    /**< Error Code: Problem With Throttle */
+#define ERROR_CAR_UPRIGHT_ERROR			    (13)    /**< Error Code: Car No Longer Upgright (Has Rolled) */
+#define ERROR_BATTERY_CHARGE			    (14)    /**< Error Code: Problem with Battery Charge */
+#define ERROR_BATTERY_TEMPERATURE_LOW	    (15)    /**< Error Code: Battery Temperature Too Low */
+#define ERROR_BATTERY_TEMPERATURE_HIGH	    (16)    /**< Error Code: Battery Temperature Too High */
 
 // Error Severity Levels
 #define ERROR_LEVEL_INFO    (1)         /**< Low Severity Level - Everything is all gravy baby */

@@ -1,9 +1,13 @@
+
 /**
  * @file chassisInit.c
  * @author Jonn Dillon
  * @date 16/4/2018
  * @brief Handles all initialisation processes for the chassis controller
  **/
+
+#include "../utils/MCP2515.h"
+#include "../utils/uart.h"
 
 /**
  * @brief Sets up the microcontroller to allow external interrupts. The External Interrupts are triggered by the INT7:0 pin or any of the PCINT23:0 pins.
@@ -76,9 +80,9 @@ void io_init()
 void firmware_init()
 {
 	io_init();
-	SPI_init();
+	// SPI_init();
 	uart1_init(19200);
-	a2dInit(ADC_PRESCALE_DIV64, ADC_REFERENCE_AVCC); // Turns ON also
+	// a2dInit(ADC_PRESCALE_DIV64, ADC_REFERENCE_AVCC); // Turns ON also
 	MCP2515_init(MCP2515_CAN1);
 	MCP2515_init(MCP2515_CAN2);
 	MCP2515_init(MCP2515_CAN3);
@@ -90,16 +94,16 @@ void firmware_init()
 	PORTJ |= (1<<PINJ6);
 
 	// Initialise inverter structs
-	for(uint8_t i = 0; i < NUM_INVERTERS; i++)
-	{
-		inverters[i].ID=1<<i;
-		inverters[i].current = 0;
-		inverters[i].duty = 0;
-		inverters[i].RPM = 0;
-		inverters[i].temperature = 0;
-	}
+	// for(uint8_t i = 0; i < NUM_INVERTERS; i++)
+	// {
+	// 	inverters[i].ID=1<<i;
+	// 	inverters[i].current = 0;
+	// 	inverters[i].duty = 0;
+	// 	inverters[i].RPM = 0;
+	// 	inverters[i].temperature = 0;
+	// }
 
-	accumulators[0].ID=ACCUMULATOR_FRONT;
+	// accumulators[0].ID=ACCUMULATOR_FRONT;
 }
 
 /**

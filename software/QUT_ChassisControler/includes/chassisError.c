@@ -58,7 +58,167 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 		// 		break;
 		//     }			
 		// break;
-	
+
+        case ERROR_GENERAL:					
+			switch (severity) {
+				case ERROR_STRING_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "Error", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "Error!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "ERROR", part_number);
+				// Additional Error Handling
+				break;
+		    }			
+		break;
+
+        // CANBUS based errors
+        // --------------------------------------------------------------------
+
+        case ERROR_CANBUS_1_NO_RESPONSE:					
+			switch (severity) {
+				case ERROR_STRING_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "CANBUS 1 No Response", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "CANBUS 1 No Response!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "CANBUS 1 CRITICAL NO RESPONSE", part_number);
+				// Additional Error Handling
+				break;
+		    }			
+		break;
+
+        case ERROR_CANBUS_1_RESPONSE_MALFORMED:					
+			switch (severity) {
+				case ERROR_STRING_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "CANBUS 1 Malformed Packet", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "CANBUS 1 Malformed Packet!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "CANBUS 1 CRITICAL MALFORMED PACKET", part_number);
+				// Additional Error Handling
+				break;
+		    }			
+		break;
+
+        case ERROR_CANBUS_2_NO_RESPONSE:					
+			switch (severity) {
+				case ERROR_STRING_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "CANBUS 2 No Response", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "CANBUS 2 No Response!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "CANBUS 2 CRITICAL NO RESPONSE", part_number);
+				// Additional Error Handling
+				break;
+		    }			
+		break;
+
+        case ERROR_CANBUS_2_RESPONSE_MALFORMED:					
+			switch (severity) {
+				case ERROR_STRING_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "CANBUS 2 Malformed Packet", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "CANBUS 2 Malformed Packet!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "CANBUS 2 CRITICAL MALFORMED PACKET", part_number);
+				// Additional Error Handling
+				break;
+		    }			
+		break;
+
+        case ERROR_CANBUS_3_NO_RESPONSE:					
+			switch (severity) {
+				case ERROR_STRING_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "CANBUS 3 No Response", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "CANBUS 3 No Response!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "CANBUS 3 CRITICAL NO RESPONSE", part_number);
+				// Additional Error Handling
+				break;
+		    }			
+		break;
+
+        case ERROR_CANBUS_3_RESPONSE_MALFORMED:					
+			switch (severity) {
+				case ERROR_STRING_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "CANBUS 3 Malformed Packet", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "CANBUS 3 Malformed Packet!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "CANBUS 3 CRITICAL MALFORMED PACKET", part_number);
+				// Additional Error Handling
+				break;
+		    }			
+		break;
+
+        // Sensor based errors
+        // --------------------------------------------------------------------
+
 		case ERROR_GEARBOX_TEMPERATURE_LOW:					
 			switch (severity) {
 				case ERROR_LEVEL_INFO:
@@ -267,7 +427,6 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 			}			
 		break;
 
-
 		case ERROR_THROTTLE_ERROR:					
 			switch (severity) {
 				case ERROR_LEVEL_INFO:
@@ -299,7 +458,6 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 				break;
 			}			
 		break;
-
 
 		case ERROR_BATTERY_CHARGE:					
 			switch (severity) {
@@ -344,7 +502,6 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 				break;
 			}			
 		break;
-
 
 		case ERROR_BATTERY_TEMPERATURE_HIGH:					
 			switch (severity) {
@@ -428,14 +585,14 @@ void send_error_message(char start[], char message[], uint16_t part_number)
  * 
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
  **/
-void shutdown_probe()
-{
-	if(STOP_BRAKE_OVERTRAVEL)shutdown_state(SHDN_BRAKE_OVERTRAVEL);
-	if(STOP_DRIVER_ESTOP)shutdown_state(SHDN_DRIVER_ESTOP);
-	if(STOP_INERTIA_SWITCH)shutdown_state(SHDN_INERTIA_SWITCH);
-	if(STOP_LEFT_FRONT_UPRIGHT)shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);
-	if(STOP_RIGHT_FRONT_UPRIGHT)shutdown_state(SHDN_RIGHT_FRONT_UPRIGHT);
-}
+// void shutdown_probe()
+// {
+// 	if(STOP_BRAKE_OVERTRAVEL)shutdown_state(SHDN_BRAKE_OVERTRAVEL);
+// 	if(STOP_DRIVER_ESTOP)shutdown_state(SHDN_DRIVER_ESTOP);
+// 	if(STOP_INERTIA_SWITCH)shutdown_state(SHDN_INERTIA_SWITCH);
+// 	if(STOP_LEFT_FRONT_UPRIGHT)shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);
+// 	if(STOP_RIGHT_FRONT_UPRIGHT)shutdown_state(SHDN_RIGHT_FRONT_UPRIGHT);
+// }
 
 /**
  * shutdown_state()
@@ -444,7 +601,7 @@ void shutdown_probe()
  * 
  * Not implemented yet
  **/
-void shutdown_state(uint16_t shutdownFlag)
-{
-	//do shutdown reporting here
-}
+// void shutdown_state(uint16_t shutdownFlag)
+// {
+// 	//do shutdown reporting here
+// }
