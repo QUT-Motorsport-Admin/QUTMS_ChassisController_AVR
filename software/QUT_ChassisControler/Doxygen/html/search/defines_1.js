@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['battery_5fcharge',['BATTERY_CHARGE',['../chassisError_8h.html#a02e55917e398396eff21930f7d8156b7',1,'chassisError.h']]],
-  ['battery_5ftemperature_5fhigh',['BATTERY_TEMPERATURE_HIGH',['../chassisError_8h.html#ae4c2e746a13aed00141c1d7c0a5666eb',1,'chassisError.h']]],
-  ['battery_5ftemperature_5flow',['BATTERY_TEMPERATURE_LOW',['../chassisError_8h.html#ae396d3970608309e65133fcbcc7a0510',1,'chassisError.h']]],
-  ['brakes_5fposition_5fhigh',['BRAKES_POSITION_HIGH',['../chassisError_8h.html#ac35d5c43df1fad0ed144d38adabf66a8',1,'chassisError.h']]],
-  ['brakes_5fposition_5flow',['BRAKES_POSITION_LOW',['../chassisError_8h.html#a56bf2ae5656dd83b59e4803cd79384e7',1,'chassisError.h']]],
-  ['brakes_5fpressure_5fhigh',['BRAKES_PRESSURE_HIGH',['../chassisError_8h.html#a4fbe97c9c85509d9b66e66a3bad676c5',1,'chassisError.h']]],
-  ['brakes_5fpressure_5flow',['BRAKES_PRESSURE_LOW',['../chassisError_8h.html#a45d145a3df88e0fcd9747e8fb8ad5241',1,'chassisError.h']]]
+  ['can1_5fdatawaiting',['CAN1_DataWaiting',['../chassisCAN_8h.html#ad5b6c8e037e15e5d4c1f32465a340887',1,'chassisCAN.h']]],
+  ['can2_5fdatawaiting',['CAN2_DataWaiting',['../chassisCAN_8h.html#a7b9b8ef37e6dc1f631d4dd2592cf7074',1,'chassisCAN.h']]],
+  ['can3_5fdatawaiting',['CAN3_DataWaiting',['../chassisCAN_8h.html#ac97fd05829a92c40666145e44ce3f552',1,'chassisCAN.h']]],
+  ['can_5fid_5famu',['CAN_ID_AMU',['../chassisCAN_8h.html#a33d9f03ba887dfeed9d9b00fd0348530',1,'chassisCAN.h']]],
+  ['can_5fid_5finv',['CAN_ID_INV',['../chassisCAN_8h.html#aa9a6cb3dbe28de0068305cda4813cfd0',1,'chassisCAN.h']]],
+  ['can_5fid_5fpdm',['CAN_ID_PDM',['../chassisCAN_8h.html#a176111cefe44d3c72637c38008646096',1,'chassisCAN.h']]],
+  ['can_5fid_5fwheel',['CAN_ID_WHEEL',['../chassisCAN_8h.html#a9f2d52cb2c1c2b8a2c17d1ed62e2f10e',1,'chassisCAN.h']]],
+  ['candeselect',['CANdeselect',['../chassisCAN_8h.html#a9cbe3defb01d1853a108559085565031',1,'chassisCAN.h']]],
+  ['canselect',['CANselect',['../chassisCAN_8h.html#a758f0010a8c1eeff6d149cf3d762501f',1,'chassisCAN.h']]]
 ];

@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['gearbox_5ftemperature_5fhigh',['GEARBOX_TEMPERATURE_HIGH',['../chassisError_8h.html#afaeec50e05c0f8da19f8bf1daca460bc',1,'chassisError.h']]],
-  ['gearbox_5ftemperature_5flow',['GEARBOX_TEMPERATURE_LOW',['../chassisError_8h.html#a4eb00525ec474db1168d56f047138d2d',1,'chassisError.h']]]
+  ['max_5ferror_5fmessage_5flength',['MAX_ERROR_MESSAGE_LENGTH',['../chassisError_8h.html#adf6b5899a080d2fac2d7ac3f1d3eb44f',1,'chassisError.h']]]
 ];

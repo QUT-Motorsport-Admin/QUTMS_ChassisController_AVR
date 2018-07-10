@@ -11,16 +11,34 @@
 #include <stdlib.h>
 #include <avr/io.h>
 
-#define PDM_BRAKELIGHT 		16			//byte 0
-#define PDM_ATOMIC_ALARM	32			//byte 0
-#define PDM_SHUTDOWN_PLUS	64			//byte 0
-#define PDM_SHUTDOWN_MINUS	128			//byte 0
-#define PDM_PRECHARGE		1			//byte 1
+#define PDM_BRAKELIGHT 		16 /**< Byte 0 */
+#define PDM_ATOMIC_ALARM	32 /**< Byte 0 */
+#define PDM_SHUTDOWN_PLUS	64 /**< Byte 0 */
+#define PDM_SHUTDOWN_MINUS	128 /**< Byte 0 */
+#define PDM_PRECHARGE		1 /**< Byte 1 */
 
-// Defines PDM struct
+/**
+ * @brief Data Structure for PDM Information
+ * 
+ */
 typedef struct PDM { uint8_t flags[4]; } PDM;
+
+/**
+ * @brief Central storage for PDM Data
+ * 
+ */
 struct PDM pdm;
 
+/**
+ * @brief Appears unused?
+ * 
+ */
 unsigned char PDM_data[4] = {2, 0, 0, 0};
+
+/**
+ * @brief Precharge the motor controllers and then enable relays to allow the starting of the car
+ * 
+ */
+void pdm_init();
 
 #endif // CHASSIS_PDM_H

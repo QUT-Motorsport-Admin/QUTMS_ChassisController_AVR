@@ -90,10 +90,6 @@ Functions</h2></td></tr>
 <tr class="memitem:a96d7ab6c49bc01764716afb75ea86037"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8c.html#a96d7ab6c49bc01764716afb75ea86037">send_error_message</a> (char start[], char message[], uint16_t part_number)</td></tr>
 <tr class="memdesc:a96d7ab6c49bc01764716afb75ea86037"><td class="mdescLeft">&#160;</td><td class="mdescRight">Formats a 50-character long log message, and sends it over UART.  <a href="#a96d7ab6c49bc01764716afb75ea86037">More...</a><br /></td></tr>
 <tr class="separator:a96d7ab6c49bc01764716afb75ea86037"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93d1ada8c7eab261e6f7ded69b9f0e37"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8c.html#a93d1ada8c7eab261e6f7ded69b9f0e37">shutdown_probe</a> ()</td></tr>
-<tr class="separator:a93d1ada8c7eab261e6f7ded69b9f0e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0aaaa7e7fff19ab505c8de8da5265e0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisError_8c.html#ae0aaaa7e7fff19ab505c8de8da5265e0">shutdown_state</a> (uint16_t shutdownFlag)</td></tr>
-<tr class="separator:ae0aaaa7e7fff19ab505c8de8da5265e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Handles functions, calls and utilities related to the Error system. </p>
@@ -135,46 +131,6 @@ Functions</h2></td></tr>
 <p>Formats a 50-character long log message, and sends it over UART. </p>
 <p><a class="el" href="chassisError_8c.html#a96d7ab6c49bc01764716afb75ea86037" title="Formats a 50-character long log message, and sends it over UART. ">send_error_message()</a> Input: start - String representation of log level message - Message to send - should not exceed 40 characters part_number - The number of the part generating the error (i.e. Gearbox 1, Radiator 2 etc.) Returns: none</p>
 <p>Formats a 50-character long log message, and sends it over UART. </p>
-
-</div>
-</div>
-<a id="a93d1ada8c7eab261e6f7ded69b9f0e37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93d1ada8c7eab261e6f7ded69b9f0e37">&#9670;&nbsp;</a></span>shutdown_probe()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void shutdown_probe </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="chassisError_8c.html#a93d1ada8c7eab261e6f7ded69b9f0e37">shutdown_probe()</a> Input: none Returns: none</p>
-<p>Checks if a shutdown switch has been activated. Sends the method of shutdown to be recorded</p>
-<p>Reference: ATmega Datasheet Chapter 13 (I/O-Ports) </p>
-
-</div>
-</div>
-<a id="ae0aaaa7e7fff19ab505c8de8da5265e0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae0aaaa7e7fff19ab505c8de8da5265e0">&#9670;&nbsp;</a></span>shutdown_state()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void shutdown_state </td>
-          <td>(</td>
-          <td class="paramtype">uint16_t&#160;</td>
-          <td class="paramname"><em>shutdownFlag</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p><a class="el" href="chassisError_8c.html#ae0aaaa7e7fff19ab505c8de8da5265e0">shutdown_state()</a> Input: shutdownFlag - Returns: none</p>
-<p>Not implemented yet </p>
 
 </div>
 </div>

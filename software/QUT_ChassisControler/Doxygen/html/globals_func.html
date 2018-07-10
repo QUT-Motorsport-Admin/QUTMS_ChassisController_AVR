@@ -160,13 +160,29 @@ $(function() {
 
 
 <h3><a id="index_e"></a>- e -</h3><ul>
-<li>eeprom_read()
-: <a class="el" href="chassisEEPROM_8c.html#a582f4f1b2b1c97117e6cd9a5f92f5e13">chassisEEPROM.c</a>
-, <a class="el" href="chassisEEPROM_8h.html#a582f4f1b2b1c97117e6cd9a5f92f5e13">chassisEEPROM.h</a>
+<li>eeprom_read_char()
+: <a class="el" href="chassisEEPROM_8c.html#a13cd7f0f76f9ee344ecc509e57149644">chassisEEPROM.c</a>
+, <a class="el" href="chassisEEPROM_8h.html#a13cd7f0f76f9ee344ecc509e57149644">chassisEEPROM.h</a>
 </li>
-<li>eeprom_write()
-: <a class="el" href="chassisEEPROM_8c.html#acefcbfdf896e44079972a7a2207dd9dc">chassisEEPROM.c</a>
-, <a class="el" href="chassisEEPROM_8h.html#acefcbfdf896e44079972a7a2207dd9dc">chassisEEPROM.h</a>
+<li>eeprom_read_int16()
+: <a class="el" href="chassisEEPROM_8c.html#abe6a4a89586e26fcbd1cc633ee07befb">chassisEEPROM.c</a>
+, <a class="el" href="chassisEEPROM_8h.html#abe6a4a89586e26fcbd1cc633ee07befb">chassisEEPROM.h</a>
+</li>
+<li>eeprom_read_int8()
+: <a class="el" href="chassisEEPROM_8c.html#ae96ddac680e55a39902b2df63997104c">chassisEEPROM.c</a>
+, <a class="el" href="chassisEEPROM_8h.html#ae96ddac680e55a39902b2df63997104c">chassisEEPROM.h</a>
+</li>
+<li>eeprom_write_char()
+: <a class="el" href="chassisEEPROM_8c.html#ac4425d13419c66ef535d0e1f01c34774">chassisEEPROM.c</a>
+, <a class="el" href="chassisEEPROM_8h.html#ac4425d13419c66ef535d0e1f01c34774">chassisEEPROM.h</a>
+</li>
+<li>eeprom_write_int16()
+: <a class="el" href="chassisEEPROM_8c.html#ab6a2b9b38cf7aefc3d1a398819bf3232">chassisEEPROM.c</a>
+, <a class="el" href="chassisEEPROM_8h.html#a1157b5e93cbe84b0d92cabf49fb7974f">chassisEEPROM.h</a>
+</li>
+<li>eeprom_write_int8()
+: <a class="el" href="chassisEEPROM_8c.html#a28f753bd862605291f2dcf225589395a">chassisEEPROM.c</a>
+, <a class="el" href="chassisEEPROM_8h.html#a28f753bd862605291f2dcf225589395a">chassisEEPROM.h</a>
 </li>
 <li>external_interrupt_init()
 : <a class="el" href="chassisInit_8c.html#a787034b5d532117220b74cd45fb6fbc7">chassisInit.c</a>
@@ -190,6 +206,7 @@ $(function() {
 </li>
 <li>inverters_save_data()
 : <a class="el" href="chassisInverter_8c.html#a869b6bcac831c8421a8039df36838998">chassisInverter.c</a>
+, <a class="el" href="chassisInverter_8h.html#a869b6bcac831c8421a8039df36838998">chassisInverter.h</a>
 </li>
 <li>io_init()
 : <a class="el" href="chassisInit_8c.html#a78297812b6a85654a3eccf2594420f10">chassisInit.c</a>
@@ -206,12 +223,15 @@ $(function() {
 <h3><a id="index_l"></a>- l -</h3><ul>
 <li>led_flash()
 : <a class="el" href="chassisLED_8c.html#a9f86b723daea3677c85764c35e870146">chassisLED.c</a>
+, <a class="el" href="chassisLED_8h.html#a9f86b723daea3677c85764c35e870146">chassisLED.h</a>
 </li>
 <li>led_off()
 : <a class="el" href="chassisLED_8c.html#a501391b8794d0beaeaf0dea7a3bdbbb3">chassisLED.c</a>
+, <a class="el" href="chassisLED_8h.html#a501391b8794d0beaeaf0dea7a3bdbbb3">chassisLED.h</a>
 </li>
 <li>led_toggle()
 : <a class="el" href="chassisLED_8c.html#aa7a038b2dd87cb5e8db634bab88095de">chassisLED.c</a>
+, <a class="el" href="chassisLED_8h.html#aa7a038b2dd87cb5e8db634bab88095de">chassisLED.h</a>
 </li>
 </ul>
 
@@ -219,6 +239,7 @@ $(function() {
 <h3><a id="index_p"></a>- p -</h3><ul>
 <li>pdm_init()
 : <a class="el" href="chassisPDM_8c.html#acc1cc92133b01d78c963bae320dd44eb">chassisPDM.c</a>
+, <a class="el" href="chassisPDM_8h.html#acc1cc92133b01d78c963bae320dd44eb">chassisPDM.h</a>
 </li>
 <li>pedal_read()
 : <a class="el" href="chassisInput_8c.html#ace8100669bd57204cede16c3e592bdeb">chassisInput.c</a>
@@ -243,12 +264,6 @@ $(function() {
 </li>
 <li>send_heartbeat()
 : <a class="el" href="chassisCAN_8c.html#a67a27cc44354a74c7f992d77d2fa8788">chassisCAN.c</a>
-</li>
-<li>shutdown_probe()
-: <a class="el" href="chassisError_8c.html#a93d1ada8c7eab261e6f7ded69b9f0e37">chassisError.c</a>
-</li>
-<li>shutdown_state()
-: <a class="el" href="chassisError_8c.html#ae0aaaa7e7fff19ab505c8de8da5265e0">chassisError.c</a>
 </li>
 </ul>
 
@@ -290,9 +305,13 @@ $(function() {
 <li>uart_init()
 : <a class="el" href="group__pfleury__uart.html#gac19a76bb7d446125734a67f9f4b68991">uart.h</a>
 </li>
+<li>uart_process_packet()
+: <a class="el" href="chassisUART_8c.html#a7c404513622c7fbd12bb1b52367df693">chassisUART.c</a>
+, <a class="el" href="chassisUART_8h.html#a7c404513622c7fbd12bb1b52367df693">chassisUART.h</a>
+</li>
 <li>uart_process_stdin()
-: <a class="el" href="chassisUART_8c.html#a3b03984acfccb8e77bd3d9cec09c410d">chassisUART.c</a>
-, <a class="el" href="chassisUART_8h.html#a3b03984acfccb8e77bd3d9cec09c410d">chassisUART.h</a>
+: <a class="el" href="chassisUART_8c.html#a9d72fd5b800dc7a8828b4b136a3473ff">chassisUART.c</a>
+, <a class="el" href="chassisUART_8h.html#a9d72fd5b800dc7a8828b4b136a3473ff">chassisUART.h</a>
 </li>
 <li>uart_putc()
 : <a class="el" href="group__pfleury__uart.html#gad975221bc08b901e4c7ad69f9c9a97e2">uart.h</a>
@@ -304,7 +323,7 @@ $(function() {
 : <a class="el" href="group__pfleury__uart.html#ga6d78b6744db6232f52b4616402036c2f">uart.h</a>
 </li>
 <li>uart_send_data()
-: <a class="el" href="chassisUART_8c.html#ae6c44bc373fdbd6397018287f3c3d456">chassisUART.c</a>
+: <a class="el" href="chassisUART_8c.html#a318ebf25b1e9e891691499677cd3186a">chassisUART.c</a>
 , <a class="el" href="chassisUART_8h.html#ae6c44bc373fdbd6397018287f3c3d456">chassisUART.h</a>
 </li>
 <li>uart_send_real_time_data()

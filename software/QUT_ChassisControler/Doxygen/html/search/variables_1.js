@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['heartbeattimer',['heartbeatTimer',['../chassisCAN_8h.html#a529954899a8334443302663a13fa3765',1,'chassisCAN.h']]]
+  ['duty',['duty',['../structInverter.html#a49cbc3db96905817fe00730354436486',1,'Inverter']]]
 ];

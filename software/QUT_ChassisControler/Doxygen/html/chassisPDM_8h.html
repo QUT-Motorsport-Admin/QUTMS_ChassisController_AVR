@@ -72,6 +72,7 @@ $(function() {
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">chassisPDM.h File Reference</div>  </div>
@@ -88,46 +89,149 @@ $(function() {
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structPDM.html">PDM</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data Structure for <a class="el" href="structPDM.html" title="Data Structure for PDM Information. ">PDM</a> Information.  <a href="structPDM.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a19f09b8028469c0d2561fc1abbe7a40e"><td class="memItemLeft" align="right" valign="top"><a id="a19f09b8028469c0d2561fc1abbe7a40e"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PDM_BRAKELIGHT</b>&#160;&#160;&#160;16</td></tr>
+<tr class="memitem:a19f09b8028469c0d2561fc1abbe7a40e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#a19f09b8028469c0d2561fc1abbe7a40e">PDM_BRAKELIGHT</a>&#160;&#160;&#160;16</td></tr>
 <tr class="separator:a19f09b8028469c0d2561fc1abbe7a40e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adb8a297213b8ba93ead53142aed20991"><td class="memItemLeft" align="right" valign="top"><a id="adb8a297213b8ba93ead53142aed20991"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PDM_ATOMIC_ALARM</b>&#160;&#160;&#160;32</td></tr>
+<tr class="memitem:adb8a297213b8ba93ead53142aed20991"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#adb8a297213b8ba93ead53142aed20991">PDM_ATOMIC_ALARM</a>&#160;&#160;&#160;32</td></tr>
 <tr class="separator:adb8a297213b8ba93ead53142aed20991"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a320954fd5e79a5165e71b80d80bed762"><td class="memItemLeft" align="right" valign="top"><a id="a320954fd5e79a5165e71b80d80bed762"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PDM_SHUTDOWN_PLUS</b>&#160;&#160;&#160;64</td></tr>
+<tr class="memitem:a320954fd5e79a5165e71b80d80bed762"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#a320954fd5e79a5165e71b80d80bed762">PDM_SHUTDOWN_PLUS</a>&#160;&#160;&#160;64</td></tr>
 <tr class="separator:a320954fd5e79a5165e71b80d80bed762"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5c4447bbb57ed2ccce2f57d0c26770d"><td class="memItemLeft" align="right" valign="top"><a id="ae5c4447bbb57ed2ccce2f57d0c26770d"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PDM_SHUTDOWN_MINUS</b>&#160;&#160;&#160;128</td></tr>
+<tr class="memitem:ae5c4447bbb57ed2ccce2f57d0c26770d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#ae5c4447bbb57ed2ccce2f57d0c26770d">PDM_SHUTDOWN_MINUS</a>&#160;&#160;&#160;128</td></tr>
 <tr class="separator:ae5c4447bbb57ed2ccce2f57d0c26770d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad7290326a2b1c61f20b9be72031f5611"><td class="memItemLeft" align="right" valign="top"><a id="ad7290326a2b1c61f20b9be72031f5611"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><b>PDM_PRECHARGE</b>&#160;&#160;&#160;1</td></tr>
+<tr class="memitem:ad7290326a2b1c61f20b9be72031f5611"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#ad7290326a2b1c61f20b9be72031f5611">PDM_PRECHARGE</a>&#160;&#160;&#160;1</td></tr>
 <tr class="separator:ad7290326a2b1c61f20b9be72031f5611"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
 Typedefs</h2></td></tr>
 <tr class="memitem:aced15976ac307237d5c3ddcbe05a197a"><td class="memItemLeft" align="right" valign="top"><a id="aced15976ac307237d5c3ddcbe05a197a"></a>
-typedef struct <a class="el" href="structPDM.html">PDM</a>&#160;</td><td class="memItemRight" valign="bottom"><b>PDM</b></td></tr>
+typedef struct <a class="el" href="structPDM.html">PDM</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#aced15976ac307237d5c3ddcbe05a197a">PDM</a></td></tr>
+<tr class="memdesc:aced15976ac307237d5c3ddcbe05a197a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Data Structure for <a class="el" href="structPDM.html" title="Data Structure for PDM Information. ">PDM</a> Information. <br /></td></tr>
 <tr class="separator:aced15976ac307237d5c3ddcbe05a197a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:acc1cc92133b01d78c963bae320dd44eb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#acc1cc92133b01d78c963bae320dd44eb">pdm_init</a> ()</td></tr>
+<tr class="memdesc:acc1cc92133b01d78c963bae320dd44eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Precharge the motor controllers and then enable relays to allow the starting of the car.  <a href="#acc1cc92133b01d78c963bae320dd44eb">More...</a><br /></td></tr>
+<tr class="separator:acc1cc92133b01d78c963bae320dd44eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:aecaaa908c2116245139093f28656dab6"><td class="memItemLeft" align="right" valign="top"><a id="aecaaa908c2116245139093f28656dab6"></a>
-struct <a class="el" href="structPDM.html">PDM</a>&#160;</td><td class="memItemRight" valign="bottom"><b>pdm</b></td></tr>
+struct <a class="el" href="structPDM.html">PDM</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#aecaaa908c2116245139093f28656dab6">pdm</a></td></tr>
+<tr class="memdesc:aecaaa908c2116245139093f28656dab6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Central storage for <a class="el" href="structPDM.html" title="Data Structure for PDM Information. ">PDM</a> Data. <br /></td></tr>
 <tr class="separator:aecaaa908c2116245139093f28656dab6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1eb56b336e89816b973825406ae6f78f"><td class="memItemLeft" align="right" valign="top"><a id="a1eb56b336e89816b973825406ae6f78f"></a>
-unsigned char&#160;</td><td class="memItemRight" valign="bottom"><b>PDM_data</b> [4] = {2, 0, 0, 0}</td></tr>
+unsigned char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="chassisPDM_8h.html#a1eb56b336e89816b973825406ae6f78f">PDM_data</a> [4] = {2, 0, 0, 0}</td></tr>
+<tr class="memdesc:a1eb56b336e89816b973825406ae6f78f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Appears unused? <br /></td></tr>
 <tr class="separator:a1eb56b336e89816b973825406ae6f78f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>This file defines all functions and operations related to the Power Distribution Unit. </p>
 <dl class="section author"><dt>Author</dt><dd>Jonn Dillon </dd></dl>
 <dl class="section date"><dt>Date</dt><dd>file creation 16/4/2018 </dd></dl>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="adb8a297213b8ba93ead53142aed20991"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adb8a297213b8ba93ead53142aed20991">&#9670;&nbsp;</a></span>PDM_ATOMIC_ALARM</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PDM_ATOMIC_ALARM&#160;&#160;&#160;32</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Byte 0 </p>
+
+</div>
+</div>
+<a id="a19f09b8028469c0d2561fc1abbe7a40e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a19f09b8028469c0d2561fc1abbe7a40e">&#9670;&nbsp;</a></span>PDM_BRAKELIGHT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PDM_BRAKELIGHT&#160;&#160;&#160;16</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Byte 0 </p>
+
+</div>
+</div>
+<a id="ad7290326a2b1c61f20b9be72031f5611"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad7290326a2b1c61f20b9be72031f5611">&#9670;&nbsp;</a></span>PDM_PRECHARGE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PDM_PRECHARGE&#160;&#160;&#160;1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Byte 1 </p>
+
+</div>
+</div>
+<a id="ae5c4447bbb57ed2ccce2f57d0c26770d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5c4447bbb57ed2ccce2f57d0c26770d">&#9670;&nbsp;</a></span>PDM_SHUTDOWN_MINUS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PDM_SHUTDOWN_MINUS&#160;&#160;&#160;128</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Byte 0 </p>
+
+</div>
+</div>
+<a id="a320954fd5e79a5165e71b80d80bed762"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a320954fd5e79a5165e71b80d80bed762">&#9670;&nbsp;</a></span>PDM_SHUTDOWN_PLUS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define PDM_SHUTDOWN_PLUS&#160;&#160;&#160;64</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Byte 0 </p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="acc1cc92133b01d78c963bae320dd44eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acc1cc92133b01d78c963bae320dd44eb">&#9670;&nbsp;</a></span>pdm_init()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void pdm_init </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Precharge the motor controllers and then enable relays to allow the starting of the car. </p>
+<p><a class="el" href="chassisPDM_8c.html#acc1cc92133b01d78c963bae320dd44eb" title="Precharge the motor controllers and then enable relays to allow the starting of the car...">pdm_init()</a> Input: none Returns: none</p>
+<p>Precharge the motor controllers and then enable relays to allow the starting of the car </p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">
