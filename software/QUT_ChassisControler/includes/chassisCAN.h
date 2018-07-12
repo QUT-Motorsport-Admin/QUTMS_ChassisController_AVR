@@ -10,6 +10,7 @@
 
 #include <stdlib.h>
 #include <avr/io.h>
+#include "utils/MCP2515.h"
 
 #define STATUS_REG 			GPIOR0 /**< Status Register */
 #define CAN1_DataWaiting	1 /**< CAN Bus 1 Has Data Waiting flag */
@@ -32,7 +33,7 @@
  * @brief Appears Unused?
  * 
  */
-unsigned char CANreceiver = 0;
+// unsigned char CANreceiver = 0;
 
 /**
  * @brief Used in radiator temperature checks
@@ -40,29 +41,28 @@ unsigned char CANreceiver = 0;
  * TODO Needs more descriptive comment
  * 
  */
-unsigned int radiator_cals_acewell_22k[27] = {801,	800, 799, 797, 791, 785, 767, 750, 734, 707, 689, 671, 637, 598, 581, 562, 529,
-493, 464, 443, 359, 338, 317, 297, 278, 234, 204};
+// unsigned int radiator_cals_acewell_22k[27] = {801,	800, 799, 797, 791, 785, 767, 750, 734, 707, 689, 671, 637, 598, 581, 562, 529, 493, 464, 443, 359, 338, 317, 297, 278, 234, 204};
 
 /**
  * @brief Increments on heartbeat
  * 
  */
-volatile int heartbeatTimer = 0;
+// volatile int heartbeatTimer = 0;
 
 /**
  * @brief Appears Unused?
  * 
  */
-char CANdiagnostics[10][20]; 
+// char CANdiagnostics[10][20]; 
 
 /**
  * @brief Temporary buffer used for UART
  * 
  */
-uint8_t tempBuffer[10]; 
+// uint8_t tempBuffer[10]; 
 
-#define CANselect PORTC &= ~1 /**< Appears Unused? */
-#define CANdeselect	  PORTC |= 1 /**< Appears Unused? */
+// #define CANselect PORTC &= ~1 /**< Appears Unused? */
+// #define CANdeselect	  PORTC |= 1 /**< Appears Unused? */
 
 // ===================================== FUNCTION DECLARATIONS =====================================
 

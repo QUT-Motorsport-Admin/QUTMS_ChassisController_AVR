@@ -6,8 +6,9 @@
  * @brief Handles all initialisation processes for the chassis controller
  **/
 
-#include "../utils/MCP2515.h"
-#include "../utils/uart.h"
+
+#include "chassisInit.h"
+
 
 /**
  * @brief Sets up the microcontroller to allow external interrupts. The External Interrupts are triggered by the INT7:0 pin or any of the PCINT23:0 pins.

@@ -10,6 +10,7 @@
 #define CHASSIS_ERROR_H
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <avr/io.h>
 
 #define MAX_ERROR_MESSAGE_LENGTH 40 /**< Error messages (excluding the severity level string) should not exceed this length */
@@ -36,15 +37,17 @@
 #define ERROR_RADIATOR_TEMPERATURE_HIGH	    (5)     /**< Error Code: Radiator X Temperature Too High */
 #define ERROR_BRAKES_PRESSURE_LOW		    (6)     /**< Error Code: Brake X Pressure Too Low */
 #define ERROR_BRAKES_PRESSURE_HIGH		    (7)     /**< Error Code: Brake X Pressure Too High */
-#define ERROR_BRAKES_POSITION_LOW		    (8)     /**< Error Code: Brake X Position Too Low */
-#define ERROR_BRAKES_POSITION_HIGH		    (9)     /**< Error Code: Brake X Position Too High */
-#define ERROR_STEERING_ANGLE_LEFT		    (10)    /**< Error Code: Steering Wheel Turned Too Far Left */
-#define ERROR_STEERING_ANGLE_RIGHT		    (11)    /**< Error Code: Steering Wheel Turned Too Far Right */
-#define ERROR_THROTTLE_ERROR			    (12)    /**< Error Code: Problem With Throttle */
-#define ERROR_CAR_UPRIGHT_ERROR			    (13)    /**< Error Code: Car No Longer Upgright (Has Rolled) */
-#define ERROR_BATTERY_CHARGE			    (14)    /**< Error Code: Problem with Battery Charge */
-#define ERROR_BATTERY_TEMPERATURE_LOW	    (15)    /**< Error Code: Battery Temperature Too Low */
-#define ERROR_BATTERY_TEMPERATURE_HIGH	    (16)    /**< Error Code: Battery Temperature Too High */
+#define ERROR_BRAKES_PRESSURE		        (8)     /**< Error Code: Brake X Pressure Too High */
+#define ERROR_BRAKES_POSITION_LOW		    (9)     /**< Error Code: Brake X Position Too Low */
+#define ERROR_BRAKES_POSITION_HIGH		    (10)    /**< Error Code: Brake X Position Too High */
+#define ERROR_BRAKES_POSITION		        (11)    /**< Error Code: Brake X Position Too High */
+#define ERROR_STEERING_ANGLE_LEFT		    (12)    /**< Error Code: Steering Wheel Turned Too Far Left */
+#define ERROR_STEERING_ANGLE_RIGHT		    (13)    /**< Error Code: Steering Wheel Turned Too Far Right */
+#define ERROR_THROTTLE_ERROR			    (14)    /**< Error Code: Problem With Throttle */
+#define ERROR_CAR_UPRIGHT_ERROR			    (15)    /**< Error Code: Car No Longer Upgright (Has Rolled) */
+#define ERROR_BATTERY_CHARGE			    (16)    /**< Error Code: Problem with Battery Charge */
+#define ERROR_BATTERY_TEMPERATURE_LOW	    (17)    /**< Error Code: Battery Temperature Too Low */
+#define ERROR_BATTERY_TEMPERATURE_HIGH	    (18)    /**< Error Code: Battery Temperature Too High */
 
 // Error Severity Levels
 #define ERROR_LEVEL_INFO    (1)         /**< Low Severity Level - Everything is all gravy baby */

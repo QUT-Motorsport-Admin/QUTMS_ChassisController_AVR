@@ -5,6 +5,12 @@
  * @brief Defines and outlines all variables and definitions related to the onboard LED
  **/
 
+#ifndef CHASSIS_LED_H
+#define CHASSIS_LED_H
+
+#include <stdlib.h>
+#include <avr/io.h>
+
 /**
  * @brief Makes the LED blink a set number of times.
  * 
@@ -31,3 +37,6 @@ void led_toggle();
  * 
  */
 void led_off();
+
+
+#endif // CHASSIS_LED_H

@@ -4,13 +4,14 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>	
-#include <utils/MCP2515.h>
-#include <utils/uart.h>
-#include <includes/chassisInit.h>
-#include <includes/chassisUART.h>
-#include <includes/chassisLED.h>
-#include <includes/chassisCAN.h>
-#include <includes/chassisError.h>
+#include "utils/MCP2515.h"
+#include "utils/uart.h"
+#include "includes/chassisInit.h"
+#include "includes/chassisUART.h"
+#include "includes/chassisLED.h"
+#include "includes/chassisInput.h"
+#include "includes/chassisCAN.h"
+#include "includes/chassisError.h"
 
 uint8_t buttonStateDebounceCount = 0; 
 bool buttonStateLock = 0;
@@ -21,37 +22,55 @@ bool buttonState = 0;
 #define CAN_HEARTBEAT_TIME_DATA (10)        // Defines the 10ms (100Hz) for the data trigger
 #define CAN_HEARTBEAT_TIME_POWER (50)       // Defines the 50ms (20Hz) for the power trigger
 uint8_t CAN_HEARTBEAT_COUNT_INVERTERS = 0;  // Number of iterations for the inverter heartbeat trigger
-uint8_t CAN_HEARTBEAT_COUNT_DATA = 0;       // Number of iterations for the data heartbeat trigger
-uint8_t CAN_HEARTBEAT_COUNT_POWER = 0;      // Number of iterations for the power heartbeat trigger
+uint8_t CAN_HEARTBEAT_COUNT_DATA = 2;       // Number of iterations for the data heartbeat trigger
+uint8_t CAN_HEARTBEAT_COUNT_POWER = 4;      // Number of iterations for the power heartbeat trigger
 
 #define CAN_HEARTBEAT_ERROR_DELAY (110)     // Milliseconds without return heartbeat, must be slightly larger than largest heartbeat time x2
 uint8_t CAN_HEARTBEAT_ERROR_INVERTERS = 0;  // Time without successfull heartbeat for inverters
-uint8_t CAN_HEARTBEAT_ERROR_DATA = 0;       // Time without successfull heartbeat for data
-uint8_t CAN_HEARTBEAT_ERROR_POWER = 0;      // Time without successfull heartbeat for power
+uint8_t CAN_HEARTBEAT_ERROR_DATA = 2;       // Time without successfull heartbeat for data
+uint8_t CAN_HEARTBEAT_ERROR_POWER = 4;      // Time without successfull heartbeat for power
+
+#define CAN_INPUT_SEND_DELAY (200)          // Defines the 200ms (5Hz) for the input send trigger
+uint8_t CAN_INPUT_SEND_TIME = 0;            // Number of iterations for the input send trigger
 
 /**
  * @brief 
  * 
  */
 void main() {
+
     // Set Up
     firmware_init();
     timer_init();
-
 
     // Main Poll
     // ------------------------------------------------------------------------
     while(1)
     {
         // Poll UART to see if there is anything there to use
-        while(isCharAvailable_1()) 
-        {
-            uint8_t *completedInt;
-            // if(uart_process_stdin(uart1_getc(), completedInt)) 
-            if(uart_process_stdin(receiveChar_1(), completedInt)) 
-            {
+        // while(isCharAvailable_1()) 
+        // {
+        //     uint8_t *completedInt;
+        //     // if(uart_process_stdin(uart1_getc(), completedInt)) 
+        //     if(uart_process_stdin(receiveChar_1(), completedInt)) 
+        //     {
 
-            }
+        //     }
+        // }
+
+        // Poll inputs and store into variables
+        uint16_t tmpInputVal;
+        if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
+            INPUT_accelerationPedal = tmpInputVal;
+        }
+        if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
+            INPUT_brakePedal = tmpInputVal;
+        }
+        if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
+            INPUT_brakePressureBack = tmpInputVal;
+        }
+        if(INPUT_get_brakePressureFront(&tmpInputVal) == 0) {
+            INPUT_brakePressureFront = tmpInputVal;
         }
     }
 }
@@ -66,27 +85,27 @@ void oneKHzTimer() {
     // -> 50ms Timer / State Change
     // 50ms debounce, IE hold for 50ms and if held, change state
     // ------------------------------------------------------------------------
-    if(PRESSING_BUTTON) // No idea to which PIN set to check
-    {
-        // Count up 1ms
-        buttonStateDebounceCount++;
-        // If 50ms have been counted
-        if(buttonStateDebounceCount >= 50) 
-        {
-            // Lock the state change till un-press of button
-            buttonStateLock = true;
-            // 
-            if(buttonStateDebounceCount > 254) { buttonStateDebounceCount = 50; }
-            // Triggering every 50ms
-            buttonState = !buttonState;
-            led_toggle();
-        }
-    } 
-    else 
-    {
-        buttonStateLock = false;
-        buttonStateDebounceCount = 0;
-    }
+    // if(PRESSING_BUTTON) // No idea to which PIN set to check
+    // {
+    //     // Count up 1ms
+    //     buttonStateDebounceCount++;
+    //     // If 50ms have been counted
+    //     if(buttonStateDebounceCount >= 50) 
+    //     {
+    //         // Lock the state change till un-press of button
+    //         buttonStateLock = true;
+    //         // 
+    //         if(buttonStateDebounceCount > 254) { buttonStateDebounceCount = 50; }
+    //         // Triggering every 50ms
+    //         buttonState = !buttonState;
+    //         led_toggle();
+    //     }
+    // } 
+    // else 
+    // {
+    //     buttonStateLock = false;
+    //     buttonStateDebounceCount = 0;
+    // }
 
 
 
@@ -126,17 +145,20 @@ void oneKHzTimer() {
     {
         throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_NO_RESPONSE);
     }
-    if(CAN_HEARTBEAT_ERROR_INVERTERS > CAN_HEARTBEAT_ERROR_DELAY)
+    if(CAN_HEARTBEAT_ERROR_DATA > CAN_HEARTBEAT_ERROR_DELAY)
     {
         throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_NO_RESPONSE);
     }
-    if(CAN_HEARTBEAT_ERROR_INVERTERS > CAN_HEARTBEAT_ERROR_DELAY)
+    if(CAN_HEARTBEAT_ERROR_POWER > CAN_HEARTBEAT_ERROR_DELAY)
     {
         throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_NO_RESPONSE);
     }
     CAN_HEARTBEAT_ERROR_INVERTERS++;
     CAN_HEARTBEAT_ERROR_DATA++;
     CAN_HEARTBEAT_ERROR_POWER++;
+
+
+    // Send CAN input
 }
 
 // -------------------------------------------------- Interrupt Service Routines --------------------------------------------------

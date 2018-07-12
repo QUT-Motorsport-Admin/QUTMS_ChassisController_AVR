@@ -5,7 +5,169 @@
  * @brief Manages inputs to car subsystems
  **/
 
-#include "chassisInput.h";
+#include "chassisInput.h"
+
+uint16_t INPUT_steeringAngle = 0;
+uint16_t INPUT_accelerationPedal = 0;
+uint16_t INPUT_brakePedal = 0;
+uint16_t INPUT_brakePressureFront = 0;
+uint16_t INPUT_brakePressureBack = 0;
+
+uint8_t INPUT_get_accelPedal(uint16_t *val) {
+    uint8_t state = INPUT_read_accelPedal(val);
+    switch (state) {
+        case 1: // Inputs were too low
+            throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
+            break;
+        case 2: // Inputs were too high
+            throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
+            break;
+        case 3: // Delta was found to be in failure
+            throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
+            break;
+        default:
+            // Do nothing
+            break;
+    }
+    return state; // Pass up state of read for process and logic use
+}
+
+uint8_t INPUT_get_brakePedal(uint16_t *val) {
+    uint8_t state = INPUT_read_brakePedal(val);
+    switch (state) {
+        case 1: // Inputs were too low
+            throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION_LOW);
+            break;
+        case 2: // Inputs were too high
+            throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION_HIGH);
+            break;
+        case 3: // Delta was found to be in failure
+            throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION);
+            break;
+        default:
+            // Do nothing
+            break;
+    }
+    return state; // Pass up state of read for process and logic use
+}
+
+uint8_t INPUT_get_brakePressureFront(uint16_t *val) {
+    uint8_t state = INPUT_read_brakePressureFront(val);
+    switch (state) {
+        case 1: // Inputs were too low
+            throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_LOW, 1);
+            break;
+        case 2: // Inputs were too high
+            throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_HIGH, 1);
+            break;
+        case 3: // Delta was found to be in failure
+            throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE, 1);
+            break;
+        default:
+            // Do nothing
+            break;
+    }
+    return state; // Pass up state of read for process and logic use
+}
+
+uint8_t INPUT_get_brakePressureBack(uint16_t *val) {
+    uint8_t state = INPUT_read_brakePressureFront(val);
+    switch (state) {
+        case 1: // Inputs were too low
+            throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_LOW, 2);
+            break;
+        case 2: // Inputs were too high
+            throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_HIGH, 2);
+            break;
+        case 3: // Delta was found to be in failure
+            throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE, 2);
+            break;
+        default:
+            // Do nothing
+            break;
+    }
+    return state; // Pass up state of read for process and logic use
+}
+
+/**
+ * Example Code:
+ * uint16_t val = 0;
+ * if(INPUT_read_accelPedal(*val) == 0) {
+ *     // Use val some way
+ * } else {
+ *     // Val is in error
+ * }
+ */
+uint8_t INPUT_read_accelPedal(uint16_t *throttle) {
+
+    // Read the values of the two throttle sensors and verify if the received values are valid
+	uint16_t primary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH1);
+    uint16_t secondary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH2);
+    uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
+    *throttle = primary; 
+	if(primary < INPUT_PEDAL_THROTTLE_LOW || secondary < INPUT_PEDAL_THROTTLE_LOW) { return 1; }
+	if(primary > INPUT_PEDAL_THROTTLE_HIGH || secondary > INPUT_PEDAL_THROTTLE_HIGH) { return 2; }
+	// Verify if the difference between sensors is within acceptable values
+	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
+	else { return 0; }
+}
+
+/**
+ * Example Code:
+ * uint16_t val = 0;
+ * if(INPUT_read_brakePedal(*val) == 0) {
+ *     // Use val some way
+ * } else {
+ *     // Val is in error
+ * }
+ */
+uint8_t INPUT_read_brakePedal(uint16_t * brake) {
+    // Read the values of the two brake sensors and verify if the received values are valid
+	uint16_t primary = adc_read_avg(INPUT_PEDAL_BRAKE_CH1);
+    uint16_t secondary = adc_read_avg(INPUT_PEDAL_BRAKE_CH2);
+    uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
+    *brake = primary; 
+	if(primary < INPUT_PEDAL_BRAKE_LOW || secondary < INPUT_PEDAL_BRAKE_LOW) { return 1; }
+    if(primary > INPUT_PEDAL_BRAKE_HIGH || secondary > INPUT_PEDAL_BRAKE_HIGH) { return 2; }
+	// Verify if the difference between sensors is within acceptable values
+	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
+    return 0;
+}
+
+/**
+ * Example Code:
+ * uint16_t val = 0;
+ * if(INPUT_read_brakePressureFront(*val) == 0) {
+ *     // Use val some way
+ * } else {
+ *     // Val is in error
+ * }
+ */
+uint8_t INPUT_read_brakePressureFront(uint16_t * fntPressure) {
+    uint16_t tmp = adc_read_avg(INPUT_PRESSURE_BRAKE_FRONT); // Get the pressure in the front brake
+    *fntPressure = tmp; // Still gets the value found regardless
+	if(tmp < INPUT_PRESSURE_BRAKE_LOW) { return 1; } // Check if the value we received is valid
+    if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
+	return 0;
+}
+
+/**
+ * Example Code:
+ * uint16_t val = 0;
+ * if(INPUT_read_breakPressureBack(*val) == 0) {
+ *     // Use val some way
+ * } else {
+ *     // Val is in error
+ * }
+ */
+uint8_t INPUT_read_breakPressureBack(uint16_t * bkPressure) {
+    uint16_t tmp = adc_read_avg(INPUT_PRESSURE_BRAKE_BACK); // Get the pressure in the front brake
+    *bkPressure = tmp; // Still gets the value found regardless
+	if(tmp < INPUT_PRESSURE_BRAKE_LOW) { return 1; } // Check if the value we received is valid
+    if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
+	return 0;
+}
+
 
 // OLD ------------------------------------------------------------------------
 
@@ -14,24 +176,22 @@
  * Input:	none
  * Returns: returns the current torque command value as a percentage between 0 and 100, -1 for any errors
  * 
- * 
- * 
  * Reference: 	ATmega Datasheet Chapter 13 (I/O-Ports)
  * 				ATmega Datasheet Chapter 26 (ADC - Analog to Digital Converter)
  **/
-int8_t input_get_torque_percent()
-{
-    unsigned int currentTorqueDemand[4] = {0, 0, 0, 0};
-	unsigned int AN1_voltage = a2d_10bitCh(4);
-	unsigned int AN2_voltage = a2d_10bitCh(3);
-	unsigned int temp_currentTorqueDemand = AN1_voltage / 4;
-	if (temp_currentTorqueDemand > 256) temp_currentTorqueDemand = 0;
-	if (temp_currentTorqueDemand < 10) temp_currentTorqueDemand = 0;
-	currentTorqueDemand[0] = temp_currentTorqueDemand;
+// int8_t input_get_torque_percent()
+// {
+//     unsigned int currentTorqueDemand[4] = {0, 0, 0, 0};
+// 	unsigned int AN1_voltage = a2d_10bitCh(4);
+// 	unsigned int AN2_voltage = a2d_10bitCh(3);
+// 	unsigned int temp_currentTorqueDemand = AN1_voltage / 4;
+// 	if (temp_currentTorqueDemand > 256) temp_currentTorqueDemand = 0;
+// 	if (temp_currentTorqueDemand < 10) temp_currentTorqueDemand = 0;
+// 	currentTorqueDemand[0] = temp_currentTorqueDemand;
 	
-	if(currentTorqueDemand[0] > 250) PORTA |= 32;
-	else PORTA &= 223;
-}
+// 	if(currentTorqueDemand[0] > 250) PORTA |= 32;
+// 	else PORTA &= 223;
+// }
 
 /**
  * 
@@ -44,19 +204,19 @@ int8_t input_get_torque_percent()
  * 
  * Reference: ATmega Datasheet Chapter 26 (ADC - Analog to Digital Converter)
  **/
-uint8_t input_get_brake_percent(uint16_t * front, uint16_t * rear)
-{
-	uint16_t tmp = 0;
-	tmp = adc_read_avg(PRESSURE_BRAKE_FRONT);							// Get the pressure in the front brake
-	if(tmp < PRESSURE_BRAKE_LOW || tmp > PRESSURE_BRAKE_HIGH)return 0;	// Check if the value we received is valid
-	*front = tmp;
+// uint8_t input_get_brake_percent(uint16_t * front, uint16_t * rear)
+// {
+// 	uint16_t tmp = 0;
+// 	tmp = adc_read_avg(PRESSURE_BRAKE_FRONT);							// Get the pressure in the front brake
+// 	if(tmp < PRESSURE_BRAKE_LOW || tmp > PRESSURE_BRAKE_HIGH)return 0;	// Check if the value we received is valid
+// 	*front = tmp;
 	
-	tmp = adc_read_avg(PRESSURE_BRAKE_REAR);							// Get the pressure in the rear brake
-	if(tmp < PRESSURE_BRAKE_LOW || tmp > PRESSURE_BRAKE_HIGH)return 0;	// Check if the value we received is valid
-	*rear = tmp;
+// 	tmp = adc_read_avg(PRESSURE_BRAKE_REAR);							// Get the pressure in the rear brake
+// 	if(tmp < PRESSURE_BRAKE_LOW || tmp > PRESSURE_BRAKE_HIGH)return 0;	// Check if the value we received is valid
+// 	*rear = tmp;
 	
-	return 1;
-}
+// 	return 1;
+// }
 
 /**
  * pedal_read()
@@ -71,49 +231,49 @@ uint8_t input_get_brake_percent(uint16_t * front, uint16_t * rear)
  * 
  * Reference: ATmega Datasheet Chapter 26 (ADC - Analog to Digital Converter)
  **/
-uint8_t pedal_read(uint16_t * brake, uint16_t * throttle)
-{
-	uint16_t primary = 0;	
-	uint16_t secondary = 0;
-	int16_t delta = 0;
+// uint8_t pedal_read(uint16_t * brake, uint16_t * throttle)
+// {
+// 	uint16_t primary = 0;	
+// 	uint16_t secondary = 0;
+// 	int16_t delta = 0;
 	
-	// Read the values of the two brake sensors and verify if the received values are valid
-	primary = adc_read_avg(PEDAL_BRAKE_CH1);
-	if(primary < PEDAL_BRAKE_LOW || primary > PEDAL_BRAKE_HIGH)return 0;
-	secondary = adc_read_avg(PEDAL_BRAKE_CH2);
-	if(secondary < PEDAL_BRAKE_LOW || secondary > PEDAL_BRAKE_HIGH)return 0;
-	// Calculate the difference between the two values
-	delta = abs(primary-secondary);
-	// Verify if the difference between sensors is within acceptable values
-	if(delta > PEDAL_DELTA_THRESH_L && delta < PEDAL_DELTA_THRESH_H)
-	{
-		*brake = primary;
-		if(*brake > PEDAL_BRAKE_LIGHT_ON)
-		{
-			//check if the brake light is already on.
-			if((pdm.flags[0] & PDM_BRAKELIGHT) == 0 )
-			{
-				//if not, set it and send the can packet immediately
-				pdm.flags[0] |= PDM_BRAKELIGHT;
-				CAN_send_heartbeat(PDM_H, NORMAL, 1);
-			}
-		}
-	}
-	else return 0;
+// 	// Read the values of the two brake sensors and verify if the received values are valid
+// 	primary = adc_read_avg(PEDAL_BRAKE_CH1);
+// 	if(primary < INPUT_PEDAL_BRAKE_LOW || primary > INPUT_PEDAL_BRAKE_HIGH)return 0;
+// 	secondary = adc_read_avg(PEDAL_BRAKE_CH2);
+// 	if(secondary < INPUT_PEDAL_BRAKE_LOW || secondary > INPUT_PEDAL_BRAKE_HIGH)return 0;
+// 	// Calculate the difference between the two values
+// 	delta = abs(primary-secondary);
+// 	// Verify if the difference between sensors is within acceptable values
+// 	if(delta > INPUT_PEDAL_DELTA_THRESH_L && delta < INPUT_PEDAL_DELTA_THRESH_H)
+// 	{
+// 		*brake = primary;
+// 		if(*brake > INPUT_PEDAL_BRAKE_LIGHT_ON)
+// 		{
+// 			//check if the brake light is already on.
+// 			if((pdm.flags[0] & PDM_BRAKELIGHT) == 0 )
+// 			{
+// 				//if not, set it and send the can packet immediately
+// 				pdm.flags[0] |= PDM_BRAKELIGHT;
+// 				CAN_send_heartbeat(PDM_H, NORMAL, 1);
+// 			}
+// 		}
+// 	}
+// 	else return 0;
 	
-	// Read the values of the two throttle sensors and verify if the received values are valid
-	primary = adc_read_avg(PEDAL_THROTTLE_CH1);
-	if(primary < PEDAL_THROTTLE_LOW || primary > PEDAL_THROTTLE_HIGH)return 0;
-	secondary = adc_read_avg(PEDAL_THROTTLE_CH2);
-	if(secondary < PEDAL_THROTTLE_LOW || secondary > PEDAL_THROTTLE_HIGH)return 0;
-	// Calculate the difference between the two values
-	delta = abs(primary-secondary);
-	// Verify if the difference between sensors is within acceptable values
-	if(delta > PEDAL_DELTA_THRESH_L && delta < PEDAL_DELTA_THRESH_H)
-	{
-		*throttle = primary;
-	}
-	else return 0;
+// 	// Read the values of the two throttle sensors and verify if the received values are valid
+// 	primary = adc_read_avg(PEDAL_THROTTLE_CH1);
+// 	if(primary < INPUT_PEDAL_THROTTLE_LOW || primary > INPUT_PEDAL_THROTTLE_HIGH)return 0;
+// 	secondary = adc_read_avg(PEDAL_THROTTLE_CH2);
+// 	if(secondary < INPUT_PEDAL_THROTTLE_LOW || secondary > INPUT_PEDAL_THROTTLE_HIGH)return 0;
+// 	// Calculate the difference between the two values
+// 	delta = abs(primary-secondary);
+// 	// Verify if the difference between sensors is within acceptable values
+// 	if(delta > INPUT_PEDAL_DELTA_THRESH_L && delta < INPUT_PEDAL_DELTA_THRESH_H)
+// 	{
+// 		*throttle = primary;
+// 	}
+// 	else return 0;
 	
-	return 1;
-}
+// 	return 1;
+// }

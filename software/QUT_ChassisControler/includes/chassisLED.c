@@ -5,6 +5,8 @@
  * @brief Handles all operations related to the onboard LED
  **/
 
+#include "chassisLED.h"
+
 /**
  * led_flash()
  * Input:	times - The amount of times to make the LED blink
@@ -19,9 +21,9 @@ void led_flash(unsigned char times)
 {
 	for(uint8_t i = 0; i < times; i++)
 	{
-		PORTK ^= 1<<PINK5;
+		led_toggle();
 		_delay_ms(50);
-		PORTK ^= 1<<PINK5;
+		led_toggle();
 		_delay_ms(50);
 	}
 }

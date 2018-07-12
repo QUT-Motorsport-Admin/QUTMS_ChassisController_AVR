@@ -63,13 +63,12 @@ SRC = $(TARGET).c \
 	includes/chassisPDM.h \
 	includes/chassisPDM.c \
 	includes/chassisError.h \
-	includes/chassisError.c
+	includes/chassisError.c \
+	includes/chassisInput.h \
+	includes/chassisInput.c \
+	includes/a2dUtil.c \
 
-	# includes/ad2Util.c \
-	# includes/chassisA2D.h \
 	# includes/chassisBMS.h \
-	# includes/chassisInput.h \
-	# includes/chassisInput.c \
 	# includes/chassisInverter.h \
 	# includes/chassisInverter.c \
 	# includes/chassisShutDown.h \

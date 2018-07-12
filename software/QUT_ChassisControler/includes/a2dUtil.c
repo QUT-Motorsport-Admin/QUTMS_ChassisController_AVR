@@ -6,6 +6,8 @@
  * @date 
  */
 
+#include "a2dUtil.h"
+
 /**
  * @brief The inbuilt ADC is used to convert an analog input voltage at the specified channel to a 10-bit digital 
  * value through successive approximation.

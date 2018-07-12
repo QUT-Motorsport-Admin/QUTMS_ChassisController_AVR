@@ -7,7 +7,7 @@
  * 
  */
 
-#include "chassisError.h";
+#include "chassisError.h"
 
 /**
  * throw_error_code()
@@ -61,7 +61,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
         case ERROR_GENERAL:					
 			switch (severity) {
-				case ERROR_STRING_INFO:
+				case ERROR_LEVEL_INFO:
 				// Logging behaviour for Info-level logs
 				send_error_message(ERROR_STRING_INFO, "Error", part_number);
 				// Additional Info Handling
@@ -86,7 +86,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
         case ERROR_CANBUS_1_NO_RESPONSE:					
 			switch (severity) {
-				case ERROR_STRING_INFO:
+				case ERROR_LEVEL_INFO:
 				// Logging behaviour for Info-level logs
 				send_error_message(ERROR_STRING_INFO, "CANBUS 1 No Response", part_number);
 				// Additional Info Handling
@@ -108,7 +108,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
         case ERROR_CANBUS_1_RESPONSE_MALFORMED:					
 			switch (severity) {
-				case ERROR_STRING_INFO:
+				case ERROR_LEVEL_INFO:
 				// Logging behaviour for Info-level logs
 				send_error_message(ERROR_STRING_INFO, "CANBUS 1 Malformed Packet", part_number);
 				// Additional Info Handling
@@ -130,7 +130,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
         case ERROR_CANBUS_2_NO_RESPONSE:					
 			switch (severity) {
-				case ERROR_STRING_INFO:
+				case ERROR_LEVEL_INFO:
 				// Logging behaviour for Info-level logs
 				send_error_message(ERROR_STRING_INFO, "CANBUS 2 No Response", part_number);
 				// Additional Info Handling
@@ -152,7 +152,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
         case ERROR_CANBUS_2_RESPONSE_MALFORMED:					
 			switch (severity) {
-				case ERROR_STRING_INFO:
+				case ERROR_LEVEL_INFO:
 				// Logging behaviour for Info-level logs
 				send_error_message(ERROR_STRING_INFO, "CANBUS 2 Malformed Packet", part_number);
 				// Additional Info Handling
@@ -174,7 +174,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
         case ERROR_CANBUS_3_NO_RESPONSE:					
 			switch (severity) {
-				case ERROR_STRING_INFO:
+				case ERROR_LEVEL_INFO:
 				// Logging behaviour for Info-level logs
 				send_error_message(ERROR_STRING_INFO, "CANBUS 3 No Response", part_number);
 				// Additional Info Handling
@@ -196,7 +196,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
         case ERROR_CANBUS_3_RESPONSE_MALFORMED:					
 			switch (severity) {
-				case ERROR_STRING_INFO:
+				case ERROR_LEVEL_INFO:
 				// Logging behaviour for Info-level logs
 				send_error_message(ERROR_STRING_INFO, "CANBUS 3 Malformed Packet", part_number);
 				// Additional Info Handling
@@ -351,6 +351,28 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 			}			
 		break;
 
+        case ERROR_BRAKES_PRESSURE:					
+			switch (severity) {
+				case ERROR_LEVEL_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "Brakes %d Pressure Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "Brakes %d Pressure Warnning!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "BRAKES %d PRESSURE CRITICAL!", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
 		case ERROR_BRAKES_POSITION_LOW:					
 			switch (severity) {
 				case ERROR_LEVEL_INFO:
@@ -390,6 +412,28 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 				case ERROR_LEVEL_ERROR:
 				// Logging behaviour for Error-level logs
 				send_error_message(ERROR_STRING_ERROR, "BRAKES %d PRESSURE CRITICALLY HIGH", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
+        case ERROR_BRAKES_POSITION:					
+			switch (severity) {
+				case ERROR_LEVEL_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "Brakes %d Position Normal", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "Brakes %d Position Warning!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "BRAKES %d POSITION CRITICAL", part_number);
 				// Additional Error Handling
 				break;
 			}			
@@ -573,7 +617,7 @@ void send_error_message(char start[], char message[], uint16_t part_number)
 	snprintf(errorData, MAX_ERROR_MESSAGE_LENGTH + 10, "%s %s", start, messageWithNumber);
 	
 	// Send error data over UART
-	uart_send_data(errorData, MAX_ERROR_MESSAGE_LENGTH + 10);
+	// uart_send_data(errorData, MAX_ERROR_MESSAGE_LENGTH + 10);
 }
 
 /**

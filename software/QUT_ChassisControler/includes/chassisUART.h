@@ -10,11 +10,12 @@
 
 #include <stdlib.h>
 #include <avr/io.h>
+#include "utils/uart.h"
 
 /**
  * @brief Will mashal the incoming byte stream into useable numbers 
  * 
- * This should called everytime there is an an avliable byte in the stdIN buffer
+ * This should called everytime there is an an avaliable byte in the stdIN buffer
  * 
  * @author Jonn Dillon
  * 
@@ -22,7 +23,7 @@
  * @param completedInt The buffer to be filled with the full int if sucessful
  * @return int Returns 1 if the &completedInt was filled, 0 otherwise
  */
-int uart_process_stdin(char byte, uint8_t *completedInt);
+uint8_t uart_process_stdin(char byte, uint8_t *completedInt);
 
 /**
  * @brief Will take a char array and send it to the connected computer
@@ -35,7 +36,7 @@ int uart_process_stdin(char byte, uint8_t *completedInt);
  * @param length The length of the char array
  * @return int Returns 1 when sucessful/completed
  */
-int uart_send_data(unsigned char* s, int length);
+uint8_t uart_send_data(unsigned char* s, int length);
 
 /**
  * @brief Process a CAN packed received via UART
@@ -45,6 +46,6 @@ int uart_send_data(unsigned char* s, int length);
  * @param data Address of data to write to
  * @return int Returns 1 on completion
  */
-int uart_process_packet(unsigned char* s, uint16_t &addr, uint32_t &data);
+uint8_t uart_process_packet(unsigned char* s, uint16_t *addr, uint32_t *data);
 
 #endif // CHASSIS_UART_H

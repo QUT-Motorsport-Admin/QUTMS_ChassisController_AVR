@@ -10,36 +10,110 @@
 
 #include <stdlib.h>
 #include <avr/io.h>
+#include "chassisError.h"
+#include "a2dUtil.h"
 
-#define PEDAL_BRAKE_HIGH		900	/**< Temporary Value, High Brake Pedal Application */
-#define PEDAL_BRAKE_LOW			100	/**< Temporary Value, Low Brake Pedal Application */
-#define PEDAL_BRAKE_LIGHT_ON 	512 /**< Temporary Value, must be updated with testing. Moderate Brake Pedal Application */
+#define INPUT_PEDAL_BRAKE_HIGH		(900)	/**< Temporary Value, High Brake Pedal Application */
+#define INPUT_PEDAL_BRAKE_LOW		(100)	/**< Temporary Value, Low Brake Pedal Application */
+#define INPUT_PEDAL_BRAKE_LIGHT_ON 	(512)   /**< Temporary Value, must be updated with testing. Moderate Brake Pedal Application */
+#define INPUT_PEDAL_BRAKE_CH1       (10)    /**< Brake Pedal POT Ch1 on ADC */
+#define INPUT_PEDAL_BRAKE_CH2       (8)     /**< Brake Pedal POT Ch2 on ADC */
 
-#define PEDAL_THROTTLE_HIGH		900	/**< High Throttle Pedal Application */
-#define PEDAL_THROTTLE_LOW		100	/**< Tempoary Value, Low Throttle Pedal Application */
-#define PEDAL_DELTA_THRESH_L	50 /**< Low Value for pedal sensor discrepancy */
-#define PEDAL_DELTA_THRESH_H	150 /**< High Value for pedal sensor discrepancy */
+#define INPUT_PEDAL_THROTTLE_HIGH	(900)	/**< High Throttle Pedal Application */
+#define INPUT_PEDAL_THROTTLE_LOW	(100)	/**< Low Throttle Pedal Application */
+#define INPUT_PEDAL_THROTTLE_CH1    (5)     /**< Throttle Pedal POT Ch1 on ADC */
+#define INPUT_PEDAL_THROTTLE_CH2    (2)     /**< Throttle Pedal POT Ch2 on ADC */
+
+#define INPUT_PRESSURE_BRAKE_HIGH   (1022)  /**< High pressure lim in brake */
+#define INPUT_PRESSURE_BRAKE_LOW    (1)     /**< Low pressure lim in brake */
+#define INPUT_PRESSURE_BRAKE_FRONT  (11)    /**< Brake pressure front POT Ch on ADC (AN6) */
+#define INPUT_PRESSURE_BRAKE_BACK   (7)     /**< Brake pressure back POT Ch on ADC (AN7) */
+
+#define INPUT_PEDAL_DELTA_THRESH_L	(50)    /**< Low Value for pedal sensor discrepancy */
+#define INPUT_PEDAL_DELTA_THRESH_H	(150)   /**< High Value for pedal sensor discrepancy */
+
+#define INPUT_STEERING_ANGLE_CH     (4)     /**< Steering Angle POT CH on ADC (AN8)*/
+
+#define INPUT_RADIATOR_RIGHT_CH		(0)	    /**< Radiator ADC CH Right (AN5) */
+#define INPUT_RADIATOR_LEFT_CH		(12)	/**< Radiator ADC CH Left (AN10) */
+
+extern uint16_t INPUT_steeringAngle;
+extern uint16_t INPUT_accelerationPedal;
+extern uint16_t INPUT_brakePedal;
+extern uint16_t INPUT_brakePressureFront;
+extern uint16_t INPUT_brakePressureBack;
+
 
 /**
- * @brief Data Structure for Steering Wheel flags
+ * @brief INPUT_get_accelPedal
  * 
- */
-typedef struct STEERINGWHEEL
-{
-	uint8_t flags[4];
-
-} STEERINGWHEEL;
-
-/**
- * @brief Storage for Steering Wheel flags
+ * Provides wrapper with error calling on INPUT_read_accelPedal
  * 
+ * @param val Given value to populate
+ * @return uint8_t State of read
  */
-struct STEERINGWHEEL steeringWheel;
+uint8_t INPUT_get_accelPedal(uint16_t * val);
 
 /**
- * @brief Steering Wheel Angle
+ * @brief INPUT_get_brakePedal
  * 
+ * Provides wrapper with error calling on INPUT_read_brakePedal
+ * 
+ * @param val Given value to populate
+ * @return uint8_t State of read
  */
-uint16_t	 steeringAngle = 0;
+uint8_t INPUT_get_brakePedal(uint16_t * val);
+
+/**
+ * @brief INPUT_get_brakePressureFront
+ * 
+ * Provides wrapper with error calling on INPUT_read_brakePressureFront
+ * 
+ * @param val Given value to populate
+ * @return uint8_t State of read
+ */
+uint8_t INPUT_get_brakePressureFront(uint16_t * val);
+
+/**
+ * @brief INPUT_get_brakePressureBack
+ * 
+ * Provides wrapper with error calling on INPUT_read_brakePressureBack
+ * 
+ * @param val Given value to populate
+ * @return uint8_t State of read
+ */
+uint8_t INPUT_get_brakePressureBack(uint16_t * val);
+
+/**
+ * @brief INPUT_read_accelPedal
+ * 
+ * @param throttle Given uint16_t pointer to populate
+ * @return uint8_t 0 if the value is out of spec
+ */
+uint8_t INPUT_read_accelPedal(uint16_t * throttle);
+
+/**
+ * @brief INPUT_read_brakePedal
+ * 
+ * @param brake Given uint16_t pointer to populate
+ * @return uint8_t 0 if the value is out of spec
+ */
+uint8_t INPUT_read_brakePedal(uint16_t * brake);
+
+/**
+ * @brief INPUT_read_brakePressureFront
+ * 
+ * @param fntPressure Given uint16_t pointer to populate
+ * @return uint8_t 0 if the value is out of spec
+ */
+uint8_t INPUT_read_brakePressureFront(uint16_t * fntPressure);
+
+/**
+ * @brief INPUT_read_brakePressureBack
+ * 
+ * @param bkPressure Given uint16_t pointer to populate
+ * @return uint8_t  0 if the value is out of spec
+ */
+uint8_t INPUT_read_brakePressureBack(uint16_t * bkPressure);
 
 #endif // CHASSIS_INPUT_H
