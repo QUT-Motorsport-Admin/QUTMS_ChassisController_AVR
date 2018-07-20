@@ -6,6 +6,7 @@
 #include <stdbool.h>	
 #include "utils/MCP2515.h"
 #include "utils/uart.h"
+#include "utils/a2d.h"
 #include "includes/chassisInit.h"
 #include "includes/chassisUART.h"
 #include "includes/chassisLED.h"
@@ -33,45 +34,106 @@ uint8_t CAN_HEARTBEAT_ERROR_POWER = 4;      // Time without successfull heartbea
 #define CAN_INPUT_SEND_DELAY (200)          // Defines the 200ms (5Hz) for the input send trigger
 uint8_t CAN_INPUT_SEND_TIME = 0;            // Number of iterations for the input send trigger
 
-/**
- * @brief 
- * 
- */
-void main() {
+int main(void) {    
 
     // Set Up
     firmware_init();
     timer_init();
 
+    // uart_putc('B');
+    // uart1_putc('A');
+    
+    // // Testing pure UART implimentation, not working
+    // -----------------
+    // char ar[]= "A";
+    // // High and low bits
+    // UBRR1H = (BUAD_RATE_CALC >> 8); 
+    // UBRR1L = BUAD_RATE_CALC; 
+    // //////////////// 
+    // // transimit and recieve enable
+    // UCSR1B = (1 << TXEN1)| (1 << TXCIE1) | (1 << RXEN1) | (1 << RXCIE1); 
+    // UCSR1C = (1 << UCSZ11) | (1 << UCSZ10);  //8 bit data format
+    // ////////////////////////////////////////////////////////////////
+    // int i = 0;
+    // while (1){  
+    //     for (i = 0; i < strlen(ar); i++){ 
+    //         while (( UCSR1A & (1<<UDRE1))  == 0){};
+    //         PORTK ^= 0b00100000;
+    //         UDR1 = ar[i]; 
+    //     }
+    // }
+
+    // // Testing near-pure ADC implementation, not working
+    // // -----------------
+    // ADMUX &= ~(1<<ADLAR); //clear
+    // a2dSetPrescaler(ADC_PRESCALE_DIV128);
+	// a2dSetReference(ADC_REFERENCE_AVCC);
+    // ADCSRA |= (1 << ADEN);
+    // a2dSetChannel(5);
+
+    // // Testing pure ADC implementation, not working
+    // -----------------
+    ADCSRA |= (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); // Set ADC prescalar to 128 - 125KHz sample rate @ 16MHz
+
+    ADMUX |= (1 << REFS0);  // Set ADC reference to AVCC
+    ADMUX &= ~(1 << ADLAR);  // Right adjust ADC result to allow easy 8 bit reading
+
+    ADMUX |= 0b00000101;    // Setting to ADC5
+
+    ADCSRA |= (1 << ADEN);  // Enable ADC
+    ADCSRA |= (1 << ADSC);  // Start A2D Conversions
+
     // Main Poll
     // ------------------------------------------------------------------------
     while(1)
     {
-        // Poll UART to see if there is anything there to use
-        // while(isCharAvailable_1()) 
-        // {
-        //     uint8_t *completedInt;
-        //     // if(uart_process_stdin(uart1_getc(), completedInt)) 
-        //     if(uart_process_stdin(receiveChar_1(), completedInt)) 
-        //     {
 
-        //     }
+        // // Part of near-pure ADC implementation testing
+        if(ADCL > 9) 
+        {
+            PORTK = 0b00100000;
+        } 
+        else 
+        { 
+            PORTK = 0b00000000; 
+        }
+
+        // // Part of testing UART, checking to see if any char is in the UART buffers
+        // -----------------
+        // if(isCharAvailable()) {
+        //     PORTK ^= 0b00100000;
+        // }
+        // if(isCharAvailable_1()) {
+        //     PORTK ^= 0b00100000;
         // }
 
-        // Poll inputs and store into variables
-        uint16_t tmpInputVal;
-        if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
-            INPUT_accelerationPedal = tmpInputVal;
-        }
-        if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
-            INPUT_brakePedal = tmpInputVal;
-        }
-        if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
-            INPUT_brakePressureBack = tmpInputVal;
-        }
-        if(INPUT_get_brakePressureFront(&tmpInputVal) == 0) {
-            INPUT_brakePressureFront = tmpInputVal;
-        }
+        // // Poll inputs and store into variables
+        // uint16_t tmpInputVal;
+        // if(INPUT_read_accelPedal(&tmpInputVal) == 0) {
+        //     INPUT_accelerationPedal = tmpInputVal;
+        // }
+        // if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
+        //     INPUT_brakePedal = tmpInputVal;
+        // }
+        // if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
+        //     INPUT_brakePressureBack = tmpInputVal;
+        // }
+        // if(INPUT_get_brakePressureFront(&tmpInputVal) == 0) {
+        //     INPUT_brakePressureFront = tmpInputVal;
+        // }
+
+        // if(INPUT_accelerationPedal < 900) {
+        //     PORTK = 0b00100000;
+        // } else {
+        //     PORTK = 0b00000000;
+        // }
+
+        // Getto light blinking
+        // if (TCNT0 >= 250)
+        // {
+        //     // PORTK ^= 0b00100000;
+        //     TCNT0 = 0;
+        // }
     }
 }
 
@@ -80,6 +142,8 @@ void main() {
  * 
  */
 void oneKHzTimer() {
+
+    // PORTK ^= 0b00100000;
 
     // Check the button state
     // -> 50ms Timer / State Change
@@ -107,62 +171,68 @@ void oneKHzTimer() {
     //     buttonStateDebounceCount = 0;
     // }
 
-
-
     // Send CAN heartbeats -> Inverters: 100Hz, Data: 100Hz, Power: 20Hz
     // 100Hz = 1 / 100 = 0.01s = 10ms, 20Hz = 1 / 20 = 0.05s = 50ms
     // ------------------------------------------------------------------------
-    if(CAN_HEARTBEAT_COUNT_INVERTERS > CAN_HEARTBEAT_TIME_INVERTERS)
-    {
-        // Reset inverter heartbeat counter
-        CAN_HEARTBEAT_COUNT_INVERTERS = 0;
-        // Send inverter system heartbeat
-        // CAN_send(MCP2515_CAN1, )
-    }
-    if(CAN_HEARTBEAT_COUNT_DATA > CAN_HEARTBEAT_TIME_DATA)
-    {
-        // Reset data heartbeat counter
-        CAN_HEARTBEAT_COUNT_DATA = 0;
-        // Send data system heartbeat
-        // CAN_send(MCP2515_CAN2, )
-    }
-    if(CAN_HEARTBEAT_COUNT_POWER > CAN_HEARTBEAT_TIME_POWER)
-    {
-        // Reset power heartbeat counter
-        CAN_HEARTBEAT_COUNT_POWER = 0;
-        // Send power system heartbeat
-        // CAN_send(MCP2515_CAN2, )
-    }
-    CAN_HEARTBEAT_COUNT_INVERTERS++;
-    CAN_HEARTBEAT_COUNT_DATA++;
-    CAN_HEARTBEAT_COUNT_POWER++;
+    // if(CAN_HEARTBEAT_COUNT_INVERTERS > CAN_HEARTBEAT_TIME_INVERTERS)
+    // {
+    //     // Reset inverter heartbeat counter
+    //     CAN_HEARTBEAT_COUNT_INVERTERS = 0;
+    //     // Send inverter system heartbeat
+    //     // CAN_send(MCP2515_CAN1, )
+    // }
+    // if(CAN_HEARTBEAT_COUNT_DATA > CAN_HEARTBEAT_TIME_DATA)
+    // {
+    //     // Reset data heartbeat counter
+    //     CAN_HEARTBEAT_COUNT_DATA = 0;
+    //     // Send data system heartbeat
+    //     // CAN_send(MCP2515_CAN2, )
+    // }
+    // if(CAN_HEARTBEAT_COUNT_POWER > CAN_HEARTBEAT_TIME_POWER)
+    // {
+    //     // Reset power heartbeat counter
+    //     CAN_HEARTBEAT_COUNT_POWER = 0;
+    //     // Send power system heartbeat
+    //     // CAN_send(MCP2515_CAN2, )
+    // }
+    // CAN_HEARTBEAT_COUNT_INVERTERS++;
+    // CAN_HEARTBEAT_COUNT_DATA++;
+    // CAN_HEARTBEAT_COUNT_POWER++;
 
 
 
-    // CAN Error counts -> Missing Receives
-    // ------------------------------------------------------------------------
-    if(CAN_HEARTBEAT_ERROR_INVERTERS > CAN_HEARTBEAT_ERROR_DELAY)
-    {
-        throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_NO_RESPONSE);
-    }
-    if(CAN_HEARTBEAT_ERROR_DATA > CAN_HEARTBEAT_ERROR_DELAY)
-    {
-        throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_NO_RESPONSE);
-    }
-    if(CAN_HEARTBEAT_ERROR_POWER > CAN_HEARTBEAT_ERROR_DELAY)
-    {
-        throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_NO_RESPONSE);
-    }
-    CAN_HEARTBEAT_ERROR_INVERTERS++;
-    CAN_HEARTBEAT_ERROR_DATA++;
-    CAN_HEARTBEAT_ERROR_POWER++;
+    // // CAN Error counts -> Missing Receives
+    // // ------------------------------------------------------------------------
+    // if(CAN_HEARTBEAT_ERROR_INVERTERS > CAN_HEARTBEAT_ERROR_DELAY)
+    // {
+    //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_NO_RESPONSE);
+    // }
+    // if(CAN_HEARTBEAT_ERROR_DATA > CAN_HEARTBEAT_ERROR_DELAY)
+    // {
+    //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_NO_RESPONSE);
+    // }
+    // if(CAN_HEARTBEAT_ERROR_POWER > CAN_HEARTBEAT_ERROR_DELAY)
+    // {
+    //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_NO_RESPONSE);
+    // }
+    // CAN_HEARTBEAT_ERROR_INVERTERS++;
+    // CAN_HEARTBEAT_ERROR_DATA++;
+    // CAN_HEARTBEAT_ERROR_POWER++;
 
 
     // Send CAN input
+
 }
 
 // -------------------------------------------------- Interrupt Service Routines --------------------------------------------------
 
+/**
+ * @brief Called whenever the 1Khz timer triggers
+ */
+ISR(TIMER1_COMPA_vect)
+{
+    oneKHzTimer();
+}
 
 /**
  * @brief Called whenever CANBUS 1 interupt is triggered

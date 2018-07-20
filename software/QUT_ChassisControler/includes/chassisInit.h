@@ -7,6 +7,8 @@
 #include <avr/interrupt.h>
 #include "utils/MCP2515.h"
 #include "utils/uart.h"
+#include "utils/a2d.h"
+#include "utils/SPI.h"
 
 void io_init();
 void firmware_init();

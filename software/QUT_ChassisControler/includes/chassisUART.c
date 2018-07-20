@@ -1,70 +1,25 @@
 /**
  * @file chassisUART.c
  * @author Jonn Dillon
- * @date 12/4/2018
+ * @date 19/7/2018
  * @brief Handles all major communications functions, and related utilities in and out of the MCU.
  **/
 
 #include "chassisUART.h"
 
-/**
- * Example Code:
- * char uartByte = uartBuffer.next();
- * uint8_t *completedInt;
- * if(uart_process_stdin(uartByte, &completedInt)) {
- *     // Run code here on completedInt
- *     // Ideally you would process for the command given in the uart
- * }
- **/
-// uint8_t uart_process_stdin(char byte, uint8_t *completedInt)
-// {
-//     // Makes 'global' values to store all STDIN info.
-// 	static unsigned char count = 0;
-// 	static unsigned char incomingString[48];
-// 	static unsigned char stringActive = 0;
-	
-//     // Main byte marshaling process
-// 	if(byte == 'D') stringActive = 1; // Is there a new byte comming in
-//     else if(stringActive == 1) incomingString[count++] = byte; // Add byte while there is still a byte comming in
-// 	if(count > 8)
-// 	{
-// 		incomingString[count - 1] = '\0'; // Adds ending byte to int
-// 		count = 0; // Resets 'global' counter
-// 		stringActive = 0; // Ends int marshaling process
-//         *completedInt = incomingString; // Sets the given int to what was found
-//         return 1;
-// 		// uart_parse_input(incomingString); // Calls function to handle inputed int
-//     }
-//     return 0;
+char *UART_getString(void) {
+    unsigned char string[255], x, i;
+    while((x = uart1_getc()) != UART_NO_DATA) {
+        string[i++] = x;
+    }
+    return string;
+    
+}
+
+// void UART_sendString(const char *s) {
+//     uart1_puts(*s);
 // }
 
-/**
- * Example Code:
- * unsigned char *uartData = ... something
- * uart_send_data(uartData, uartData.length);
- **/
-// uint8_t uart_send_data(unsigned char *s, uint8_t length) {
-//     // Prefixes 'D'
-//     uart1_putc('D');
-//     // Checks to see how ever many last bytes are not full
-//     // Fills in said last bytes with null data
-//     // Sends all data though uart
-//     for(int i = 0; i < length; i++) uart1_putc(s[i]);
-//     return 1;
-// }
-
-/**
- * 
- **/
-// uint8_t uart_process_packet(unsigned char* s, uint16_t *addr, uint32_t *data) {
-//     *addr =     ((uint16_t)(s[1]) << 8);
-// 	*addr +=    (uint16_t)(s[2]);
-// 	*data =     ((uint32_t)s[3]) << 24;
-// 	*data =     ((uint32_t)s[4]) << 16;
-// 	*data +=    ((uint32_t)s[5]) << 8;
-// 	*data +=    ((uint32_t)s[6]);
-//     return 1;
-// }
 
 // OLD ------------------------------------------------------------------------
 

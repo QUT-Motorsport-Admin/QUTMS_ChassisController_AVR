@@ -8,6 +8,7 @@
 #ifndef CHASSIS_INPUT_H
 #define CHASSIS_INPUT_H
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <avr/io.h>
 #include "chassisError.h"
@@ -21,8 +22,8 @@
 
 #define INPUT_PEDAL_THROTTLE_HIGH	(900)	/**< High Throttle Pedal Application */
 #define INPUT_PEDAL_THROTTLE_LOW	(100)	/**< Low Throttle Pedal Application */
-#define INPUT_PEDAL_THROTTLE_CH1    (5)     /**< Throttle Pedal POT Ch1 on ADC */
-#define INPUT_PEDAL_THROTTLE_CH2    (2)     /**< Throttle Pedal POT Ch2 on ADC */
+#define INPUT_PEDAL_THROTTLE_CH1    (5)     /**< Throttle Pedal POT Ch1 on ADC */ // Channel is confirmed
+#define INPUT_PEDAL_THROTTLE_CH2    (2)     /**< Throttle Pedal POT Ch2 on ADC */ // Channel is confirmed
 
 #define INPUT_PRESSURE_BRAKE_HIGH   (1022)  /**< High pressure lim in brake */
 #define INPUT_PRESSURE_BRAKE_LOW    (1)     /**< Low pressure lim in brake */

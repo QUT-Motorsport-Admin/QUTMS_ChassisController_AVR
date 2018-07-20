@@ -13,39 +13,24 @@
 #include "utils/uart.h"
 
 /**
- * @brief Will mashal the incoming byte stream into useable numbers 
- * 
+ * @brief UART_getString
+ *
+ * Will return a completed string from the UART
  * This should called everytime there is an an avaliable byte in the stdIN buffer
  * 
  * @author Jonn Dillon
- * 
- * @param byte Singular char to be added to the current stored
- * @param completedInt The buffer to be filled with the full int if sucessful
- * @return int Returns 1 if the &completedInt was filled, 0 otherwise
  */
-uint8_t uart_process_stdin(char byte, uint8_t *completedInt);
+char *UART_getString(void);
+
 
 /**
- * @brief Will take a char array and send it to the connected computer
+ * @brief UART_sendString
  * 
- * This function does no modifications to the string
- * 
- * @author Jonn Dillon
- * 
- * @param s The given char array to send back to the machine
- * @param length The length of the char array
- * @return int Returns 1 when sucessful/completed
+ * Will take a string pointer, and send it down UART
+ * One way method, no error reporting
+ *
+ * @param s Given string pointer to send (char[])
  */
-uint8_t uart_send_data(unsigned char* s, int length);
-
-/**
- * @brief Process a CAN packed received via UART
- * 
- * @param s Pointer to packet to process
- * @param addr Address of address to write to
- * @param data Address of data to write to
- * @return int Returns 1 on completion
- */
-uint8_t uart_process_packet(unsigned char* s, uint16_t *addr, uint32_t *data);
+// void UART_sendString(unsigned char *s);
 
 #endif // CHASSIS_UART_H

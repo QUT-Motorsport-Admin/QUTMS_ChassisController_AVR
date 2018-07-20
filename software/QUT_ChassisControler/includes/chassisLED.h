@@ -38,5 +38,13 @@ void led_toggle();
  */
 void led_off();
 
+/**
+ * @brief Turns on the LED
+ * 
+ * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
+ * 
+ */
+void led_on();
+
 
 #endif // CHASSIS_LED_H

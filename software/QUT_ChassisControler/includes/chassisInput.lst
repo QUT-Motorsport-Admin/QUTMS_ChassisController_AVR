@@ -11,8 +11,9 @@
   11               		.section	.text.INPUT_read_accelPedal,"ax",@progbits
   12               	.global	INPUT_read_accelPedal
   14               	INPUT_read_accelPedal:
-  15               	.LFB9:
-  16               		.file 1 "includes/chassisInput.c"
+  15               	.LVL0:
+  16               	.LFB9:
+  17               		.file 1 "includes/chassisInput.c"
    1:includes/chassisInput.c **** /**
    2:includes/chassisInput.c ****  * @file chassisInput.c
    3:includes/chassisInput.c ****  * @author Jonn Dillon
@@ -32,809 +33,918 @@
   17:includes/chassisInput.c ****     uint8_t state = INPUT_read_accelPedal(val);
   18:includes/chassisInput.c ****     switch (state) {
   19:includes/chassisInput.c ****         case 1: // Inputs were too low
-  20:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
-  21:includes/chassisInput.c ****             break;
-  22:includes/chassisInput.c ****         case 2: // Inputs were too high
-  23:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
-  24:includes/chassisInput.c ****             break;
-  25:includes/chassisInput.c ****         case 3: // Delta was found to be in failure
-  26:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
-  27:includes/chassisInput.c ****             break;
-  28:includes/chassisInput.c ****         default:
-  29:includes/chassisInput.c ****             // Do nothing
+  20:includes/chassisInput.c ****             // PORTK = 0b00100000;
+  21:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
+  22:includes/chassisInput.c ****             break;
+  23:includes/chassisInput.c ****         case 2: // Inputs were too high
+  24:includes/chassisInput.c ****             // PORTK = 0b00100000;
+  25:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
+  26:includes/chassisInput.c ****             break;
+  27:includes/chassisInput.c ****         case 3: // Delta was found to be in failure
+  28:includes/chassisInput.c ****             // PORTK = 0b00100000;
+  29:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
   30:includes/chassisInput.c ****             break;
-  31:includes/chassisInput.c ****     }
-  32:includes/chassisInput.c ****     return state; // Pass up state of read for process and logic use
-  33:includes/chassisInput.c **** }
-  34:includes/chassisInput.c **** 
-  35:includes/chassisInput.c **** uint8_t INPUT_get_brakePedal(uint16_t *val) {
-  36:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePedal(val);
-  37:includes/chassisInput.c ****     switch (state) {
-  38:includes/chassisInput.c ****         case 1: // Inputs were too low
-  39:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION_LOW);
-  40:includes/chassisInput.c ****             break;
-  41:includes/chassisInput.c ****         case 2: // Inputs were too high
-  42:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION_HIGH);
-  43:includes/chassisInput.c ****             break;
-  44:includes/chassisInput.c ****         case 3: // Delta was found to be in failure
-  45:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION);
-  46:includes/chassisInput.c ****             break;
-  47:includes/chassisInput.c ****         default:
-  48:includes/chassisInput.c ****             // Do nothing
-  49:includes/chassisInput.c ****             break;
-  50:includes/chassisInput.c ****     }
-  51:includes/chassisInput.c ****     return state; // Pass up state of read for process and logic use
-  52:includes/chassisInput.c **** }
-  53:includes/chassisInput.c **** 
-  54:includes/chassisInput.c **** uint8_t INPUT_get_brakePressureFront(uint16_t *val) {
-  55:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
-  56:includes/chassisInput.c ****     switch (state) {
-  57:includes/chassisInput.c ****         case 1: // Inputs were too low
-  58:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_LOW, 1);
-  59:includes/chassisInput.c ****             break;
-  60:includes/chassisInput.c ****         case 2: // Inputs were too high
-  61:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_HIGH, 1);
-  62:includes/chassisInput.c ****             break;
-  63:includes/chassisInput.c ****         case 3: // Delta was found to be in failure
-  64:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE, 1);
-  65:includes/chassisInput.c ****             break;
-  66:includes/chassisInput.c ****         default:
-  67:includes/chassisInput.c ****             // Do nothing
-  68:includes/chassisInput.c ****             break;
-  69:includes/chassisInput.c ****     }
-  70:includes/chassisInput.c ****     return state; // Pass up state of read for process and logic use
-  71:includes/chassisInput.c **** }
-  72:includes/chassisInput.c **** 
-  73:includes/chassisInput.c **** uint8_t INPUT_get_brakePressureBack(uint16_t *val) {
-  74:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
-  75:includes/chassisInput.c ****     switch (state) {
-  76:includes/chassisInput.c ****         case 1: // Inputs were too low
-  77:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_LOW, 2);
-  78:includes/chassisInput.c ****             break;
-  79:includes/chassisInput.c ****         case 2: // Inputs were too high
-  80:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_HIGH, 2);
-  81:includes/chassisInput.c ****             break;
-  82:includes/chassisInput.c ****         case 3: // Delta was found to be in failure
-  83:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE, 2);
-  84:includes/chassisInput.c ****             break;
-  85:includes/chassisInput.c ****         default:
-  86:includes/chassisInput.c ****             // Do nothing
-  87:includes/chassisInput.c ****             break;
-  88:includes/chassisInput.c ****     }
-  89:includes/chassisInput.c ****     return state; // Pass up state of read for process and logic use
-  90:includes/chassisInput.c **** }
-  91:includes/chassisInput.c **** 
-  92:includes/chassisInput.c **** /**
-  93:includes/chassisInput.c ****  * Example Code:
-  94:includes/chassisInput.c ****  * uint16_t val = 0;
-  95:includes/chassisInput.c ****  * if(INPUT_read_accelPedal(*val) == 0) {
-  96:includes/chassisInput.c ****  *     // Use val some way
-  97:includes/chassisInput.c ****  * } else {
-  98:includes/chassisInput.c ****  *     // Val is in error
-  99:includes/chassisInput.c ****  * }
- 100:includes/chassisInput.c ****  */
- 101:includes/chassisInput.c **** uint8_t INPUT_read_accelPedal(uint16_t *throttle) {
-  17               		.loc 1 101 0
-  18               		.cfi_startproc
-  19               	.LVL0:
-  20 0000 0F93      		push r16
-  21               	.LCFI0:
-  22               		.cfi_def_cfa_offset 3
-  23               		.cfi_offset 16, -2
-  24 0002 1F93      		push r17
-  25               	.LCFI1:
-  26               		.cfi_def_cfa_offset 4
-  27               		.cfi_offset 17, -3
-  28 0004 CF93      		push r28
-  29               	.LCFI2:
-  30               		.cfi_def_cfa_offset 5
-  31               		.cfi_offset 28, -4
-  32 0006 DF93      		push r29
-  33               	.LCFI3:
-  34               		.cfi_def_cfa_offset 6
-  35               		.cfi_offset 29, -5
-  36               	/* prologue: function */
-  37               	/* frame size = 0 */
-  38               	/* stack size = 4 */
-  39               	.L__stack_usage = 4
-  40 0008 8C01      		movw r16,r24
- 102:includes/chassisInput.c **** 
- 103:includes/chassisInput.c ****     // Read the values of the two throttle sensors and verify if the received values are valid
- 104:includes/chassisInput.c **** 	uint16_t primary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH1);
-  41               		.loc 1 104 0
-  42 000a 85E0      		ldi r24,lo8(5)
-  43               	.LVL1:
-  44 000c 0E94 0000 		call adc_read_avg
-  45               	.LVL2:
-  46 0010 EC01      		movw r28,r24
-  47               	.LVL3:
- 105:includes/chassisInput.c ****     uint16_t secondary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH2);
-  48               		.loc 1 105 0
-  49 0012 82E0      		ldi r24,lo8(2)
-  50               	.LVL4:
-  51 0014 0E94 0000 		call adc_read_avg
-  52               	.LVL5:
- 106:includes/chassisInput.c ****     uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
- 107:includes/chassisInput.c ****     *throttle = primary; 
-  53               		.loc 1 107 0
-  54 0018 F801      		movw r30,r16
-  55 001a D183      		std Z+1,r29
-  56 001c C083      		st Z,r28
- 108:includes/chassisInput.c **** 	if(primary < INPUT_PEDAL_THROTTLE_LOW || secondary < INPUT_PEDAL_THROTTLE_LOW) { return 1; }
-  57               		.loc 1 108 0
-  58 001e C436      		cpi r28,100
-  59 0020 D105      		cpc r29,__zero_reg__
-  60 0022 00F0      		brlo .L5
-  61               		.loc 1 108 0 is_stmt 0 discriminator 2
-  62 0024 8436      		cpi r24,100
-  63 0026 9105      		cpc r25,__zero_reg__
-  64 0028 00F0      		brlo .L5
- 109:includes/chassisInput.c **** 	if(primary > INPUT_PEDAL_THROTTLE_HIGH || secondary > INPUT_PEDAL_THROTTLE_HIGH) { return 2; }
-  65               		.loc 1 109 0 is_stmt 1
-  66 002a C538      		cpi r28,-123
-  67 002c F3E0      		ldi r31,3
-  68 002e DF07      		cpc r29,r31
-  69 0030 00F4      		brsh .L7
-  70               		.loc 1 109 0 is_stmt 0 discriminator 2
-  71 0032 8538      		cpi r24,-123
-  72 0034 23E0      		ldi r18,3
-  73 0036 9207      		cpc r25,r18
-  74 0038 00F4      		brsh .L7
- 106:includes/chassisInput.c ****     uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
-  75               		.loc 1 106 0 is_stmt 1
-  76 003a C81B      		sub r28,r24
-  77 003c D90B      		sbc r29,r25
-  78               	.LVL6:
-  79 003e D7FF      		sbrs r29,7
-  80 0040 00C0      		rjmp .L3
-  81 0042 D195      		neg r29
-  82 0044 C195      		neg r28
-  83 0046 D109      		sbc r29,__zero_reg__
-  84               	.LVL7:
-  85               	.L3:
- 110:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
- 111:includes/chassisInput.c **** 	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
-  86               		.loc 1 111 0
-  87 0048 E297      		sbiw r28,50
- 112:includes/chassisInput.c **** 	else { return 0; }
-  88               		.loc 1 112 0
-  89 004a 80E0      		ldi r24,0
-  90               	.LVL8:
- 111:includes/chassisInput.c **** 	else { return 0; }
-  91               		.loc 1 111 0
-  92 004c C536      		cpi r28,101
-  93 004e D105      		cpc r29,__zero_reg__
-  94 0050 00F0      		brlo .L1
-  95 0052 83E0      		ldi r24,lo8(3)
-  96 0054 00C0      		rjmp .L1
-  97               	.LVL9:
-  98               	.L5:
- 108:includes/chassisInput.c **** 	if(primary > INPUT_PEDAL_THROTTLE_HIGH || secondary > INPUT_PEDAL_THROTTLE_HIGH) { return 2; }
-  99               		.loc 1 108 0
- 100 0056 81E0      		ldi r24,lo8(1)
- 101               	.LVL10:
- 102               	.L1:
- 103               	/* epilogue start */
- 113:includes/chassisInput.c **** }
- 104               		.loc 1 113 0
- 105 0058 DF91      		pop r29
- 106 005a CF91      		pop r28
- 107 005c 1F91      		pop r17
- 108 005e 0F91      		pop r16
- 109               	.LVL11:
- 110 0060 0895      		ret
- 111               	.LVL12:
- 112               	.L7:
- 109:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
- 113               		.loc 1 109 0
- 114 0062 82E0      		ldi r24,lo8(2)
- 115               	.LVL13:
- 116 0064 00C0      		rjmp .L1
- 117               		.cfi_endproc
- 118               	.LFE9:
- 120               		.section	.text.INPUT_get_accelPedal,"ax",@progbits
- 121               	.global	INPUT_get_accelPedal
- 123               	INPUT_get_accelPedal:
- 124               	.LFB5:
+  31:includes/chassisInput.c ****         default:
+  32:includes/chassisInput.c ****             // Do nothing
+  33:includes/chassisInput.c ****             // PORTK = 0b00100000;
+  34:includes/chassisInput.c ****             break;
+  35:includes/chassisInput.c ****     }
+  36:includes/chassisInput.c ****     return state; // Pass up state of read for process and logic use
+  37:includes/chassisInput.c **** }
+  38:includes/chassisInput.c **** 
+  39:includes/chassisInput.c **** uint8_t INPUT_get_brakePedal(uint16_t *val) {
+  40:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePedal(val);
+  41:includes/chassisInput.c ****     switch (state) {
+  42:includes/chassisInput.c ****         case 1: // Inputs were too low
+  43:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION_LOW);
+  44:includes/chassisInput.c ****             break;
+  45:includes/chassisInput.c ****         case 2: // Inputs were too high
+  46:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION_HIGH);
+  47:includes/chassisInput.c ****             break;
+  48:includes/chassisInput.c ****         case 3: // Delta was found to be in failure
+  49:includes/chassisInput.c ****             throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION);
+  50:includes/chassisInput.c ****             break;
+  51:includes/chassisInput.c ****         default:
+  52:includes/chassisInput.c ****             // Do nothing
+  53:includes/chassisInput.c ****             break;
+  54:includes/chassisInput.c ****     }
+  55:includes/chassisInput.c ****     return state; // Pass up state of read for process and logic use
+  56:includes/chassisInput.c **** }
+  57:includes/chassisInput.c **** 
+  58:includes/chassisInput.c **** uint8_t INPUT_get_brakePressureFront(uint16_t *val) {
+  59:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
+  60:includes/chassisInput.c ****     switch (state) {
+  61:includes/chassisInput.c ****         case 1: // Inputs were too low
+  62:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_LOW, 1);
+  63:includes/chassisInput.c ****             break;
+  64:includes/chassisInput.c ****         case 2: // Inputs were too high
+  65:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_HIGH, 1);
+  66:includes/chassisInput.c ****             break;
+  67:includes/chassisInput.c ****         case 3: // Delta was found to be in failure
+  68:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE, 1);
+  69:includes/chassisInput.c ****             break;
+  70:includes/chassisInput.c ****         default:
+  71:includes/chassisInput.c ****             // Do nothing
+  72:includes/chassisInput.c ****             break;
+  73:includes/chassisInput.c ****     }
+  74:includes/chassisInput.c ****     return state; // Pass up state of read for process and logic use
+  75:includes/chassisInput.c **** }
+  76:includes/chassisInput.c **** 
+  77:includes/chassisInput.c **** uint8_t INPUT_get_brakePressureBack(uint16_t *val) {
+  78:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
+  79:includes/chassisInput.c ****     switch (state) {
+  80:includes/chassisInput.c ****         case 1: // Inputs were too low
+  81:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_LOW, 2);
+  82:includes/chassisInput.c ****             break;
+  83:includes/chassisInput.c ****         case 2: // Inputs were too high
+  84:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE_HIGH, 2);
+  85:includes/chassisInput.c ****             break;
+  86:includes/chassisInput.c ****         case 3: // Delta was found to be in failure
+  87:includes/chassisInput.c ****             throw_error_code_with_number(ERROR_LEVEL_WARN, ERROR_BRAKES_PRESSURE, 2);
+  88:includes/chassisInput.c ****             break;
+  89:includes/chassisInput.c ****         default:
+  90:includes/chassisInput.c ****             // Do nothing
+  91:includes/chassisInput.c ****             break;
+  92:includes/chassisInput.c ****     }
+  93:includes/chassisInput.c ****     return state; // Pass up state of read for process and logic use
+  94:includes/chassisInput.c **** }
+  95:includes/chassisInput.c **** 
+  96:includes/chassisInput.c **** /**
+  97:includes/chassisInput.c ****  * Example Code:
+  98:includes/chassisInput.c ****  * uint16_t val = 0;
+  99:includes/chassisInput.c ****  * if(INPUT_read_accelPedal(*val) == 0) {
+ 100:includes/chassisInput.c ****  *     // Use val some way
+ 101:includes/chassisInput.c ****  * } else {
+ 102:includes/chassisInput.c ****  *     // Val is in error
+ 103:includes/chassisInput.c ****  * }
+ 104:includes/chassisInput.c ****  */
+ 105:includes/chassisInput.c **** uint8_t INPUT_read_accelPedal(uint16_t *throttle) {
+  18               		.loc 1 105 51 view -0
+  19               		.cfi_startproc
+  20               		.loc 1 105 51 is_stmt 0 view .LVU1
+  21 0000 0F93      		push r16
+  22               	.LCFI0:
+  23               		.cfi_def_cfa_offset 3
+  24               		.cfi_offset 16, -2
+  25 0002 1F93      		push r17
+  26               	.LCFI1:
+  27               		.cfi_def_cfa_offset 4
+  28               		.cfi_offset 17, -3
+  29 0004 CF93      		push r28
+  30               	.LCFI2:
+  31               		.cfi_def_cfa_offset 5
+  32               		.cfi_offset 28, -4
+  33 0006 DF93      		push r29
+  34               	.LCFI3:
+  35               		.cfi_def_cfa_offset 6
+  36               		.cfi_offset 29, -5
+  37               	/* prologue: function */
+  38               	/* frame size = 0 */
+  39               	/* stack size = 4 */
+  40               	.L__stack_usage = 4
+  41 0008 8C01      		movw r16,r24
+ 106:includes/chassisInput.c **** 
+ 107:includes/chassisInput.c ****     // Read the values of the two throttle sensors and verify if the received values are valid
+ 108:includes/chassisInput.c **** 	uint16_t primary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH1);
+  42               		.loc 1 108 2 is_stmt 1 view .LVU2
+  43               		.loc 1 108 21 is_stmt 0 view .LVU3
+  44 000a 85E0      		ldi r24,lo8(5)
+  45               	.LVL1:
+  46               		.loc 1 108 21 view .LVU4
+  47 000c 0E94 0000 		call adc_read_avg
+  48               	.LVL2:
+  49 0010 EC01      		movw r28,r24
+  50               	.LVL3:
+ 109:includes/chassisInput.c ****     uint16_t secondary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH2);
+  51               		.loc 1 109 5 is_stmt 1 view .LVU5
+  52               		.loc 1 109 26 is_stmt 0 view .LVU6
+  53 0012 82E0      		ldi r24,lo8(2)
+  54               	.LVL4:
+  55               		.loc 1 109 26 view .LVU7
+  56 0014 0E94 0000 		call adc_read_avg
+  57               	.LVL5:
+ 110:includes/chassisInput.c ****     // PORTK = 0b00100000;
+ 111:includes/chassisInput.c ****     // if(primary == 0 || secondary == 0) { PORTK = 0b00100000; } else { PORTK = 0b00000000; }
+ 112:includes/chassisInput.c ****     uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
+  58               		.loc 1 112 5 is_stmt 1 view .LVU8
+ 113:includes/chassisInput.c ****     *throttle = primary; 
+  59               		.loc 1 113 5 view .LVU9
+  60               		.loc 1 113 15 is_stmt 0 view .LVU10
+  61 0018 F801      		movw r30,r16
+  62 001a D183      		std Z+1,r29
+  63 001c C083      		st Z,r28
+ 114:includes/chassisInput.c **** 	if(primary < INPUT_PEDAL_THROTTLE_LOW || secondary < INPUT_PEDAL_THROTTLE_LOW) { return 1; }
+  64               		.loc 1 114 2 is_stmt 1 view .LVU11
+  65               		.loc 1 114 4 is_stmt 0 view .LVU12
+  66 001e C436      		cpi r28,100
+  67 0020 D105      		cpc r29,__zero_reg__
+  68 0022 00F0      		brlo .L5
+  69               		.loc 1 114 40 discriminator 2 view .LVU13
+  70 0024 8436      		cpi r24,100
+  71 0026 9105      		cpc r25,__zero_reg__
+  72 0028 00F0      		brlo .L5
+ 115:includes/chassisInput.c **** 	if(primary > INPUT_PEDAL_THROTTLE_HIGH || secondary > INPUT_PEDAL_THROTTLE_HIGH) { return 2; }
+  73               		.loc 1 115 2 is_stmt 1 view .LVU14
+  74               		.loc 1 115 4 is_stmt 0 view .LVU15
+  75 002a C538      		cpi r28,-123
+  76 002c F3E0      		ldi r31,3
+  77 002e DF07      		cpc r29,r31
+  78 0030 00F4      		brsh .L7
+  79               		.loc 1 115 41 discriminator 2 view .LVU16
+  80 0032 8538      		cpi r24,-123
+  81 0034 23E0      		ldi r18,3
+  82 0036 9207      		cpc r25,r18
+  83 0038 00F4      		brsh .L7
+ 116:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
+ 117:includes/chassisInput.c **** 	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
+  84               		.loc 1 117 2 is_stmt 1 view .LVU17
+ 112:includes/chassisInput.c ****     *throttle = primary; 
+  85               		.loc 1 112 22 is_stmt 0 view .LVU18
+  86 003a C81B      		sub r28,r24
+  87 003c D90B      		sbc r29,r25
+  88               	.LVL6:
+ 112:includes/chassisInput.c ****     *throttle = primary; 
+  89               		.loc 1 112 22 view .LVU19
+  90 003e D7FF      		sbrs r29,7
+  91 0040 00C0      		rjmp .L3
+  92 0042 D195      		neg r29
+  93 0044 C195      		neg r28
+  94 0046 D109      		sbc r29,__zero_reg__
+  95               	.LVL7:
+  96               	.L3:
+  97               		.loc 1 117 40 view .LVU20
+  98 0048 E297      		sbiw r28,50
+ 118:includes/chassisInput.c **** 	else { return 0; }
+  99               		.loc 1 118 16 view .LVU21
+ 100 004a 80E0      		ldi r24,0
+ 101               	.LVL8:
+ 117:includes/chassisInput.c **** 	else { return 0; }
+ 102               		.loc 1 117 4 view .LVU22
+ 103 004c C536      		cpi r28,101
+ 104 004e D105      		cpc r29,__zero_reg__
+ 105 0050 00F0      		brlo .L1
+ 117:includes/chassisInput.c **** 	else { return 0; }
+ 106               		.loc 1 117 88 view .LVU23
+ 107 0052 83E0      		ldi r24,lo8(3)
+ 108 0054 00C0      		rjmp .L1
+ 109               	.LVL9:
+ 110               	.L5:
+ 114:includes/chassisInput.c **** 	if(primary > INPUT_PEDAL_THROTTLE_HIGH || secondary > INPUT_PEDAL_THROTTLE_HIGH) { return 2; }
+ 111               		.loc 1 114 90 view .LVU24
+ 112 0056 81E0      		ldi r24,lo8(1)
+ 113               	.LVL10:
+ 114               	.L1:
+ 115               	/* epilogue start */
+ 119:includes/chassisInput.c **** }
+ 116               		.loc 1 119 1 view .LVU25
+ 117 0058 DF91      		pop r29
+ 118 005a CF91      		pop r28
+ 119 005c 1F91      		pop r17
+ 120 005e 0F91      		pop r16
+ 121               	.LVL11:
+ 122               		.loc 1 119 1 view .LVU26
+ 123 0060 0895      		ret
+ 124               	.LVL12:
+ 125               	.L7:
+ 115:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
+ 126               		.loc 1 115 92 view .LVU27
+ 127 0062 82E0      		ldi r24,lo8(2)
+ 128               	.LVL13:
+ 115:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
+ 129               		.loc 1 115 92 view .LVU28
+ 130 0064 00C0      		rjmp .L1
+ 131               		.cfi_endproc
+ 132               	.LFE9:
+ 134               		.section	.text.INPUT_get_accelPedal,"ax",@progbits
+ 135               	.global	INPUT_get_accelPedal
+ 137               	INPUT_get_accelPedal:
+ 138               	.LVL14:
+ 139               	.LFB5:
   16:includes/chassisInput.c ****     uint8_t state = INPUT_read_accelPedal(val);
- 125               		.loc 1 16 0
- 126               		.cfi_startproc
- 127               	.LVL14:
- 128 0000 CF93      		push r28
- 129               	.LCFI4:
- 130               		.cfi_def_cfa_offset 3
- 131               		.cfi_offset 28, -2
- 132               	/* prologue: function */
- 133               	/* frame size = 0 */
- 134               	/* stack size = 1 */
- 135               	.L__stack_usage = 1
+ 140               		.loc 1 16 45 is_stmt 1 view -0
+ 141               		.cfi_startproc
+  16:includes/chassisInput.c ****     uint8_t state = INPUT_read_accelPedal(val);
+ 142               		.loc 1 16 45 is_stmt 0 view .LVU30
+ 143 0000 CF93      		push r28
+ 144               	.LCFI4:
+ 145               		.cfi_def_cfa_offset 3
+ 146               		.cfi_offset 28, -2
+ 147               	/* prologue: function */
+ 148               	/* frame size = 0 */
+ 149               	/* stack size = 1 */
+ 150               	.L__stack_usage = 1
   17:includes/chassisInput.c ****     switch (state) {
- 136               		.loc 1 17 0
- 137 0002 0E94 0000 		call INPUT_read_accelPedal
- 138               	.LVL15:
- 139 0006 C82F      		mov r28,r24
- 140               	.LVL16:
+ 151               		.loc 1 17 5 is_stmt 1 view .LVU31
+  17:includes/chassisInput.c ****     switch (state) {
+ 152               		.loc 1 17 21 is_stmt 0 view .LVU32
+ 153 0002 0E94 0000 		call INPUT_read_accelPedal
+ 154               	.LVL15:
+  17:includes/chassisInput.c ****     switch (state) {
+ 155               		.loc 1 17 21 view .LVU33
+ 156 0006 C82F      		mov r28,r24
+ 157               	.LVL16:
   18:includes/chassisInput.c ****         case 1: // Inputs were too low
- 141               		.loc 1 18 0
- 142 0008 8FEF      		ldi r24,lo8(-1)
- 143               	.LVL17:
- 144 000a 8C0F      		add r24,r28
- 145 000c 8330      		cpi r24,lo8(3)
- 146 000e 00F4      		brsh .L9
-  20:includes/chassisInput.c ****             break;
- 147               		.loc 1 20 0
- 148 0010 6EE0      		ldi r22,lo8(14)
- 149 0012 70E0      		ldi r23,0
- 150 0014 82E0      		ldi r24,lo8(2)
- 151 0016 90E0      		ldi r25,0
- 152 0018 0E94 0000 		call throw_error_code
- 153               	.LVL18:
- 154               	.L9:
-  33:includes/chassisInput.c **** 
- 155               		.loc 1 33 0
- 156 001c 8C2F      		mov r24,r28
- 157               	/* epilogue start */
- 158 001e CF91      		pop r28
- 159               	.LVL19:
- 160 0020 0895      		ret
- 161               		.cfi_endproc
- 162               	.LFE5:
- 164               		.section	.text.INPUT_read_brakePedal,"ax",@progbits
- 165               	.global	INPUT_read_brakePedal
- 167               	INPUT_read_brakePedal:
- 168               	.LFB10:
- 114:includes/chassisInput.c **** 
- 115:includes/chassisInput.c **** /**
- 116:includes/chassisInput.c ****  * Example Code:
- 117:includes/chassisInput.c ****  * uint16_t val = 0;
- 118:includes/chassisInput.c ****  * if(INPUT_read_brakePedal(*val) == 0) {
- 119:includes/chassisInput.c ****  *     // Use val some way
- 120:includes/chassisInput.c ****  * } else {
- 121:includes/chassisInput.c ****  *     // Val is in error
- 122:includes/chassisInput.c ****  * }
- 123:includes/chassisInput.c ****  */
- 124:includes/chassisInput.c **** uint8_t INPUT_read_brakePedal(uint16_t * brake) {
- 169               		.loc 1 124 0
- 170               		.cfi_startproc
- 171               	.LVL20:
- 172 0000 0F93      		push r16
- 173               	.LCFI5:
- 174               		.cfi_def_cfa_offset 3
- 175               		.cfi_offset 16, -2
- 176 0002 1F93      		push r17
- 177               	.LCFI6:
- 178               		.cfi_def_cfa_offset 4
- 179               		.cfi_offset 17, -3
- 180 0004 CF93      		push r28
- 181               	.LCFI7:
- 182               		.cfi_def_cfa_offset 5
- 183               		.cfi_offset 28, -4
- 184 0006 DF93      		push r29
- 185               	.LCFI8:
- 186               		.cfi_def_cfa_offset 6
- 187               		.cfi_offset 29, -5
- 188               	/* prologue: function */
- 189               	/* frame size = 0 */
- 190               	/* stack size = 4 */
- 191               	.L__stack_usage = 4
- 192 0008 8C01      		movw r16,r24
- 125:includes/chassisInput.c ****     // Read the values of the two brake sensors and verify if the received values are valid
- 126:includes/chassisInput.c **** 	uint16_t primary = adc_read_avg(INPUT_PEDAL_BRAKE_CH1);
- 193               		.loc 1 126 0
- 194 000a 8AE0      		ldi r24,lo8(10)
- 195               	.LVL21:
- 196 000c 0E94 0000 		call adc_read_avg
- 197               	.LVL22:
- 198 0010 EC01      		movw r28,r24
- 199               	.LVL23:
- 127:includes/chassisInput.c ****     uint16_t secondary = adc_read_avg(INPUT_PEDAL_BRAKE_CH2);
- 200               		.loc 1 127 0
- 201 0012 88E0      		ldi r24,lo8(8)
- 202               	.LVL24:
- 203 0014 0E94 0000 		call adc_read_avg
- 204               	.LVL25:
- 128:includes/chassisInput.c ****     uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
- 129:includes/chassisInput.c ****     *brake = primary; 
- 205               		.loc 1 129 0
- 206 0018 F801      		movw r30,r16
- 207 001a D183      		std Z+1,r29
- 208 001c C083      		st Z,r28
- 130:includes/chassisInput.c **** 	if(primary < INPUT_PEDAL_BRAKE_LOW || secondary < INPUT_PEDAL_BRAKE_LOW) { return 1; }
- 209               		.loc 1 130 0
- 210 001e C436      		cpi r28,100
- 211 0020 D105      		cpc r29,__zero_reg__
- 212 0022 00F0      		brlo .L16
- 213               		.loc 1 130 0 is_stmt 0 discriminator 2
- 214 0024 8436      		cpi r24,100
- 215 0026 9105      		cpc r25,__zero_reg__
- 216 0028 00F0      		brlo .L16
- 131:includes/chassisInput.c ****     if(primary > INPUT_PEDAL_BRAKE_HIGH || secondary > INPUT_PEDAL_BRAKE_HIGH) { return 2; }
- 217               		.loc 1 131 0 is_stmt 1
- 218 002a C538      		cpi r28,-123
- 219 002c F3E0      		ldi r31,3
- 220 002e DF07      		cpc r29,r31
- 221 0030 00F4      		brsh .L18
- 222               		.loc 1 131 0 is_stmt 0 discriminator 2
- 223 0032 8538      		cpi r24,-123
- 224 0034 23E0      		ldi r18,3
- 225 0036 9207      		cpc r25,r18
- 226 0038 00F4      		brsh .L18
- 128:includes/chassisInput.c ****     uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
- 227               		.loc 1 128 0 is_stmt 1
- 228 003a C81B      		sub r28,r24
- 229 003c D90B      		sbc r29,r25
- 230               	.LVL26:
- 231 003e D7FF      		sbrs r29,7
- 232 0040 00C0      		rjmp .L14
- 233 0042 D195      		neg r29
- 234 0044 C195      		neg r28
- 235 0046 D109      		sbc r29,__zero_reg__
- 236               	.LVL27:
- 237               	.L14:
- 132:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
- 133:includes/chassisInput.c **** 	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
- 238               		.loc 1 133 0
- 239 0048 E297      		sbiw r28,50
- 134:includes/chassisInput.c ****     return 0;
- 240               		.loc 1 134 0
- 241 004a 80E0      		ldi r24,0
- 242               	.LVL28:
- 133:includes/chassisInput.c ****     return 0;
- 243               		.loc 1 133 0
- 244 004c C536      		cpi r28,101
- 245 004e D105      		cpc r29,__zero_reg__
- 246 0050 00F0      		brlo .L12
- 247 0052 83E0      		ldi r24,lo8(3)
- 248 0054 00C0      		rjmp .L12
- 249               	.LVL29:
- 250               	.L16:
- 130:includes/chassisInput.c ****     if(primary > INPUT_PEDAL_BRAKE_HIGH || secondary > INPUT_PEDAL_BRAKE_HIGH) { return 2; }
- 251               		.loc 1 130 0
- 252 0056 81E0      		ldi r24,lo8(1)
- 253               	.LVL30:
- 254               	.L12:
- 255               	/* epilogue start */
- 135:includes/chassisInput.c **** }
- 256               		.loc 1 135 0
- 257 0058 DF91      		pop r29
- 258 005a CF91      		pop r28
- 259 005c 1F91      		pop r17
- 260 005e 0F91      		pop r16
- 261               	.LVL31:
- 262 0060 0895      		ret
- 263               	.LVL32:
- 264               	.L18:
- 131:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
- 265               		.loc 1 131 0
- 266 0062 82E0      		ldi r24,lo8(2)
- 267               	.LVL33:
- 268 0064 00C0      		rjmp .L12
- 269               		.cfi_endproc
- 270               	.LFE10:
- 272               		.section	.text.INPUT_get_brakePedal,"ax",@progbits
- 273               	.global	INPUT_get_brakePedal
- 275               	INPUT_get_brakePedal:
- 276               	.LFB6:
-  35:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePedal(val);
- 277               		.loc 1 35 0
- 278               		.cfi_startproc
- 279               	.LVL34:
- 280 0000 CF93      		push r28
- 281               	.LCFI9:
- 282               		.cfi_def_cfa_offset 3
- 283               		.cfi_offset 28, -2
- 284               	/* prologue: function */
- 285               	/* frame size = 0 */
- 286               	/* stack size = 1 */
- 287               	.L__stack_usage = 1
-  36:includes/chassisInput.c ****     switch (state) {
- 288               		.loc 1 36 0
- 289 0002 0E94 0000 		call INPUT_read_brakePedal
- 290               	.LVL35:
- 291 0006 C82F      		mov r28,r24
- 292               	.LVL36:
-  37:includes/chassisInput.c ****         case 1: // Inputs were too low
- 293               		.loc 1 37 0
- 294 0008 8230      		cpi r24,lo8(2)
- 295 000a 01F0      		breq .L22
- 296 000c 8330      		cpi r24,lo8(3)
- 297 000e 01F0      		breq .L23
-  39:includes/chassisInput.c ****             break;
- 298               		.loc 1 39 0
- 299 0010 69E0      		ldi r22,lo8(9)
- 300 0012 70E0      		ldi r23,0
-  37:includes/chassisInput.c ****         case 1: // Inputs were too low
- 301               		.loc 1 37 0
- 302 0014 8130      		cpi r24,lo8(1)
- 303 0016 01F0      		breq .L25
- 304               	.LVL37:
- 305               	.L20:
-  52:includes/chassisInput.c **** 
- 306               		.loc 1 52 0
- 307 0018 8C2F      		mov r24,r28
- 308               	/* epilogue start */
- 309 001a CF91      		pop r28
- 310               	.LVL38:
- 311 001c 0895      		ret
- 312               	.L22:
-  42:includes/chassisInput.c ****             break;
- 313               		.loc 1 42 0
- 314 001e 6AE0      		ldi r22,lo8(10)
- 315 0020 70E0      		ldi r23,0
- 316               	.L25:
-  45:includes/chassisInput.c ****             break;
- 317               		.loc 1 45 0
- 318 0022 82E0      		ldi r24,lo8(2)
- 319 0024 90E0      		ldi r25,0
- 320               	.LVL39:
- 321 0026 0E94 0000 		call throw_error_code
- 322               	.LVL40:
-  51:includes/chassisInput.c **** }
- 323               		.loc 1 51 0
- 324 002a 00C0      		rjmp .L20
- 325               	.LVL41:
- 326               	.L23:
-  45:includes/chassisInput.c ****             break;
- 327               		.loc 1 45 0
- 328 002c 6BE0      		ldi r22,lo8(11)
- 329 002e 70E0      		ldi r23,0
- 330 0030 00C0      		rjmp .L25
- 331               		.cfi_endproc
- 332               	.LFE6:
- 334               		.section	.text.INPUT_read_brakePressureFront,"ax",@progbits
- 335               	.global	INPUT_read_brakePressureFront
- 337               	INPUT_read_brakePressureFront:
- 338               	.LFB11:
- 136:includes/chassisInput.c **** 
- 137:includes/chassisInput.c **** /**
- 138:includes/chassisInput.c ****  * Example Code:
- 139:includes/chassisInput.c ****  * uint16_t val = 0;
- 140:includes/chassisInput.c ****  * if(INPUT_read_brakePressureFront(*val) == 0) {
- 141:includes/chassisInput.c ****  *     // Use val some way
- 142:includes/chassisInput.c ****  * } else {
- 143:includes/chassisInput.c ****  *     // Val is in error
- 144:includes/chassisInput.c ****  * }
- 145:includes/chassisInput.c ****  */
- 146:includes/chassisInput.c **** uint8_t INPUT_read_brakePressureFront(uint16_t * fntPressure) {
- 339               		.loc 1 146 0
- 340               		.cfi_startproc
- 341               	.LVL42:
- 342 0000 CF93      		push r28
- 343               	.LCFI10:
- 344               		.cfi_def_cfa_offset 3
- 345               		.cfi_offset 28, -2
- 346 0002 DF93      		push r29
- 347               	.LCFI11:
- 348               		.cfi_def_cfa_offset 4
- 349               		.cfi_offset 29, -3
- 350               	/* prologue: function */
- 351               	/* frame size = 0 */
- 352               	/* stack size = 2 */
- 353               	.L__stack_usage = 2
- 354 0004 EC01      		movw r28,r24
- 147:includes/chassisInput.c ****     uint16_t tmp = adc_read_avg(INPUT_PRESSURE_BRAKE_FRONT); // Get the pressure in the front brake
- 355               		.loc 1 147 0
- 356 0006 8BE0      		ldi r24,lo8(11)
- 357               	.LVL43:
- 358 0008 0E94 0000 		call adc_read_avg
- 359               	.LVL44:
- 148:includes/chassisInput.c ****     *fntPressure = tmp; // Still gets the value found regardless
- 360               		.loc 1 148 0
- 361 000c 9983      		std Y+1,r25
- 362 000e 8883      		st Y,r24
- 149:includes/chassisInput.c **** 	if(tmp < INPUT_PRESSURE_BRAKE_LOW) { return 1; } // Check if the value we received is valid
- 363               		.loc 1 149 0
- 364 0010 0097      		sbiw r24,0
- 365 0012 01F0      		breq .L28
- 150:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
- 366               		.loc 1 150 0
- 367 0014 8F3F      		cpi r24,-1
- 368 0016 9340      		sbci r25,3
- 369 0018 00F4      		brsh .L29
- 151:includes/chassisInput.c **** 	return 0;
- 370               		.loc 1 151 0
- 371 001a 80E0      		ldi r24,0
- 372               	.LVL45:
- 373               	.L26:
- 374               	/* epilogue start */
- 152:includes/chassisInput.c **** }
- 375               		.loc 1 152 0
- 376 001c DF91      		pop r29
- 377 001e CF91      		pop r28
- 378               	.LVL46:
- 379 0020 0895      		ret
- 380               	.LVL47:
- 381               	.L28:
- 149:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
- 382               		.loc 1 149 0
- 383 0022 81E0      		ldi r24,lo8(1)
- 384               	.LVL48:
- 385 0024 00C0      		rjmp .L26
- 386               	.LVL49:
- 387               	.L29:
- 150:includes/chassisInput.c **** 	return 0;
- 388               		.loc 1 150 0
- 389 0026 82E0      		ldi r24,lo8(2)
- 390               	.LVL50:
- 391 0028 00C0      		rjmp .L26
- 392               		.cfi_endproc
- 393               	.LFE11:
- 395               		.section	.text.INPUT_get_brakePressureFront,"ax",@progbits
- 396               	.global	INPUT_get_brakePressureFront
- 398               	INPUT_get_brakePressureFront:
- 399               	.LFB7:
-  54:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
- 400               		.loc 1 54 0
- 401               		.cfi_startproc
- 402               	.LVL51:
- 403 0000 CF93      		push r28
- 404               	.LCFI12:
- 405               		.cfi_def_cfa_offset 3
- 406               		.cfi_offset 28, -2
- 407               	/* prologue: function */
- 408               	/* frame size = 0 */
- 409               	/* stack size = 1 */
- 410               	.L__stack_usage = 1
-  55:includes/chassisInput.c ****     switch (state) {
- 411               		.loc 1 55 0
- 412 0002 0E94 0000 		call INPUT_read_brakePressureFront
- 413               	.LVL52:
- 414 0006 C82F      		mov r28,r24
- 415               	.LVL53:
-  56:includes/chassisInput.c ****         case 1: // Inputs were too low
- 416               		.loc 1 56 0
- 417 0008 8230      		cpi r24,lo8(2)
- 418 000a 01F0      		breq .L32
- 419 000c 8330      		cpi r24,lo8(3)
- 420 000e 01F0      		breq .L33
-  58:includes/chassisInput.c ****             break;
- 421               		.loc 1 58 0
- 422 0010 41E0      		ldi r20,lo8(1)
- 423 0012 50E0      		ldi r21,0
- 424 0014 66E0      		ldi r22,lo8(6)
- 425 0016 70E0      		ldi r23,0
-  56:includes/chassisInput.c ****         case 1: // Inputs were too low
- 426               		.loc 1 56 0
- 427 0018 8130      		cpi r24,lo8(1)
- 428 001a 01F0      		breq .L35
- 429               	.LVL54:
- 430               	.L30:
-  71:includes/chassisInput.c **** 
- 431               		.loc 1 71 0
- 432 001c 8C2F      		mov r24,r28
- 433               	/* epilogue start */
- 434 001e CF91      		pop r28
- 435               	.LVL55:
- 436 0020 0895      		ret
- 437               	.L32:
-  61:includes/chassisInput.c ****             break;
- 438               		.loc 1 61 0
- 439 0022 41E0      		ldi r20,lo8(1)
- 440 0024 50E0      		ldi r21,0
- 441 0026 67E0      		ldi r22,lo8(7)
- 442 0028 70E0      		ldi r23,0
- 443               	.L35:
-  64:includes/chassisInput.c ****             break;
- 444               		.loc 1 64 0
- 445 002a 82E0      		ldi r24,lo8(2)
- 446 002c 90E0      		ldi r25,0
- 447               	.LVL56:
- 448 002e 0E94 0000 		call throw_error_code_with_number
- 449               	.LVL57:
-  70:includes/chassisInput.c **** }
- 450               		.loc 1 70 0
- 451 0032 00C0      		rjmp .L30
- 452               	.LVL58:
- 453               	.L33:
-  64:includes/chassisInput.c ****             break;
- 454               		.loc 1 64 0
- 455 0034 41E0      		ldi r20,lo8(1)
- 456 0036 50E0      		ldi r21,0
- 457 0038 68E0      		ldi r22,lo8(8)
- 458 003a 70E0      		ldi r23,0
- 459 003c 00C0      		rjmp .L35
- 460               		.cfi_endproc
- 461               	.LFE7:
- 463               		.section	.text.INPUT_get_brakePressureBack,"ax",@progbits
- 464               	.global	INPUT_get_brakePressureBack
- 466               	INPUT_get_brakePressureBack:
- 467               	.LFB8:
-  73:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
- 468               		.loc 1 73 0
- 469               		.cfi_startproc
- 470               	.LVL59:
- 471 0000 CF93      		push r28
- 472               	.LCFI13:
- 473               		.cfi_def_cfa_offset 3
- 474               		.cfi_offset 28, -2
- 475               	/* prologue: function */
- 476               	/* frame size = 0 */
- 477               	/* stack size = 1 */
- 478               	.L__stack_usage = 1
-  74:includes/chassisInput.c ****     switch (state) {
- 479               		.loc 1 74 0
- 480 0002 0E94 0000 		call INPUT_read_brakePressureFront
- 481               	.LVL60:
- 482 0006 C82F      		mov r28,r24
- 483               	.LVL61:
-  75:includes/chassisInput.c ****         case 1: // Inputs were too low
- 484               		.loc 1 75 0
- 485 0008 8230      		cpi r24,lo8(2)
- 486 000a 01F0      		breq .L38
- 487 000c 8330      		cpi r24,lo8(3)
- 488 000e 01F0      		breq .L39
-  77:includes/chassisInput.c ****             break;
- 489               		.loc 1 77 0
- 490 0010 42E0      		ldi r20,lo8(2)
- 491 0012 50E0      		ldi r21,0
- 492 0014 66E0      		ldi r22,lo8(6)
- 493 0016 70E0      		ldi r23,0
-  75:includes/chassisInput.c ****         case 1: // Inputs were too low
- 494               		.loc 1 75 0
- 495 0018 8130      		cpi r24,lo8(1)
- 496 001a 01F0      		breq .L41
- 497               	.LVL62:
- 498               	.L36:
-  90:includes/chassisInput.c **** 
- 499               		.loc 1 90 0
- 500 001c 8C2F      		mov r24,r28
- 501               	/* epilogue start */
- 502 001e CF91      		pop r28
- 503               	.LVL63:
- 504 0020 0895      		ret
- 505               	.L38:
-  80:includes/chassisInput.c ****             break;
- 506               		.loc 1 80 0
- 507 0022 42E0      		ldi r20,lo8(2)
- 508 0024 50E0      		ldi r21,0
- 509 0026 67E0      		ldi r22,lo8(7)
- 510 0028 70E0      		ldi r23,0
- 511               	.L41:
-  83:includes/chassisInput.c ****             break;
- 512               		.loc 1 83 0
- 513 002a 82E0      		ldi r24,lo8(2)
- 514 002c 90E0      		ldi r25,0
- 515               	.LVL64:
- 516 002e 0E94 0000 		call throw_error_code_with_number
- 517               	.LVL65:
-  89:includes/chassisInput.c **** }
- 518               		.loc 1 89 0
- 519 0032 00C0      		rjmp .L36
- 520               	.LVL66:
- 521               	.L39:
-  83:includes/chassisInput.c ****             break;
- 522               		.loc 1 83 0
- 523 0034 42E0      		ldi r20,lo8(2)
- 524 0036 50E0      		ldi r21,0
- 525 0038 68E0      		ldi r22,lo8(8)
- 526 003a 70E0      		ldi r23,0
- 527 003c 00C0      		rjmp .L41
- 528               		.cfi_endproc
- 529               	.LFE8:
- 531               		.section	.text.INPUT_read_breakPressureBack,"ax",@progbits
- 532               	.global	INPUT_read_breakPressureBack
- 534               	INPUT_read_breakPressureBack:
- 535               	.LFB12:
- 153:includes/chassisInput.c **** 
- 154:includes/chassisInput.c **** /**
- 155:includes/chassisInput.c ****  * Example Code:
- 156:includes/chassisInput.c ****  * uint16_t val = 0;
- 157:includes/chassisInput.c ****  * if(INPUT_read_breakPressureBack(*val) == 0) {
- 158:includes/chassisInput.c ****  *     // Use val some way
- 159:includes/chassisInput.c ****  * } else {
- 160:includes/chassisInput.c ****  *     // Val is in error
- 161:includes/chassisInput.c ****  * }
- 162:includes/chassisInput.c ****  */
- 163:includes/chassisInput.c **** uint8_t INPUT_read_breakPressureBack(uint16_t * bkPressure) {
- 536               		.loc 1 163 0
- 537               		.cfi_startproc
- 538               	.LVL67:
- 539 0000 CF93      		push r28
- 540               	.LCFI14:
- 541               		.cfi_def_cfa_offset 3
- 542               		.cfi_offset 28, -2
- 543 0002 DF93      		push r29
- 544               	.LCFI15:
- 545               		.cfi_def_cfa_offset 4
- 546               		.cfi_offset 29, -3
- 547               	/* prologue: function */
- 548               	/* frame size = 0 */
- 549               	/* stack size = 2 */
- 550               	.L__stack_usage = 2
- 551 0004 EC01      		movw r28,r24
- 164:includes/chassisInput.c ****     uint16_t tmp = adc_read_avg(INPUT_PRESSURE_BRAKE_BACK); // Get the pressure in the front brake
- 552               		.loc 1 164 0
- 553 0006 87E0      		ldi r24,lo8(7)
- 554               	.LVL68:
- 555 0008 0E94 0000 		call adc_read_avg
- 556               	.LVL69:
- 165:includes/chassisInput.c ****     *bkPressure = tmp; // Still gets the value found regardless
- 557               		.loc 1 165 0
- 558 000c 9983      		std Y+1,r25
- 559 000e 8883      		st Y,r24
- 166:includes/chassisInput.c **** 	if(tmp < INPUT_PRESSURE_BRAKE_LOW) { return 1; } // Check if the value we received is valid
- 560               		.loc 1 166 0
- 561 0010 0097      		sbiw r24,0
- 562 0012 01F0      		breq .L44
- 167:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
- 563               		.loc 1 167 0
- 564 0014 8F3F      		cpi r24,-1
- 565 0016 9340      		sbci r25,3
- 566 0018 00F4      		brsh .L45
- 168:includes/chassisInput.c **** 	return 0;
- 567               		.loc 1 168 0
- 568 001a 80E0      		ldi r24,0
- 569               	.LVL70:
- 570               	.L42:
- 571               	/* epilogue start */
- 169:includes/chassisInput.c **** }
- 572               		.loc 1 169 0
- 573 001c DF91      		pop r29
- 574 001e CF91      		pop r28
- 575               	.LVL71:
- 576 0020 0895      		ret
- 577               	.LVL72:
- 578               	.L44:
- 166:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
- 579               		.loc 1 166 0
- 580 0022 81E0      		ldi r24,lo8(1)
- 581               	.LVL73:
- 582 0024 00C0      		rjmp .L42
- 583               	.LVL74:
- 584               	.L45:
- 167:includes/chassisInput.c **** 	return 0;
- 585               		.loc 1 167 0
- 586 0026 82E0      		ldi r24,lo8(2)
- 587               	.LVL75:
- 588 0028 00C0      		rjmp .L42
- 589               		.cfi_endproc
- 590               	.LFE12:
- 592               	.global	INPUT_brakePressureBack
- 593               		.section .bss
- 596               	INPUT_brakePressureBack:
- 597 0000 0000      		.zero	2
- 598               	.global	INPUT_brakePressureFront
- 601               	INPUT_brakePressureFront:
- 602 0002 0000      		.zero	2
- 603               	.global	INPUT_brakePedal
- 606               	INPUT_brakePedal:
- 607 0004 0000      		.zero	2
- 608               	.global	INPUT_accelerationPedal
- 611               	INPUT_accelerationPedal:
- 612 0006 0000      		.zero	2
- 613               	.global	INPUT_steeringAngle
- 616               	INPUT_steeringAngle:
- 617 0008 0000      		.zero	2
- 618               		.text
- 619               	.Letext0:
- 620               		.file 2 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdlib.h"
- 621               		.file 3 "/usr/local/Cellar/avr-gcc/7.3.0/lib/avr-gcc/7/gcc/avr/7.3.0/include/stddef.h"
- 622               		.file 4 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdint.h"
- 623               		.file 5 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdio.h"
- 624               		.file 6 "includes/chassisInput.h"
- 625               		.file 7 "includes/a2dUtil.h"
- 626               		.file 8 "includes/chassisError.h"
+ 158               		.loc 1 18 5 is_stmt 1 view .LVU34
+ 159 0008 8FEF      		ldi r24,lo8(-1)
+ 160               	.LVL17:
+  18:includes/chassisInput.c ****         case 1: // Inputs were too low
+ 161               		.loc 1 18 5 is_stmt 0 view .LVU35
+ 162 000a 8C0F      		add r24,r28
+ 163 000c 8330      		cpi r24,lo8(3)
+ 164 000e 00F4      		brsh .L9
+  21:includes/chassisInput.c ****             break;
+ 165               		.loc 1 21 13 is_stmt 1 view .LVU36
+ 166 0010 6EE0      		ldi r22,lo8(14)
+ 167 0012 70E0      		ldi r23,0
+ 168 0014 82E0      		ldi r24,lo8(2)
+ 169 0016 90E0      		ldi r25,0
+ 170 0018 0E94 0000 		call throw_error_code
+ 171               	.LVL18:
+  22:includes/chassisInput.c ****         case 2: // Inputs were too high
+ 172               		.loc 1 22 13 view .LVU37
+  36:includes/chassisInput.c **** }
+ 173               		.loc 1 36 5 view .LVU38
+ 174               	.L9:
+  37:includes/chassisInput.c **** 
+ 175               		.loc 1 37 1 is_stmt 0 view .LVU39
+ 176 001c 8C2F      		mov r24,r28
+ 177               	/* epilogue start */
+ 178 001e CF91      		pop r28
+ 179               	.LVL19:
+  37:includes/chassisInput.c **** 
+ 180               		.loc 1 37 1 view .LVU40
+ 181 0020 0895      		ret
+ 182               		.cfi_endproc
+ 183               	.LFE5:
+ 185               		.section	.text.INPUT_read_brakePedal,"ax",@progbits
+ 186               	.global	INPUT_read_brakePedal
+ 188               	INPUT_read_brakePedal:
+ 189               	.LVL20:
+ 190               	.LFB10:
+ 120:includes/chassisInput.c **** 
+ 121:includes/chassisInput.c **** /**
+ 122:includes/chassisInput.c ****  * Example Code:
+ 123:includes/chassisInput.c ****  * uint16_t val = 0;
+ 124:includes/chassisInput.c ****  * if(INPUT_read_brakePedal(*val) == 0) {
+ 125:includes/chassisInput.c ****  *     // Use val some way
+ 126:includes/chassisInput.c ****  * } else {
+ 127:includes/chassisInput.c ****  *     // Val is in error
+ 128:includes/chassisInput.c ****  * }
+ 129:includes/chassisInput.c ****  */
+ 130:includes/chassisInput.c **** uint8_t INPUT_read_brakePedal(uint16_t * brake) {
+ 191               		.loc 1 130 49 is_stmt 1 view -0
+ 192               		.cfi_startproc
+ 193               		.loc 1 130 49 is_stmt 0 view .LVU42
+ 194 0000 0F93      		push r16
+ 195               	.LCFI5:
+ 196               		.cfi_def_cfa_offset 3
+ 197               		.cfi_offset 16, -2
+ 198 0002 1F93      		push r17
+ 199               	.LCFI6:
+ 200               		.cfi_def_cfa_offset 4
+ 201               		.cfi_offset 17, -3
+ 202 0004 CF93      		push r28
+ 203               	.LCFI7:
+ 204               		.cfi_def_cfa_offset 5
+ 205               		.cfi_offset 28, -4
+ 206 0006 DF93      		push r29
+ 207               	.LCFI8:
+ 208               		.cfi_def_cfa_offset 6
+ 209               		.cfi_offset 29, -5
+ 210               	/* prologue: function */
+ 211               	/* frame size = 0 */
+ 212               	/* stack size = 4 */
+ 213               	.L__stack_usage = 4
+ 214 0008 8C01      		movw r16,r24
+ 131:includes/chassisInput.c ****     // Read the values of the two brake sensors and verify if the received values are valid
+ 132:includes/chassisInput.c **** 	uint16_t primary = adc_read_avg(INPUT_PEDAL_BRAKE_CH1);
+ 215               		.loc 1 132 2 is_stmt 1 view .LVU43
+ 216               		.loc 1 132 21 is_stmt 0 view .LVU44
+ 217 000a 8AE0      		ldi r24,lo8(10)
+ 218               	.LVL21:
+ 219               		.loc 1 132 21 view .LVU45
+ 220 000c 0E94 0000 		call adc_read_avg
+ 221               	.LVL22:
+ 222 0010 EC01      		movw r28,r24
+ 223               	.LVL23:
+ 133:includes/chassisInput.c ****     uint16_t secondary = adc_read_avg(INPUT_PEDAL_BRAKE_CH2);
+ 224               		.loc 1 133 5 is_stmt 1 view .LVU46
+ 225               		.loc 1 133 26 is_stmt 0 view .LVU47
+ 226 0012 88E0      		ldi r24,lo8(8)
+ 227               	.LVL24:
+ 228               		.loc 1 133 26 view .LVU48
+ 229 0014 0E94 0000 		call adc_read_avg
+ 230               	.LVL25:
+ 134:includes/chassisInput.c ****     uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
+ 231               		.loc 1 134 5 is_stmt 1 view .LVU49
+ 135:includes/chassisInput.c ****     *brake = primary; 
+ 232               		.loc 1 135 5 view .LVU50
+ 233               		.loc 1 135 12 is_stmt 0 view .LVU51
+ 234 0018 F801      		movw r30,r16
+ 235 001a D183      		std Z+1,r29
+ 236 001c C083      		st Z,r28
+ 136:includes/chassisInput.c **** 	if(primary < INPUT_PEDAL_BRAKE_LOW || secondary < INPUT_PEDAL_BRAKE_LOW) { return 1; }
+ 237               		.loc 1 136 2 is_stmt 1 view .LVU52
+ 238               		.loc 1 136 4 is_stmt 0 view .LVU53
+ 239 001e C436      		cpi r28,100
+ 240 0020 D105      		cpc r29,__zero_reg__
+ 241 0022 00F0      		brlo .L15
+ 242               		.loc 1 136 37 discriminator 2 view .LVU54
+ 243 0024 8436      		cpi r24,100
+ 244 0026 9105      		cpc r25,__zero_reg__
+ 245 0028 00F0      		brlo .L15
+ 137:includes/chassisInput.c ****     if(primary > INPUT_PEDAL_BRAKE_HIGH || secondary > INPUT_PEDAL_BRAKE_HIGH) { return 2; }
+ 246               		.loc 1 137 5 is_stmt 1 view .LVU55
+ 247               		.loc 1 137 7 is_stmt 0 view .LVU56
+ 248 002a C538      		cpi r28,-123
+ 249 002c F3E0      		ldi r31,3
+ 250 002e DF07      		cpc r29,r31
+ 251 0030 00F4      		brsh .L17
+ 252               		.loc 1 137 41 discriminator 2 view .LVU57
+ 253 0032 8538      		cpi r24,-123
+ 254 0034 23E0      		ldi r18,3
+ 255 0036 9207      		cpc r25,r18
+ 256 0038 00F4      		brsh .L17
+ 138:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
+ 139:includes/chassisInput.c **** 	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
+ 257               		.loc 1 139 2 is_stmt 1 view .LVU58
+ 134:includes/chassisInput.c ****     *brake = primary; 
+ 258               		.loc 1 134 22 is_stmt 0 view .LVU59
+ 259 003a C81B      		sub r28,r24
+ 260 003c D90B      		sbc r29,r25
+ 261               	.LVL26:
+ 134:includes/chassisInput.c ****     *brake = primary; 
+ 262               		.loc 1 134 22 view .LVU60
+ 263 003e D7FF      		sbrs r29,7
+ 264 0040 00C0      		rjmp .L13
+ 265 0042 D195      		neg r29
+ 266 0044 C195      		neg r28
+ 267 0046 D109      		sbc r29,__zero_reg__
+ 268               	.LVL27:
+ 269               	.L13:
+ 270               		.loc 1 139 40 view .LVU61
+ 271 0048 E297      		sbiw r28,50
+ 272               		.loc 1 139 88 view .LVU62
+ 273 004a 83E0      		ldi r24,lo8(3)
+ 274               	.LVL28:
+ 275               		.loc 1 139 4 view .LVU63
+ 276 004c C536      		cpi r28,101
+ 277 004e D105      		cpc r29,__zero_reg__
+ 278 0050 00F4      		brsh .L11
+ 140:includes/chassisInput.c ****     return 0;
+ 279               		.loc 1 140 12 view .LVU64
+ 280 0052 80E0      		ldi r24,0
+ 281 0054 00C0      		rjmp .L11
+ 282               	.LVL29:
+ 283               	.L15:
+ 136:includes/chassisInput.c ****     if(primary > INPUT_PEDAL_BRAKE_HIGH || secondary > INPUT_PEDAL_BRAKE_HIGH) { return 2; }
+ 284               		.loc 1 136 84 view .LVU65
+ 285 0056 81E0      		ldi r24,lo8(1)
+ 286               	.LVL30:
+ 287               	.L11:
+ 288               	/* epilogue start */
+ 141:includes/chassisInput.c **** }
+ 289               		.loc 1 141 1 view .LVU66
+ 290 0058 DF91      		pop r29
+ 291 005a CF91      		pop r28
+ 292 005c 1F91      		pop r17
+ 293 005e 0F91      		pop r16
+ 294               	.LVL31:
+ 295               		.loc 1 141 1 view .LVU67
+ 296 0060 0895      		ret
+ 297               	.LVL32:
+ 298               	.L17:
+ 137:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
+ 299               		.loc 1 137 89 view .LVU68
+ 300 0062 82E0      		ldi r24,lo8(2)
+ 301               	.LVL33:
+ 137:includes/chassisInput.c **** 	// Verify if the difference between sensors is within acceptable values
+ 302               		.loc 1 137 89 view .LVU69
+ 303 0064 00C0      		rjmp .L11
+ 304               		.cfi_endproc
+ 305               	.LFE10:
+ 307               		.section	.text.INPUT_get_brakePedal,"ax",@progbits
+ 308               	.global	INPUT_get_brakePedal
+ 310               	INPUT_get_brakePedal:
+ 311               	.LVL34:
+ 312               	.LFB6:
+  39:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePedal(val);
+ 313               		.loc 1 39 45 is_stmt 1 view -0
+ 314               		.cfi_startproc
+  39:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePedal(val);
+ 315               		.loc 1 39 45 is_stmt 0 view .LVU71
+ 316 0000 CF93      		push r28
+ 317               	.LCFI9:
+ 318               		.cfi_def_cfa_offset 3
+ 319               		.cfi_offset 28, -2
+ 320               	/* prologue: function */
+ 321               	/* frame size = 0 */
+ 322               	/* stack size = 1 */
+ 323               	.L__stack_usage = 1
+  40:includes/chassisInput.c ****     switch (state) {
+ 324               		.loc 1 40 5 is_stmt 1 view .LVU72
+  40:includes/chassisInput.c ****     switch (state) {
+ 325               		.loc 1 40 21 is_stmt 0 view .LVU73
+ 326 0002 0E94 0000 		call INPUT_read_brakePedal
+ 327               	.LVL35:
+  40:includes/chassisInput.c ****     switch (state) {
+ 328               		.loc 1 40 21 view .LVU74
+ 329 0006 C82F      		mov r28,r24
+ 330               	.LVL36:
+  41:includes/chassisInput.c ****         case 1: // Inputs were too low
+ 331               		.loc 1 41 5 is_stmt 1 view .LVU75
+ 332 0008 8230      		cpi r24,lo8(2)
+ 333 000a 01F0      		breq .L20
+ 334 000c 8330      		cpi r24,lo8(3)
+ 335 000e 01F0      		breq .L21
+  43:includes/chassisInput.c ****             break;
+ 336               		.loc 1 43 13 is_stmt 0 view .LVU76
+ 337 0010 69E0      		ldi r22,lo8(9)
+ 338 0012 70E0      		ldi r23,0
+ 339 0014 8130      		cpi r24,lo8(1)
+ 340 0016 01F0      		breq .L23
+ 341               	.LVL37:
+ 342               	.L19:
+  56:includes/chassisInput.c **** 
+ 343               		.loc 1 56 1 view .LVU77
+ 344 0018 8C2F      		mov r24,r28
+ 345               	/* epilogue start */
+ 346 001a CF91      		pop r28
+ 347               	.LVL38:
+  56:includes/chassisInput.c **** 
+ 348               		.loc 1 56 1 view .LVU78
+ 349 001c 0895      		ret
+ 350               	.L20:
+  46:includes/chassisInput.c ****             break;
+ 351               		.loc 1 46 13 is_stmt 1 view .LVU79
+ 352 001e 6AE0      		ldi r22,lo8(10)
+ 353 0020 70E0      		ldi r23,0
+ 354               	.L23:
+  49:includes/chassisInput.c ****             break;
+ 355               		.loc 1 49 13 is_stmt 0 view .LVU80
+ 356 0022 82E0      		ldi r24,lo8(2)
+ 357 0024 90E0      		ldi r25,0
+ 358               	.LVL39:
+  49:includes/chassisInput.c ****             break;
+ 359               		.loc 1 49 13 view .LVU81
+ 360 0026 0E94 0000 		call throw_error_code
+ 361               	.LVL40:
+  50:includes/chassisInput.c ****         default:
+ 362               		.loc 1 50 13 is_stmt 1 view .LVU82
+  55:includes/chassisInput.c **** }
+ 363               		.loc 1 55 5 view .LVU83
+  55:includes/chassisInput.c **** }
+ 364               		.loc 1 55 12 is_stmt 0 view .LVU84
+ 365 002a 00C0      		rjmp .L19
+ 366               	.LVL41:
+ 367               	.L21:
+  49:includes/chassisInput.c ****             break;
+ 368               		.loc 1 49 13 is_stmt 1 view .LVU85
+ 369 002c 6BE0      		ldi r22,lo8(11)
+ 370 002e 70E0      		ldi r23,0
+ 371 0030 00C0      		rjmp .L23
+ 372               		.cfi_endproc
+ 373               	.LFE6:
+ 375               		.section	.text.INPUT_read_brakePressureFront,"ax",@progbits
+ 376               	.global	INPUT_read_brakePressureFront
+ 378               	INPUT_read_brakePressureFront:
+ 379               	.LVL42:
+ 380               	.LFB11:
+ 142:includes/chassisInput.c **** 
+ 143:includes/chassisInput.c **** /**
+ 144:includes/chassisInput.c ****  * Example Code:
+ 145:includes/chassisInput.c ****  * uint16_t val = 0;
+ 146:includes/chassisInput.c ****  * if(INPUT_read_brakePressureFront(*val) == 0) {
+ 147:includes/chassisInput.c ****  *     // Use val some way
+ 148:includes/chassisInput.c ****  * } else {
+ 149:includes/chassisInput.c ****  *     // Val is in error
+ 150:includes/chassisInput.c ****  * }
+ 151:includes/chassisInput.c ****  */
+ 152:includes/chassisInput.c **** uint8_t INPUT_read_brakePressureFront(uint16_t * fntPressure) {
+ 381               		.loc 1 152 63 view -0
+ 382               		.cfi_startproc
+ 383               		.loc 1 152 63 is_stmt 0 view .LVU87
+ 384 0000 CF93      		push r28
+ 385               	.LCFI10:
+ 386               		.cfi_def_cfa_offset 3
+ 387               		.cfi_offset 28, -2
+ 388 0002 DF93      		push r29
+ 389               	.LCFI11:
+ 390               		.cfi_def_cfa_offset 4
+ 391               		.cfi_offset 29, -3
+ 392               	/* prologue: function */
+ 393               	/* frame size = 0 */
+ 394               	/* stack size = 2 */
+ 395               	.L__stack_usage = 2
+ 396 0004 EC01      		movw r28,r24
+ 153:includes/chassisInput.c ****     uint16_t tmp = adc_read_avg(INPUT_PRESSURE_BRAKE_FRONT); // Get the pressure in the front brake
+ 397               		.loc 1 153 5 is_stmt 1 view .LVU88
+ 398               		.loc 1 153 20 is_stmt 0 view .LVU89
+ 399 0006 8BE0      		ldi r24,lo8(11)
+ 400               	.LVL43:
+ 401               		.loc 1 153 20 view .LVU90
+ 402 0008 0E94 0000 		call adc_read_avg
+ 403               	.LVL44:
+ 154:includes/chassisInput.c ****     *fntPressure = tmp; // Still gets the value found regardless
+ 404               		.loc 1 154 5 is_stmt 1 view .LVU91
+ 405               		.loc 1 154 18 is_stmt 0 view .LVU92
+ 406 000c 9983      		std Y+1,r25
+ 407 000e 8883      		st Y,r24
+ 155:includes/chassisInput.c **** 	if(tmp < INPUT_PRESSURE_BRAKE_LOW) { return 1; } // Check if the value we received is valid
+ 408               		.loc 1 155 2 is_stmt 1 view .LVU93
+ 409               		.loc 1 155 4 is_stmt 0 view .LVU94
+ 410 0010 0097      		sbiw r24,0
+ 411 0012 01F0      		breq .L26
+ 156:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
+ 412               		.loc 1 156 5 is_stmt 1 view .LVU95
+ 413               		.loc 1 156 7 is_stmt 0 view .LVU96
+ 414 0014 8F3F      		cpi r24,-1
+ 415 0016 9340      		sbci r25,3
+ 416 0018 00F0      		brlo .L27
+ 417               		.loc 1 156 50 view .LVU97
+ 418 001a 82E0      		ldi r24,lo8(2)
+ 419               	.LVL45:
+ 420               	.L24:
+ 421               	/* epilogue start */
+ 157:includes/chassisInput.c **** 	return 0;
+ 158:includes/chassisInput.c **** }
+ 422               		.loc 1 158 1 view .LVU98
+ 423 001c DF91      		pop r29
+ 424 001e CF91      		pop r28
+ 425               	.LVL46:
+ 426               		.loc 1 158 1 view .LVU99
+ 427 0020 0895      		ret
+ 428               	.LVL47:
+ 429               	.L26:
+ 155:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
+ 430               		.loc 1 155 46 view .LVU100
+ 431 0022 81E0      		ldi r24,lo8(1)
+ 432               	.LVL48:
+ 155:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
+ 433               		.loc 1 155 46 view .LVU101
+ 434 0024 00C0      		rjmp .L24
+ 435               	.LVL49:
+ 436               	.L27:
+ 157:includes/chassisInput.c **** 	return 0;
+ 437               		.loc 1 157 9 view .LVU102
+ 438 0026 80E0      		ldi r24,0
+ 439               	.LVL50:
+ 157:includes/chassisInput.c **** 	return 0;
+ 440               		.loc 1 157 9 view .LVU103
+ 441 0028 00C0      		rjmp .L24
+ 442               		.cfi_endproc
+ 443               	.LFE11:
+ 445               		.section	.text.INPUT_get_brakePressureFront,"ax",@progbits
+ 446               	.global	INPUT_get_brakePressureFront
+ 448               	INPUT_get_brakePressureFront:
+ 449               	.LVL51:
+ 450               	.LFB7:
+  58:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
+ 451               		.loc 1 58 53 is_stmt 1 view -0
+ 452               		.cfi_startproc
+  58:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
+ 453               		.loc 1 58 53 is_stmt 0 view .LVU105
+ 454 0000 CF93      		push r28
+ 455               	.LCFI12:
+ 456               		.cfi_def_cfa_offset 3
+ 457               		.cfi_offset 28, -2
+ 458               	/* prologue: function */
+ 459               	/* frame size = 0 */
+ 460               	/* stack size = 1 */
+ 461               	.L__stack_usage = 1
+  59:includes/chassisInput.c ****     switch (state) {
+ 462               		.loc 1 59 5 is_stmt 1 view .LVU106
+  59:includes/chassisInput.c ****     switch (state) {
+ 463               		.loc 1 59 21 is_stmt 0 view .LVU107
+ 464 0002 0E94 0000 		call INPUT_read_brakePressureFront
+ 465               	.LVL52:
+  59:includes/chassisInput.c ****     switch (state) {
+ 466               		.loc 1 59 21 view .LVU108
+ 467 0006 C82F      		mov r28,r24
+ 468               	.LVL53:
+  60:includes/chassisInput.c ****         case 1: // Inputs were too low
+ 469               		.loc 1 60 5 is_stmt 1 view .LVU109
+ 470 0008 8230      		cpi r24,lo8(2)
+ 471 000a 01F0      		breq .L29
+ 472 000c 8330      		cpi r24,lo8(3)
+ 473 000e 01F0      		breq .L30
+  62:includes/chassisInput.c ****             break;
+ 474               		.loc 1 62 13 is_stmt 0 view .LVU110
+ 475 0010 41E0      		ldi r20,lo8(1)
+ 476 0012 50E0      		ldi r21,0
+ 477 0014 66E0      		ldi r22,lo8(6)
+ 478 0016 70E0      		ldi r23,0
+ 479 0018 8130      		cpi r24,lo8(1)
+ 480 001a 01F0      		breq .L32
+ 481               	.LVL54:
+ 482               	.L28:
+  75:includes/chassisInput.c **** 
+ 483               		.loc 1 75 1 view .LVU111
+ 484 001c 8C2F      		mov r24,r28
+ 485               	/* epilogue start */
+ 486 001e CF91      		pop r28
+ 487               	.LVL55:
+  75:includes/chassisInput.c **** 
+ 488               		.loc 1 75 1 view .LVU112
+ 489 0020 0895      		ret
+ 490               	.L29:
+  65:includes/chassisInput.c ****             break;
+ 491               		.loc 1 65 13 is_stmt 1 view .LVU113
+ 492 0022 41E0      		ldi r20,lo8(1)
+ 493 0024 50E0      		ldi r21,0
+ 494 0026 67E0      		ldi r22,lo8(7)
+ 495 0028 70E0      		ldi r23,0
+ 496               	.L32:
+  68:includes/chassisInput.c ****             break;
+ 497               		.loc 1 68 13 is_stmt 0 view .LVU114
+ 498 002a 82E0      		ldi r24,lo8(2)
+ 499 002c 90E0      		ldi r25,0
+ 500               	.LVL56:
+  68:includes/chassisInput.c ****             break;
+ 501               		.loc 1 68 13 view .LVU115
+ 502 002e 0E94 0000 		call throw_error_code_with_number
+ 503               	.LVL57:
+  69:includes/chassisInput.c ****         default:
+ 504               		.loc 1 69 13 is_stmt 1 view .LVU116
+  74:includes/chassisInput.c **** }
+ 505               		.loc 1 74 5 view .LVU117
+  74:includes/chassisInput.c **** }
+ 506               		.loc 1 74 12 is_stmt 0 view .LVU118
+ 507 0032 00C0      		rjmp .L28
+ 508               	.LVL58:
+ 509               	.L30:
+  68:includes/chassisInput.c ****             break;
+ 510               		.loc 1 68 13 is_stmt 1 view .LVU119
+ 511 0034 41E0      		ldi r20,lo8(1)
+ 512 0036 50E0      		ldi r21,0
+ 513 0038 68E0      		ldi r22,lo8(8)
+ 514 003a 70E0      		ldi r23,0
+ 515 003c 00C0      		rjmp .L32
+ 516               		.cfi_endproc
+ 517               	.LFE7:
+ 519               		.section	.text.INPUT_get_brakePressureBack,"ax",@progbits
+ 520               	.global	INPUT_get_brakePressureBack
+ 522               	INPUT_get_brakePressureBack:
+ 523               	.LVL59:
+ 524               	.LFB8:
+  77:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
+ 525               		.loc 1 77 52 view -0
+ 526               		.cfi_startproc
+  77:includes/chassisInput.c ****     uint8_t state = INPUT_read_brakePressureFront(val);
+ 527               		.loc 1 77 52 is_stmt 0 view .LVU121
+ 528 0000 CF93      		push r28
+ 529               	.LCFI13:
+ 530               		.cfi_def_cfa_offset 3
+ 531               		.cfi_offset 28, -2
+ 532               	/* prologue: function */
+ 533               	/* frame size = 0 */
+ 534               	/* stack size = 1 */
+ 535               	.L__stack_usage = 1
+  78:includes/chassisInput.c ****     switch (state) {
+ 536               		.loc 1 78 5 is_stmt 1 view .LVU122
+  78:includes/chassisInput.c ****     switch (state) {
+ 537               		.loc 1 78 21 is_stmt 0 view .LVU123
+ 538 0002 0E94 0000 		call INPUT_read_brakePressureFront
+ 539               	.LVL60:
+  78:includes/chassisInput.c ****     switch (state) {
+ 540               		.loc 1 78 21 view .LVU124
+ 541 0006 C82F      		mov r28,r24
+ 542               	.LVL61:
+  79:includes/chassisInput.c ****         case 1: // Inputs were too low
+ 543               		.loc 1 79 5 is_stmt 1 view .LVU125
+ 544 0008 8230      		cpi r24,lo8(2)
+ 545 000a 01F0      		breq .L34
+ 546 000c 8330      		cpi r24,lo8(3)
+ 547 000e 01F0      		breq .L35
+  81:includes/chassisInput.c ****             break;
+ 548               		.loc 1 81 13 is_stmt 0 view .LVU126
+ 549 0010 42E0      		ldi r20,lo8(2)
+ 550 0012 50E0      		ldi r21,0
+ 551 0014 66E0      		ldi r22,lo8(6)
+ 552 0016 70E0      		ldi r23,0
+ 553 0018 8130      		cpi r24,lo8(1)
+ 554 001a 01F0      		breq .L37
+ 555               	.LVL62:
+ 556               	.L33:
+  94:includes/chassisInput.c **** 
+ 557               		.loc 1 94 1 view .LVU127
+ 558 001c 8C2F      		mov r24,r28
+ 559               	/* epilogue start */
+ 560 001e CF91      		pop r28
+ 561               	.LVL63:
+  94:includes/chassisInput.c **** 
+ 562               		.loc 1 94 1 view .LVU128
+ 563 0020 0895      		ret
+ 564               	.L34:
+  84:includes/chassisInput.c ****             break;
+ 565               		.loc 1 84 13 is_stmt 1 view .LVU129
+ 566 0022 42E0      		ldi r20,lo8(2)
+ 567 0024 50E0      		ldi r21,0
+ 568 0026 67E0      		ldi r22,lo8(7)
+ 569 0028 70E0      		ldi r23,0
+ 570               	.L37:
+  87:includes/chassisInput.c ****             break;
+ 571               		.loc 1 87 13 is_stmt 0 view .LVU130
+ 572 002a 82E0      		ldi r24,lo8(2)
+ 573 002c 90E0      		ldi r25,0
+ 574               	.LVL64:
+  87:includes/chassisInput.c ****             break;
+ 575               		.loc 1 87 13 view .LVU131
+ 576 002e 0E94 0000 		call throw_error_code_with_number
+ 577               	.LVL65:
+  88:includes/chassisInput.c ****         default:
+ 578               		.loc 1 88 13 is_stmt 1 view .LVU132
+  93:includes/chassisInput.c **** }
+ 579               		.loc 1 93 5 view .LVU133
+  93:includes/chassisInput.c **** }
+ 580               		.loc 1 93 12 is_stmt 0 view .LVU134
+ 581 0032 00C0      		rjmp .L33
+ 582               	.LVL66:
+ 583               	.L35:
+  87:includes/chassisInput.c ****             break;
+ 584               		.loc 1 87 13 is_stmt 1 view .LVU135
+ 585 0034 42E0      		ldi r20,lo8(2)
+ 586 0036 50E0      		ldi r21,0
+ 587 0038 68E0      		ldi r22,lo8(8)
+ 588 003a 70E0      		ldi r23,0
+ 589 003c 00C0      		rjmp .L37
+ 590               		.cfi_endproc
+ 591               	.LFE8:
+ 593               		.section	.text.INPUT_read_breakPressureBack,"ax",@progbits
+ 594               	.global	INPUT_read_breakPressureBack
+ 596               	INPUT_read_breakPressureBack:
+ 597               	.LVL67:
+ 598               	.LFB12:
+ 159:includes/chassisInput.c **** 
+ 160:includes/chassisInput.c **** /**
+ 161:includes/chassisInput.c ****  * Example Code:
+ 162:includes/chassisInput.c ****  * uint16_t val = 0;
+ 163:includes/chassisInput.c ****  * if(INPUT_read_breakPressureBack(*val) == 0) {
+ 164:includes/chassisInput.c ****  *     // Use val some way
+ 165:includes/chassisInput.c ****  * } else {
+ 166:includes/chassisInput.c ****  *     // Val is in error
+ 167:includes/chassisInput.c ****  * }
+ 168:includes/chassisInput.c ****  */
+ 169:includes/chassisInput.c **** uint8_t INPUT_read_breakPressureBack(uint16_t * bkPressure) {
+ 599               		.loc 1 169 61 view -0
+ 600               		.cfi_startproc
+ 601               		.loc 1 169 61 is_stmt 0 view .LVU137
+ 602 0000 CF93      		push r28
+ 603               	.LCFI14:
+ 604               		.cfi_def_cfa_offset 3
+ 605               		.cfi_offset 28, -2
+ 606 0002 DF93      		push r29
+ 607               	.LCFI15:
+ 608               		.cfi_def_cfa_offset 4
+ 609               		.cfi_offset 29, -3
+ 610               	/* prologue: function */
+ 611               	/* frame size = 0 */
+ 612               	/* stack size = 2 */
+ 613               	.L__stack_usage = 2
+ 614 0004 EC01      		movw r28,r24
+ 170:includes/chassisInput.c ****     uint16_t tmp = adc_read_avg(INPUT_PRESSURE_BRAKE_BACK); // Get the pressure in the front brake
+ 615               		.loc 1 170 5 is_stmt 1 view .LVU138
+ 616               		.loc 1 170 20 is_stmt 0 view .LVU139
+ 617 0006 87E0      		ldi r24,lo8(7)
+ 618               	.LVL68:
+ 619               		.loc 1 170 20 view .LVU140
+ 620 0008 0E94 0000 		call adc_read_avg
+ 621               	.LVL69:
+ 171:includes/chassisInput.c ****     *bkPressure = tmp; // Still gets the value found regardless
+ 622               		.loc 1 171 5 is_stmt 1 view .LVU141
+ 623               		.loc 1 171 17 is_stmt 0 view .LVU142
+ 624 000c 9983      		std Y+1,r25
+ 625 000e 8883      		st Y,r24
+ 172:includes/chassisInput.c **** 	if(tmp < INPUT_PRESSURE_BRAKE_LOW) { return 1; } // Check if the value we received is valid
+ 626               		.loc 1 172 2 is_stmt 1 view .LVU143
+ 627               		.loc 1 172 4 is_stmt 0 view .LVU144
+ 628 0010 0097      		sbiw r24,0
+ 629 0012 01F0      		breq .L40
+ 173:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
+ 630               		.loc 1 173 5 is_stmt 1 view .LVU145
+ 631               		.loc 1 173 7 is_stmt 0 view .LVU146
+ 632 0014 8F3F      		cpi r24,-1
+ 633 0016 9340      		sbci r25,3
+ 634 0018 00F0      		brlo .L41
+ 635               		.loc 1 173 50 view .LVU147
+ 636 001a 82E0      		ldi r24,lo8(2)
+ 637               	.LVL70:
+ 638               	.L38:
+ 639               	/* epilogue start */
+ 174:includes/chassisInput.c **** 	return 0;
+ 175:includes/chassisInput.c **** }
+ 640               		.loc 1 175 1 view .LVU148
+ 641 001c DF91      		pop r29
+ 642 001e CF91      		pop r28
+ 643               	.LVL71:
+ 644               		.loc 1 175 1 view .LVU149
+ 645 0020 0895      		ret
+ 646               	.LVL72:
+ 647               	.L40:
+ 172:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
+ 648               		.loc 1 172 46 view .LVU150
+ 649 0022 81E0      		ldi r24,lo8(1)
+ 650               	.LVL73:
+ 172:includes/chassisInput.c ****     if(tmp > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
+ 651               		.loc 1 172 46 view .LVU151
+ 652 0024 00C0      		rjmp .L38
+ 653               	.LVL74:
+ 654               	.L41:
+ 174:includes/chassisInput.c **** 	return 0;
+ 655               		.loc 1 174 9 view .LVU152
+ 656 0026 80E0      		ldi r24,0
+ 657               	.LVL75:
+ 174:includes/chassisInput.c **** 	return 0;
+ 658               		.loc 1 174 9 view .LVU153
+ 659 0028 00C0      		rjmp .L38
+ 660               		.cfi_endproc
+ 661               	.LFE12:
+ 663               	.global	INPUT_brakePressureBack
+ 664               		.section .bss
+ 667               	INPUT_brakePressureBack:
+ 668 0000 0000      		.zero	2
+ 669               	.global	INPUT_brakePressureFront
+ 672               	INPUT_brakePressureFront:
+ 673 0002 0000      		.zero	2
+ 674               	.global	INPUT_brakePedal
+ 677               	INPUT_brakePedal:
+ 678 0004 0000      		.zero	2
+ 679               	.global	INPUT_accelerationPedal
+ 682               	INPUT_accelerationPedal:
+ 683 0006 0000      		.zero	2
+ 684               	.global	INPUT_steeringAngle
+ 687               	INPUT_steeringAngle:
+ 688 0008 0000      		.zero	2
+ 689               		.text
+ 690               	.Letext0:
+ 691               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+ 692               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/lib/avr-gcc/8/gcc/avr/8.1.0/include/stddef.h"
+ 693               		.file 4 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdio.h"
+ 694               		.file 5 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdlib.h"
+ 695               		.file 6 "includes/chassisInput.h"
+ 696               		.file 7 "includes/a2dUtil.h"
+ 697               		.file 8 "includes/chassisError.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 chassisInput.c
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:2      *ABS*:000000000000003e __SP_H__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:3      *ABS*:000000000000003d __SP_L__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:4      *ABS*:000000000000003f __SREG__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:5      *ABS*:000000000000003b __RAMPZ__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:6      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:7      *ABS*:0000000000000001 __zero_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:14     .text.INPUT_read_accelPedal:0000000000000000 INPUT_read_accelPedal
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:123    .text.INPUT_get_accelPedal:0000000000000000 INPUT_get_accelPedal
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:167    .text.INPUT_read_brakePedal:0000000000000000 INPUT_read_brakePedal
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:275    .text.INPUT_get_brakePedal:0000000000000000 INPUT_get_brakePedal
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:337    .text.INPUT_read_brakePressureFront:0000000000000000 INPUT_read_brakePressureFront
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:398    .text.INPUT_get_brakePressureFront:0000000000000000 INPUT_get_brakePressureFront
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:466    .text.INPUT_get_brakePressureBack:0000000000000000 INPUT_get_brakePressureBack
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:534    .text.INPUT_read_breakPressureBack:0000000000000000 INPUT_read_breakPressureBack
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:596    .bss:0000000000000000 INPUT_brakePressureBack
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:601    .bss:0000000000000002 INPUT_brakePressureFront
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:606    .bss:0000000000000004 INPUT_brakePedal
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:611    .bss:0000000000000006 INPUT_accelerationPedal
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cctDomeq.s:616    .bss:0000000000000008 INPUT_steeringAngle
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:5      *ABS*:000000000000003b __RAMPZ__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:6      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:7      *ABS*:0000000000000001 __zero_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:14     .text.INPUT_read_accelPedal:0000000000000000 INPUT_read_accelPedal
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:137    .text.INPUT_get_accelPedal:0000000000000000 INPUT_get_accelPedal
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:188    .text.INPUT_read_brakePedal:0000000000000000 INPUT_read_brakePedal
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:310    .text.INPUT_get_brakePedal:0000000000000000 INPUT_get_brakePedal
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:378    .text.INPUT_read_brakePressureFront:0000000000000000 INPUT_read_brakePressureFront
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:448    .text.INPUT_get_brakePressureFront:0000000000000000 INPUT_get_brakePressureFront
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:522    .text.INPUT_get_brakePressureBack:0000000000000000 INPUT_get_brakePressureBack
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:596    .text.INPUT_read_breakPressureBack:0000000000000000 INPUT_read_breakPressureBack
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:667    .bss:0000000000000000 INPUT_brakePressureBack
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:672    .bss:0000000000000002 INPUT_brakePressureFront
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:677    .bss:0000000000000004 INPUT_brakePedal
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:682    .bss:0000000000000006 INPUT_accelerationPedal
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKn7zjA.s:687    .bss:0000000000000008 INPUT_steeringAngle
 
 UNDEFINED SYMBOLS
 adc_read_avg

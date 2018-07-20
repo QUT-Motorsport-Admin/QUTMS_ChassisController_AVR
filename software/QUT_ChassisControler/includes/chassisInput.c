@@ -17,16 +17,20 @@ uint8_t INPUT_get_accelPedal(uint16_t *val) {
     uint8_t state = INPUT_read_accelPedal(val);
     switch (state) {
         case 1: // Inputs were too low
+            // PORTK = 0b00100000;
             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
             break;
         case 2: // Inputs were too high
+            // PORTK = 0b00100000;
             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
             break;
         case 3: // Delta was found to be in failure
+            // PORTK = 0b00100000;
             throw_error_code(ERROR_LEVEL_WARN, ERROR_THROTTLE_ERROR);
             break;
         default:
             // Do nothing
+            // PORTK = 0b00100000;
             break;
     }
     return state; // Pass up state of read for process and logic use
@@ -103,6 +107,8 @@ uint8_t INPUT_read_accelPedal(uint16_t *throttle) {
     // Read the values of the two throttle sensors and verify if the received values are valid
 	uint16_t primary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH1);
     uint16_t secondary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH2);
+    // PORTK = 0b00100000;
+    // if(primary == 0 || secondary == 0) { PORTK = 0b00100000; } else { PORTK = 0b00000000; }
     uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
     *throttle = primary; 
 	if(primary < INPUT_PEDAL_THROTTLE_LOW || secondary < INPUT_PEDAL_THROTTLE_LOW) { return 1; }

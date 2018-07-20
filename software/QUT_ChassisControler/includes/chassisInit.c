@@ -9,7 +9,6 @@
 
 #include "chassisInit.h"
 
-
 /**
  * @brief Sets up the microcontroller to allow external interrupts. The External Interrupts are triggered by the INT7:0 pin or any of the PCINT23:0 pins.
  * 
@@ -67,8 +66,9 @@ void io_init()
 	
 	DDRA  = 0b00011000;		//PA3 = ENABLE_B; PA4 = ENABLE_A; PA1 = dig input; PA2 = dig input;
 	PORTA = 0b00010000;
+
 	DDRK  = 0b00100000;		//PK5 = debugging LED;
-	PORTK = 0b00100000;
+	// PORTK = 0b00100000;
 	
 	// Enable external interrupts in order for the CAN bus to communicate with us
 	external_interrupt_init();
@@ -81,8 +81,9 @@ void io_init()
 void firmware_init()
 {
 	io_init();
-	// SPI_init();
-	uart1_init(19200);
+	SPI_init();
+    // uart_init(UART_BAUD_SELECT(19200, 16UL));
+    // uart1_init(UART_BAUD_SELECT(19200, 16UL));
 	// a2dInit(ADC_PRESCALE_DIV64, ADC_REFERENCE_AVCC); // Turns ON also
 	MCP2515_init(MCP2515_CAN1);
 	MCP2515_init(MCP2515_CAN2);
@@ -115,8 +116,20 @@ void firmware_init()
  */
 void timer_init()
 {
+    // http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2549-8-bit-AVR-Microcontroller-ATmega640-1280-1281-2560-2561_datasheet.pdf
+    // Set up 1Khz timer
+    TCCR0A |= (1 << WGM01);                 // Setting CTC on timer0
+    TCCR0B |= (1 << CS01)|(1 << CS00);      // Set up 64 prescaler (16Mhz / 64)
+    // For interupts \/ \/ \/
+    OCR0A = 250;                            // (16*10^6) / (1000 * 64) assuming 16Mhz chip = 1Khz
+    TIMSK0 |= (1 << OCIE0A)|(1 << TOIE0);   // Enable COMPA & 0VF interupt
+    TCNT0 = 0;                              // Set timer val to 0
+
+    // Set up 50Hz comm timer
 	TCCR1A = 0b00000000;			//CTC mode
 	TCCR1B = 0b00001101;			//prescale clock by 1024
-	OCR1A =  312;					//312 gives 50Hz main comms speed
+	OCR1A =  15000;					//312 gives 50Hz main comms speed
 	TIMSK1 = 0b00000010;			//turn on compare interrupt for OCR1A
+
+    sei();
 }

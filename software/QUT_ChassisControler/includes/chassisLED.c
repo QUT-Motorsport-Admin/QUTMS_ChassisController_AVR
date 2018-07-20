@@ -17,14 +17,14 @@
  * 
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
  **/
-void led_flash(unsigned char times)
+void led_flash(uint8_t times)
 {
 	for(uint8_t i = 0; i < times; i++)
 	{
 		led_toggle();
-		_delay_ms(50);
+		_delay_ms(100);
 		led_toggle();
-		_delay_ms(50);
+		_delay_ms(100);
 	}
 }
 
@@ -39,6 +39,7 @@ void led_flash(unsigned char times)
  **/
 void led_toggle()
 {
+    // PORTK ^= 0b00100000;
 	PORTK ^= 1<<PINK5;
 }
 
@@ -54,4 +55,9 @@ void led_toggle()
 void led_off()
 {
 	PORTK &= ~(1<<PINK5);
+}
+
+void led_on()
+{
+	PORTK |= 1<<PINK5;
 }

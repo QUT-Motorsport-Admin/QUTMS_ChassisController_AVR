@@ -8,22 +8,57 @@
    8               		.text
    9               	.Ltext0:
   10               		.cfi_sections	.debug_frame
-  11               		.comm	portKey,1,1
-  12               	.Letext0:
-  13               		.file 1 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdlib.h"
-  14               		.file 2 "/usr/local/Cellar/avr-gcc/7.3.0/lib/avr-gcc/7/gcc/avr/7.3.0/include/stddef.h"
-  15               		.file 3 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdint.h"
-  16               		.file 4 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdio.h"
-  17               		.file 5 "./utils/uart.h"
+  11               		.section	.text.UART_getString,"ax",@progbits
+  12               	.global	UART_getString
+  14               	UART_getString:
+  15               	.LFB5:
+  16               		.file 1 "includes/chassisUART.c"
+   1:includes/chassisUART.c **** /**
+   2:includes/chassisUART.c ****  * @file chassisUART.c
+   3:includes/chassisUART.c ****  * @author Jonn Dillon
+   4:includes/chassisUART.c ****  * @date 19/7/2018
+   5:includes/chassisUART.c ****  * @brief Handles all major communications functions, and related utilities in and out of the MCU.
+   6:includes/chassisUART.c ****  **/
+   7:includes/chassisUART.c **** 
+   8:includes/chassisUART.c **** #include "chassisUART.h"
+   9:includes/chassisUART.c **** 
+  10:includes/chassisUART.c **** char *UART_getString(void) {
+  17               		.loc 1 10 28 view -0
+  18               		.cfi_startproc
+  19               	/* prologue: function */
+  20               	/* frame size = 0 */
+  21               	/* stack size = 0 */
+  22               	.L__stack_usage = 0
+  23               	.L2:
+  11:includes/chassisUART.c ****     unsigned char string[255], x, i;
+  12:includes/chassisUART.c ****     while((x = uart1_getc()) != UART_NO_DATA) {
+  24               		.loc 1 12 16 is_stmt 0 view .LVU1
+  25 0000 0E94 0000 		call uart1_getc
+  26               	.LVL0:
+  13:includes/chassisUART.c ****         string[i++] = x;
+  27               		.loc 1 13 9 is_stmt 1 view .LVU2
+  28 0004 00C0      		rjmp .L2
+  29               		.cfi_endproc
+  30               	.LFE5:
+  32               		.comm	portKey,1,1
+  33               		.text
+  34               	.Letext0:
+  35               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdlib.h"
+  36               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/lib/avr-gcc/8/gcc/avr/8.1.0/include/stddef.h"
+  37               		.file 4 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+  38               		.file 5 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdio.h"
+  39               		.file 6 "./utils/uart.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 chassisUART.c
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrsEBY.s:2      *ABS*:000000000000003e __SP_H__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrsEBY.s:3      *ABS*:000000000000003d __SP_L__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrsEBY.s:4      *ABS*:000000000000003f __SREG__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrsEBY.s:5      *ABS*:000000000000003b __RAMPZ__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrsEBY.s:6      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrsEBY.s:7      *ABS*:0000000000000001 __zero_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccG92ymn.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccG92ymn.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccG92ymn.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccG92ymn.s:5      *ABS*:000000000000003b __RAMPZ__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccG92ymn.s:6      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccG92ymn.s:7      *ABS*:0000000000000001 __zero_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccG92ymn.s:14     .text.UART_getString:0000000000000000 UART_getString
                             *COM*:0000000000000001 portKey
 
 UNDEFINED SYMBOLS
+uart1_getc
 __do_clear_bss
