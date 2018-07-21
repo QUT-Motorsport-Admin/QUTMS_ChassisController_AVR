@@ -9,6 +9,7 @@
 #include "utils/uart.h"
 #include "utils/a2d.h"
 #include "utils/SPI.h"
+#include "chassisLED.h"
 
 void io_init();
 void firmware_init();

@@ -7,14 +7,25 @@
 
 #include "chassisInput.h"
 
-uint16_t INPUT_steeringAngle = 0;
-uint16_t INPUT_accelerationPedal = 0;
-uint16_t INPUT_brakePedal = 0;
-uint16_t INPUT_brakePressureFront = 0;
-uint16_t INPUT_brakePressureBack = 0;
+uint8_t INPUT_steeringAngle = 0;
+uint8_t INPUT_accelerationPedal = 0;
+uint8_t INPUT_brakePedal = 0;
+uint8_t INPUT_brakePressureFront = 0;
+uint8_t INPUT_brakePressureBack = 0;
 
-uint8_t INPUT_get_accelPedal(uint16_t *val) {
-    uint8_t state = INPUT_read_accelPedal(val);
+#define ADC_SAMPLES	(8) /**< Samples required for ADC */
+
+uint8_t INPUT_get_accelPedal(uint8_t *val) {
+    // Get Value
+    uint16_t rawValue = 0;
+    uint8_t state = INPUT_read_accelPedal(&rawValue);
+    // Convert Value
+    *val = INPUT_scaleInput(
+        &rawValue,
+        INPUT_PEDAL_THROTTLE_CH1_HIGH,
+        INPUT_PEDAL_THROTTLE_CH1_LOW
+    );
+    // Error States
     switch (state) {
         case 1: // Inputs were too low
             // PORTK = 0b00100000;
@@ -36,8 +47,17 @@ uint8_t INPUT_get_accelPedal(uint16_t *val) {
     return state; // Pass up state of read for process and logic use
 }
 
-uint8_t INPUT_get_brakePedal(uint16_t *val) {
-    uint8_t state = INPUT_read_brakePedal(val);
+uint8_t INPUT_get_brakePedal(uint8_t *val) {
+    // Get Value
+    uint16_t rawValue = 0;
+    uint8_t state = INPUT_read_accelPedal(&rawValue);
+    // Convert Value
+    *val = INPUT_scaleInput(
+        &rawValue,
+        INPUT_PEDAL_THROTTLE_CH1_HIGH,
+        INPUT_PEDAL_THROTTLE_CH1_LOW
+    );
+    // Error States
     switch (state) {
         case 1: // Inputs were too low
             throw_error_code(ERROR_LEVEL_WARN, ERROR_BRAKES_POSITION_LOW);
@@ -94,6 +114,19 @@ uint8_t INPUT_get_brakePressureBack(uint16_t *val) {
 }
 
 /**
+ * @brief 
+ * 
+ * @param value 
+ * @param max 
+ * @param min 
+ * @return uint8_t 
+ */
+uint8_t INPUT_scaleInput(uint16_t * value, uint16_t max, uint16_t min) {
+    uint8_t tmp = *value / ((max + INPUT_ADC_THRESH)-(min - INPUT_ADC_THRESH)) * 100;
+    return tmp > 100 ? 100 : tmp;
+}
+
+/**
  * Example Code:
  * uint16_t val = 0;
  * if(INPUT_read_accelPedal(*val) == 0) {
@@ -104,18 +137,47 @@ uint8_t INPUT_get_brakePressureBack(uint16_t *val) {
  */
 uint8_t INPUT_read_accelPedal(uint16_t *throttle) {
 
+    //TODO: Fill buffers with int reads values
+    static uint16_t primaryHistory[10];
+    static uint16_t secondaryHistory[10];
+    static uint8_t historyIndex = 0;
+
     // Read the values of the two throttle sensors and verify if the received values are valid
-	uint16_t primary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH1);
-    uint16_t secondary = adc_read_avg(INPUT_PEDAL_THROTTLE_CH2);
-    // PORTK = 0b00100000;
-    // if(primary == 0 || secondary == 0) { PORTK = 0b00100000; } else { PORTK = 0b00000000; }
-    uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
-    *throttle = primary; 
-	if(primary < INPUT_PEDAL_THROTTLE_LOW || secondary < INPUT_PEDAL_THROTTLE_LOW) { return 1; }
-	if(primary > INPUT_PEDAL_THROTTLE_HIGH || secondary > INPUT_PEDAL_THROTTLE_HIGH) { return 2; }
+    primaryHistory[historyIndex] = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
+    secondaryHistory[historyIndex++] = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH2);
+
+    if(historyIndex >= ADC_SAMPLES) { historyIndex = 0; }
+
+    uint16_t primaryAverage = 0;
+    uint16_t secondaryAverage = 0;
+    for(uint8_t i = 0; i < ADC_SAMPLES; i++) {
+        primaryAverage += primaryHistory[i];
+        secondaryAverage += secondaryHistory[i];
+    }
+    primaryAverage /= ADC_SAMPLES;
+    secondaryAverage /= ADC_SAMPLES;
+
+    uint16_t delta = abs(primaryAverage - secondaryAverage); // Calculate the difference between the two values
+
+    *throttle = primaryAverage; 
+
+	if(primaryAverage < INPUT_PEDAL_THROTTLE_CH1_LOW - INPUT_ADC_ERROR || secondaryAverage < INPUT_PEDAL_THROTTLE_CH2_LOW - INPUT_ADC_ERROR ) 
+    { 
+        return 1; 
+    }
+	else if(primaryAverage > INPUT_PEDAL_THROTTLE_CH1_HIGH - INPUT_ADC_ERROR || secondaryAverage > INPUT_PEDAL_THROTTLE_CH2_HIGH - INPUT_ADC_ERROR )
+    {
+        return 2; 
+    }
 	// Verify if the difference between sensors is within acceptable values
-	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
-	else { return 0; }
+	else if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H)
+    {
+        return 3;
+    }
+	else 
+    {
+        return 0; 
+    }
 }
 
 /**
@@ -133,8 +195,8 @@ uint8_t INPUT_read_brakePedal(uint16_t * brake) {
     uint16_t secondary = adc_read_avg(INPUT_PEDAL_BRAKE_CH2);
     uint16_t delta = abs(primary-secondary); // Calculate the difference between the two values
     *brake = primary; 
-	if(primary < INPUT_PEDAL_BRAKE_LOW || secondary < INPUT_PEDAL_BRAKE_LOW) { return 1; }
-    if(primary > INPUT_PEDAL_BRAKE_HIGH || secondary > INPUT_PEDAL_BRAKE_HIGH) { return 2; }
+	if(primary < INPUT_PEDAL_BRAKE_CH1_LOW || secondary < INPUT_PEDAL_BRAKE_CH2_LOW) { return 1; }
+    if(primary > INPUT_PEDAL_BRAKE_CH1_HIGH || secondary > INPUT_PEDAL_BRAKE_CH2_HIGH) { return 2; }
 	// Verify if the difference between sensors is within acceptable values
 	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
     return 0;
@@ -199,8 +261,6 @@ uint8_t INPUT_read_breakPressureBack(uint16_t * bkPressure) {
 // 	else PORTA &= 223;
 // }
 
-/**
- * 
 /**
  * pressure_brake_read()
  * Input:	front	-	A pointer to the variable that holds the digital value of the front brake pressure

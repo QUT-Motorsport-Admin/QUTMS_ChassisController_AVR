@@ -81,19 +81,17 @@ void io_init()
 void firmware_init()
 {
 	io_init();
-	SPI_init();
-    // uart_init(UART_BAUD_SELECT(19200, 16UL));
-    // uart1_init(UART_BAUD_SELECT(19200, 16UL));
-	// a2dInit(ADC_PRESCALE_DIV64, ADC_REFERENCE_AVCC); // Turns ON also
-	MCP2515_init(MCP2515_CAN1);
-	MCP2515_init(MCP2515_CAN2);
-	MCP2515_init(MCP2515_CAN3);
-	
-	// Enable interrupts
-	sei();
+	// SPI_init();
+    // // uart_init(UART_BAUD_SELECT(19200, 16UL));
+    uart_init(19200);
+    uart1_init(19200);
+	a2dInit(ADC_PRESCALE_DIV64, ADC_REFERENCE_AVCC); // Turns ON ADC
+	// MCP2515_init(MCP2515_CAN1);
+	// MCP2515_init(MCP2515_CAN2);
+	// MCP2515_init(MCP2515_CAN3);
 
 	// Enable the pullup on the input. This allows the pin to be active low
-	PORTJ |= (1<<PINJ6);
+	// PORTJ |= (1<<PINJ6);
 
 	// Initialise inverter structs
 	// for(uint8_t i = 0; i < NUM_INVERTERS; i++)
@@ -120,16 +118,12 @@ void timer_init()
     // Set up 1Khz timer
     TCCR0A |= (1 << WGM01);                 // Setting CTC on timer0
     TCCR0B |= (1 << CS01)|(1 << CS00);      // Set up 64 prescaler (16Mhz / 64)
-    // For interupts \/ \/ \/
     OCR0A = 250;                            // (16*10^6) / (1000 * 64) assuming 16Mhz chip = 1Khz
-    TIMSK0 |= (1 << OCIE0A)|(1 << TOIE0);   // Enable COMPA & 0VF interupt
-    TCNT0 = 0;                              // Set timer val to 0
+    TIMSK0 |= (1 << OCIE0A);                // Enable COMPA interupt
 
     // Set up 50Hz comm timer
-	TCCR1A = 0b00000000;			//CTC mode
-	TCCR1B = 0b00001101;			//prescale clock by 1024
-	OCR1A =  15000;					//312 gives 50Hz main comms speed
-	TIMSK1 = 0b00000010;			//turn on compare interrupt for OCR1A
-
-    sei();
+	TCCR1A = 0b00000000;			//
+	TCCR1B = 0b00001101;			// CTC mode & prescale clock by 1024
+	OCR1A =  15000;					// 312 gives 50Hz main comms speed
+	TIMSK1 = 0b00000010;			// Turn on compare interrupt for OCR1A
 }

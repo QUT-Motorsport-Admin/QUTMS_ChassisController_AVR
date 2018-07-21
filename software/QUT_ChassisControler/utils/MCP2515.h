@@ -3,8 +3,8 @@
 #define F_CPU 16000000UL
 #endif
 
-#include <util/delay.h>
 #include <avr/io.h>
+#include <string.h>
 
 #define MCP2515_CAN1_PORT_CS	PORTH			//pin 12
 #define MCP2515_CAN2_PORT_CS	PORTH			//pin 13

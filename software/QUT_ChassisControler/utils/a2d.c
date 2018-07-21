@@ -90,9 +90,9 @@ unsigned short a2d_10bit()
 		// wait until conversion complete
 	}
 
-    // return ADC;                // read ADC (full 10 bits);
+    return ADC;                // read ADC (full 10 bits);
 	// return (8 << ADCH)|(ADCL); // read ADC (full 10 bits);
-    return ADCL;                // read ADC (first 8 bits)
+    // return ADCL;                // read ADC (first 8 bits)
 }
 
 // Perform a 8-bit conversion on current channel
@@ -114,33 +114,27 @@ unsigned short a2d_10bitCh(unsigned char ch)
 	// set channel
 	ADMUX &= ADC_MUX_MASK;	
 	
-	/*   qfp100 parts code below (16 channel)
 	if (ch > 7) 
 	{
 		ADCSRB |= 8;
 		ADMUX |= (ch - 8);
 	}
-
 	else
 	{
 		ADCSRB &= 247;
 		ADMUX |= ch;
 	}
-	*/
 	
-	ADMUX |= ch;	//comment out this line when using on 16ch parts
+	// ADMUX |= ch;	//comment out this line when using on 16ch parts
 
 	// start conversion
 	ADCSRA |= (1<<ADSC);
 
-	while(ADCSRA & (1 << ADSC))
-	{
-		// wait until conversion complete
-	}
+	while(ADCSRA & (1 << ADSC)) {} // wait until conversion complete 
 
-	// return ADC;                // read ADC (full 10 bits);
+	return ADC;                // read ADC (full 10 bits);
 	// return (8 << ADCH)|(ADCL); // read ADC (full 10 bits);
-    return ADCL;                // read ADC (first 8 bits)
+    // return ADCL;                // read ADC (first 8 bits)
 }
 
 

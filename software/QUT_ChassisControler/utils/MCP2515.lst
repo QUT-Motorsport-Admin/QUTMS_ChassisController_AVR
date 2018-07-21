@@ -11,8 +11,9 @@
   11               		.section	.text.MCP2515_CS_low,"ax",@progbits
   12               	.global	MCP2515_CS_low
   14               	MCP2515_CS_low:
-  15               	.LFB7:
-  16               		.file 1 "utils/MCP2515.c"
+  15               	.LVL0:
+  16               	.LFB1:
+  17               		.file 1 "utils/MCP2515.c"
    1:utils/MCP2515.c **** 
    2:utils/MCP2515.c **** #include "SPI.h"
    3:utils/MCP2515.c **** #include "MCP2515.h"
@@ -43,19 +44,18 @@
   28:utils/MCP2515.c **** 
   29:utils/MCP2515.c **** void MCP2515_CS_low(uint8_t CANbus)
   30:utils/MCP2515.c **** {
-  17               		.loc 1 30 0
-  18               		.cfi_startproc
-  19               	.LVL0:
+  18               		.loc 1 30 1 view -0
+  19               		.cfi_startproc
   20               	/* prologue: function */
   21               	/* frame size = 0 */
   22               	/* stack size = 0 */
   23               	.L__stack_usage = 0
   31:utils/MCP2515.c **** 	switch(CANbus)
-  24               		.loc 1 31 0
+  24               		.loc 1 31 2 view .LVU1
   25 0000 8230      		cpi r24,lo8(2)
-  26 0002 01F0      		breq .L3
+  26 0002 01F0      		breq .L2
   27 0004 8430      		cpi r24,lo8(4)
-  28 0006 01F0      		breq .L4
+  28 0006 01F0      		breq .L3
   29 0008 8130      		cpi r24,lo8(1)
   30 000a 01F4      		brne .L1
   31               	.LVL1:
@@ -64,461 +64,507 @@
   32:utils/MCP2515.c **** 	{
   33:utils/MCP2515.c **** 		case MCP2515_CAN1:
   34:utils/MCP2515.c **** 			MCP2515_CAN1_PORT_CS &= ~(1<<MCP2515_CAN1_PIN_CS);
-  34               		.loc 1 34 0
-  35 000c 8091 0201 		lds r24,258
-  36               	.LVL2:
-  37 0010 8E7F      		andi r24,lo8(-2)
-  38               	.LVL3:
-  39               	.L6:
-  40               	.LBE6:
-  41               	.LBE5:
+  34               		.loc 1 34 4 view .LVU2
+  35               		.loc 1 34 25 is_stmt 0 view .LVU3
+  36 000c 8091 0201 		lds r24,258
+  37               	.LVL2:
+  38               		.loc 1 34 25 view .LVU4
+  39 0010 8E7F      		andi r24,lo8(-2)
+  40               	.LVL3:
+  41               	.L5:
+  42               		.loc 1 34 25 view .LVU5
+  43               	.LBE6:
+  44               	.LBE5:
   35:utils/MCP2515.c **** 			break;
   36:utils/MCP2515.c **** 		case MCP2515_CAN2:
   37:utils/MCP2515.c **** 			MCP2515_CAN2_PORT_CS &= ~(1<<MCP2515_CAN2_PIN_CS);
-  42               		.loc 1 37 0
-  43 0012 8093 0201 		sts 258,r24
+  45               		.loc 1 37 25 view .LVU6
+  46 0012 8093 0201 		sts 258,r24
   38:utils/MCP2515.c **** 			break;
-  44               		.loc 1 38 0
-  45 0016 0895      		ret
-  46               	.LVL4:
-  47               	.L3:
+  47               		.loc 1 38 4 is_stmt 1 view .LVU7
+  48 0016 0895      		ret
+  49               	.LVL4:
+  50               	.L2:
   37:utils/MCP2515.c **** 			break;
-  48               		.loc 1 37 0
-  49 0018 8091 0201 		lds r24,258
-  50               	.LVL5:
-  51 001c 8D7F      		andi r24,lo8(-3)
-  52 001e 00C0      		rjmp .L6
-  53               	.LVL6:
-  54               	.L4:
+  51               		.loc 1 37 4 view .LVU8
+  37:utils/MCP2515.c **** 			break;
+  52               		.loc 1 37 25 is_stmt 0 view .LVU9
+  53 0018 8091 0201 		lds r24,258
+  54               	.LVL5:
+  37:utils/MCP2515.c **** 			break;
+  55               		.loc 1 37 25 view .LVU10
+  56 001c 8D7F      		andi r24,lo8(-3)
+  57 001e 00C0      		rjmp .L5
+  58               	.LVL6:
+  59               	.L3:
   39:utils/MCP2515.c **** 		case MCP2515_CAN3:
   40:utils/MCP2515.c **** 			MCP2515_CAN3_PORT_CS &= ~(1<<MCP2515_CAN3_PIN_CS);
-  55               		.loc 1 40 0
-  56 0020 2898      		cbi 0x5,0
-  57               	.L1:
-  58               	/* epilogue start */
+  60               		.loc 1 40 4 is_stmt 1 view .LVU11
+  61               		.loc 1 40 25 is_stmt 0 view .LVU12
+  62 0020 2898      		cbi 0x5,0
   41:utils/MCP2515.c **** 			break;
+  63               		.loc 1 41 4 is_stmt 1 view .LVU13
+  64               	.L1:
+  65               	/* epilogue start */
   42:utils/MCP2515.c **** 		default:
   43:utils/MCP2515.c **** 			break;
   44:utils/MCP2515.c **** 	}
   45:utils/MCP2515.c **** }
-  59               		.loc 1 45 0
-  60 0022 0895      		ret
-  61               		.cfi_endproc
-  62               	.LFE7:
-  64               		.section	.text.MCP2515_CS_high,"ax",@progbits
-  65               	.global	MCP2515_CS_high
-  67               	MCP2515_CS_high:
-  68               	.LFB8:
+  66               		.loc 1 45 1 is_stmt 0 view .LVU14
+  67 0022 0895      		ret
+  68               		.cfi_endproc
+  69               	.LFE1:
+  71               		.section	.text.MCP2515_CS_high,"ax",@progbits
+  72               	.global	MCP2515_CS_high
+  74               	MCP2515_CS_high:
+  75               	.LVL7:
+  76               	.LFB2:
   46:utils/MCP2515.c **** 
   47:utils/MCP2515.c **** void MCP2515_CS_high(uint8_t CANbus)
   48:utils/MCP2515.c **** {
-  69               		.loc 1 48 0
-  70               		.cfi_startproc
-  71               	.LVL7:
-  72               	/* prologue: function */
-  73               	/* frame size = 0 */
-  74               	/* stack size = 0 */
-  75               	.L__stack_usage = 0
+  77               		.loc 1 48 1 is_stmt 1 view -0
+  78               		.cfi_startproc
+  79               	/* prologue: function */
+  80               	/* frame size = 0 */
+  81               	/* stack size = 0 */
+  82               	.L__stack_usage = 0
   49:utils/MCP2515.c **** 	switch(CANbus)
-  76               		.loc 1 49 0
-  77 0000 8230      		cpi r24,lo8(2)
-  78 0002 01F0      		breq .L9
-  79 0004 8430      		cpi r24,lo8(4)
-  80 0006 01F0      		breq .L10
-  81 0008 8130      		cpi r24,lo8(1)
-  82 000a 01F4      		brne .L7
-  83               	.LVL8:
-  84               	.LBB9:
-  85               	.LBB10:
+  83               		.loc 1 49 2 view .LVU16
+  84 0000 8230      		cpi r24,lo8(2)
+  85 0002 01F0      		breq .L7
+  86 0004 8430      		cpi r24,lo8(4)
+  87 0006 01F0      		breq .L8
+  88 0008 8130      		cpi r24,lo8(1)
+  89 000a 01F4      		brne .L6
+  90               	.LVL8:
+  91               	.LBB9:
+  92               	.LBB10:
   50:utils/MCP2515.c **** 	{
   51:utils/MCP2515.c **** 		case MCP2515_CAN1:
   52:utils/MCP2515.c **** 			MCP2515_CAN1_PORT_CS |= (1<<MCP2515_CAN1_PIN_CS);
-  86               		.loc 1 52 0
-  87 000c 8091 0201 		lds r24,258
-  88               	.LVL9:
-  89 0010 8160      		ori r24,lo8(1)
-  90               	.LVL10:
-  91               	.L12:
-  92               	.LBE10:
-  93               	.LBE9:
+  93               		.loc 1 52 4 view .LVU17
+  94               		.loc 1 52 25 is_stmt 0 view .LVU18
+  95 000c 8091 0201 		lds r24,258
+  96               	.LVL9:
+  97               		.loc 1 52 25 view .LVU19
+  98 0010 8160      		ori r24,lo8(1)
+  99               	.LVL10:
+ 100               	.L10:
+ 101               		.loc 1 52 25 view .LVU20
+ 102               	.LBE10:
+ 103               	.LBE9:
   53:utils/MCP2515.c **** 			break;
   54:utils/MCP2515.c **** 		case MCP2515_CAN2:
   55:utils/MCP2515.c **** 			MCP2515_CAN2_PORT_CS |= (1<<MCP2515_CAN2_PIN_CS);
-  94               		.loc 1 55 0
-  95 0012 8093 0201 		sts 258,r24
+ 104               		.loc 1 55 25 view .LVU21
+ 105 0012 8093 0201 		sts 258,r24
   56:utils/MCP2515.c **** 			break;
-  96               		.loc 1 56 0
-  97 0016 0895      		ret
-  98               	.LVL11:
-  99               	.L9:
+ 106               		.loc 1 56 4 is_stmt 1 view .LVU22
+ 107 0016 0895      		ret
+ 108               	.LVL11:
+ 109               	.L7:
   55:utils/MCP2515.c **** 			break;
- 100               		.loc 1 55 0
- 101 0018 8091 0201 		lds r24,258
- 102               	.LVL12:
- 103 001c 8260      		ori r24,lo8(2)
- 104 001e 00C0      		rjmp .L12
- 105               	.LVL13:
- 106               	.L10:
+ 110               		.loc 1 55 4 view .LVU23
+  55:utils/MCP2515.c **** 			break;
+ 111               		.loc 1 55 25 is_stmt 0 view .LVU24
+ 112 0018 8091 0201 		lds r24,258
+ 113               	.LVL12:
+  55:utils/MCP2515.c **** 			break;
+ 114               		.loc 1 55 25 view .LVU25
+ 115 001c 8260      		ori r24,lo8(2)
+ 116 001e 00C0      		rjmp .L10
+ 117               	.LVL13:
+ 118               	.L8:
   57:utils/MCP2515.c **** 		case MCP2515_CAN3:
   58:utils/MCP2515.c **** 			MCP2515_CAN3_PORT_CS |= (1<<MCP2515_CAN3_PIN_CS);
- 107               		.loc 1 58 0
- 108 0020 289A      		sbi 0x5,0
- 109               	.L7:
- 110               	/* epilogue start */
+ 119               		.loc 1 58 4 is_stmt 1 view .LVU26
+ 120               		.loc 1 58 25 is_stmt 0 view .LVU27
+ 121 0020 289A      		sbi 0x5,0
   59:utils/MCP2515.c **** 			break;
+ 122               		.loc 1 59 4 is_stmt 1 view .LVU28
+ 123               	.L6:
+ 124               	/* epilogue start */
   60:utils/MCP2515.c **** 		default:
   61:utils/MCP2515.c **** 			break;
   62:utils/MCP2515.c **** 	}
   63:utils/MCP2515.c **** }
- 111               		.loc 1 63 0
- 112 0022 0895      		ret
- 113               		.cfi_endproc
- 114               	.LFE8:
- 116               		.section	.text.MCP2515_reg_write,"ax",@progbits
- 117               	.global	MCP2515_reg_write
- 119               	MCP2515_reg_write:
- 120               	.LFB9:
+ 125               		.loc 1 63 1 is_stmt 0 view .LVU29
+ 126 0022 0895      		ret
+ 127               		.cfi_endproc
+ 128               	.LFE2:
+ 130               		.section	.text.MCP2515_reg_write,"ax",@progbits
+ 131               	.global	MCP2515_reg_write
+ 133               	MCP2515_reg_write:
+ 134               	.LVL14:
+ 135               	.LFB3:
   64:utils/MCP2515.c **** 
   65:utils/MCP2515.c **** void MCP2515_reg_write(uint8_t CANbus, uint8_t reg_address, uint8_t reg_value)
   66:utils/MCP2515.c **** {
- 121               		.loc 1 66 0
- 122               		.cfi_startproc
- 123               	.LVL14:
- 124 0000 1F93      		push r17
- 125               	.LCFI0:
- 126               		.cfi_def_cfa_offset 3
- 127               		.cfi_offset 17, -2
- 128 0002 CF93      		push r28
- 129               	.LCFI1:
- 130               		.cfi_def_cfa_offset 4
- 131               		.cfi_offset 28, -3
- 132 0004 DF93      		push r29
- 133               	.LCFI2:
- 134               		.cfi_def_cfa_offset 5
- 135               		.cfi_offset 29, -4
- 136               	/* prologue: function */
- 137               	/* frame size = 0 */
- 138               	/* stack size = 3 */
- 139               	.L__stack_usage = 3
- 140 0006 C82F      		mov r28,r24
- 141 0008 162F      		mov r17,r22
- 142 000a D42F      		mov r29,r20
+ 136               		.loc 1 66 1 is_stmt 1 view -0
+ 137               		.cfi_startproc
+ 138               		.loc 1 66 1 is_stmt 0 view .LVU31
+ 139 0000 1F93      		push r17
+ 140               	.LCFI0:
+ 141               		.cfi_def_cfa_offset 3
+ 142               		.cfi_offset 17, -2
+ 143 0002 CF93      		push r28
+ 144               	.LCFI1:
+ 145               		.cfi_def_cfa_offset 4
+ 146               		.cfi_offset 28, -3
+ 147 0004 DF93      		push r29
+ 148               	.LCFI2:
+ 149               		.cfi_def_cfa_offset 5
+ 150               		.cfi_offset 29, -4
+ 151               	/* prologue: function */
+ 152               	/* frame size = 0 */
+ 153               	/* stack size = 3 */
+ 154               	.L__stack_usage = 3
+ 155 0006 C82F      		mov r28,r24
+ 156 0008 162F      		mov r17,r22
+ 157 000a D42F      		mov r29,r20
   67:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//unset CS so MCP2515 knows we are talking
- 143               		.loc 1 67 0
- 144 000c 0E94 0000 		call MCP2515_CS_low
- 145               	.LVL15:
+ 158               		.loc 1 67 2 is_stmt 1 view .LVU32
+ 159 000c 0E94 0000 		call MCP2515_CS_low
+ 160               	.LVL15:
   68:utils/MCP2515.c **** 	SPI_send_byte(MCP2515_WRITE);
- 146               		.loc 1 68 0
- 147 0010 82E0      		ldi r24,lo8(2)
- 148 0012 0E94 0000 		call SPI_send_byte
- 149               	.LVL16:
+ 161               		.loc 1 68 2 view .LVU33
+ 162 0010 82E0      		ldi r24,lo8(2)
+ 163 0012 0E94 0000 		call SPI_send_byte
+ 164               	.LVL16:
   69:utils/MCP2515.c **** 	SPI_send_byte(reg_address);
- 150               		.loc 1 69 0
- 151 0016 812F      		mov r24,r17
- 152 0018 0E94 0000 		call SPI_send_byte
- 153               	.LVL17:
+ 165               		.loc 1 69 2 view .LVU34
+ 166 0016 812F      		mov r24,r17
+ 167 0018 0E94 0000 		call SPI_send_byte
+ 168               	.LVL17:
   70:utils/MCP2515.c **** 	SPI_send_byte(reg_value);
- 154               		.loc 1 70 0
- 155 001c 8D2F      		mov r24,r29
- 156 001e 0E94 0000 		call SPI_send_byte
- 157               	.LVL18:
+ 169               		.loc 1 70 2 view .LVU35
+ 170 001c 8D2F      		mov r24,r29
+ 171 001e 0E94 0000 		call SPI_send_byte
+ 172               	.LVL18:
   71:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
- 158               		.loc 1 71 0
- 159 0022 8C2F      		mov r24,r28
- 160               	/* epilogue start */
+ 173               		.loc 1 71 2 view .LVU36
+ 174 0022 8C2F      		mov r24,r28
+ 175               	/* epilogue start */
   72:utils/MCP2515.c **** 	//if(MCP2515_reg_read(CANbus, reg_address) == reg_value)flash_LED(1,RED_LED);
   73:utils/MCP2515.c **** }
- 161               		.loc 1 73 0
- 162 0024 DF91      		pop r29
- 163               	.LVL19:
- 164 0026 CF91      		pop r28
- 165               	.LVL20:
- 166 0028 1F91      		pop r17
- 167               	.LVL21:
+ 176               		.loc 1 73 1 is_stmt 0 view .LVU37
+ 177 0024 DF91      		pop r29
+ 178               	.LVL19:
+ 179               		.loc 1 73 1 view .LVU38
+ 180 0026 CF91      		pop r28
+ 181               	.LVL20:
+ 182               		.loc 1 73 1 view .LVU39
+ 183 0028 1F91      		pop r17
+ 184               	.LVL21:
   71:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
- 168               		.loc 1 71 0
- 169 002a 0C94 0000 		jmp MCP2515_CS_high
- 170               	.LVL22:
- 171               		.cfi_endproc
- 172               	.LFE9:
- 174               		.section	.text.MCP2515_instruction,"ax",@progbits
- 175               	.global	MCP2515_instruction
- 177               	MCP2515_instruction:
- 178               	.LFB10:
+ 185               		.loc 1 71 2 view .LVU40
+ 186 002a 0C94 0000 		jmp MCP2515_CS_high
+ 187               	.LVL22:
+  71:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
+ 188               		.loc 1 71 2 view .LVU41
+ 189               		.cfi_endproc
+ 190               	.LFE3:
+ 192               		.section	.text.MCP2515_instruction,"ax",@progbits
+ 193               	.global	MCP2515_instruction
+ 195               	MCP2515_instruction:
+ 196               	.LVL23:
+ 197               	.LFB4:
   74:utils/MCP2515.c **** 
   75:utils/MCP2515.c **** void MCP2515_instruction(uint8_t CANbus, uint8_t instruction)
   76:utils/MCP2515.c **** {
- 179               		.loc 1 76 0
- 180               		.cfi_startproc
- 181               	.LVL23:
- 182 0000 CF93      		push r28
- 183               	.LCFI3:
- 184               		.cfi_def_cfa_offset 3
- 185               		.cfi_offset 28, -2
- 186 0002 DF93      		push r29
- 187               	.LCFI4:
- 188               		.cfi_def_cfa_offset 4
- 189               		.cfi_offset 29, -3
- 190               	/* prologue: function */
- 191               	/* frame size = 0 */
- 192               	/* stack size = 2 */
- 193               	.L__stack_usage = 2
- 194 0004 C82F      		mov r28,r24
- 195 0006 D62F      		mov r29,r22
+ 198               		.loc 1 76 1 is_stmt 1 view -0
+ 199               		.cfi_startproc
+ 200               		.loc 1 76 1 is_stmt 0 view .LVU43
+ 201 0000 CF93      		push r28
+ 202               	.LCFI3:
+ 203               		.cfi_def_cfa_offset 3
+ 204               		.cfi_offset 28, -2
+ 205 0002 DF93      		push r29
+ 206               	.LCFI4:
+ 207               		.cfi_def_cfa_offset 4
+ 208               		.cfi_offset 29, -3
+ 209               	/* prologue: function */
+ 210               	/* frame size = 0 */
+ 211               	/* stack size = 2 */
+ 212               	.L__stack_usage = 2
+ 213 0004 C82F      		mov r28,r24
+ 214 0006 D62F      		mov r29,r22
   77:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//unset CS so MCP2515 knows we are talking
- 196               		.loc 1 77 0
- 197 0008 0E94 0000 		call MCP2515_CS_low
- 198               	.LVL24:
+ 215               		.loc 1 77 2 is_stmt 1 view .LVU44
+ 216 0008 0E94 0000 		call MCP2515_CS_low
+ 217               	.LVL24:
   78:utils/MCP2515.c **** 	SPI_send_byte(instruction);
- 199               		.loc 1 78 0
- 200 000c 8D2F      		mov r24,r29
- 201 000e 0E94 0000 		call SPI_send_byte
- 202               	.LVL25:
+ 218               		.loc 1 78 2 view .LVU45
+ 219 000c 8D2F      		mov r24,r29
+ 220 000e 0E94 0000 		call SPI_send_byte
+ 221               	.LVL25:
   79:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
- 203               		.loc 1 79 0
- 204 0012 8C2F      		mov r24,r28
- 205               	/* epilogue start */
+ 222               		.loc 1 79 2 view .LVU46
+ 223 0012 8C2F      		mov r24,r28
+ 224               	/* epilogue start */
   80:utils/MCP2515.c **** }
- 206               		.loc 1 80 0
- 207 0014 DF91      		pop r29
- 208               	.LVL26:
- 209 0016 CF91      		pop r28
- 210               	.LVL27:
+ 225               		.loc 1 80 1 is_stmt 0 view .LVU47
+ 226 0014 DF91      		pop r29
+ 227               	.LVL26:
+ 228               		.loc 1 80 1 view .LVU48
+ 229 0016 CF91      		pop r28
+ 230               	.LVL27:
   79:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
- 211               		.loc 1 79 0
- 212 0018 0C94 0000 		jmp MCP2515_CS_high
- 213               	.LVL28:
- 214               		.cfi_endproc
- 215               	.LFE10:
- 217               		.section	.text.MCP2515_bit_modify,"ax",@progbits
- 218               	.global	MCP2515_bit_modify
- 220               	MCP2515_bit_modify:
- 221               	.LFB11:
+ 231               		.loc 1 79 2 view .LVU49
+ 232 0018 0C94 0000 		jmp MCP2515_CS_high
+ 233               	.LVL28:
+  79:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
+ 234               		.loc 1 79 2 view .LVU50
+ 235               		.cfi_endproc
+ 236               	.LFE4:
+ 238               		.section	.text.MCP2515_bit_modify,"ax",@progbits
+ 239               	.global	MCP2515_bit_modify
+ 241               	MCP2515_bit_modify:
+ 242               	.LVL29:
+ 243               	.LFB5:
   81:utils/MCP2515.c **** 
   82:utils/MCP2515.c **** 
   83:utils/MCP2515.c **** void MCP2515_bit_modify(uint8_t CANbus,uint8_t reg_address, uint8_t reg_value, uint8_t reg_mask)
   84:utils/MCP2515.c **** {
- 222               		.loc 1 84 0
- 223               		.cfi_startproc
- 224               	.LVL29:
- 225 0000 0F93      		push r16
- 226               	.LCFI5:
- 227               		.cfi_def_cfa_offset 3
- 228               		.cfi_offset 16, -2
- 229 0002 1F93      		push r17
- 230               	.LCFI6:
- 231               		.cfi_def_cfa_offset 4
- 232               		.cfi_offset 17, -3
- 233 0004 CF93      		push r28
- 234               	.LCFI7:
- 235               		.cfi_def_cfa_offset 5
- 236               		.cfi_offset 28, -4
- 237 0006 DF93      		push r29
- 238               	.LCFI8:
- 239               		.cfi_def_cfa_offset 6
- 240               		.cfi_offset 29, -5
- 241               	/* prologue: function */
- 242               	/* frame size = 0 */
- 243               	/* stack size = 4 */
- 244               	.L__stack_usage = 4
- 245 0008 C82F      		mov r28,r24
- 246 000a 062F      		mov r16,r22
- 247 000c D42F      		mov r29,r20
- 248 000e 122F      		mov r17,r18
+ 244               		.loc 1 84 1 is_stmt 1 view -0
+ 245               		.cfi_startproc
+ 246               		.loc 1 84 1 is_stmt 0 view .LVU52
+ 247 0000 0F93      		push r16
+ 248               	.LCFI5:
+ 249               		.cfi_def_cfa_offset 3
+ 250               		.cfi_offset 16, -2
+ 251 0002 1F93      		push r17
+ 252               	.LCFI6:
+ 253               		.cfi_def_cfa_offset 4
+ 254               		.cfi_offset 17, -3
+ 255 0004 CF93      		push r28
+ 256               	.LCFI7:
+ 257               		.cfi_def_cfa_offset 5
+ 258               		.cfi_offset 28, -4
+ 259 0006 DF93      		push r29
+ 260               	.LCFI8:
+ 261               		.cfi_def_cfa_offset 6
+ 262               		.cfi_offset 29, -5
+ 263               	/* prologue: function */
+ 264               	/* frame size = 0 */
+ 265               	/* stack size = 4 */
+ 266               	.L__stack_usage = 4
+ 267 0008 C82F      		mov r28,r24
+ 268 000a 062F      		mov r16,r22
+ 269 000c D42F      		mov r29,r20
+ 270 000e 122F      		mov r17,r18
   85:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//unset CS so MCP2515 knows we are talking
- 249               		.loc 1 85 0
- 250 0010 0E94 0000 		call MCP2515_CS_low
- 251               	.LVL30:
+ 271               		.loc 1 85 2 is_stmt 1 view .LVU53
+ 272 0010 0E94 0000 		call MCP2515_CS_low
+ 273               	.LVL30:
   86:utils/MCP2515.c **** 	SPI_send_byte(MCP2515_BITMODIFY);		//send instruction of bitmodify
- 252               		.loc 1 86 0
- 253 0014 85E0      		ldi r24,lo8(5)
- 254 0016 0E94 0000 		call SPI_send_byte
- 255               	.LVL31:
+ 274               		.loc 1 86 2 view .LVU54
+ 275 0014 85E0      		ldi r24,lo8(5)
+ 276 0016 0E94 0000 		call SPI_send_byte
+ 277               	.LVL31:
   87:utils/MCP2515.c **** 	SPI_send_byte(reg_address);				//send address
- 256               		.loc 1 87 0
- 257 001a 802F      		mov r24,r16
- 258 001c 0E94 0000 		call SPI_send_byte
- 259               	.LVL32:
+ 278               		.loc 1 87 2 view .LVU55
+ 279 001a 802F      		mov r24,r16
+ 280 001c 0E94 0000 		call SPI_send_byte
+ 281               	.LVL32:
   88:utils/MCP2515.c **** 	SPI_send_byte(reg_mask);				//send the mask
- 260               		.loc 1 88 0
- 261 0020 812F      		mov r24,r17
- 262 0022 0E94 0000 		call SPI_send_byte
- 263               	.LVL33:
+ 282               		.loc 1 88 2 view .LVU56
+ 283 0020 812F      		mov r24,r17
+ 284 0022 0E94 0000 		call SPI_send_byte
+ 285               	.LVL33:
   89:utils/MCP2515.c **** 	SPI_send_byte(reg_value);				//send the data
- 264               		.loc 1 89 0
- 265 0026 8D2F      		mov r24,r29
- 266 0028 0E94 0000 		call SPI_send_byte
- 267               	.LVL34:
+ 286               		.loc 1 89 2 view .LVU57
+ 287 0026 8D2F      		mov r24,r29
+ 288 0028 0E94 0000 		call SPI_send_byte
+ 289               	.LVL34:
   90:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
- 268               		.loc 1 90 0
- 269 002c 8C2F      		mov r24,r28
- 270               	/* epilogue start */
+ 290               		.loc 1 90 2 view .LVU58
+ 291 002c 8C2F      		mov r24,r28
+ 292               	/* epilogue start */
   91:utils/MCP2515.c **** }
- 271               		.loc 1 91 0
- 272 002e DF91      		pop r29
- 273               	.LVL35:
- 274 0030 CF91      		pop r28
- 275               	.LVL36:
- 276 0032 1F91      		pop r17
- 277               	.LVL37:
- 278 0034 0F91      		pop r16
- 279               	.LVL38:
+ 293               		.loc 1 91 1 is_stmt 0 view .LVU59
+ 294 002e DF91      		pop r29
+ 295               	.LVL35:
+ 296               		.loc 1 91 1 view .LVU60
+ 297 0030 CF91      		pop r28
+ 298               	.LVL36:
+ 299               		.loc 1 91 1 view .LVU61
+ 300 0032 1F91      		pop r17
+ 301               	.LVL37:
+ 302               		.loc 1 91 1 view .LVU62
+ 303 0034 0F91      		pop r16
+ 304               	.LVL38:
   90:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
- 280               		.loc 1 90 0
- 281 0036 0C94 0000 		jmp MCP2515_CS_high
- 282               	.LVL39:
- 283               		.cfi_endproc
- 284               	.LFE11:
- 286               		.section	.text.MCP2515_init,"ax",@progbits
- 287               	.global	MCP2515_init
- 289               	MCP2515_init:
- 290               	.LFB6:
+ 305               		.loc 1 90 2 view .LVU63
+ 306 0036 0C94 0000 		jmp MCP2515_CS_high
+ 307               	.LVL39:
+  90:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
+ 308               		.loc 1 90 2 view .LVU64
+ 309               		.cfi_endproc
+ 310               	.LFE5:
+ 312               		.section	.text.MCP2515_init,"ax",@progbits
+ 313               	.global	MCP2515_init
+ 315               	MCP2515_init:
+ 316               	.LVL40:
+ 317               	.LFB0:
    6:utils/MCP2515.c **** 	//DDRC |= (1<<MCP2515_PIN_RESET);		//set the reset pin to output
- 291               		.loc 1 6 0
- 292               		.cfi_startproc
- 293               	.LVL40:
- 294 0000 CF93      		push r28
- 295               	.LCFI9:
- 296               		.cfi_def_cfa_offset 3
- 297               		.cfi_offset 28, -2
- 298               	/* prologue: function */
- 299               	/* frame size = 0 */
- 300               	/* stack size = 1 */
- 301               	.L__stack_usage = 1
- 302 0002 C82F      		mov r28,r24
+ 318               		.loc 1 6 1 is_stmt 1 view -0
+ 319               		.cfi_startproc
+   6:utils/MCP2515.c **** 	//DDRC |= (1<<MCP2515_PIN_RESET);		//set the reset pin to output
+ 320               		.loc 1 6 1 is_stmt 0 view .LVU66
+ 321 0000 CF93      		push r28
+ 322               	.LCFI9:
+ 323               		.cfi_def_cfa_offset 3
+ 324               		.cfi_offset 28, -2
+ 325               	/* prologue: function */
+ 326               	/* frame size = 0 */
+ 327               	/* stack size = 1 */
+ 328               	.L__stack_usage = 1
+ 329 0002 C82F      		mov r28,r24
   14:utils/MCP2515.c **** 	
- 303               		.loc 1 14 0
- 304 0004 60EC      		ldi r22,lo8(-64)
- 305 0006 0E94 0000 		call MCP2515_instruction
- 306               	.LVL41:
+ 330               		.loc 1 14 2 is_stmt 1 view .LVU67
+ 331 0004 60EC      		ldi r22,lo8(-64)
+ 332 0006 0E94 0000 		call MCP2515_instruction
+ 333               	.LVL41:
   16:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, MCP2515_CNF1, 0x04);	//SJW = 0(1),BRP = 4(5)--> number in brackets is ac
- 307               		.loc 1 16 0
- 308 000a 20EE      		ldi r18,lo8(-32)
- 309 000c 40E8      		ldi r20,lo8(-128)
- 310 000e 6FE0      		ldi r22,lo8(15)
- 311 0010 8C2F      		mov r24,r28
- 312 0012 0E94 0000 		call MCP2515_bit_modify
- 313               	.LVL42:
+ 334               		.loc 1 16 2 view .LVU68
+ 335 000a 20EE      		ldi r18,lo8(-32)
+ 336 000c 40E8      		ldi r20,lo8(-128)
+ 337 000e 6FE0      		ldi r22,lo8(15)
+ 338 0010 8C2F      		mov r24,r28
+ 339 0012 0E94 0000 		call MCP2515_bit_modify
+ 340               	.LVL42:
   17:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, MCP2515_CNF2, 0xCA);	//BTL = 1, SAM = 1, PHSEG1 = 001(2), PRSEG = 010 (3
- 314               		.loc 1 17 0
- 315 0016 44E0      		ldi r20,lo8(4)
- 316 0018 6AE2      		ldi r22,lo8(42)
- 317 001a 8C2F      		mov r24,r28
- 318 001c 0E94 0000 		call MCP2515_reg_write
- 319               	.LVL43:
+ 341               		.loc 1 17 2 view .LVU69
+ 342 0016 44E0      		ldi r20,lo8(4)
+ 343 0018 6AE2      		ldi r22,lo8(42)
+ 344 001a 8C2F      		mov r24,r28
+ 345 001c 0E94 0000 		call MCP2515_reg_write
+ 346               	.LVL43:
   18:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, MCP2515_CNF3, 0x01);	//SOF = 0, WAKFIL = 0, PHSEG2 = 001(2).
- 320               		.loc 1 18 0
- 321 0020 4AEC      		ldi r20,lo8(-54)
- 322 0022 69E2      		ldi r22,lo8(41)
- 323 0024 8C2F      		mov r24,r28
- 324 0026 0E94 0000 		call MCP2515_reg_write
- 325               	.LVL44:
+ 347               		.loc 1 18 2 view .LVU70
+ 348 0020 4AEC      		ldi r20,lo8(-54)
+ 349 0022 69E2      		ldi r22,lo8(41)
+ 350 0024 8C2F      		mov r24,r28
+ 351 0026 0E94 0000 		call MCP2515_reg_write
+ 352               	.LVL44:
   19:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, MCP2515_CANINTE, 0b00000011);	//enable interrupt in rx0, rx1, tx0, tx1, 
- 326               		.loc 1 19 0
- 327 002a 41E0      		ldi r20,lo8(1)
- 328 002c 68E2      		ldi r22,lo8(40)
- 329 002e 8C2F      		mov r24,r28
- 330 0030 0E94 0000 		call MCP2515_reg_write
- 331               	.LVL45:
+ 353               		.loc 1 19 2 view .LVU71
+ 354 002a 41E0      		ldi r20,lo8(1)
+ 355 002c 68E2      		ldi r22,lo8(40)
+ 356 002e 8C2F      		mov r24,r28
+ 357 0030 0E94 0000 		call MCP2515_reg_write
+ 358               	.LVL45:
   20:utils/MCP2515.c **** 	//MCP2515_reg_write(CANbus, MCP2515_CANINTF, 0b00011100);	//enable interrupt in rx0, rx1, tx0, tx1
- 332               		.loc 1 20 0
- 333 0034 43E0      		ldi r20,lo8(3)
- 334 0036 6BE2      		ldi r22,lo8(43)
- 335 0038 8C2F      		mov r24,r28
- 336 003a 0E94 0000 		call MCP2515_reg_write
- 337               	.LVL46:
+ 359               		.loc 1 20 2 view .LVU72
+ 360 0034 43E0      		ldi r20,lo8(3)
+ 361 0036 6BE2      		ldi r22,lo8(43)
+ 362 0038 8C2F      		mov r24,r28
+ 363 003a 0E94 0000 		call MCP2515_reg_write
+ 364               	.LVL46:
   22:utils/MCP2515.c **** 	//MCP2515_init_Rx();
- 338               		.loc 1 22 0
- 339 003e 41E0      		ldi r20,lo8(1)
- 340 0040 6DE0      		ldi r22,lo8(13)
- 341 0042 8C2F      		mov r24,r28
- 342 0044 0E94 0000 		call MCP2515_reg_write
- 343               	.LVL47:
+ 365               		.loc 1 22 2 view .LVU73
+ 366 003e 41E0      		ldi r20,lo8(1)
+ 367 0040 6DE0      		ldi r22,lo8(13)
+ 368 0042 8C2F      		mov r24,r28
+ 369 0044 0E94 0000 		call MCP2515_reg_write
+ 370               	.LVL47:
   24:utils/MCP2515.c **** 	
- 344               		.loc 1 24 0
- 345 0048 20EE      		ldi r18,lo8(-32)
- 346 004a 40E0      		ldi r20,0
- 347 004c 6FE0      		ldi r22,lo8(15)
- 348 004e 8C2F      		mov r24,r28
- 349               	/* epilogue start */
+ 371               		.loc 1 24 2 view .LVU74
+ 372 0048 20EE      		ldi r18,lo8(-32)
+ 373 004a 40E0      		ldi r20,0
+ 374 004c 6FE0      		ldi r22,lo8(15)
+ 375 004e 8C2F      		mov r24,r28
+ 376               	/* epilogue start */
   26:utils/MCP2515.c **** 
- 350               		.loc 1 26 0
- 351 0050 CF91      		pop r28
- 352               	.LVL48:
+ 377               		.loc 1 26 1 is_stmt 0 view .LVU75
+ 378 0050 CF91      		pop r28
+ 379               	.LVL48:
   24:utils/MCP2515.c **** 	
- 353               		.loc 1 24 0
- 354 0052 0C94 0000 		jmp MCP2515_bit_modify
- 355               	.LVL49:
- 356               		.cfi_endproc
- 357               	.LFE6:
- 359               		.section	.text.MCP2515_receive_status,"ax",@progbits
- 360               	.global	MCP2515_receive_status
- 362               	MCP2515_receive_status:
- 363               	.LFB12:
+ 380               		.loc 1 24 2 view .LVU76
+ 381 0052 0C94 0000 		jmp MCP2515_bit_modify
+ 382               	.LVL49:
+  24:utils/MCP2515.c **** 	
+ 383               		.loc 1 24 2 view .LVU77
+ 384               		.cfi_endproc
+ 385               	.LFE0:
+ 387               		.section	.text.MCP2515_receive_status,"ax",@progbits
+ 388               	.global	MCP2515_receive_status
+ 390               	MCP2515_receive_status:
+ 391               	.LVL50:
+ 392               	.LFB6:
   92:utils/MCP2515.c **** 
   93:utils/MCP2515.c **** 
   94:utils/MCP2515.c **** uint8_t MCP2515_receive_status(uint8_t CANbus)
   95:utils/MCP2515.c **** {
- 364               		.loc 1 95 0
- 365               		.cfi_startproc
- 366               	.LVL50:
- 367 0000 CF93      		push r28
- 368               	.LCFI10:
- 369               		.cfi_def_cfa_offset 3
- 370               		.cfi_offset 28, -2
- 371 0002 DF93      		push r29
- 372               	.LCFI11:
- 373               		.cfi_def_cfa_offset 4
- 374               		.cfi_offset 29, -3
- 375               	/* prologue: function */
- 376               	/* frame size = 0 */
- 377               	/* stack size = 2 */
- 378               	.L__stack_usage = 2
- 379 0004 C82F      		mov r28,r24
+ 393               		.loc 1 95 1 is_stmt 1 view -0
+ 394               		.cfi_startproc
+ 395               		.loc 1 95 1 is_stmt 0 view .LVU79
+ 396 0000 CF93      		push r28
+ 397               	.LCFI10:
+ 398               		.cfi_def_cfa_offset 3
+ 399               		.cfi_offset 28, -2
+ 400 0002 DF93      		push r29
+ 401               	.LCFI11:
+ 402               		.cfi_def_cfa_offset 4
+ 403               		.cfi_offset 29, -3
+ 404               	/* prologue: function */
+ 405               	/* frame size = 0 */
+ 406               	/* stack size = 2 */
+ 407               	.L__stack_usage = 2
+ 408 0004 C82F      		mov r28,r24
   96:utils/MCP2515.c **** 	uint8_t mcp2515_status[2];
+ 409               		.loc 1 96 2 is_stmt 1 view .LVU80
   97:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//unset CS so MCP2515 knows we are talking
- 380               		.loc 1 97 0
- 381 0006 0E94 0000 		call MCP2515_CS_low
- 382               	.LVL51:
+ 410               		.loc 1 97 2 view .LVU81
+ 411 0006 0E94 0000 		call MCP2515_CS_low
+ 412               	.LVL51:
   98:utils/MCP2515.c **** 	SPI_send_byte(0xA0);					//send retrieve status instruction
- 383               		.loc 1 98 0
- 384 000a 80EA      		ldi r24,lo8(-96)
- 385 000c 0E94 0000 		call SPI_send_byte
- 386               	.LVL52:
+ 413               		.loc 1 98 2 view .LVU82
+ 414 000a 80EA      		ldi r24,lo8(-96)
+ 415 000c 0E94 0000 		call SPI_send_byte
+ 416               	.LVL52:
   99:utils/MCP2515.c **** 	mcp2515_status[0] = SPI_send_byte(0x00);//send don't care bits while mcp2515 is retrieving data.
- 387               		.loc 1 99 0
- 388 0010 80E0      		ldi r24,0
- 389 0012 0E94 0000 		call SPI_send_byte
- 390               	.LVL53:
- 391 0016 D82F      		mov r29,r24
- 392               	.LVL54:
+ 417               		.loc 1 99 2 view .LVU83
+ 418               		.loc 1 99 22 is_stmt 0 view .LVU84
+ 419 0010 80E0      		ldi r24,0
+ 420 0012 0E94 0000 		call SPI_send_byte
+ 421               	.LVL53:
+ 422 0016 D82F      		mov r29,r24
+ 423               	.LVL54:
  100:utils/MCP2515.c **** 	mcp2515_status[1] = SPI_send_byte(0x00);//duplicate data is retrieved again. nothing to do with th
- 393               		.loc 1 100 0
- 394 0018 80E0      		ldi r24,0
- 395               	.LVL55:
- 396 001a 0E94 0000 		call SPI_send_byte
- 397               	.LVL56:
+ 424               		.loc 1 100 2 is_stmt 1 view .LVU85
+ 425               		.loc 1 100 22 is_stmt 0 view .LVU86
+ 426 0018 80E0      		ldi r24,0
+ 427               	.LVL55:
+ 428               		.loc 1 100 22 view .LVU87
+ 429 001a 0E94 0000 		call SPI_send_byte
+ 430               	.LVL56:
  101:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
- 398               		.loc 1 101 0
- 399 001e 8C2F      		mov r24,r28
- 400 0020 0E94 0000 		call MCP2515_CS_high
- 401               	.LVL57:
+ 431               		.loc 1 101 2 is_stmt 1 view .LVU88
+ 432 001e 8C2F      		mov r24,r28
+ 433 0020 0E94 0000 		call MCP2515_CS_high
+ 434               	.LVL57:
  102:utils/MCP2515.c **** 	return mcp2515_status[0];					//send it back for analysis.
+ 435               		.loc 1 102 2 view .LVU89
  103:utils/MCP2515.c **** }
- 402               		.loc 1 103 0
- 403 0024 8D2F      		mov r24,r29
- 404               	/* epilogue start */
- 405 0026 DF91      		pop r29
- 406               	.LVL58:
- 407 0028 CF91      		pop r28
- 408               	.LVL59:
- 409 002a 0895      		ret
- 410               		.cfi_endproc
- 411               	.LFE12:
- 413               		.section	.text.MCP2515_RxBufferRead,"ax",@progbits
- 414               	.global	MCP2515_RxBufferRead
- 416               	MCP2515_RxBufferRead:
- 417               	.LFB13:
+ 436               		.loc 1 103 1 is_stmt 0 view .LVU90
+ 437 0024 8D2F      		mov r24,r29
+ 438               	/* epilogue start */
+ 439 0026 DF91      		pop r29
+ 440               	.LVL58:
+ 441               		.loc 1 103 1 view .LVU91
+ 442 0028 CF91      		pop r28
+ 443               	.LVL59:
+ 444               		.loc 1 103 1 view .LVU92
+ 445 002a 0895      		ret
+ 446               		.cfi_endproc
+ 447               	.LFE6:
+ 449               		.section	.text.MCP2515_RxBufferRead,"ax",@progbits
+ 450               	.global	MCP2515_RxBufferRead
+ 452               	MCP2515_RxBufferRead:
+ 453               	.LVL60:
+ 454               	.LFB7:
  104:utils/MCP2515.c **** 
  105:utils/MCP2515.c **** /* README before using this!!!!!!!!
  106:utils/MCP2515.c ****  * this function takes a pointer to an array of data to write to, it must be either 8 or 13 element
@@ -539,615 +585,678 @@
  121:utils/MCP2515.c ****  */
  122:utils/MCP2515.c **** void MCP2515_RxBufferRead(uint8_t CANbus, uint8_t * data, uint8_t rxBuffer)
  123:utils/MCP2515.c **** {
- 418               		.loc 1 123 0
- 419               		.cfi_startproc
- 420               	.LVL60:
- 421 0000 DF92      		push r13
- 422               	.LCFI12:
- 423               		.cfi_def_cfa_offset 3
- 424               		.cfi_offset 13, -2
- 425 0002 EF92      		push r14
- 426               	.LCFI13:
- 427               		.cfi_def_cfa_offset 4
- 428               		.cfi_offset 14, -3
- 429 0004 FF92      		push r15
- 430               	.LCFI14:
- 431               		.cfi_def_cfa_offset 5
- 432               		.cfi_offset 15, -4
- 433 0006 0F93      		push r16
- 434               	.LCFI15:
- 435               		.cfi_def_cfa_offset 6
- 436               		.cfi_offset 16, -5
- 437 0008 1F93      		push r17
- 438               	.LCFI16:
- 439               		.cfi_def_cfa_offset 7
- 440               		.cfi_offset 17, -6
- 441 000a CF93      		push r28
- 442               	.LCFI17:
- 443               		.cfi_def_cfa_offset 8
- 444               		.cfi_offset 28, -7
- 445 000c DF93      		push r29
- 446               	.LCFI18:
- 447               		.cfi_def_cfa_offset 9
- 448               		.cfi_offset 29, -8
- 449               	/* prologue: function */
- 450               	/* frame size = 0 */
- 451               	/* stack size = 7 */
- 452               	.L__stack_usage = 7
- 453 000e 182F      		mov r17,r24
- 454 0010 062F      		mov r16,r22
- 455 0012 D72E      		mov r13,r23
+ 455               		.loc 1 123 1 is_stmt 1 view -0
+ 456               		.cfi_startproc
+ 457               		.loc 1 123 1 is_stmt 0 view .LVU94
+ 458 0000 DF92      		push r13
+ 459               	.LCFI12:
+ 460               		.cfi_def_cfa_offset 3
+ 461               		.cfi_offset 13, -2
+ 462 0002 EF92      		push r14
+ 463               	.LCFI13:
+ 464               		.cfi_def_cfa_offset 4
+ 465               		.cfi_offset 14, -3
+ 466 0004 FF92      		push r15
+ 467               	.LCFI14:
+ 468               		.cfi_def_cfa_offset 5
+ 469               		.cfi_offset 15, -4
+ 470 0006 0F93      		push r16
+ 471               	.LCFI15:
+ 472               		.cfi_def_cfa_offset 6
+ 473               		.cfi_offset 16, -5
+ 474 0008 1F93      		push r17
+ 475               	.LCFI16:
+ 476               		.cfi_def_cfa_offset 7
+ 477               		.cfi_offset 17, -6
+ 478 000a CF93      		push r28
+ 479               	.LCFI17:
+ 480               		.cfi_def_cfa_offset 8
+ 481               		.cfi_offset 28, -7
+ 482 000c DF93      		push r29
+ 483               	.LCFI18:
+ 484               		.cfi_def_cfa_offset 9
+ 485               		.cfi_offset 29, -8
+ 486               	/* prologue: function */
+ 487               	/* frame size = 0 */
+ 488               	/* stack size = 7 */
+ 489               	.L__stack_usage = 7
+ 490 000e 182F      		mov r17,r24
+ 491 0010 062F      		mov r16,r22
+ 492 0012 D72E      		mov r13,r23
  124:utils/MCP2515.c **** 
  125:utils/MCP2515.c **** 
  126:utils/MCP2515.c **** 	//the following line combines the instruction(0b10010000), with: 0b100 for rxb0 or 0b000 for rxb1,
  127:utils/MCP2515.c **** 	uint8_t instruction = 0b10010000|((rxBuffer > 0x70)<<2)|((rxBuffer == MCP2515_RXB0D0 || rxBuffer =
- 456               		.loc 1 127 0
- 457 0014 4137      		cpi r20,lo8(113)
- 458 0016 00F4      		brsh .L26
- 459               		.loc 1 127 0 is_stmt 0 discriminator 4
- 460 0018 80E9      		ldi r24,lo8(-112)
- 461               	.LVL61:
- 462 001a C1E0      		ldi r28,lo8(1)
- 463 001c D0E0      		ldi r29,0
- 464 001e 4636      		cpi r20,lo8(102)
- 465 0020 01F0      		breq .L20
- 466               	.L19:
- 467               		.loc 1 127 0 discriminator 6
- 468 0022 21E0      		ldi r18,lo8(1)
- 469 0024 90E0      		ldi r25,0
- 470 0026 4637      		cpi r20,lo8(118)
- 471 0028 01F0      		breq .L21
- 472 002a 20E0      		ldi r18,0
- 473               	.L21:
- 474 002c C22F      		mov r28,r18
- 475 002e D92F      		mov r29,r25
- 476               	.L20:
- 477               		.loc 1 127 0 discriminator 10
- 478 0030 CC0F      		lsl r28
- 479 0032 DD1F      		rol r29
- 480 0034 C82B      		or r28,r24
- 481               	.LVL62:
+ 493               		.loc 1 127 2 is_stmt 1 view .LVU95
+ 494               		.loc 1 127 57 is_stmt 0 view .LVU96
+ 495 0014 4137      		cpi r20,lo8(113)
+ 496 0016 00F4      		brsh .L24
+ 497               		.loc 1 127 57 discriminator 4 view .LVU97
+ 498 0018 80E9      		ldi r24,lo8(-112)
+ 499               	.LVL61:
+ 500               		.loc 1 127 87 discriminator 4 view .LVU98
+ 501 001a C1E0      		ldi r28,lo8(1)
+ 502 001c D0E0      		ldi r29,0
+ 503 001e 4636      		cpi r20,lo8(102)
+ 504 0020 01F0      		breq .L18
+ 505               	.L17:
+ 506               		.loc 1 127 87 discriminator 6 view .LVU99
+ 507 0022 21E0      		ldi r18,lo8(1)
+ 508 0024 90E0      		ldi r25,0
+ 509 0026 4637      		cpi r20,lo8(118)
+ 510 0028 01F0      		breq .L19
+ 511 002a 20E0      		ldi r18,0
+ 512               	.L19:
+ 513 002c C22F      		mov r28,r18
+ 514 002e D92F      		mov r29,r25
+ 515               	.L18:
+ 516               		.loc 1 127 117 discriminator 10 view .LVU100
+ 517 0030 CC0F      		lsl r28
+ 518 0032 DD1F      		rol r29
+ 519               		.loc 1 127 57 discriminator 10 view .LVU101
+ 520 0034 C82B      		or r28,r24
+ 521               	.LVL62:
  128:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//lower CS.
- 482               		.loc 1 128 0 is_stmt 1 discriminator 10
- 483 0036 812F      		mov r24,r17
- 484 0038 0E94 0000 		call MCP2515_CS_low
- 485               	.LVL63:
+ 522               		.loc 1 128 2 is_stmt 1 discriminator 10 view .LVU102
+ 523 0036 812F      		mov r24,r17
+ 524 0038 0E94 0000 		call MCP2515_CS_low
+ 525               	.LVL63:
  129:utils/MCP2515.c **** 	SPI_send_byte(instruction);							//send instruction for stream of data
- 486               		.loc 1 129 0 discriminator 10
- 487 003c 8C2F      		mov r24,r28
- 488 003e 0E94 0000 		call SPI_send_byte
- 489               	.LVL64:
- 490 0042 9CE0      		ldi r25,lo8(12)
- 491 0044 E92E      		mov r14,r25
- 492 0046 F12C      		mov r15,__zero_reg__
- 493 0048 C1FF      		sbrs r28,1
- 494 004a 00C0      		rjmp .L23
- 495 004c 88E0      		ldi r24,lo8(8)
- 496 004e E82E      		mov r14,r24
- 497 0050 F12C      		mov r15,__zero_reg__
- 498               	.L23:
- 499               	.LBB11:
+ 526               		.loc 1 129 2 discriminator 10 view .LVU103
+ 527 003c 8C2F      		mov r24,r28
+ 528 003e 0E94 0000 		call SPI_send_byte
+ 529               	.LVL64:
  130:utils/MCP2515.c **** 	//loop counts to 8 or 12 depending on whether bit 1 of instruction is set.
  131:utils/MCP2515.c **** 	for(uint8_t counter = 0; counter < (8 + 4*((instruction & 2)==0)); counter++)
- 500               		.loc 1 131 0 discriminator 10
- 501 0052 C02F      		mov r28,r16
- 502               	.LVL65:
- 503 0054 DD2D      		mov r29,r13
- 504               	.LVL66:
- 505               	.L24:
- 506               		.loc 1 131 0 is_stmt 0 discriminator 1
- 507 0056 8C2F      		mov r24,r28
- 508 0058 801B      		sub r24,r16
- 509 005a 8E15      		cp r24,r14
- 510 005c 1F04      		cpc __zero_reg__,r15
- 511 005e 04F0      		brlt .L25
- 512               	.LBE11:
+ 530               		.loc 1 131 2 discriminator 10 view .LVU104
+ 531               	.LBB11:
+ 532               		.loc 1 131 6 discriminator 10 view .LVU105
+ 533               		.loc 1 131 6 is_stmt 0 discriminator 10 view .LVU106
+ 534 0042 9CE0      		ldi r25,lo8(12)
+ 535 0044 E92E      		mov r14,r25
+ 536 0046 F12C      		mov r15,__zero_reg__
+ 537 0048 C1FF      		sbrs r28,1
+ 538 004a 00C0      		rjmp .L21
+ 539 004c 88E0      		ldi r24,lo8(8)
+ 540 004e E82E      		mov r14,r24
+ 541 0050 F12C      		mov r15,__zero_reg__
+ 542               	.L21:
+ 543               		.loc 1 131 2 discriminator 10 view .LVU107
+ 544 0052 C02F      		mov r28,r16
+ 545               	.LVL65:
+ 546               		.loc 1 131 2 discriminator 10 view .LVU108
+ 547 0054 DD2D      		mov r29,r13
+ 548               	.LVL66:
+ 549               	.L22:
+ 550               		.loc 1 131 35 discriminator 1 view .LVU109
+ 551 0056 8C2F      		mov r24,r28
+ 552 0058 801B      		sub r24,r16
+ 553               		.loc 1 131 2 discriminator 1 view .LVU110
+ 554 005a 8E15      		cp r24,r14
+ 555 005c 1F04      		cpc __zero_reg__,r15
+ 556 005e 04F0      		brlt .L23
+ 557               	.LBE11:
  132:utils/MCP2515.c **** 	{
  133:utils/MCP2515.c **** 		*data = SPI_send_byte(0x00);
  134:utils/MCP2515.c **** 		data++;
  135:utils/MCP2515.c **** 	}
  136:utils/MCP2515.c **** 		MCP2515_CS_high(CANbus);				//raise CS.
- 513               		.loc 1 136 0 is_stmt 1
- 514 0060 812F      		mov r24,r17
- 515               	/* epilogue start */
+ 558               		.loc 1 136 3 is_stmt 1 view .LVU111
+ 559 0060 812F      		mov r24,r17
+ 560               	/* epilogue start */
  137:utils/MCP2515.c **** }
- 516               		.loc 1 137 0
- 517 0062 DF91      		pop r29
- 518 0064 CF91      		pop r28
- 519               	.LVL67:
- 520 0066 1F91      		pop r17
- 521               	.LVL68:
- 522 0068 0F91      		pop r16
- 523 006a FF90      		pop r15
- 524 006c EF90      		pop r14
- 525 006e DF90      		pop r13
+ 561               		.loc 1 137 1 is_stmt 0 view .LVU112
+ 562 0062 DF91      		pop r29
+ 563 0064 CF91      		pop r28
+ 564               	.LVL67:
+ 565               		.loc 1 137 1 view .LVU113
+ 566 0066 1F91      		pop r17
+ 567               	.LVL68:
+ 568               		.loc 1 137 1 view .LVU114
+ 569 0068 0F91      		pop r16
+ 570 006a FF90      		pop r15
+ 571 006c EF90      		pop r14
+ 572 006e DF90      		pop r13
  136:utils/MCP2515.c **** }
- 526               		.loc 1 136 0
- 527 0070 0C94 0000 		jmp MCP2515_CS_high
- 528               	.LVL69:
- 529               	.L26:
+ 573               		.loc 1 136 3 view .LVU115
+ 574 0070 0C94 0000 		jmp MCP2515_CS_high
+ 575               	.LVL69:
+ 576               	.L24:
  127:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//lower CS.
- 530               		.loc 1 127 0
- 531 0074 84E9      		ldi r24,lo8(-108)
- 532 0076 00C0      		rjmp .L19
- 533               	.LVL70:
- 534               	.L25:
- 535               	.LBB12:
+ 577               		.loc 1 127 57 view .LVU116
+ 578 0074 84E9      		ldi r24,lo8(-108)
+ 579 0076 00C0      		rjmp .L17
+ 580               	.LVL70:
+ 581               	.L23:
+ 582               	.LBB12:
  133:utils/MCP2515.c **** 		data++;
- 536               		.loc 1 133 0 discriminator 7
- 537 0078 80E0      		ldi r24,0
- 538 007a 0E94 0000 		call SPI_send_byte
- 539               	.LVL71:
- 540 007e 8993      		st Y+,r24
- 541               	.LVL72:
- 542 0080 00C0      		rjmp .L24
- 543               	.LBE12:
- 544               		.cfi_endproc
- 545               	.LFE13:
- 547               		.section	.text.MCP2515_PullCanPacket,"ax",@progbits
- 548               	.global	MCP2515_PullCanPacket
- 550               	MCP2515_PullCanPacket:
- 551               	.LFB14:
+ 583               		.loc 1 133 3 is_stmt 1 discriminator 7 view .LVU117
+ 133:utils/MCP2515.c **** 		data++;
+ 584               		.loc 1 133 11 is_stmt 0 discriminator 7 view .LVU118
+ 585 0078 80E0      		ldi r24,0
+ 586 007a 0E94 0000 		call SPI_send_byte
+ 587               	.LVL71:
+ 133:utils/MCP2515.c **** 		data++;
+ 588               		.loc 1 133 9 discriminator 7 view .LVU119
+ 589 007e 8993      		st Y+,r24
+ 590               	.LVL72:
+ 134:utils/MCP2515.c **** 	}
+ 591               		.loc 1 134 3 is_stmt 1 discriminator 7 view .LVU120
+ 134:utils/MCP2515.c **** 	}
+ 592               		.loc 1 134 3 is_stmt 0 discriminator 7 view .LVU121
+ 593 0080 00C0      		rjmp .L22
+ 594               	.LBE12:
+ 595               		.cfi_endproc
+ 596               	.LFE7:
+ 598               		.section	.text.MCP2515_PullCanPacket,"ax",@progbits
+ 599               	.global	MCP2515_PullCanPacket
+ 601               	MCP2515_PullCanPacket:
+ 602               	.LVL73:
+ 603               	.LFB8:
  138:utils/MCP2515.c **** void MCP2515_PullCanPacket(uint8_t CANbus, uint8_t mob,uint8_t * numBytes , uint8_t * data, uint32_
  139:utils/MCP2515.c **** {
- 552               		.loc 1 139 0
- 553               		.cfi_startproc
- 554               	.LVL73:
- 555 0000 4F92      		push r4
- 556               	.LCFI19:
- 557               		.cfi_def_cfa_offset 3
- 558               		.cfi_offset 4, -2
- 559 0002 5F92      		push r5
- 560               	.LCFI20:
- 561               		.cfi_def_cfa_offset 4
- 562               		.cfi_offset 5, -3
- 563 0004 6F92      		push r6
- 564               	.LCFI21:
- 565               		.cfi_def_cfa_offset 5
- 566               		.cfi_offset 6, -4
- 567 0006 7F92      		push r7
- 568               	.LCFI22:
- 569               		.cfi_def_cfa_offset 6
- 570               		.cfi_offset 7, -5
- 571 0008 BF92      		push r11
- 572               	.LCFI23:
- 573               		.cfi_def_cfa_offset 7
- 574               		.cfi_offset 11, -6
- 575 000a CF92      		push r12
- 576               	.LCFI24:
- 577               		.cfi_def_cfa_offset 8
- 578               		.cfi_offset 12, -7
- 579 000c DF92      		push r13
- 580               	.LCFI25:
- 581               		.cfi_def_cfa_offset 9
- 582               		.cfi_offset 13, -8
- 583 000e EF92      		push r14
- 584               	.LCFI26:
- 585               		.cfi_def_cfa_offset 10
- 586               		.cfi_offset 14, -9
- 587 0010 FF92      		push r15
- 588               	.LCFI27:
- 589               		.cfi_def_cfa_offset 11
- 590               		.cfi_offset 15, -10
- 591 0012 0F93      		push r16
- 592               	.LCFI28:
- 593               		.cfi_def_cfa_offset 12
- 594               		.cfi_offset 16, -11
- 595 0014 1F93      		push r17
- 596               	.LCFI29:
- 597               		.cfi_def_cfa_offset 13
- 598               		.cfi_offset 17, -12
- 599 0016 CF93      		push r28
- 600               	.LCFI30:
- 601               		.cfi_def_cfa_offset 14
- 602               		.cfi_offset 28, -13
- 603 0018 DF93      		push r29
- 604               	.LCFI31:
- 605               		.cfi_def_cfa_offset 15
- 606               		.cfi_offset 29, -14
- 607 001a CDB7      		in r28,__SP_L__
- 608 001c DEB7      		in r29,__SP_H__
- 609               	.LCFI32:
- 610               		.cfi_def_cfa_register 28
- 611 001e 2D97      		sbiw r28,13
- 612               	.LCFI33:
- 613               		.cfi_def_cfa_offset 28
- 614 0020 0FB6      		in __tmp_reg__,__SREG__
- 615 0022 F894      		cli
- 616 0024 DEBF      		out __SP_H__,r29
- 617 0026 0FBE      		out __SREG__,__tmp_reg__
- 618 0028 CDBF      		out __SP_L__,r28
- 619               	/* prologue: function */
- 620               	/* frame size = 13 */
- 621               	/* stack size = 26 */
- 622               	.L__stack_usage = 26
- 623 002a B82E      		mov r11,r24
- 624 002c 6A01      		movw r12,r20
- 625 002e 7901      		movw r14,r18
+ 604               		.loc 1 139 1 is_stmt 1 view -0
+ 605               		.cfi_startproc
+ 606               		.loc 1 139 1 is_stmt 0 view .LVU123
+ 607 0000 4F92      		push r4
+ 608               	.LCFI19:
+ 609               		.cfi_def_cfa_offset 3
+ 610               		.cfi_offset 4, -2
+ 611 0002 5F92      		push r5
+ 612               	.LCFI20:
+ 613               		.cfi_def_cfa_offset 4
+ 614               		.cfi_offset 5, -3
+ 615 0004 6F92      		push r6
+ 616               	.LCFI21:
+ 617               		.cfi_def_cfa_offset 5
+ 618               		.cfi_offset 6, -4
+ 619 0006 7F92      		push r7
+ 620               	.LCFI22:
+ 621               		.cfi_def_cfa_offset 6
+ 622               		.cfi_offset 7, -5
+ 623 0008 BF92      		push r11
+ 624               	.LCFI23:
+ 625               		.cfi_def_cfa_offset 7
+ 626               		.cfi_offset 11, -6
+ 627 000a CF92      		push r12
+ 628               	.LCFI24:
+ 629               		.cfi_def_cfa_offset 8
+ 630               		.cfi_offset 12, -7
+ 631 000c DF92      		push r13
+ 632               	.LCFI25:
+ 633               		.cfi_def_cfa_offset 9
+ 634               		.cfi_offset 13, -8
+ 635 000e EF92      		push r14
+ 636               	.LCFI26:
+ 637               		.cfi_def_cfa_offset 10
+ 638               		.cfi_offset 14, -9
+ 639 0010 FF92      		push r15
+ 640               	.LCFI27:
+ 641               		.cfi_def_cfa_offset 11
+ 642               		.cfi_offset 15, -10
+ 643 0012 0F93      		push r16
+ 644               	.LCFI28:
+ 645               		.cfi_def_cfa_offset 12
+ 646               		.cfi_offset 16, -11
+ 647 0014 1F93      		push r17
+ 648               	.LCFI29:
+ 649               		.cfi_def_cfa_offset 13
+ 650               		.cfi_offset 17, -12
+ 651 0016 CF93      		push r28
+ 652               	.LCFI30:
+ 653               		.cfi_def_cfa_offset 14
+ 654               		.cfi_offset 28, -13
+ 655 0018 DF93      		push r29
+ 656               	.LCFI31:
+ 657               		.cfi_def_cfa_offset 15
+ 658               		.cfi_offset 29, -14
+ 659 001a CDB7      		in r28,__SP_L__
+ 660 001c DEB7      		in r29,__SP_H__
+ 661               	.LCFI32:
+ 662               		.cfi_def_cfa_register 28
+ 663 001e 2D97      		sbiw r28,13
+ 664               	.LCFI33:
+ 665               		.cfi_def_cfa_offset 28
+ 666 0020 0FB6      		in __tmp_reg__,__SREG__
+ 667 0022 F894      		cli
+ 668 0024 DEBF      		out __SP_H__,r29
+ 669 0026 0FBE      		out __SREG__,__tmp_reg__
+ 670 0028 CDBF      		out __SP_L__,r28
+ 671               	/* prologue: function */
+ 672               	/* frame size = 13 */
+ 673               	/* stack size = 26 */
+ 674               	.L__stack_usage = 26
+ 675 002a B82E      		mov r11,r24
+ 676 002c 6A01      		movw r12,r20
+ 677 002e 7901      		movw r14,r18
  140:utils/MCP2515.c **** 
  141:utils/MCP2515.c **** 	//the following line combines the instruction(0b10010000), with: 0b100 for rxb0 or 0b000 for rxb1,
  142:utils/MCP2515.c **** 	uint8_t instruction = 0b10010000|((mob > 0x70)<<2);
- 626               		.loc 1 142 0
- 627 0030 A0E9      		ldi r26,lo8(-112)
- 628 0032 7A2E      		mov r7,r26
- 629 0034 6137      		cpi r22,lo8(113)
- 630 0036 00F0      		brlo .L32
- 631 0038 F4E9      		ldi r31,lo8(-108)
- 632 003a 7F2E      		mov r7,r31
- 633               	.L32:
- 634               	.LVL74:
+ 678               		.loc 1 142 2 is_stmt 1 view .LVU124
+ 679               		.loc 1 142 10 is_stmt 0 view .LVU125
+ 680 0030 A0E9      		ldi r26,lo8(-112)
+ 681 0032 7A2E      		mov r7,r26
+ 682 0034 6137      		cpi r22,lo8(113)
+ 683 0036 00F0      		brlo .L30
+ 684 0038 F4E9      		ldi r31,lo8(-108)
+ 685 003a 7F2E      		mov r7,r31
+ 686               	.L30:
+ 687               	.LVL74:
  143:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//lower CS.
- 635               		.loc 1 143 0 discriminator 4
- 636 003c 8B2D      		mov r24,r11
- 637               	.LVL75:
- 638 003e 0E94 0000 		call MCP2515_CS_low
- 639               	.LVL76:
+ 688               		.loc 1 143 2 is_stmt 1 discriminator 4 view .LVU126
+ 689 003c 8B2D      		mov r24,r11
+ 690               	.LVL75:
+ 691               		.loc 1 143 2 is_stmt 0 discriminator 4 view .LVU127
+ 692 003e 0E94 0000 		call MCP2515_CS_low
+ 693               	.LVL76:
  144:utils/MCP2515.c **** 	SPI_send_byte(instruction);							//send instruction for stream of data
- 640               		.loc 1 144 0 discriminator 4
- 641 0042 872D      		mov r24,r7
- 642 0044 0E94 0000 		call SPI_send_byte
- 643               	.LVL77:
- 644 0048 CE01      		movw r24,r28
- 645 004a 0196      		adiw r24,1
- 646 004c 2C01      		movw r4,r24
- 647 004e 3E01      		movw r6,r28
- 648 0050 9EE0      		ldi r25,14
- 649 0052 690E      		add r6,r25
- 650 0054 711C      		adc r7,__zero_reg__
- 651               	.LVL78:
- 652               	.L33:
- 653               	.LBB13:
+ 694               		.loc 1 144 2 is_stmt 1 discriminator 4 view .LVU128
+ 695 0042 872D      		mov r24,r7
+ 696 0044 0E94 0000 		call SPI_send_byte
+ 697               	.LVL77:
  145:utils/MCP2515.c **** 	//loop counts to 8 or 12 depending on whether bit 1 of instruction is set.
  146:utils/MCP2515.c **** 	uint8_t tmpData[13];
+ 698               		.loc 1 146 2 discriminator 4 view .LVU129
  147:utils/MCP2515.c **** 	for(uint8_t counter = 0; counter < 13; counter++)
+ 699               		.loc 1 147 2 discriminator 4 view .LVU130
+ 700               	.LBB13:
+ 701               		.loc 1 147 6 discriminator 4 view .LVU131
+ 702               		.loc 1 147 6 is_stmt 0 discriminator 4 view .LVU132
+ 703 0048 CE01      		movw r24,r28
+ 704 004a 0196      		adiw r24,1
+ 705 004c 2C01      		movw r4,r24
+ 706 004e 3E01      		movw r6,r28
+ 707 0050 9EE0      		ldi r25,14
+ 708 0052 690E      		add r6,r25
+ 709 0054 711C      		adc r7,__zero_reg__
+ 710               	.LVL78:
+ 711               	.L31:
  148:utils/MCP2515.c **** 	{
  149:utils/MCP2515.c **** 		tmpData[counter] = SPI_send_byte(0x00);
- 654               		.loc 1 149 0 discriminator 3
- 655 0056 80E0      		ldi r24,0
- 656 0058 0E94 0000 		call SPI_send_byte
- 657               	.LVL79:
- 658 005c F201      		movw r30,r4
- 659 005e 8193      		st Z+,r24
- 660 0060 2F01      		movw r4,r30
- 147:utils/MCP2515.c **** 	{
- 661               		.loc 1 147 0 discriminator 3
- 662 0062 E615      		cp r30,r6
- 663 0064 F705      		cpc r31,r7
- 664 0066 01F4      		brne .L33
- 665               	.LBE13:
+ 712               		.loc 1 149 3 is_stmt 1 discriminator 3 view .LVU133
+ 713               		.loc 1 149 22 is_stmt 0 discriminator 3 view .LVU134
+ 714 0056 80E0      		ldi r24,0
+ 715 0058 0E94 0000 		call SPI_send_byte
+ 716               	.LVL79:
+ 717               		.loc 1 149 20 discriminator 3 view .LVU135
+ 718 005c F201      		movw r30,r4
+ 719 005e 8193      		st Z+,r24
+ 720 0060 2F01      		movw r4,r30
+ 147:utils/MCP2515.c **** 	for(uint8_t counter = 0; counter < 13; counter++)
+ 721               		.loc 1 147 2 discriminator 3 view .LVU136
+ 722 0062 E615      		cp r30,r6
+ 723 0064 F705      		cpc r31,r7
+ 724 0066 01F4      		brne .L31
+ 725               	.LBE13:
  150:utils/MCP2515.c **** 	}
  151:utils/MCP2515.c **** 	*ID  = ((uint32_t)(tmpData[0]&0b11111111)<<21);
+ 726               		.loc 1 151 2 is_stmt 1 view .LVU137
  152:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[1]&0b11100000)<<13);
- 666               		.loc 1 152 0
- 667 0068 4A81      		ldd r20,Y+2
- 668 006a 50E0      		ldi r21,0
- 669 006c 70E0      		ldi r23,0
- 670 006e 60E0      		ldi r22,0
- 151:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[1]&0b11100000)<<13);
- 671               		.loc 1 151 0
- 672 0070 8981      		ldd r24,Y+1
- 673 0072 90E0      		ldi r25,0
- 674 0074 B0E0      		ldi r27,0
- 675 0076 A0E0      		ldi r26,0
- 676 0078 25E1      		ldi r18,21
- 677               		1:
- 678 007a 880F      		lsl r24
- 679 007c 991F      		rol r25
- 680 007e AA1F      		rol r26
- 681 0080 BB1F      		rol r27
- 682 0082 2A95      		dec r18
- 683 0084 01F4      		brne 1b
+ 727               		.loc 1 152 2 view .LVU138
+ 728               		.loc 1 152 31 is_stmt 0 view .LVU139
+ 729 0068 4A81      		ldd r20,Y+2
+ 730 006a 50E0      		ldi r21,0
+ 731 006c 70E0      		ldi r23,0
+ 732 006e 60E0      		ldi r22,0
  153:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[1]&0b00000011)<<16);
+ 733               		.loc 1 153 2 is_stmt 1 view .LVU140
  154:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[2]&0b11111111)<<8);
- 684               		.loc 1 154 0
- 685 0086 2B81      		ldd r18,Y+3
+ 734               		.loc 1 154 2 view .LVU141
  155:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[3]&0b11111111));
- 686               		.loc 1 155 0
- 687 0088 922B      		or r25,r18
- 688 008a 2C81      		ldd r18,Y+4
- 689 008c 822B      		or r24,r18
+ 735               		.loc 1 155 2 view .LVU142
+ 151:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[1]&0b11100000)<<13);
+ 736               		.loc 1 151 10 is_stmt 0 view .LVU143
+ 737 0070 8981      		ldd r24,Y+1
+ 738 0072 90E0      		ldi r25,0
+ 739 0074 B0E0      		ldi r27,0
+ 740 0076 A0E0      		ldi r26,0
+ 151:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[1]&0b11100000)<<13);
+ 741               		.loc 1 151 43 view .LVU144
+ 742 0078 25E1      		ldi r18,21
+ 743               		1:
+ 744 007a 880F      		lsl r24
+ 745 007c 991F      		rol r25
+ 746 007e AA1F      		rol r26
+ 747 0080 BB1F      		rol r27
+ 748 0082 2A95      		dec r18
+ 749 0084 01F4      		brne 1b
+ 154:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[2]&0b11111111)<<8);
+ 750               		.loc 1 154 10 view .LVU145
+ 751 0086 2B81      		ldd r18,Y+3
+ 752               		.loc 1 155 6 view .LVU146
+ 753 0088 922B      		or r25,r18
+ 754               		.loc 1 155 10 view .LVU147
+ 755 008a 2C81      		ldd r18,Y+4
+ 756               		.loc 1 155 6 view .LVU148
+ 757 008c 822B      		or r24,r18
  152:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[1]&0b00000011)<<16);
- 690               		.loc 1 152 0
- 691 008e 2A01      		movw r4,r20
- 692 0090 3B01      		movw r6,r22
- 693 0092 3DE0      		ldi r19,13
- 694               		1:
- 695 0094 440C      		lsl r4
- 696 0096 551C      		rol r5
- 697 0098 661C      		rol r6
- 698 009a 771C      		rol r7
- 699 009c 3A95      		dec r19
- 700 009e 01F4      		brne 1b
- 701 00a0 4424      		clr r4
- 702 00a2 5524      		clr r5
- 703 00a4 FCE1      		ldi r31,28
- 704 00a6 6F22      		and r6,r31
- 705 00a8 7724      		clr r7
- 706               		.loc 1 155 0
- 707 00aa 8429      		or r24,r4
- 708 00ac 9529      		or r25,r5
- 709 00ae A629      		or r26,r6
- 710 00b0 B729      		or r27,r7
- 153:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[1]&0b00000011)<<16);
- 711               		.loc 1 153 0
- 712 00b2 BA01      		movw r22,r20
- 713 00b4 5527      		clr r21
- 714 00b6 4427      		clr r20
- 715 00b8 4427      		clr r20
- 716 00ba 5527      		clr r21
- 717 00bc 6370      		andi r22,3
- 718 00be 7727      		clr r23
- 719               		.loc 1 155 0
- 720 00c0 842B      		or r24,r20
- 721 00c2 952B      		or r25,r21
- 722 00c4 A62B      		or r26,r22
- 723 00c6 B72B      		or r27,r23
- 724 00c8 F801      		movw r30,r16
- 725 00ca 8083      		st Z,r24
- 726 00cc 9183      		std Z+1,r25
- 727 00ce A283      		std Z+2,r26
- 728 00d0 B383      		std Z+3,r27
+ 758               		.loc 1 152 43 view .LVU149
+ 759 008e 2A01      		movw r4,r20
+ 760 0090 3B01      		movw r6,r22
+ 761 0092 3DE0      		ldi r19,13
+ 762               		1:
+ 763 0094 440C      		lsl r4
+ 764 0096 551C      		rol r5
+ 765 0098 661C      		rol r6
+ 766 009a 771C      		rol r7
+ 767 009c 3A95      		dec r19
+ 768 009e 01F4      		brne 1b
+ 769 00a0 4424      		clr r4
+ 770 00a2 5524      		clr r5
+ 771 00a4 FCE1      		ldi r31,28
+ 772 00a6 6F22      		and r6,r31
+ 773 00a8 7724      		clr r7
+ 774               		.loc 1 155 6 view .LVU150
+ 775 00aa 8429      		or r24,r4
+ 776 00ac 9529      		or r25,r5
+ 777 00ae A629      		or r26,r6
+ 778 00b0 B729      		or r27,r7
+ 153:utils/MCP2515.c **** 	*ID |= ((uint32_t)(tmpData[2]&0b11111111)<<8);
+ 779               		.loc 1 153 43 view .LVU151
+ 780 00b2 BA01      		movw r22,r20
+ 781 00b4 5527      		clr r21
+ 782 00b6 4427      		clr r20
+ 783 00b8 4427      		clr r20
+ 784 00ba 5527      		clr r21
+ 785 00bc 6370      		andi r22,3
+ 786 00be 7727      		clr r23
+ 787               		.loc 1 155 6 view .LVU152
+ 788 00c0 842B      		or r24,r20
+ 789 00c2 952B      		or r25,r21
+ 790 00c4 A62B      		or r26,r22
+ 791 00c6 B72B      		or r27,r23
+ 792 00c8 F801      		movw r30,r16
+ 793 00ca 8083      		st Z,r24
+ 794 00cc 9183      		std Z+1,r25
+ 795 00ce A283      		std Z+2,r26
+ 796 00d0 B383      		std Z+3,r27
  156:utils/MCP2515.c **** 	*numBytes = tmpData[12] & 0b00001111;
- 729               		.loc 1 156 0
- 730 00d2 4D85      		ldd r20,Y+13
- 731 00d4 4F70      		andi r20,lo8(15)
- 732 00d6 F601      		movw r30,r12
- 733 00d8 4083      		st Z,r20
+ 797               		.loc 1 156 2 is_stmt 1 view .LVU153
+ 798               		.loc 1 156 26 is_stmt 0 view .LVU154
+ 799 00d2 4D85      		ldd r20,Y+13
+ 800 00d4 4F70      		andi r20,lo8(15)
+ 801               		.loc 1 156 12 view .LVU155
+ 802 00d6 F601      		movw r30,r12
+ 803 00d8 4083      		st Z,r20
  157:utils/MCP2515.c **** 	memcpy(data, &tmpData[4], *numBytes);
- 734               		.loc 1 157 0
- 735 00da 50E0      		ldi r21,0
- 736 00dc BE01      		movw r22,r28
- 737 00de 6B5F      		subi r22,-5
- 738 00e0 7F4F      		sbci r23,-1
- 739 00e2 C701      		movw r24,r14
- 740 00e4 0E94 0000 		call memcpy
- 741               	.LVL80:
+ 804               		.loc 1 157 2 is_stmt 1 view .LVU156
+ 805 00da 50E0      		ldi r21,0
+ 806 00dc BE01      		movw r22,r28
+ 807 00de 6B5F      		subi r22,-5
+ 808 00e0 7F4F      		sbci r23,-1
+ 809 00e2 C701      		movw r24,r14
+ 810 00e4 0E94 0000 		call memcpy
+ 811               	.LVL80:
  158:utils/MCP2515.c **** 	
  159:utils/MCP2515.c **** 	
  160:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);				//raise CS.
- 742               		.loc 1 160 0
- 743 00e8 8B2D      		mov r24,r11
- 744               	/* epilogue start */
+ 812               		.loc 1 160 2 view .LVU157
+ 813 00e8 8B2D      		mov r24,r11
+ 814               	/* epilogue start */
  161:utils/MCP2515.c **** }
- 745               		.loc 1 161 0
- 746 00ea 2D96      		adiw r28,13
- 747 00ec 0FB6      		in __tmp_reg__,__SREG__
- 748 00ee F894      		cli
- 749 00f0 DEBF      		out __SP_H__,r29
- 750 00f2 0FBE      		out __SREG__,__tmp_reg__
- 751 00f4 CDBF      		out __SP_L__,r28
- 752 00f6 DF91      		pop r29
- 753 00f8 CF91      		pop r28
- 754 00fa 1F91      		pop r17
- 755 00fc 0F91      		pop r16
- 756               	.LVL81:
- 757 00fe FF90      		pop r15
- 758 0100 EF90      		pop r14
- 759               	.LVL82:
- 760 0102 DF90      		pop r13
- 761 0104 CF90      		pop r12
- 762               	.LVL83:
- 763 0106 BF90      		pop r11
- 764               	.LVL84:
- 765 0108 7F90      		pop r7
- 766               	.LVL85:
- 767 010a 6F90      		pop r6
- 768 010c 5F90      		pop r5
- 769 010e 4F90      		pop r4
+ 815               		.loc 1 161 1 is_stmt 0 view .LVU158
+ 816 00ea 2D96      		adiw r28,13
+ 817 00ec 0FB6      		in __tmp_reg__,__SREG__
+ 818 00ee F894      		cli
+ 819 00f0 DEBF      		out __SP_H__,r29
+ 820 00f2 0FBE      		out __SREG__,__tmp_reg__
+ 821 00f4 CDBF      		out __SP_L__,r28
+ 822 00f6 DF91      		pop r29
+ 823 00f8 CF91      		pop r28
+ 824 00fa 1F91      		pop r17
+ 825 00fc 0F91      		pop r16
+ 826               	.LVL81:
+ 827               		.loc 1 161 1 view .LVU159
+ 828 00fe FF90      		pop r15
+ 829 0100 EF90      		pop r14
+ 830               	.LVL82:
+ 831               		.loc 1 161 1 view .LVU160
+ 832 0102 DF90      		pop r13
+ 833 0104 CF90      		pop r12
+ 834               	.LVL83:
+ 835               		.loc 1 161 1 view .LVU161
+ 836 0106 BF90      		pop r11
+ 837               	.LVL84:
+ 838               		.loc 1 161 1 view .LVU162
+ 839 0108 7F90      		pop r7
+ 840               	.LVL85:
+ 841               		.loc 1 161 1 view .LVU163
+ 842 010a 6F90      		pop r6
+ 843 010c 5F90      		pop r5
+ 844 010e 4F90      		pop r4
  160:utils/MCP2515.c **** }
- 770               		.loc 1 160 0
- 771 0110 0C94 0000 		jmp MCP2515_CS_high
- 772               	.LVL86:
- 773               		.cfi_endproc
- 774               	.LFE14:
- 776               		.section	.text.MCP2515_reg_read,"ax",@progbits
- 777               	.global	MCP2515_reg_read
- 779               	MCP2515_reg_read:
- 780               	.LFB15:
+ 845               		.loc 1 160 2 view .LVU164
+ 846 0110 0C94 0000 		jmp MCP2515_CS_high
+ 847               	.LVL86:
+ 160:utils/MCP2515.c **** }
+ 848               		.loc 1 160 2 view .LVU165
+ 849               		.cfi_endproc
+ 850               	.LFE8:
+ 852               		.section	.text.MCP2515_reg_read,"ax",@progbits
+ 853               	.global	MCP2515_reg_read
+ 855               	MCP2515_reg_read:
+ 856               	.LVL87:
+ 857               	.LFB9:
  162:utils/MCP2515.c **** 
  163:utils/MCP2515.c **** uint8_t MCP2515_reg_read(uint8_t CANbus, uint8_t reg_address)
  164:utils/MCP2515.c **** {
- 781               		.loc 1 164 0
- 782               		.cfi_startproc
- 783               	.LVL87:
- 784 0000 CF93      		push r28
- 785               	.LCFI34:
- 786               		.cfi_def_cfa_offset 3
- 787               		.cfi_offset 28, -2
- 788 0002 DF93      		push r29
- 789               	.LCFI35:
- 790               		.cfi_def_cfa_offset 4
- 791               		.cfi_offset 29, -3
- 792               	/* prologue: function */
- 793               	/* frame size = 0 */
- 794               	/* stack size = 2 */
- 795               	.L__stack_usage = 2
- 796 0004 C82F      		mov r28,r24
- 797 0006 D62F      		mov r29,r22
+ 858               		.loc 1 164 1 is_stmt 1 view -0
+ 859               		.cfi_startproc
+ 860               		.loc 1 164 1 is_stmt 0 view .LVU167
+ 861 0000 CF93      		push r28
+ 862               	.LCFI34:
+ 863               		.cfi_def_cfa_offset 3
+ 864               		.cfi_offset 28, -2
+ 865 0002 DF93      		push r29
+ 866               	.LCFI35:
+ 867               		.cfi_def_cfa_offset 4
+ 868               		.cfi_offset 29, -3
+ 869               	/* prologue: function */
+ 870               	/* frame size = 0 */
+ 871               	/* stack size = 2 */
+ 872               	.L__stack_usage = 2
+ 873 0004 C82F      		mov r28,r24
+ 874 0006 D62F      		mov r29,r22
  165:utils/MCP2515.c **** 	uint8_t read_result;
+ 875               		.loc 1 165 2 is_stmt 1 view .LVU168
  166:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//unset CS so MCP2515 knows we are talking
- 798               		.loc 1 166 0
- 799 0008 0E94 0000 		call MCP2515_CS_low
- 800               	.LVL88:
+ 876               		.loc 1 166 2 view .LVU169
+ 877 0008 0E94 0000 		call MCP2515_CS_low
+ 878               	.LVL88:
  167:utils/MCP2515.c **** 	SPI_send_byte(0x03);
- 801               		.loc 1 167 0
- 802 000c 83E0      		ldi r24,lo8(3)
- 803 000e 0E94 0000 		call SPI_send_byte
- 804               	.LVL89:
+ 879               		.loc 1 167 2 view .LVU170
+ 880 000c 83E0      		ldi r24,lo8(3)
+ 881 000e 0E94 0000 		call SPI_send_byte
+ 882               	.LVL89:
  168:utils/MCP2515.c **** 	SPI_send_byte(reg_address);
- 805               		.loc 1 168 0
- 806 0012 8D2F      		mov r24,r29
- 807 0014 0E94 0000 		call SPI_send_byte
- 808               	.LVL90:
+ 883               		.loc 1 168 2 view .LVU171
+ 884 0012 8D2F      		mov r24,r29
+ 885 0014 0E94 0000 		call SPI_send_byte
+ 886               	.LVL90:
  169:utils/MCP2515.c **** 	read_result = SPI_send_byte(0x00);
- 809               		.loc 1 169 0
- 810 0018 80E0      		ldi r24,0
- 811 001a 0E94 0000 		call SPI_send_byte
- 812               	.LVL91:
- 813 001e D82F      		mov r29,r24
- 814               	.LVL92:
+ 887               		.loc 1 169 2 view .LVU172
+ 888               		.loc 1 169 16 is_stmt 0 view .LVU173
+ 889 0018 80E0      		ldi r24,0
+ 890 001a 0E94 0000 		call SPI_send_byte
+ 891               	.LVL91:
+ 892 001e D82F      		mov r29,r24
+ 893               	.LVL92:
  170:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS.
- 815               		.loc 1 170 0
- 816 0020 8C2F      		mov r24,r28
- 817               	.LVL93:
- 818 0022 0E94 0000 		call MCP2515_CS_high
- 819               	.LVL94:
+ 894               		.loc 1 170 2 is_stmt 1 view .LVU174
+ 895 0020 8C2F      		mov r24,r28
+ 896               	.LVL93:
+ 897               		.loc 1 170 2 is_stmt 0 view .LVU175
+ 898 0022 0E94 0000 		call MCP2515_CS_high
+ 899               	.LVL94:
  171:utils/MCP2515.c **** 	return read_result;
+ 900               		.loc 1 171 2 is_stmt 1 view .LVU176
  172:utils/MCP2515.c **** }
- 820               		.loc 1 172 0
- 821 0026 8D2F      		mov r24,r29
- 822               	/* epilogue start */
- 823 0028 DF91      		pop r29
- 824               	.LVL95:
- 825 002a CF91      		pop r28
- 826               	.LVL96:
- 827 002c 0895      		ret
- 828               		.cfi_endproc
- 829               	.LFE15:
- 831               		.section	.text.MCP2515_findFreeTxBuffer,"ax",@progbits
- 832               	.global	MCP2515_findFreeTxBuffer
- 834               	MCP2515_findFreeTxBuffer:
- 835               	.LFB16:
+ 901               		.loc 1 172 1 is_stmt 0 view .LVU177
+ 902 0026 8D2F      		mov r24,r29
+ 903               	/* epilogue start */
+ 904 0028 DF91      		pop r29
+ 905               	.LVL95:
+ 906               		.loc 1 172 1 view .LVU178
+ 907 002a CF91      		pop r28
+ 908               	.LVL96:
+ 909               		.loc 1 172 1 view .LVU179
+ 910 002c 0895      		ret
+ 911               		.cfi_endproc
+ 912               	.LFE9:
+ 914               		.section	.text.MCP2515_findFreeTxBuffer,"ax",@progbits
+ 915               	.global	MCP2515_findFreeTxBuffer
+ 917               	MCP2515_findFreeTxBuffer:
+ 918               	.LVL97:
+ 919               	.LFB10:
  173:utils/MCP2515.c **** 
  174:utils/MCP2515.c **** uint8_t MCP2515_findFreeTxBuffer(uint8_t CANbus)
  175:utils/MCP2515.c **** {
- 836               		.loc 1 175 0
- 837               		.cfi_startproc
- 838               	.LVL97:
- 839 0000 CF93      		push r28
- 840               	.LCFI36:
- 841               		.cfi_def_cfa_offset 3
- 842               		.cfi_offset 28, -2
- 843               	/* prologue: function */
- 844               	/* frame size = 0 */
- 845               	/* stack size = 1 */
- 846               	.L__stack_usage = 1
- 847 0002 C82F      		mov r28,r24
+ 920               		.loc 1 175 1 is_stmt 1 view -0
+ 921               		.cfi_startproc
+ 922               		.loc 1 175 1 is_stmt 0 view .LVU181
+ 923 0000 CF93      		push r28
+ 924               	.LCFI36:
+ 925               		.cfi_def_cfa_offset 3
+ 926               		.cfi_offset 28, -2
+ 927               	/* prologue: function */
+ 928               	/* frame size = 0 */
+ 929               	/* stack size = 1 */
+ 930               	.L__stack_usage = 1
+ 931 0002 C82F      		mov r28,r24
  176:utils/MCP2515.c **** 	//uint8_t MCP2515_TxBuffer = 0;
  177:utils/MCP2515.c **** 	//flash_LED(1,RED_LED);
  178:utils/MCP2515.c **** 	//MCP2515_TxBuffer = (MCP2515_reg_read(CANbus, MCP2515_CANINTF)& 0b00011100);			//get interrupt st
  179:utils/MCP2515.c **** 	if		((MCP2515_reg_read(CANbus, MCP2515_TX0) & 0b00001000) == 0)						//if tx0 is free,
- 848               		.loc 1 179 0
- 849 0004 60E3      		ldi r22,lo8(48)
- 850 0006 0E94 0000 		call MCP2515_reg_read
- 851               	.LVL98:
- 852 000a 83FF      		sbrs r24,3
- 853 000c 00C0      		rjmp .L39
+ 932               		.loc 1 179 2 is_stmt 1 view .LVU182
+ 933               		.loc 1 179 8 is_stmt 0 view .LVU183
+ 934 0004 60E3      		ldi r22,lo8(48)
+ 935 0006 0E94 0000 		call MCP2515_reg_read
+ 936               	.LVL98:
+ 937               		.loc 1 179 6 view .LVU184
+ 938 000a 83FF      		sbrs r24,3
+ 939 000c 00C0      		rjmp .L37
  180:utils/MCP2515.c **** 	{
  181:utils/MCP2515.c **** 		return MCP2515_TX0;
  182:utils/MCP2515.c **** 	}
  183:utils/MCP2515.c **** 	else if	((MCP2515_reg_read(CANbus, MCP2515_TX1) & 0b00001000) == 0)						//if tx1 is free,
- 854               		.loc 1 183 0
- 855 000e 60E4      		ldi r22,lo8(64)
- 856 0010 8C2F      		mov r24,r28
- 857 0012 0E94 0000 		call MCP2515_reg_read
- 858               	.LVL99:
- 859 0016 83FF      		sbrs r24,3
- 860 0018 00C0      		rjmp .L40
- 861               	.LVL100:
- 862               	.LBB16:
- 863               	.LBB17:
+ 940               		.loc 1 183 7 is_stmt 1 view .LVU185
+ 941               		.loc 1 183 12 is_stmt 0 view .LVU186
+ 942 000e 60E4      		ldi r22,lo8(64)
+ 943 0010 8C2F      		mov r24,r28
+ 944 0012 0E94 0000 		call MCP2515_reg_read
+ 945               	.LVL99:
+ 946               		.loc 1 183 10 view .LVU187
+ 947 0016 83FF      		sbrs r24,3
+ 948 0018 00C0      		rjmp .L38
+ 949               	.LVL100:
+ 950               	.LBB16:
+ 951               	.LBB17:
  184:utils/MCP2515.c **** 	{
  185:utils/MCP2515.c **** 		return MCP2515_TX1;
  186:utils/MCP2515.c **** 	}
  187:utils/MCP2515.c **** 	else if	((MCP2515_reg_read(CANbus, MCP2515_TX2) & 0b00001000) == 0)						//if tx2 is free,
- 864               		.loc 1 187 0
- 865 001a 60E5      		ldi r22,lo8(80)
- 866 001c 8C2F      		mov r24,r28
- 867 001e 0E94 0000 		call MCP2515_reg_read
- 868               	.LVL101:
- 869 0022 83FF      		sbrs r24,3
- 870 0024 00C0      		rjmp .L41
+ 952               		.loc 1 187 7 is_stmt 1 view .LVU188
+ 953               		.loc 1 187 12 is_stmt 0 view .LVU189
+ 954 001a 60E5      		ldi r22,lo8(80)
+ 955 001c 8C2F      		mov r24,r28
+ 956 001e 0E94 0000 		call MCP2515_reg_read
+ 957               	.LVL101:
+ 958               		.loc 1 187 10 view .LVU190
+ 959 0022 83FF      		sbrs r24,3
+ 960 0024 00C0      		rjmp .L39
  188:utils/MCP2515.c **** 	{
  189:utils/MCP2515.c **** 		return MCP2515_TX2;
  190:utils/MCP2515.c **** 	}
  191:utils/MCP2515.c **** 	else {return 0x00;	}														//otherwise none are free.
- 871               		.loc 1 191 0
- 872 0026 80E0      		ldi r24,0
- 873               	.LVL102:
- 874               	.L37:
- 875               	/* epilogue start */
- 876               	.LBE17:
- 877               	.LBE16:
+ 961               		.loc 1 191 15 view .LVU191
+ 962 0026 80E0      		ldi r24,0
+ 963               	.LVL102:
+ 964               	.L35:
+ 965               	/* epilogue start */
+ 966               		.loc 1 191 15 view .LVU192
+ 967               	.LBE17:
+ 968               	.LBE16:
  192:utils/MCP2515.c **** }
- 878               		.loc 1 192 0
- 879 0028 CF91      		pop r28
- 880               	.LVL103:
- 881 002a 0895      		ret
- 882               	.LVL104:
- 883               	.L39:
+ 969               		.loc 1 192 1 view .LVU193
+ 970 0028 CF91      		pop r28
+ 971               	.LVL103:
+ 972               		.loc 1 192 1 view .LVU194
+ 973 002a 0895      		ret
+ 974               	.LVL104:
+ 975               	.L37:
  181:utils/MCP2515.c **** 	}
- 884               		.loc 1 181 0
- 885 002c 80E3      		ldi r24,lo8(48)
- 886 002e 00C0      		rjmp .L37
- 887               	.L40:
+ 976               		.loc 1 181 10 view .LVU195
+ 977 002c 80E3      		ldi r24,lo8(48)
+ 978 002e 00C0      		rjmp .L35
+ 979               	.L38:
  185:utils/MCP2515.c **** 	}
- 888               		.loc 1 185 0
- 889 0030 80E4      		ldi r24,lo8(64)
- 890 0032 00C0      		rjmp .L37
- 891               	.LVL105:
- 892               	.L41:
- 893               	.LBB19:
- 894               	.LBB18:
+ 980               		.loc 1 185 10 view .LVU196
+ 981 0030 80E4      		ldi r24,lo8(64)
+ 982 0032 00C0      		rjmp .L35
+ 983               	.LVL105:
+ 984               	.L39:
+ 985               	.LBB19:
+ 986               	.LBB18:
  189:utils/MCP2515.c **** 	}
- 895               		.loc 1 189 0
- 896 0034 80E5      		ldi r24,lo8(80)
- 897 0036 00C0      		rjmp .L37
- 898               	.LBE18:
- 899               	.LBE19:
- 900               		.cfi_endproc
- 901               	.LFE16:
- 903               		.section	.text.MCP2515_FilterInit,"ax",@progbits
- 904               	.global	MCP2515_FilterInit
- 906               	MCP2515_FilterInit:
- 907               	.LFB17:
+ 987               		.loc 1 189 10 view .LVU197
+ 988 0034 80E5      		ldi r24,lo8(80)
+ 989 0036 00C0      		rjmp .L35
+ 990               	.LBE18:
+ 991               	.LBE19:
+ 992               		.cfi_endproc
+ 993               	.LFE10:
+ 995               		.section	.text.MCP2515_FilterInit,"ax",@progbits
+ 996               	.global	MCP2515_FilterInit
+ 998               	MCP2515_FilterInit:
+ 999               	.LVL106:
+ 1000               	.LFB11:
  193:utils/MCP2515.c **** 
  194:utils/MCP2515.c **** void MCP2515_FilterInit(uint8_t CANbus, uint8_t filterNum, uint32_t filterID)
  195:utils/MCP2515.c **** {
- 908               		.loc 1 195 0
- 909               		.cfi_startproc
- 910               	.LVL106:
- 911 0000 CF92      		push r12
- 912               	.LCFI37:
- 913               		.cfi_def_cfa_offset 3
- 914               		.cfi_offset 12, -2
- 915 0002 DF92      		push r13
- 916               	.LCFI38:
- 917               		.cfi_def_cfa_offset 4
- 918               		.cfi_offset 13, -3
- 919 0004 EF92      		push r14
- 920               	.LCFI39:
- 921               		.cfi_def_cfa_offset 5
- 922               		.cfi_offset 14, -4
- 923 0006 FF92      		push r15
- 924               	.LCFI40:
- 925               		.cfi_def_cfa_offset 6
- 926               		.cfi_offset 15, -5
- 927 0008 CF93      		push r28
- 928               	.LCFI41:
- 929               		.cfi_def_cfa_offset 7
- 930               		.cfi_offset 28, -6
- 931               	/* prologue: function */
- 932               	/* frame size = 0 */
- 933               	/* stack size = 5 */
- 934               	.L__stack_usage = 5
- 935 000a C82F      		mov r28,r24
- 936 000c 6901      		movw r12,r18
- 937 000e 7A01      		movw r14,r20
+ 1001               		.loc 1 195 1 is_stmt 1 view -0
+ 1002               		.cfi_startproc
+ 1003               		.loc 1 195 1 is_stmt 0 view .LVU199
+ 1004 0000 CF92      		push r12
+ 1005               	.LCFI37:
+ 1006               		.cfi_def_cfa_offset 3
+ 1007               		.cfi_offset 12, -2
+ 1008 0002 DF92      		push r13
+ 1009               	.LCFI38:
+ 1010               		.cfi_def_cfa_offset 4
+ 1011               		.cfi_offset 13, -3
+ 1012 0004 EF92      		push r14
+ 1013               	.LCFI39:
+ 1014               		.cfi_def_cfa_offset 5
+ 1015               		.cfi_offset 14, -4
+ 1016 0006 FF92      		push r15
+ 1017               	.LCFI40:
+ 1018               		.cfi_def_cfa_offset 6
+ 1019               		.cfi_offset 15, -5
+ 1020 0008 CF93      		push r28
+ 1021               	.LCFI41:
+ 1022               		.cfi_def_cfa_offset 7
+ 1023               		.cfi_offset 28, -6
+ 1024               	/* prologue: function */
+ 1025               	/* frame size = 0 */
+ 1026               	/* stack size = 5 */
+ 1027               	.L__stack_usage = 5
+ 1028 000a C82F      		mov r28,r24
+ 1029 000c 6901      		movw r12,r18
+ 1030 000e 7A01      		movw r14,r20
  196:utils/MCP2515.c **** 	switch(filterNum)
- 938               		.loc 1 196 0
- 939 0010 6230      		cpi r22,lo8(2)
- 940 0012 01F4      		brne .+2
- 941 0014 00C0      		rjmp .L44
- 942 0016 00F4      		brsh .L45
- 943 0018 6623      		tst r22
- 944 001a 01F4      		brne .+2
- 945 001c 00C0      		rjmp .L46
- 946 001e 6130      		cpi r22,lo8(1)
- 947 0020 01F4      		brne .+2
- 948 0022 00C0      		rjmp .L47
- 949               	.L42:
- 950               	/* epilogue start */
+ 1031               		.loc 1 196 2 is_stmt 1 view .LVU200
+ 1032 0010 6230      		cpi r22,lo8(2)
+ 1033 0012 01F4      		brne .+2
+ 1034 0014 00C0      		rjmp .L41
+ 1035 0016 00F4      		brsh .L42
+ 1036 0018 6623      		tst r22
+ 1037 001a 01F4      		brne .+2
+ 1038 001c 00C0      		rjmp .L43
+ 1039 001e 6130      		cpi r22,lo8(1)
+ 1040 0020 01F4      		brne .+2
+ 1041 0022 00C0      		rjmp .L44
+ 1042               	.L40:
+ 1043               	/* epilogue start */
  197:utils/MCP2515.c **** 	{
  198:utils/MCP2515.c **** 		case 0:
  199:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0SIDH, (filterID>>21) & 0xFF);
@@ -1183,418 +1292,531 @@
  229:utils/MCP2515.c **** 	}
  230:utils/MCP2515.c **** 		
  231:utils/MCP2515.c **** }
- 951               		.loc 1 231 0
- 952 0024 CF91      		pop r28
- 953 0026 FF90      		pop r15
- 954 0028 EF90      		pop r14
- 955 002a DF90      		pop r13
- 956 002c CF90      		pop r12
- 957 002e 0895      		ret
- 958               	.L45:
- 196:utils/MCP2515.c **** 	switch(filterNum)
- 959               		.loc 1 196 0
- 960 0030 6430      		cpi r22,lo8(4)
- 961 0032 01F4      		brne .+2
- 962 0034 00C0      		rjmp .L48
- 963 0036 00F4      		brsh .+2
- 964 0038 00C0      		rjmp .L49
- 965 003a 6530      		cpi r22,lo8(5)
- 966 003c 01F4      		brne .L42
- 967               	.LVL107:
- 968               	.L50:
+ 1044               		.loc 1 231 1 is_stmt 0 view .LVU201
+ 1045 0024 CF91      		pop r28
+ 1046 0026 FF90      		pop r15
+ 1047 0028 EF90      		pop r14
+ 1048 002a DF90      		pop r13
+ 1049 002c CF90      		pop r12
+ 1050 002e 0895      		ret
+ 1051               	.L42:
+ 1052               		.loc 1 231 1 view .LVU202
+ 1053 0030 6430      		cpi r22,lo8(4)
+ 1054 0032 01F4      		brne .+2
+ 1055 0034 00C0      		rjmp .L46
+ 1056 0036 00F4      		brsh .+2
+ 1057 0038 00C0      		rjmp .L47
+ 1058 003a 6530      		cpi r22,lo8(5)
+ 1059 003c 01F4      		brne .L40
+ 1060               	.LVL107:
+ 1061               	.L48:
  224:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
- 969               		.loc 1 224 0
- 970 003e B701      		movw r22,r14
- 971 0040 A601      		movw r20,r12
- 972 0042 85E1      		ldi r24,21
- 973               		1:
- 974 0044 7695      		lsr r23
- 975 0046 6795      		ror r22
- 976 0048 5795      		ror r21
- 977 004a 4795      		ror r20
- 978 004c 8A95      		dec r24
- 979 004e 01F4      		brne 1b
- 980 0050 68E1      		ldi r22,lo8(24)
- 981 0052 8C2F      		mov r24,r28
- 982 0054 0E94 0000 		call MCP2515_reg_write
- 983               	.LVL108:
+ 1062               		.loc 1 224 4 is_stmt 1 view .LVU203
+ 224:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1063               		.loc 1 224 57 is_stmt 0 view .LVU204
+ 1064 003e B701      		movw r22,r14
+ 1065 0040 A601      		movw r20,r12
+ 1066 0042 85E1      		ldi r24,21
+ 1067               		1:
+ 1068 0044 7695      		lsr r23
+ 1069 0046 6795      		ror r22
+ 1070 0048 5795      		ror r21
+ 1071 004a 4795      		ror r20
+ 1072 004c 8A95      		dec r24
+ 1073 004e 01F4      		brne 1b
+ 224:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1074               		.loc 1 224 4 view .LVU205
+ 1075 0050 68E1      		ldi r22,lo8(24)
+ 1076 0052 8C2F      		mov r24,r28
+ 1077 0054 0E94 0000 		call MCP2515_reg_write
+ 1078               	.LVL108:
  225:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID8, (filterID>>8) & 0xFF );
- 984               		.loc 1 225 0
- 985 0058 B701      		movw r22,r14
- 986 005a A601      		movw r20,r12
- 987 005c 9DE0      		ldi r25,13
- 988               		1:
- 989 005e 7695      		lsr r23
- 990 0060 6795      		ror r22
- 991 0062 5795      		ror r21
- 992 0064 4795      		ror r20
- 993 0066 9A95      		dec r25
- 994 0068 01F4      		brne 1b
- 995 006a 407E      		andi r20,lo8(-32)
- 996 006c 8E2D      		mov r24,r14
- 997 006e 8370      		andi r24,lo8(3)
- 998 0070 482B      		or r20,r24
- 999 0072 4860      		ori r20,lo8(8)
- 1000 0074 69E1      		ldi r22,lo8(25)
- 1001 0076 8C2F      		mov r24,r28
- 1002 0078 0E94 0000 		call MCP2515_reg_write
- 1003               	.LVL109:
- 226:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID0, filterID & 0xFF );
- 1004               		.loc 1 226 0
- 1005 007c 7727      		clr r23
- 1006 007e 6F2D      		mov r22,r15
- 1007 0080 5E2D      		mov r21,r14
- 1008 0082 4D2D      		mov r20,r13
- 1009 0084 6AE1      		ldi r22,lo8(26)
- 1010 0086 8C2F      		mov r24,r28
- 1011 0088 0E94 0000 		call MCP2515_reg_write
- 1012               	.LVL110:
- 227:utils/MCP2515.c **** 			
- 1013               		.loc 1 227 0
- 1014 008c 4C2D      		mov r20,r12
- 1015 008e 6BE1      		ldi r22,lo8(27)
- 1016 0090 8C2F      		mov r24,r28
- 1017               	/* epilogue start */
- 1018               		.loc 1 231 0
- 1019 0092 CF91      		pop r28
- 1020               	.LVL111:
- 1021 0094 FF90      		pop r15
- 1022 0096 EF90      		pop r14
- 1023 0098 DF90      		pop r13
- 1024 009a CF90      		pop r12
- 227:utils/MCP2515.c **** 			
- 1025               		.loc 1 227 0
- 1026 009c 0C94 0000 		jmp MCP2515_reg_write
- 1027               	.LVL112:
- 1028               	.L46:
- 199:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
- 1029               		.loc 1 199 0
- 1030 00a0 BA01      		movw r22,r20
- 1031               	.LVL113:
- 1032 00a2 A901      		movw r20,r18
- 1033 00a4 B5E1      		ldi r27,21
- 1034               		1:
- 1035 00a6 7695      		lsr r23
- 1036 00a8 6795      		ror r22
- 1037 00aa 5795      		ror r21
- 1038 00ac 4795      		ror r20
- 1039 00ae BA95      		dec r27
- 1040 00b0 01F4      		brne 1b
- 1041 00b2 60E0      		ldi r22,0
- 1042 00b4 0E94 0000 		call MCP2515_reg_write
- 1043               	.LVL114:
- 200:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID8, (filterID>>8) & 0xFF );
- 1044               		.loc 1 200 0
- 1045 00b8 B701      		movw r22,r14
- 1046 00ba A601      		movw r20,r12
- 1047 00bc 8DE0      		ldi r24,13
- 1048               		1:
- 1049 00be 7695      		lsr r23
- 1050 00c0 6795      		ror r22
- 1051 00c2 5795      		ror r21
- 1052 00c4 4795      		ror r20
- 1053 00c6 8A95      		dec r24
- 1054 00c8 01F4      		brne 1b
- 1055 00ca 407E      		andi r20,lo8(-32)
- 1056 00cc 8E2D      		mov r24,r14
- 1057 00ce 8370      		andi r24,lo8(3)
- 1058 00d0 482B      		or r20,r24
- 1059 00d2 4860      		ori r20,lo8(8)
- 1060 00d4 61E0      		ldi r22,lo8(1)
- 1061 00d6 8C2F      		mov r24,r28
- 1062 00d8 0E94 0000 		call MCP2515_reg_write
- 1063               	.LVL115:
- 201:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID0, filterID & 0xFF );
- 1064               		.loc 1 201 0
- 1065 00dc 7727      		clr r23
- 1066 00de 6F2D      		mov r22,r15
- 1067 00e0 5E2D      		mov r21,r14
- 1068 00e2 4D2D      		mov r20,r13
- 1069 00e4 62E0      		ldi r22,lo8(2)
- 1070 00e6 8C2F      		mov r24,r28
- 1071 00e8 0E94 0000 		call MCP2515_reg_write
- 1072               	.LVL116:
- 202:utils/MCP2515.c **** 		case 1:
- 1073               		.loc 1 202 0
- 1074 00ec 4C2D      		mov r20,r12
- 1075 00ee 63E0      		ldi r22,lo8(3)
- 1076 00f0 8C2F      		mov r24,r28
- 1077 00f2 0E94 0000 		call MCP2515_reg_write
- 1078               	.LVL117:
- 1079               	.L47:
- 204:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
- 1080               		.loc 1 204 0
- 1081 00f6 B701      		movw r22,r14
- 1082 00f8 A601      		movw r20,r12
- 1083 00fa E5E1      		ldi r30,21
+ 1079               		.loc 1 225 4 is_stmt 1 view .LVU206
+ 225:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID8, (filterID>>8) & 0xFF );
+ 1080               		.loc 1 225 59 is_stmt 0 view .LVU207
+ 1081 0058 B701      		movw r22,r14
+ 1082 005a A601      		movw r20,r12
+ 1083 005c 9DE0      		ldi r25,13
  1084               		1:
- 1085 00fc 7695      		lsr r23
- 1086 00fe 6795      		ror r22
- 1087 0100 5795      		ror r21
- 1088 0102 4795      		ror r20
- 1089 0104 EA95      		dec r30
- 1090 0106 01F4      		brne 1b
- 1091 0108 64E0      		ldi r22,lo8(4)
- 1092 010a 8C2F      		mov r24,r28
- 1093 010c 0E94 0000 		call MCP2515_reg_write
- 1094               	.LVL118:
+ 1085 005e 7695      		lsr r23
+ 1086 0060 6795      		ror r22
+ 1087 0062 5795      		ror r21
+ 1088 0064 4795      		ror r20
+ 1089 0066 9A95      		dec r25
+ 1090 0068 01F4      		brne 1b
+ 225:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID8, (filterID>>8) & 0xFF );
+ 1091               		.loc 1 225 65 view .LVU208
+ 1092 006a 407E      		andi r20,lo8(-32)
+ 225:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID8, (filterID>>8) & 0xFF );
+ 1093               		.loc 1 225 89 view .LVU209
+ 1094 006c 8E2D      		mov r24,r14
+ 1095 006e 8370      		andi r24,lo8(3)
+ 225:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID8, (filterID>>8) & 0xFF );
+ 1096               		.loc 1 225 71 view .LVU210
+ 1097 0070 482B      		or r20,r24
+ 225:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID8, (filterID>>8) & 0xFF );
+ 1098               		.loc 1 225 4 view .LVU211
+ 1099 0072 4860      		ori r20,lo8(8)
+ 1100 0074 69E1      		ldi r22,lo8(25)
+ 1101 0076 8C2F      		mov r24,r28
+ 1102 0078 0E94 0000 		call MCP2515_reg_write
+ 1103               	.LVL109:
+ 226:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID0, filterID & 0xFF );
+ 1104               		.loc 1 226 4 is_stmt 1 view .LVU212
+ 226:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID0, filterID & 0xFF );
+ 1105               		.loc 1 226 57 is_stmt 0 view .LVU213
+ 1106 007c 7727      		clr r23
+ 1107 007e 6F2D      		mov r22,r15
+ 1108 0080 5E2D      		mov r21,r14
+ 1109 0082 4D2D      		mov r20,r13
+ 226:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF5EID0, filterID & 0xFF );
+ 1110               		.loc 1 226 4 view .LVU214
+ 1111 0084 6AE1      		ldi r22,lo8(26)
+ 1112 0086 8C2F      		mov r24,r28
+ 1113 0088 0E94 0000 		call MCP2515_reg_write
+ 1114               	.LVL110:
+ 227:utils/MCP2515.c **** 			
+ 1115               		.loc 1 227 4 is_stmt 1 view .LVU215
+ 1116 008c 4C2D      		mov r20,r12
+ 1117 008e 6BE1      		ldi r22,lo8(27)
+ 1118 0090 8C2F      		mov r24,r28
+ 1119               	/* epilogue start */
+ 1120               		.loc 1 231 1 is_stmt 0 view .LVU216
+ 1121 0092 CF91      		pop r28
+ 1122               	.LVL111:
+ 1123               		.loc 1 231 1 view .LVU217
+ 1124 0094 FF90      		pop r15
+ 1125 0096 EF90      		pop r14
+ 1126 0098 DF90      		pop r13
+ 1127 009a CF90      		pop r12
+ 227:utils/MCP2515.c **** 			
+ 1128               		.loc 1 227 4 view .LVU218
+ 1129 009c 0C94 0000 		jmp MCP2515_reg_write
+ 1130               	.LVL112:
+ 1131               	.L43:
+ 199:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1132               		.loc 1 199 4 is_stmt 1 view .LVU219
+ 199:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1133               		.loc 1 199 57 is_stmt 0 view .LVU220
+ 1134 00a0 BA01      		movw r22,r20
+ 1135               	.LVL113:
+ 199:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1136               		.loc 1 199 57 view .LVU221
+ 1137 00a2 A901      		movw r20,r18
+ 1138 00a4 B5E1      		ldi r27,21
+ 1139               		1:
+ 1140 00a6 7695      		lsr r23
+ 1141 00a8 6795      		ror r22
+ 1142 00aa 5795      		ror r21
+ 1143 00ac 4795      		ror r20
+ 1144 00ae BA95      		dec r27
+ 1145 00b0 01F4      		brne 1b
+ 199:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1146               		.loc 1 199 4 view .LVU222
+ 1147 00b2 60E0      		ldi r22,0
+ 1148 00b4 0E94 0000 		call MCP2515_reg_write
+ 1149               	.LVL114:
+ 200:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID8, (filterID>>8) & 0xFF );
+ 1150               		.loc 1 200 4 is_stmt 1 view .LVU223
+ 200:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID8, (filterID>>8) & 0xFF );
+ 1151               		.loc 1 200 59 is_stmt 0 view .LVU224
+ 1152 00b8 B701      		movw r22,r14
+ 1153 00ba A601      		movw r20,r12
+ 1154 00bc 8DE0      		ldi r24,13
+ 1155               		1:
+ 1156 00be 7695      		lsr r23
+ 1157 00c0 6795      		ror r22
+ 1158 00c2 5795      		ror r21
+ 1159 00c4 4795      		ror r20
+ 1160 00c6 8A95      		dec r24
+ 1161 00c8 01F4      		brne 1b
+ 200:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID8, (filterID>>8) & 0xFF );
+ 1162               		.loc 1 200 65 view .LVU225
+ 1163 00ca 407E      		andi r20,lo8(-32)
+ 200:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID8, (filterID>>8) & 0xFF );
+ 1164               		.loc 1 200 89 view .LVU226
+ 1165 00cc 8E2D      		mov r24,r14
+ 1166 00ce 8370      		andi r24,lo8(3)
+ 200:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID8, (filterID>>8) & 0xFF );
+ 1167               		.loc 1 200 71 view .LVU227
+ 1168 00d0 482B      		or r20,r24
+ 200:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID8, (filterID>>8) & 0xFF );
+ 1169               		.loc 1 200 4 view .LVU228
+ 1170 00d2 4860      		ori r20,lo8(8)
+ 1171 00d4 61E0      		ldi r22,lo8(1)
+ 1172 00d6 8C2F      		mov r24,r28
+ 1173 00d8 0E94 0000 		call MCP2515_reg_write
+ 1174               	.LVL115:
+ 201:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID0, filterID & 0xFF );
+ 1175               		.loc 1 201 4 is_stmt 1 view .LVU229
+ 201:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID0, filterID & 0xFF );
+ 1176               		.loc 1 201 57 is_stmt 0 view .LVU230
+ 1177 00dc 7727      		clr r23
+ 1178 00de 6F2D      		mov r22,r15
+ 1179 00e0 5E2D      		mov r21,r14
+ 1180 00e2 4D2D      		mov r20,r13
+ 201:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF0EID0, filterID & 0xFF );
+ 1181               		.loc 1 201 4 view .LVU231
+ 1182 00e4 62E0      		ldi r22,lo8(2)
+ 1183 00e6 8C2F      		mov r24,r28
+ 1184 00e8 0E94 0000 		call MCP2515_reg_write
+ 1185               	.LVL116:
+ 202:utils/MCP2515.c **** 		case 1:
+ 1186               		.loc 1 202 4 is_stmt 1 view .LVU232
+ 1187 00ec 4C2D      		mov r20,r12
+ 1188 00ee 63E0      		ldi r22,lo8(3)
+ 1189 00f0 8C2F      		mov r24,r28
+ 1190 00f2 0E94 0000 		call MCP2515_reg_write
+ 1191               	.LVL117:
+ 1192               	.L44:
+ 204:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1193               		.loc 1 204 4 view .LVU233
+ 204:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1194               		.loc 1 204 57 is_stmt 0 view .LVU234
+ 1195 00f6 B701      		movw r22,r14
+ 1196 00f8 A601      		movw r20,r12
+ 1197 00fa E5E1      		ldi r30,21
+ 1198               		1:
+ 1199 00fc 7695      		lsr r23
+ 1200 00fe 6795      		ror r22
+ 1201 0100 5795      		ror r21
+ 1202 0102 4795      		ror r20
+ 1203 0104 EA95      		dec r30
+ 1204 0106 01F4      		brne 1b
+ 204:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1205               		.loc 1 204 4 view .LVU235
+ 1206 0108 64E0      		ldi r22,lo8(4)
+ 1207 010a 8C2F      		mov r24,r28
+ 1208 010c 0E94 0000 		call MCP2515_reg_write
+ 1209               	.LVL118:
  205:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID8, (filterID>>8) & 0xFF );
- 1095               		.loc 1 205 0
- 1096 0110 B701      		movw r22,r14
- 1097 0112 A601      		movw r20,r12
- 1098 0114 FDE0      		ldi r31,13
- 1099               		1:
- 1100 0116 7695      		lsr r23
- 1101 0118 6795      		ror r22
- 1102 011a 5795      		ror r21
- 1103 011c 4795      		ror r20
- 1104 011e FA95      		dec r31
- 1105 0120 01F4      		brne 1b
- 1106 0122 407E      		andi r20,lo8(-32)
- 1107 0124 8E2D      		mov r24,r14
- 1108 0126 8370      		andi r24,lo8(3)
- 1109 0128 482B      		or r20,r24
- 1110 012a 4860      		ori r20,lo8(8)
- 1111 012c 65E0      		ldi r22,lo8(5)
- 1112 012e 8C2F      		mov r24,r28
- 1113 0130 0E94 0000 		call MCP2515_reg_write
- 1114               	.LVL119:
+ 1210               		.loc 1 205 4 is_stmt 1 view .LVU236
+ 205:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID8, (filterID>>8) & 0xFF );
+ 1211               		.loc 1 205 59 is_stmt 0 view .LVU237
+ 1212 0110 B701      		movw r22,r14
+ 1213 0112 A601      		movw r20,r12
+ 1214 0114 FDE0      		ldi r31,13
+ 1215               		1:
+ 1216 0116 7695      		lsr r23
+ 1217 0118 6795      		ror r22
+ 1218 011a 5795      		ror r21
+ 1219 011c 4795      		ror r20
+ 1220 011e FA95      		dec r31
+ 1221 0120 01F4      		brne 1b
+ 205:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID8, (filterID>>8) & 0xFF );
+ 1222               		.loc 1 205 65 view .LVU238
+ 1223 0122 407E      		andi r20,lo8(-32)
+ 205:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID8, (filterID>>8) & 0xFF );
+ 1224               		.loc 1 205 89 view .LVU239
+ 1225 0124 8E2D      		mov r24,r14
+ 1226 0126 8370      		andi r24,lo8(3)
+ 205:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID8, (filterID>>8) & 0xFF );
+ 1227               		.loc 1 205 71 view .LVU240
+ 1228 0128 482B      		or r20,r24
+ 205:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID8, (filterID>>8) & 0xFF );
+ 1229               		.loc 1 205 4 view .LVU241
+ 1230 012a 4860      		ori r20,lo8(8)
+ 1231 012c 65E0      		ldi r22,lo8(5)
+ 1232 012e 8C2F      		mov r24,r28
+ 1233 0130 0E94 0000 		call MCP2515_reg_write
+ 1234               	.LVL119:
  206:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID0, filterID & 0xFF );
- 1115               		.loc 1 206 0
- 1116 0134 7727      		clr r23
- 1117 0136 6F2D      		mov r22,r15
- 1118 0138 5E2D      		mov r21,r14
- 1119 013a 4D2D      		mov r20,r13
- 1120 013c 66E0      		ldi r22,lo8(6)
- 1121 013e 8C2F      		mov r24,r28
- 1122 0140 0E94 0000 		call MCP2515_reg_write
- 1123               	.LVL120:
+ 1235               		.loc 1 206 4 is_stmt 1 view .LVU242
+ 206:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID0, filterID & 0xFF );
+ 1236               		.loc 1 206 57 is_stmt 0 view .LVU243
+ 1237 0134 7727      		clr r23
+ 1238 0136 6F2D      		mov r22,r15
+ 1239 0138 5E2D      		mov r21,r14
+ 1240 013a 4D2D      		mov r20,r13
+ 206:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF1EID0, filterID & 0xFF );
+ 1241               		.loc 1 206 4 view .LVU244
+ 1242 013c 66E0      		ldi r22,lo8(6)
+ 1243 013e 8C2F      		mov r24,r28
+ 1244 0140 0E94 0000 		call MCP2515_reg_write
+ 1245               	.LVL120:
  207:utils/MCP2515.c **** 		case 2:
- 1124               		.loc 1 207 0
- 1125 0144 4C2D      		mov r20,r12
- 1126 0146 67E0      		ldi r22,lo8(7)
- 1127 0148 8C2F      		mov r24,r28
- 1128 014a 0E94 0000 		call MCP2515_reg_write
- 1129               	.LVL121:
- 1130               	.L44:
+ 1246               		.loc 1 207 4 is_stmt 1 view .LVU245
+ 1247 0144 4C2D      		mov r20,r12
+ 1248 0146 67E0      		ldi r22,lo8(7)
+ 1249 0148 8C2F      		mov r24,r28
+ 1250 014a 0E94 0000 		call MCP2515_reg_write
+ 1251               	.LVL121:
+ 1252               	.L41:
  209:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
- 1131               		.loc 1 209 0
- 1132 014e B701      		movw r22,r14
- 1133 0150 A601      		movw r20,r12
- 1134 0152 95E1      		ldi r25,21
- 1135               		1:
- 1136 0154 7695      		lsr r23
- 1137 0156 6795      		ror r22
- 1138 0158 5795      		ror r21
- 1139 015a 4795      		ror r20
- 1140 015c 9A95      		dec r25
- 1141 015e 01F4      		brne 1b
- 1142 0160 68E0      		ldi r22,lo8(8)
- 1143 0162 8C2F      		mov r24,r28
- 1144 0164 0E94 0000 		call MCP2515_reg_write
- 1145               	.LVL122:
+ 1253               		.loc 1 209 4 view .LVU246
+ 209:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1254               		.loc 1 209 57 is_stmt 0 view .LVU247
+ 1255 014e B701      		movw r22,r14
+ 1256 0150 A601      		movw r20,r12
+ 1257 0152 95E1      		ldi r25,21
+ 1258               		1:
+ 1259 0154 7695      		lsr r23
+ 1260 0156 6795      		ror r22
+ 1261 0158 5795      		ror r21
+ 1262 015a 4795      		ror r20
+ 1263 015c 9A95      		dec r25
+ 1264 015e 01F4      		brne 1b
+ 209:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1265               		.loc 1 209 4 view .LVU248
+ 1266 0160 68E0      		ldi r22,lo8(8)
+ 1267 0162 8C2F      		mov r24,r28
+ 1268 0164 0E94 0000 		call MCP2515_reg_write
+ 1269               	.LVL122:
  210:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID8, (filterID>>8) & 0xFF );
- 1146               		.loc 1 210 0
- 1147 0168 B701      		movw r22,r14
- 1148 016a A601      		movw r20,r12
- 1149 016c 2DE0      		ldi r18,13
- 1150               		1:
- 1151 016e 7695      		lsr r23
- 1152 0170 6795      		ror r22
- 1153 0172 5795      		ror r21
- 1154 0174 4795      		ror r20
- 1155 0176 2A95      		dec r18
- 1156 0178 01F4      		brne 1b
- 1157 017a 407E      		andi r20,lo8(-32)
- 1158 017c 8E2D      		mov r24,r14
- 1159 017e 8370      		andi r24,lo8(3)
- 1160 0180 482B      		or r20,r24
- 1161 0182 4860      		ori r20,lo8(8)
- 1162 0184 69E0      		ldi r22,lo8(9)
- 1163 0186 8C2F      		mov r24,r28
- 1164 0188 0E94 0000 		call MCP2515_reg_write
- 1165               	.LVL123:
+ 1270               		.loc 1 210 4 is_stmt 1 view .LVU249
+ 210:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID8, (filterID>>8) & 0xFF );
+ 1271               		.loc 1 210 59 is_stmt 0 view .LVU250
+ 1272 0168 B701      		movw r22,r14
+ 1273 016a A601      		movw r20,r12
+ 1274 016c 2DE0      		ldi r18,13
+ 1275               		1:
+ 1276 016e 7695      		lsr r23
+ 1277 0170 6795      		ror r22
+ 1278 0172 5795      		ror r21
+ 1279 0174 4795      		ror r20
+ 1280 0176 2A95      		dec r18
+ 1281 0178 01F4      		brne 1b
+ 210:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID8, (filterID>>8) & 0xFF );
+ 1282               		.loc 1 210 65 view .LVU251
+ 1283 017a 407E      		andi r20,lo8(-32)
+ 210:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID8, (filterID>>8) & 0xFF );
+ 1284               		.loc 1 210 89 view .LVU252
+ 1285 017c 8E2D      		mov r24,r14
+ 1286 017e 8370      		andi r24,lo8(3)
+ 210:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID8, (filterID>>8) & 0xFF );
+ 1287               		.loc 1 210 71 view .LVU253
+ 1288 0180 482B      		or r20,r24
+ 210:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID8, (filterID>>8) & 0xFF );
+ 1289               		.loc 1 210 4 view .LVU254
+ 1290 0182 4860      		ori r20,lo8(8)
+ 1291 0184 69E0      		ldi r22,lo8(9)
+ 1292 0186 8C2F      		mov r24,r28
+ 1293 0188 0E94 0000 		call MCP2515_reg_write
+ 1294               	.LVL123:
  211:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID0, filterID & 0xFF );
- 1166               		.loc 1 211 0
- 1167 018c 7727      		clr r23
- 1168 018e 6F2D      		mov r22,r15
- 1169 0190 5E2D      		mov r21,r14
- 1170 0192 4D2D      		mov r20,r13
- 1171 0194 6AE0      		ldi r22,lo8(10)
- 1172 0196 8C2F      		mov r24,r28
- 1173 0198 0E94 0000 		call MCP2515_reg_write
- 1174               	.LVL124:
+ 1295               		.loc 1 211 4 is_stmt 1 view .LVU255
+ 211:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID0, filterID & 0xFF );
+ 1296               		.loc 1 211 57 is_stmt 0 view .LVU256
+ 1297 018c 7727      		clr r23
+ 1298 018e 6F2D      		mov r22,r15
+ 1299 0190 5E2D      		mov r21,r14
+ 1300 0192 4D2D      		mov r20,r13
+ 211:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF2EID0, filterID & 0xFF );
+ 1301               		.loc 1 211 4 view .LVU257
+ 1302 0194 6AE0      		ldi r22,lo8(10)
+ 1303 0196 8C2F      		mov r24,r28
+ 1304 0198 0E94 0000 		call MCP2515_reg_write
+ 1305               	.LVL124:
  212:utils/MCP2515.c **** 		case 3:
- 1175               		.loc 1 212 0
- 1176 019c 4C2D      		mov r20,r12
- 1177 019e 6BE0      		ldi r22,lo8(11)
- 1178 01a0 8C2F      		mov r24,r28
- 1179 01a2 0E94 0000 		call MCP2515_reg_write
- 1180               	.LVL125:
- 1181               	.L49:
+ 1306               		.loc 1 212 4 is_stmt 1 view .LVU258
+ 1307 019c 4C2D      		mov r20,r12
+ 1308 019e 6BE0      		ldi r22,lo8(11)
+ 1309 01a0 8C2F      		mov r24,r28
+ 1310 01a2 0E94 0000 		call MCP2515_reg_write
+ 1311               	.LVL125:
+ 1312               	.L47:
  214:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
- 1182               		.loc 1 214 0
- 1183 01a6 B701      		movw r22,r14
- 1184 01a8 A601      		movw r20,r12
- 1185 01aa A5E1      		ldi r26,21
- 1186               		1:
- 1187 01ac 7695      		lsr r23
- 1188 01ae 6795      		ror r22
- 1189 01b0 5795      		ror r21
- 1190 01b2 4795      		ror r20
- 1191 01b4 AA95      		dec r26
- 1192 01b6 01F4      		brne 1b
- 1193 01b8 60E1      		ldi r22,lo8(16)
- 1194 01ba 8C2F      		mov r24,r28
- 1195 01bc 0E94 0000 		call MCP2515_reg_write
- 1196               	.LVL126:
+ 1313               		.loc 1 214 4 view .LVU259
+ 214:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1314               		.loc 1 214 57 is_stmt 0 view .LVU260
+ 1315 01a6 B701      		movw r22,r14
+ 1316 01a8 A601      		movw r20,r12
+ 1317 01aa A5E1      		ldi r26,21
+ 1318               		1:
+ 1319 01ac 7695      		lsr r23
+ 1320 01ae 6795      		ror r22
+ 1321 01b0 5795      		ror r21
+ 1322 01b2 4795      		ror r20
+ 1323 01b4 AA95      		dec r26
+ 1324 01b6 01F4      		brne 1b
+ 214:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1325               		.loc 1 214 4 view .LVU261
+ 1326 01b8 60E1      		ldi r22,lo8(16)
+ 1327 01ba 8C2F      		mov r24,r28
+ 1328 01bc 0E94 0000 		call MCP2515_reg_write
+ 1329               	.LVL126:
  215:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID8, (filterID>>8) & 0xFF );
- 1197               		.loc 1 215 0
- 1198 01c0 B701      		movw r22,r14
- 1199 01c2 A601      		movw r20,r12
- 1200 01c4 BDE0      		ldi r27,13
- 1201               		1:
- 1202 01c6 7695      		lsr r23
- 1203 01c8 6795      		ror r22
- 1204 01ca 5795      		ror r21
- 1205 01cc 4795      		ror r20
- 1206 01ce BA95      		dec r27
- 1207 01d0 01F4      		brne 1b
- 1208 01d2 407E      		andi r20,lo8(-32)
- 1209 01d4 8E2D      		mov r24,r14
- 1210 01d6 8370      		andi r24,lo8(3)
- 1211 01d8 482B      		or r20,r24
- 1212 01da 4860      		ori r20,lo8(8)
- 1213 01dc 61E1      		ldi r22,lo8(17)
- 1214 01de 8C2F      		mov r24,r28
- 1215 01e0 0E94 0000 		call MCP2515_reg_write
- 1216               	.LVL127:
+ 1330               		.loc 1 215 4 is_stmt 1 view .LVU262
+ 215:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID8, (filterID>>8) & 0xFF );
+ 1331               		.loc 1 215 59 is_stmt 0 view .LVU263
+ 1332 01c0 B701      		movw r22,r14
+ 1333 01c2 A601      		movw r20,r12
+ 1334 01c4 BDE0      		ldi r27,13
+ 1335               		1:
+ 1336 01c6 7695      		lsr r23
+ 1337 01c8 6795      		ror r22
+ 1338 01ca 5795      		ror r21
+ 1339 01cc 4795      		ror r20
+ 1340 01ce BA95      		dec r27
+ 1341 01d0 01F4      		brne 1b
+ 215:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID8, (filterID>>8) & 0xFF );
+ 1342               		.loc 1 215 65 view .LVU264
+ 1343 01d2 407E      		andi r20,lo8(-32)
+ 215:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID8, (filterID>>8) & 0xFF );
+ 1344               		.loc 1 215 89 view .LVU265
+ 1345 01d4 8E2D      		mov r24,r14
+ 1346 01d6 8370      		andi r24,lo8(3)
+ 215:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID8, (filterID>>8) & 0xFF );
+ 1347               		.loc 1 215 71 view .LVU266
+ 1348 01d8 482B      		or r20,r24
+ 215:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID8, (filterID>>8) & 0xFF );
+ 1349               		.loc 1 215 4 view .LVU267
+ 1350 01da 4860      		ori r20,lo8(8)
+ 1351 01dc 61E1      		ldi r22,lo8(17)
+ 1352 01de 8C2F      		mov r24,r28
+ 1353 01e0 0E94 0000 		call MCP2515_reg_write
+ 1354               	.LVL127:
  216:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID0, filterID & 0xFF );
- 1217               		.loc 1 216 0
- 1218 01e4 7727      		clr r23
- 1219 01e6 6F2D      		mov r22,r15
- 1220 01e8 5E2D      		mov r21,r14
- 1221 01ea 4D2D      		mov r20,r13
- 1222 01ec 62E1      		ldi r22,lo8(18)
- 1223 01ee 8C2F      		mov r24,r28
- 1224 01f0 0E94 0000 		call MCP2515_reg_write
- 1225               	.LVL128:
+ 1355               		.loc 1 216 4 is_stmt 1 view .LVU268
+ 216:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID0, filterID & 0xFF );
+ 1356               		.loc 1 216 57 is_stmt 0 view .LVU269
+ 1357 01e4 7727      		clr r23
+ 1358 01e6 6F2D      		mov r22,r15
+ 1359 01e8 5E2D      		mov r21,r14
+ 1360 01ea 4D2D      		mov r20,r13
+ 216:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF3EID0, filterID & 0xFF );
+ 1361               		.loc 1 216 4 view .LVU270
+ 1362 01ec 62E1      		ldi r22,lo8(18)
+ 1363 01ee 8C2F      		mov r24,r28
+ 1364 01f0 0E94 0000 		call MCP2515_reg_write
+ 1365               	.LVL128:
  217:utils/MCP2515.c **** 		case 4:
- 1226               		.loc 1 217 0
- 1227 01f4 4C2D      		mov r20,r12
- 1228 01f6 63E1      		ldi r22,lo8(19)
- 1229 01f8 8C2F      		mov r24,r28
- 1230 01fa 0E94 0000 		call MCP2515_reg_write
- 1231               	.LVL129:
- 1232               	.L48:
+ 1366               		.loc 1 217 4 is_stmt 1 view .LVU271
+ 1367 01f4 4C2D      		mov r20,r12
+ 1368 01f6 63E1      		ldi r22,lo8(19)
+ 1369 01f8 8C2F      		mov r24,r28
+ 1370 01fa 0E94 0000 		call MCP2515_reg_write
+ 1371               	.LVL129:
+ 1372               	.L46:
  219:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
- 1233               		.loc 1 219 0
- 1234 01fe B701      		movw r22,r14
- 1235 0200 A601      		movw r20,r12
- 1236 0202 35E1      		ldi r19,21
- 1237               		1:
- 1238 0204 7695      		lsr r23
- 1239 0206 6795      		ror r22
- 1240 0208 5795      		ror r21
- 1241 020a 4795      		ror r20
- 1242 020c 3A95      		dec r19
- 1243 020e 01F4      		brne 1b
- 1244 0210 64E1      		ldi r22,lo8(20)
- 1245 0212 8C2F      		mov r24,r28
- 1246 0214 0E94 0000 		call MCP2515_reg_write
- 1247               	.LVL130:
+ 1373               		.loc 1 219 4 view .LVU272
+ 219:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1374               		.loc 1 219 57 is_stmt 0 view .LVU273
+ 1375 01fe B701      		movw r22,r14
+ 1376 0200 A601      		movw r20,r12
+ 1377 0202 35E1      		ldi r19,21
+ 1378               		1:
+ 1379 0204 7695      		lsr r23
+ 1380 0206 6795      		ror r22
+ 1381 0208 5795      		ror r21
+ 1382 020a 4795      		ror r20
+ 1383 020c 3A95      		dec r19
+ 1384 020e 01F4      		brne 1b
+ 219:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4SIDL, (((filterID>>13) & 224)| ((filterID>>16) & 3) | ((1<
+ 1385               		.loc 1 219 4 view .LVU274
+ 1386 0210 64E1      		ldi r22,lo8(20)
+ 1387 0212 8C2F      		mov r24,r28
+ 1388 0214 0E94 0000 		call MCP2515_reg_write
+ 1389               	.LVL130:
  220:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID8, (filterID>>8) & 0xFF );
- 1248               		.loc 1 220 0
- 1249 0218 B701      		movw r22,r14
- 1250 021a A601      		movw r20,r12
- 1251 021c EDE0      		ldi r30,13
- 1252               		1:
- 1253 021e 7695      		lsr r23
- 1254 0220 6795      		ror r22
- 1255 0222 5795      		ror r21
- 1256 0224 4795      		ror r20
- 1257 0226 EA95      		dec r30
- 1258 0228 01F4      		brne 1b
- 1259 022a 407E      		andi r20,lo8(-32)
- 1260 022c 8E2D      		mov r24,r14
- 1261 022e 8370      		andi r24,lo8(3)
- 1262 0230 482B      		or r20,r24
- 1263 0232 4860      		ori r20,lo8(8)
- 1264 0234 65E1      		ldi r22,lo8(21)
- 1265 0236 8C2F      		mov r24,r28
- 1266 0238 0E94 0000 		call MCP2515_reg_write
- 1267               	.LVL131:
+ 1390               		.loc 1 220 4 is_stmt 1 view .LVU275
+ 220:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID8, (filterID>>8) & 0xFF );
+ 1391               		.loc 1 220 59 is_stmt 0 view .LVU276
+ 1392 0218 B701      		movw r22,r14
+ 1393 021a A601      		movw r20,r12
+ 1394 021c EDE0      		ldi r30,13
+ 1395               		1:
+ 1396 021e 7695      		lsr r23
+ 1397 0220 6795      		ror r22
+ 1398 0222 5795      		ror r21
+ 1399 0224 4795      		ror r20
+ 1400 0226 EA95      		dec r30
+ 1401 0228 01F4      		brne 1b
+ 220:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID8, (filterID>>8) & 0xFF );
+ 1402               		.loc 1 220 65 view .LVU277
+ 1403 022a 407E      		andi r20,lo8(-32)
+ 220:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID8, (filterID>>8) & 0xFF );
+ 1404               		.loc 1 220 89 view .LVU278
+ 1405 022c 8E2D      		mov r24,r14
+ 1406 022e 8370      		andi r24,lo8(3)
+ 220:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID8, (filterID>>8) & 0xFF );
+ 1407               		.loc 1 220 71 view .LVU279
+ 1408 0230 482B      		or r20,r24
+ 220:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID8, (filterID>>8) & 0xFF );
+ 1409               		.loc 1 220 4 view .LVU280
+ 1410 0232 4860      		ori r20,lo8(8)
+ 1411 0234 65E1      		ldi r22,lo8(21)
+ 1412 0236 8C2F      		mov r24,r28
+ 1413 0238 0E94 0000 		call MCP2515_reg_write
+ 1414               	.LVL131:
  221:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID0, filterID & 0xFF );
- 1268               		.loc 1 221 0
- 1269 023c 7727      		clr r23
- 1270 023e 6F2D      		mov r22,r15
- 1271 0240 5E2D      		mov r21,r14
- 1272 0242 4D2D      		mov r20,r13
- 1273 0244 66E1      		ldi r22,lo8(22)
- 1274 0246 8C2F      		mov r24,r28
- 1275 0248 0E94 0000 		call MCP2515_reg_write
- 1276               	.LVL132:
+ 1415               		.loc 1 221 4 is_stmt 1 view .LVU281
+ 221:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID0, filterID & 0xFF );
+ 1416               		.loc 1 221 57 is_stmt 0 view .LVU282
+ 1417 023c 7727      		clr r23
+ 1418 023e 6F2D      		mov r22,r15
+ 1419 0240 5E2D      		mov r21,r14
+ 1420 0242 4D2D      		mov r20,r13
+ 221:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXF4EID0, filterID & 0xFF );
+ 1421               		.loc 1 221 4 view .LVU283
+ 1422 0244 66E1      		ldi r22,lo8(22)
+ 1423 0246 8C2F      		mov r24,r28
+ 1424 0248 0E94 0000 		call MCP2515_reg_write
+ 1425               	.LVL132:
  222:utils/MCP2515.c **** 		case 5:
- 1277               		.loc 1 222 0
- 1278 024c 4C2D      		mov r20,r12
- 1279 024e 67E1      		ldi r22,lo8(23)
- 1280 0250 8C2F      		mov r24,r28
- 1281 0252 0E94 0000 		call MCP2515_reg_write
- 1282               	.LVL133:
- 1283 0256 00C0      		rjmp .L50
- 1284               		.cfi_endproc
- 1285               	.LFE17:
- 1287               		.section	.text.MCP2515_RXInit,"ax",@progbits
- 1288               	.global	MCP2515_RXInit
- 1290               	MCP2515_RXInit:
- 1291               	.LFB18:
+ 1426               		.loc 1 222 4 is_stmt 1 view .LVU284
+ 1427 024c 4C2D      		mov r20,r12
+ 1428 024e 67E1      		ldi r22,lo8(23)
+ 1429 0250 8C2F      		mov r24,r28
+ 1430 0252 0E94 0000 		call MCP2515_reg_write
+ 1431               	.LVL133:
+ 1432 0256 00C0      		rjmp .L48
+ 1433               		.cfi_endproc
+ 1434               	.LFE11:
+ 1436               		.section	.text.MCP2515_RXInit,"ax",@progbits
+ 1437               	.global	MCP2515_RXInit
+ 1439               	MCP2515_RXInit:
+ 1440               	.LVL134:
+ 1441               	.LFB12:
  232:utils/MCP2515.c **** 
  233:utils/MCP2515.c **** uint8_t MCP2515_RXInit(uint8_t CANbus, int8_t mob, uint32_t IDmsk)	//write IDmsk 0 if you do not wi
  234:utils/MCP2515.c **** {
- 1292               		.loc 1 234 0
- 1293               		.cfi_startproc
- 1294               	.LVL134:
- 1295 0000 CF92      		push r12
- 1296               	.LCFI42:
- 1297               		.cfi_def_cfa_offset 3
- 1298               		.cfi_offset 12, -2
- 1299 0002 DF92      		push r13
- 1300               	.LCFI43:
- 1301               		.cfi_def_cfa_offset 4
- 1302               		.cfi_offset 13, -3
- 1303 0004 EF92      		push r14
- 1304               	.LCFI44:
- 1305               		.cfi_def_cfa_offset 5
- 1306               		.cfi_offset 14, -4
- 1307 0006 FF92      		push r15
- 1308               	.LCFI45:
- 1309               		.cfi_def_cfa_offset 6
- 1310               		.cfi_offset 15, -5
- 1311 0008 CF93      		push r28
- 1312               	.LCFI46:
- 1313               		.cfi_def_cfa_offset 7
- 1314               		.cfi_offset 28, -6
- 1315               	/* prologue: function */
- 1316               	/* frame size = 0 */
- 1317               	/* stack size = 5 */
- 1318               	.L__stack_usage = 5
- 1319 000a C82F      		mov r28,r24
- 1320 000c 6901      		movw r12,r18
- 1321 000e 7A01      		movw r14,r20
+ 1442               		.loc 1 234 1 view -0
+ 1443               		.cfi_startproc
+ 1444               		.loc 1 234 1 is_stmt 0 view .LVU286
+ 1445 0000 CF92      		push r12
+ 1446               	.LCFI42:
+ 1447               		.cfi_def_cfa_offset 3
+ 1448               		.cfi_offset 12, -2
+ 1449 0002 DF92      		push r13
+ 1450               	.LCFI43:
+ 1451               		.cfi_def_cfa_offset 4
+ 1452               		.cfi_offset 13, -3
+ 1453 0004 EF92      		push r14
+ 1454               	.LCFI44:
+ 1455               		.cfi_def_cfa_offset 5
+ 1456               		.cfi_offset 14, -4
+ 1457 0006 FF92      		push r15
+ 1458               	.LCFI45:
+ 1459               		.cfi_def_cfa_offset 6
+ 1460               		.cfi_offset 15, -5
+ 1461 0008 CF93      		push r28
+ 1462               	.LCFI46:
+ 1463               		.cfi_def_cfa_offset 7
+ 1464               		.cfi_offset 28, -6
+ 1465               	/* prologue: function */
+ 1466               	/* frame size = 0 */
+ 1467               	/* stack size = 5 */
+ 1468               	.L__stack_usage = 5
+ 1469 000a C82F      		mov r28,r24
+ 1470 000c 6901      		movw r12,r18
+ 1471 000e 7A01      		movw r14,r20
  235:utils/MCP2515.c **** 	if (mob > 1)return 0;
- 1322               		.loc 1 235 0
- 1323 0010 80E0      		ldi r24,0
- 1324               	.LVL135:
- 1325 0012 6230      		cpi r22,lo8(2)
- 1326 0014 04F4      		brge .L63
+ 1472               		.loc 1 235 2 is_stmt 1 view .LVU287
+ 1473               		.loc 1 235 21 is_stmt 0 view .LVU288
+ 1474 0010 80E0      		ldi r24,0
+ 1475               	.LVL135:
+ 1476               		.loc 1 235 5 view .LVU289
+ 1477 0012 6230      		cpi r22,lo8(2)
+ 1478 0014 04F4      		brge .L61
  236:utils/MCP2515.c **** 	switch(mob)
- 1327               		.loc 1 236 0
- 1328 0016 6623      		tst r22
- 1329 0018 01F0      		breq .L65
- 1330 001a 6130      		cpi r22,lo8(1)
- 1331 001c 01F0      		breq .L66
- 1332               	.LVL136:
- 1333               	.L74:
+ 1479               		.loc 1 236 2 is_stmt 1 view .LVU290
+ 1480 0016 6623      		tst r22
+ 1481 0018 01F0      		breq .L63
+ 1482 001a 6130      		cpi r22,lo8(1)
+ 1483 001c 01F0      		breq .L64
+ 1484               	.LVL136:
+ 1485               	.L73:
  237:utils/MCP2515.c **** 	{
  238:utils/MCP2515.c **** 		case 0:
  239:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0SIDH, (IDmsk>>21) & 0xFF);	//shift the 32 bit mask into th
@@ -1612,316 +1834,365 @@
  251:utils/MCP2515.c **** 			else MCP2515_reg_write(CANbus, MCP2515_RXB1CTRL, 0b01100000);		//Enable reception without masks 
  252:utils/MCP2515.c **** 	}	
  253:utils/MCP2515.c **** 	return 1;
- 1334               		.loc 1 253 0
- 1335 001e 81E0      		ldi r24,lo8(1)
- 1336               	.L63:
- 1337               	/* epilogue start */
+ 1486               		.loc 1 253 9 is_stmt 0 view .LVU291
+ 1487 001e 81E0      		ldi r24,lo8(1)
+ 1488               	.L61:
+ 1489               	/* epilogue start */
  254:utils/MCP2515.c **** }
- 1338               		.loc 1 254 0
- 1339 0020 CF91      		pop r28
- 1340               	.LVL137:
- 1341 0022 FF90      		pop r15
- 1342 0024 EF90      		pop r14
- 1343 0026 DF90      		pop r13
- 1344 0028 CF90      		pop r12
- 1345 002a 0895      		ret
- 1346               	.LVL138:
- 1347               	.L65:
+ 1490               		.loc 1 254 1 view .LVU292
+ 1491 0020 CF91      		pop r28
+ 1492               	.LVL137:
+ 1493               		.loc 1 254 1 view .LVU293
+ 1494 0022 FF90      		pop r15
+ 1495 0024 EF90      		pop r14
+ 1496 0026 DF90      		pop r13
+ 1497 0028 CF90      		pop r12
+ 1498 002a 0895      		ret
+ 1499               	.LVL138:
+ 1500               	.L63:
  239:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0SIDL, (((IDmsk>>13) & 224)| ((IDmsk>>16) & 3)));
- 1348               		.loc 1 239 0
- 1349 002c BA01      		movw r22,r20
- 1350               	.LVL139:
- 1351 002e A901      		movw r20,r18
- 1352 0030 35E1      		ldi r19,21
- 1353               		1:
- 1354 0032 7695      		lsr r23
- 1355 0034 6795      		ror r22
- 1356 0036 5795      		ror r21
- 1357 0038 4795      		ror r20
- 1358 003a 3A95      		dec r19
- 1359 003c 01F4      		brne 1b
- 1360 003e 60E2      		ldi r22,lo8(32)
- 1361 0040 8C2F      		mov r24,r28
- 1362 0042 0E94 0000 		call MCP2515_reg_write
- 1363               	.LVL140:
+ 1501               		.loc 1 239 4 is_stmt 1 view .LVU294
+ 239:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0SIDL, (((IDmsk>>13) & 224)| ((IDmsk>>16) & 3)));
+ 1502               		.loc 1 239 54 is_stmt 0 view .LVU295
+ 1503 002c BA01      		movw r22,r20
+ 1504               	.LVL139:
+ 239:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0SIDL, (((IDmsk>>13) & 224)| ((IDmsk>>16) & 3)));
+ 1505               		.loc 1 239 54 view .LVU296
+ 1506 002e A901      		movw r20,r18
+ 1507 0030 35E1      		ldi r19,21
+ 1508               		1:
+ 1509 0032 7695      		lsr r23
+ 1510 0034 6795      		ror r22
+ 1511 0036 5795      		ror r21
+ 1512 0038 4795      		ror r20
+ 1513 003a 3A95      		dec r19
+ 1514 003c 01F4      		brne 1b
+ 239:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0SIDL, (((IDmsk>>13) & 224)| ((IDmsk>>16) & 3)));
+ 1515               		.loc 1 239 4 view .LVU297
+ 1516 003e 60E2      		ldi r22,lo8(32)
+ 1517 0040 8C2F      		mov r24,r28
+ 1518 0042 0E94 0000 		call MCP2515_reg_write
+ 1519               	.LVL140:
  240:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0EID8, (IDmsk>>8) & 0xFF );
- 1364               		.loc 1 240 0
- 1365 0046 B701      		movw r22,r14
- 1366 0048 A601      		movw r20,r12
- 1367 004a EDE0      		ldi r30,13
- 1368               		1:
- 1369 004c 7695      		lsr r23
- 1370 004e 6795      		ror r22
- 1371 0050 5795      		ror r21
- 1372 0052 4795      		ror r20
- 1373 0054 EA95      		dec r30
- 1374 0056 01F4      		brne 1b
- 1375 0058 407E      		andi r20,lo8(-32)
- 1376 005a 8E2D      		mov r24,r14
- 1377 005c 8370      		andi r24,lo8(3)
- 1378 005e 482B      		or r20,r24
- 1379 0060 61E2      		ldi r22,lo8(33)
- 1380 0062 8C2F      		mov r24,r28
- 1381 0064 0E94 0000 		call MCP2515_reg_write
- 1382               	.LVL141:
+ 1520               		.loc 1 240 4 is_stmt 1 view .LVU298
+ 240:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0EID8, (IDmsk>>8) & 0xFF );
+ 1521               		.loc 1 240 56 is_stmt 0 view .LVU299
+ 1522 0046 B701      		movw r22,r14
+ 1523 0048 A601      		movw r20,r12
+ 1524 004a EDE0      		ldi r30,13
+ 1525               		1:
+ 1526 004c 7695      		lsr r23
+ 1527 004e 6795      		ror r22
+ 1528 0050 5795      		ror r21
+ 1529 0052 4795      		ror r20
+ 1530 0054 EA95      		dec r30
+ 1531 0056 01F4      		brne 1b
+ 240:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0EID8, (IDmsk>>8) & 0xFF );
+ 1532               		.loc 1 240 62 view .LVU300
+ 1533 0058 407E      		andi r20,lo8(-32)
+ 240:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0EID8, (IDmsk>>8) & 0xFF );
+ 1534               		.loc 1 240 83 view .LVU301
+ 1535 005a 8E2D      		mov r24,r14
+ 1536 005c 8370      		andi r24,lo8(3)
+ 240:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0EID8, (IDmsk>>8) & 0xFF );
+ 1537               		.loc 1 240 4 view .LVU302
+ 1538 005e 482B      		or r20,r24
+ 1539 0060 61E2      		ldi r22,lo8(33)
+ 1540 0062 8C2F      		mov r24,r28
+ 1541 0064 0E94 0000 		call MCP2515_reg_write
+ 1542               	.LVL141:
  241:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0EID0, IDmsk & 0xFF );
- 1383               		.loc 1 241 0
- 1384 0068 7727      		clr r23
- 1385 006a 6F2D      		mov r22,r15
- 1386 006c 5E2D      		mov r21,r14
- 1387 006e 4D2D      		mov r20,r13
- 1388 0070 62E2      		ldi r22,lo8(34)
- 1389 0072 8C2F      		mov r24,r28
- 1390 0074 0E94 0000 		call MCP2515_reg_write
- 1391               	.LVL142:
+ 1543               		.loc 1 241 4 is_stmt 1 view .LVU303
+ 241:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0EID0, IDmsk & 0xFF );
+ 1544               		.loc 1 241 54 is_stmt 0 view .LVU304
+ 1545 0068 7727      		clr r23
+ 1546 006a 6F2D      		mov r22,r15
+ 1547 006c 5E2D      		mov r21,r14
+ 1548 006e 4D2D      		mov r20,r13
+ 241:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM0EID0, IDmsk & 0xFF );
+ 1549               		.loc 1 241 4 view .LVU305
+ 1550 0070 62E2      		ldi r22,lo8(34)
+ 1551 0072 8C2F      		mov r24,r28
+ 1552 0074 0E94 0000 		call MCP2515_reg_write
+ 1553               	.LVL142:
  242:utils/MCP2515.c **** 			if(IDmsk) MCP2515_reg_write(CANbus, MCP2515_RXB0CTRL, 0b00000100);	//Enable reception using mask
- 1392               		.loc 1 242 0
- 1393 0078 4C2D      		mov r20,r12
- 1394 007a 63E2      		ldi r22,lo8(35)
- 1395 007c 8C2F      		mov r24,r28
- 1396 007e 0E94 0000 		call MCP2515_reg_write
- 1397               	.LVL143:
+ 1554               		.loc 1 242 4 is_stmt 1 view .LVU306
+ 1555 0078 4C2D      		mov r20,r12
+ 1556 007a 63E2      		ldi r22,lo8(35)
+ 1557 007c 8C2F      		mov r24,r28
+ 1558 007e 0E94 0000 		call MCP2515_reg_write
+ 1559               	.LVL143:
  243:utils/MCP2515.c **** 			else MCP2515_reg_write(CANbus, MCP2515_RXB0CTRL, 0b01100100);		//Enable reception without masks 
- 1398               		.loc 1 243 0
- 1399 0082 44E0      		ldi r20,lo8(4)
- 1400 0084 C114      		cp r12,__zero_reg__
- 1401 0086 D104      		cpc r13,__zero_reg__
- 1402 0088 E104      		cpc r14,__zero_reg__
- 1403 008a F104      		cpc r15,__zero_reg__
- 1404 008c 01F4      		brne .L75
+ 1560               		.loc 1 243 4 view .LVU307
+ 243:utils/MCP2515.c **** 			else MCP2515_reg_write(CANbus, MCP2515_RXB0CTRL, 0b01100100);		//Enable reception without masks 
+ 1561               		.loc 1 243 14 is_stmt 0 view .LVU308
+ 1562 0082 44E0      		ldi r20,lo8(4)
+ 243:utils/MCP2515.c **** 			else MCP2515_reg_write(CANbus, MCP2515_RXB0CTRL, 0b01100100);		//Enable reception without masks 
+ 1563               		.loc 1 243 6 view .LVU309
+ 1564 0084 C114      		cp r12,__zero_reg__
+ 1565 0086 D104      		cpc r13,__zero_reg__
+ 1566 0088 E104      		cpc r14,__zero_reg__
+ 1567 008a F104      		cpc r15,__zero_reg__
+ 1568 008c 01F4      		brne .L71
  244:utils/MCP2515.c **** 		case 1:
- 1405               		.loc 1 244 0
- 1406 008e 44E6      		ldi r20,lo8(100)
- 1407               	.L75:
- 1408 0090 60E6      		ldi r22,lo8(96)
- 1409 0092 8C2F      		mov r24,r28
- 1410 0094 0E94 0000 		call MCP2515_reg_write
- 1411               	.LVL144:
- 1412               	.L66:
+ 1569               		.loc 1 244 9 is_stmt 1 view .LVU310
+ 1570 008e 44E6      		ldi r20,lo8(100)
+ 1571               	.L71:
+ 1572 0090 60E6      		ldi r22,lo8(96)
+ 1573 0092 8C2F      		mov r24,r28
+ 1574 0094 0E94 0000 		call MCP2515_reg_write
+ 1575               	.LVL144:
+ 1576               	.L64:
  246:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1SIDL, (((IDmsk>>13) & 224)| ((IDmsk>>16) & 3)));
- 1413               		.loc 1 246 0
- 1414 0098 B701      		movw r22,r14
- 1415 009a A601      		movw r20,r12
- 1416 009c 85E1      		ldi r24,21
- 1417               		1:
- 1418 009e 7695      		lsr r23
- 1419 00a0 6795      		ror r22
- 1420 00a2 5795      		ror r21
- 1421 00a4 4795      		ror r20
- 1422 00a6 8A95      		dec r24
- 1423 00a8 01F4      		brne 1b
- 1424 00aa 64E2      		ldi r22,lo8(36)
- 1425 00ac 8C2F      		mov r24,r28
- 1426 00ae 0E94 0000 		call MCP2515_reg_write
- 1427               	.LVL145:
+ 1577               		.loc 1 246 4 view .LVU311
+ 246:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1SIDL, (((IDmsk>>13) & 224)| ((IDmsk>>16) & 3)));
+ 1578               		.loc 1 246 54 is_stmt 0 view .LVU312
+ 1579 0098 B701      		movw r22,r14
+ 1580 009a A601      		movw r20,r12
+ 1581 009c 85E1      		ldi r24,21
+ 1582               		1:
+ 1583 009e 7695      		lsr r23
+ 1584 00a0 6795      		ror r22
+ 1585 00a2 5795      		ror r21
+ 1586 00a4 4795      		ror r20
+ 1587 00a6 8A95      		dec r24
+ 1588 00a8 01F4      		brne 1b
+ 246:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1SIDL, (((IDmsk>>13) & 224)| ((IDmsk>>16) & 3)));
+ 1589               		.loc 1 246 4 view .LVU313
+ 1590 00aa 64E2      		ldi r22,lo8(36)
+ 1591 00ac 8C2F      		mov r24,r28
+ 1592 00ae 0E94 0000 		call MCP2515_reg_write
+ 1593               	.LVL145:
  247:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1EID8, (IDmsk>>8) & 0xFF );
- 1428               		.loc 1 247 0
- 1429 00b2 B701      		movw r22,r14
- 1430 00b4 A601      		movw r20,r12
- 1431 00b6 9DE0      		ldi r25,13
- 1432               		1:
- 1433 00b8 7695      		lsr r23
- 1434 00ba 6795      		ror r22
- 1435 00bc 5795      		ror r21
- 1436 00be 4795      		ror r20
- 1437 00c0 9A95      		dec r25
- 1438 00c2 01F4      		brne 1b
- 1439 00c4 407E      		andi r20,lo8(-32)
- 1440 00c6 8E2D      		mov r24,r14
- 1441 00c8 8370      		andi r24,lo8(3)
- 1442 00ca 482B      		or r20,r24
- 1443 00cc 65E2      		ldi r22,lo8(37)
- 1444 00ce 8C2F      		mov r24,r28
- 1445 00d0 0E94 0000 		call MCP2515_reg_write
- 1446               	.LVL146:
+ 1594               		.loc 1 247 4 is_stmt 1 view .LVU314
+ 247:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1EID8, (IDmsk>>8) & 0xFF );
+ 1595               		.loc 1 247 56 is_stmt 0 view .LVU315
+ 1596 00b2 B701      		movw r22,r14
+ 1597 00b4 A601      		movw r20,r12
+ 1598 00b6 9DE0      		ldi r25,13
+ 1599               		1:
+ 1600 00b8 7695      		lsr r23
+ 1601 00ba 6795      		ror r22
+ 1602 00bc 5795      		ror r21
+ 1603 00be 4795      		ror r20
+ 1604 00c0 9A95      		dec r25
+ 1605 00c2 01F4      		brne 1b
+ 247:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1EID8, (IDmsk>>8) & 0xFF );
+ 1606               		.loc 1 247 62 view .LVU316
+ 1607 00c4 407E      		andi r20,lo8(-32)
+ 247:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1EID8, (IDmsk>>8) & 0xFF );
+ 1608               		.loc 1 247 83 view .LVU317
+ 1609 00c6 8E2D      		mov r24,r14
+ 1610 00c8 8370      		andi r24,lo8(3)
+ 247:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1EID8, (IDmsk>>8) & 0xFF );
+ 1611               		.loc 1 247 4 view .LVU318
+ 1612 00ca 482B      		or r20,r24
+ 1613 00cc 65E2      		ldi r22,lo8(37)
+ 1614 00ce 8C2F      		mov r24,r28
+ 1615 00d0 0E94 0000 		call MCP2515_reg_write
+ 1616               	.LVL146:
  248:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1EID0, IDmsk & 0xFF );
- 1447               		.loc 1 248 0
- 1448 00d4 7727      		clr r23
- 1449 00d6 6F2D      		mov r22,r15
- 1450 00d8 5E2D      		mov r21,r14
- 1451 00da 4D2D      		mov r20,r13
- 1452 00dc 66E2      		ldi r22,lo8(38)
- 1453 00de 8C2F      		mov r24,r28
- 1454 00e0 0E94 0000 		call MCP2515_reg_write
- 1455               	.LVL147:
+ 1617               		.loc 1 248 4 is_stmt 1 view .LVU319
+ 248:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1EID0, IDmsk & 0xFF );
+ 1618               		.loc 1 248 54 is_stmt 0 view .LVU320
+ 1619 00d4 7727      		clr r23
+ 1620 00d6 6F2D      		mov r22,r15
+ 1621 00d8 5E2D      		mov r21,r14
+ 1622 00da 4D2D      		mov r20,r13
+ 248:utils/MCP2515.c **** 			MCP2515_reg_write(CANbus, MCP2515_RXM1EID0, IDmsk & 0xFF );
+ 1623               		.loc 1 248 4 view .LVU321
+ 1624 00dc 66E2      		ldi r22,lo8(38)
+ 1625 00de 8C2F      		mov r24,r28
+ 1626 00e0 0E94 0000 		call MCP2515_reg_write
+ 1627               	.LVL147:
  249:utils/MCP2515.c **** 			if(IDmsk) MCP2515_reg_write(CANbus, MCP2515_RXB1CTRL, 0b00000000);	//Enable reception using mask
- 1456               		.loc 1 249 0
- 1457 00e4 4C2D      		mov r20,r12
- 1458 00e6 67E2      		ldi r22,lo8(39)
- 1459 00e8 8C2F      		mov r24,r28
- 1460 00ea 0E94 0000 		call MCP2515_reg_write
- 1461               	.LVL148:
+ 1628               		.loc 1 249 4 is_stmt 1 view .LVU322
+ 1629 00e4 4C2D      		mov r20,r12
+ 1630 00e6 67E2      		ldi r22,lo8(39)
+ 1631 00e8 8C2F      		mov r24,r28
+ 1632 00ea 0E94 0000 		call MCP2515_reg_write
+ 1633               	.LVL148:
  250:utils/MCP2515.c **** 			else MCP2515_reg_write(CANbus, MCP2515_RXB1CTRL, 0b01100000);		//Enable reception without masks 
- 1462               		.loc 1 250 0
- 1463 00ee 40E0      		ldi r20,0
- 1464 00f0 CD28      		or r12,r13
- 1465 00f2 CE28      		or r12,r14
- 1466 00f4 CF28      		or r12,r15
- 1467 00f6 01F4      		brne .L76
+ 1634               		.loc 1 250 4 view .LVU323
+ 250:utils/MCP2515.c **** 			else MCP2515_reg_write(CANbus, MCP2515_RXB1CTRL, 0b01100000);		//Enable reception without masks 
+ 1635               		.loc 1 250 14 is_stmt 0 view .LVU324
+ 1636 00ee 40E0      		ldi r20,0
+ 250:utils/MCP2515.c **** 			else MCP2515_reg_write(CANbus, MCP2515_RXB1CTRL, 0b01100000);		//Enable reception without masks 
+ 1637               		.loc 1 250 6 view .LVU325
+ 1638 00f0 CD28      		or r12,r13
+ 1639 00f2 CE28      		or r12,r14
+ 1640 00f4 CF28      		or r12,r15
+ 1641 00f6 01F4      		brne .L72
  251:utils/MCP2515.c **** 	}	
- 1468               		.loc 1 251 0
- 1469 00f8 40E6      		ldi r20,lo8(96)
- 1470               	.L76:
- 1471 00fa 60E7      		ldi r22,lo8(112)
- 1472 00fc 8C2F      		mov r24,r28
- 1473 00fe 0E94 0000 		call MCP2515_reg_write
- 1474               	.LVL149:
- 1475 0102 00C0      		rjmp .L74
- 1476               		.cfi_endproc
- 1477               	.LFE18:
- 1479               		.section	.text.MCP2515_TX,"ax",@progbits
- 1480               	.global	MCP2515_TX
- 1482               	MCP2515_TX:
- 1483               	.LFB19:
+ 1642               		.loc 1 251 9 is_stmt 1 view .LVU326
+ 1643 00f8 40E6      		ldi r20,lo8(96)
+ 1644               	.L72:
+ 1645 00fa 60E7      		ldi r22,lo8(112)
+ 1646 00fc 8C2F      		mov r24,r28
+ 1647 00fe 0E94 0000 		call MCP2515_reg_write
+ 1648               	.LVL149:
+ 1649 0102 00C0      		rjmp .L73
+ 1650               		.cfi_endproc
+ 1651               	.LFE12:
+ 1653               		.section	.text.MCP2515_TX,"ax",@progbits
+ 1654               	.global	MCP2515_TX
+ 1656               	MCP2515_TX:
+ 1657               	.LVL150:
+ 1658               	.LFB13:
  255:utils/MCP2515.c **** 
  256:utils/MCP2515.c **** void MCP2515_TX(uint8_t CANbus, int8_t mob, uint8_t numBytes, uint8_t * data, uint32_t ID)
  257:utils/MCP2515.c **** {
- 1484               		.loc 1 257 0
- 1485               		.cfi_startproc
- 1486               	.LVL150:
- 1487 0000 9F92      		push r9
- 1488               	.LCFI47:
- 1489               		.cfi_def_cfa_offset 3
- 1490               		.cfi_offset 9, -2
- 1491 0002 AF92      		push r10
- 1492               	.LCFI48:
- 1493               		.cfi_def_cfa_offset 4
- 1494               		.cfi_offset 10, -3
- 1495 0004 BF92      		push r11
- 1496               	.LCFI49:
- 1497               		.cfi_def_cfa_offset 5
- 1498               		.cfi_offset 11, -4
- 1499 0006 CF92      		push r12
- 1500               	.LCFI50:
- 1501               		.cfi_def_cfa_offset 6
- 1502               		.cfi_offset 12, -5
- 1503 0008 DF92      		push r13
- 1504               	.LCFI51:
- 1505               		.cfi_def_cfa_offset 7
- 1506               		.cfi_offset 13, -6
- 1507 000a EF92      		push r14
- 1508               	.LCFI52:
- 1509               		.cfi_def_cfa_offset 8
- 1510               		.cfi_offset 14, -7
- 1511 000c FF92      		push r15
- 1512               	.LCFI53:
- 1513               		.cfi_def_cfa_offset 9
- 1514               		.cfi_offset 15, -8
- 1515 000e 0F93      		push r16
- 1516               	.LCFI54:
- 1517               		.cfi_def_cfa_offset 10
- 1518               		.cfi_offset 16, -9
- 1519 0010 1F93      		push r17
- 1520               	.LCFI55:
- 1521               		.cfi_def_cfa_offset 11
- 1522               		.cfi_offset 17, -10
- 1523 0012 CF93      		push r28
- 1524               	.LCFI56:
- 1525               		.cfi_def_cfa_offset 12
- 1526               		.cfi_offset 28, -11
- 1527 0014 DF93      		push r29
- 1528               	.LCFI57:
- 1529               		.cfi_def_cfa_offset 13
- 1530               		.cfi_offset 29, -12
- 1531               	/* prologue: function */
- 1532               	/* frame size = 0 */
- 1533               	/* stack size = 11 */
- 1534               	.L__stack_usage = 11
- 1535 0016 D82F      		mov r29,r24
- 1536 0018 C62F      		mov r28,r22
- 1537 001a B42E      		mov r11,r20
- 1538 001c 922E      		mov r9,r18
- 1539 001e A32E      		mov r10,r19
- 1540 0020 6701      		movw r12,r14
- 1541 0022 7801      		movw r14,r16
- 1542               	.LVL151:
+ 1659               		.loc 1 257 1 view -0
+ 1660               		.cfi_startproc
+ 1661               		.loc 1 257 1 is_stmt 0 view .LVU328
+ 1662 0000 9F92      		push r9
+ 1663               	.LCFI47:
+ 1664               		.cfi_def_cfa_offset 3
+ 1665               		.cfi_offset 9, -2
+ 1666 0002 AF92      		push r10
+ 1667               	.LCFI48:
+ 1668               		.cfi_def_cfa_offset 4
+ 1669               		.cfi_offset 10, -3
+ 1670 0004 BF92      		push r11
+ 1671               	.LCFI49:
+ 1672               		.cfi_def_cfa_offset 5
+ 1673               		.cfi_offset 11, -4
+ 1674 0006 CF92      		push r12
+ 1675               	.LCFI50:
+ 1676               		.cfi_def_cfa_offset 6
+ 1677               		.cfi_offset 12, -5
+ 1678 0008 DF92      		push r13
+ 1679               	.LCFI51:
+ 1680               		.cfi_def_cfa_offset 7
+ 1681               		.cfi_offset 13, -6
+ 1682 000a EF92      		push r14
+ 1683               	.LCFI52:
+ 1684               		.cfi_def_cfa_offset 8
+ 1685               		.cfi_offset 14, -7
+ 1686 000c FF92      		push r15
+ 1687               	.LCFI53:
+ 1688               		.cfi_def_cfa_offset 9
+ 1689               		.cfi_offset 15, -8
+ 1690 000e 0F93      		push r16
+ 1691               	.LCFI54:
+ 1692               		.cfi_def_cfa_offset 10
+ 1693               		.cfi_offset 16, -9
+ 1694 0010 1F93      		push r17
+ 1695               	.LCFI55:
+ 1696               		.cfi_def_cfa_offset 11
+ 1697               		.cfi_offset 17, -10
+ 1698 0012 CF93      		push r28
+ 1699               	.LCFI56:
+ 1700               		.cfi_def_cfa_offset 12
+ 1701               		.cfi_offset 28, -11
+ 1702 0014 DF93      		push r29
+ 1703               	.LCFI57:
+ 1704               		.cfi_def_cfa_offset 13
+ 1705               		.cfi_offset 29, -12
+ 1706               	/* prologue: function */
+ 1707               	/* frame size = 0 */
+ 1708               	/* stack size = 11 */
+ 1709               	.L__stack_usage = 11
+ 1710 0016 D82F      		mov r29,r24
+ 1711 0018 C62F      		mov r28,r22
+ 1712 001a B42E      		mov r11,r20
+ 1713 001c 922E      		mov r9,r18
+ 1714 001e A32E      		mov r10,r19
+ 1715 0020 6701      		movw r12,r14
+ 1716 0022 7801      		movw r14,r16
+ 1717               	.LVL151:
  258:utils/MCP2515.c **** 	if(mob == 0)return;						//no free mob or invalid mob
- 1543               		.loc 1 258 0
- 1544 0024 6623      		tst r22
- 1545 0026 01F4      		brne .+2
- 1546 0028 00C0      		rjmp .L77
- 1547               	.LVL152:
- 1548               	.LBB23:
- 1549               	.LBB24:
+ 1718               		.loc 1 258 2 is_stmt 1 view .LVU329
+ 1719               		.loc 1 258 4 is_stmt 0 view .LVU330
+ 1720 0024 6623      		tst r22
+ 1721 0026 01F4      		brne .+2
+ 1722 0028 00C0      		rjmp .L74
+ 1723               	.LVL152:
+ 1724               	.LBB23:
+ 1725               	.LBB24:
  259:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, mob, 0x03);			//we shall set this to the highest priority so that it sen
- 1550               		.loc 1 259 0
- 1551 002a 162F      		mov r17,r22
- 1552 002c 43E0      		ldi r20,lo8(3)
- 1553               	.LVL153:
- 1554 002e 0E94 0000 		call MCP2515_reg_write
- 1555               	.LVL154:
+ 1726               		.loc 1 259 2 is_stmt 1 view .LVU331
+ 1727 002a 162F      		mov r17,r22
+ 1728 002c 43E0      		ldi r20,lo8(3)
+ 1729               	.LVL153:
+ 1730               		.loc 1 259 2 is_stmt 0 view .LVU332
+ 1731 002e 0E94 0000 		call MCP2515_reg_write
+ 1732               	.LVL154:
  260:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, mob+1, (ID>>21) & 0xFF);	//shift the ID data to fill the respective MCP 
- 1556               		.loc 1 260 0
- 1557 0032 B701      		movw r22,r14
- 1558 0034 A601      		movw r20,r12
- 1559 0036 85E1      		ldi r24,21
- 1560               		1:
- 1561 0038 7695      		lsr r23
- 1562 003a 6795      		ror r22
- 1563 003c 5795      		ror r21
- 1564 003e 4795      		ror r20
- 1565 0040 8A95      		dec r24
- 1566 0042 01F4      		brne 1b
- 1567 0044 61E0      		ldi r22,lo8(1)
- 1568 0046 6C0F      		add r22,r28
- 1569 0048 8D2F      		mov r24,r29
- 1570 004a 0E94 0000 		call MCP2515_reg_write
- 1571               	.LVL155:
+ 1733               		.loc 1 260 2 is_stmt 1 view .LVU333
+ 1734               		.loc 1 260 38 is_stmt 0 view .LVU334
+ 1735 0032 B701      		movw r22,r14
+ 1736 0034 A601      		movw r20,r12
+ 1737 0036 85E1      		ldi r24,21
+ 1738               		1:
+ 1739 0038 7695      		lsr r23
+ 1740 003a 6795      		ror r22
+ 1741 003c 5795      		ror r21
+ 1742 003e 4795      		ror r20
+ 1743 0040 8A95      		dec r24
+ 1744 0042 01F4      		brne 1b
+ 1745               		.loc 1 260 2 view .LVU335
+ 1746 0044 61E0      		ldi r22,lo8(1)
+ 1747 0046 6C0F      		add r22,r28
+ 1748 0048 8D2F      		mov r24,r29
+ 1749 004a 0E94 0000 		call MCP2515_reg_write
+ 1750               	.LVL155:
  261:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, mob+2, (((ID>>13) & 224)| ((ID>>16) & 3) | ((1<<3) & 0xFF)));	//set the 
- 1572               		.loc 1 261 0
- 1573 004e B701      		movw r22,r14
- 1574 0050 A601      		movw r20,r12
- 1575 0052 9DE0      		ldi r25,13
- 1576               		1:
- 1577 0054 7695      		lsr r23
- 1578 0056 6795      		ror r22
- 1579 0058 5795      		ror r21
- 1580 005a 4795      		ror r20
- 1581 005c 9A95      		dec r25
- 1582 005e 01F4      		brne 1b
- 1583 0060 407E      		andi r20,lo8(-32)
- 1584 0062 8E2D      		mov r24,r14
- 1585 0064 8370      		andi r24,lo8(3)
- 1586 0066 482B      		or r20,r24
- 1587 0068 4860      		ori r20,lo8(8)
- 1588 006a 62E0      		ldi r22,lo8(2)
- 1589 006c 6C0F      		add r22,r28
- 1590 006e 8D2F      		mov r24,r29
- 1591 0070 0E94 0000 		call MCP2515_reg_write
- 1592               	.LVL156:
+ 1751               		.loc 1 261 2 is_stmt 1 view .LVU336
+ 1752               		.loc 1 261 40 is_stmt 0 view .LVU337
+ 1753 004e B701      		movw r22,r14
+ 1754 0050 A601      		movw r20,r12
+ 1755 0052 9DE0      		ldi r25,13
+ 1756               		1:
+ 1757 0054 7695      		lsr r23
+ 1758 0056 6795      		ror r22
+ 1759 0058 5795      		ror r21
+ 1760 005a 4795      		ror r20
+ 1761 005c 9A95      		dec r25
+ 1762 005e 01F4      		brne 1b
+ 1763               		.loc 1 261 46 view .LVU338
+ 1764 0060 407E      		andi r20,lo8(-32)
+ 1765               		.loc 1 261 64 view .LVU339
+ 1766 0062 8E2D      		mov r24,r14
+ 1767 0064 8370      		andi r24,lo8(3)
+ 1768               		.loc 1 261 52 view .LVU340
+ 1769 0066 482B      		or r20,r24
+ 1770               		.loc 1 261 2 view .LVU341
+ 1771 0068 4860      		ori r20,lo8(8)
+ 1772 006a 62E0      		ldi r22,lo8(2)
+ 1773 006c 6C0F      		add r22,r28
+ 1774 006e 8D2F      		mov r24,r29
+ 1775 0070 0E94 0000 		call MCP2515_reg_write
+ 1776               	.LVL156:
  262:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, mob+3, (ID>>8) & 0xFF );
- 1593               		.loc 1 262 0
- 1594 0074 7727      		clr r23
- 1595 0076 6F2D      		mov r22,r15
- 1596 0078 5E2D      		mov r21,r14
- 1597 007a 4D2D      		mov r20,r13
- 1598 007c 63E0      		ldi r22,lo8(3)
- 1599 007e 6C0F      		add r22,r28
- 1600 0080 8D2F      		mov r24,r29
- 1601 0082 0E94 0000 		call MCP2515_reg_write
- 1602               	.LVL157:
+ 1777               		.loc 1 262 2 is_stmt 1 view .LVU342
+ 1778               		.loc 1 262 38 is_stmt 0 view .LVU343
+ 1779 0074 7727      		clr r23
+ 1780 0076 6F2D      		mov r22,r15
+ 1781 0078 5E2D      		mov r21,r14
+ 1782 007a 4D2D      		mov r20,r13
+ 1783               		.loc 1 262 2 view .LVU344
+ 1784 007c 63E0      		ldi r22,lo8(3)
+ 1785 007e 6C0F      		add r22,r28
+ 1786 0080 8D2F      		mov r24,r29
+ 1787 0082 0E94 0000 		call MCP2515_reg_write
+ 1788               	.LVL157:
  263:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, mob+4, ID & 0xFF );
- 1603               		.loc 1 263 0
- 1604 0086 4C2D      		mov r20,r12
- 1605 0088 64E0      		ldi r22,lo8(4)
- 1606 008a 6C0F      		add r22,r28
- 1607 008c 8D2F      		mov r24,r29
- 1608 008e 0E94 0000 		call MCP2515_reg_write
- 1609               	.LVL158:
+ 1789               		.loc 1 263 2 is_stmt 1 view .LVU345
+ 1790 0086 4C2D      		mov r20,r12
+ 1791 0088 64E0      		ldi r22,lo8(4)
+ 1792 008a 6C0F      		add r22,r28
+ 1793 008c 8D2F      		mov r24,r29
+ 1794 008e 0E94 0000 		call MCP2515_reg_write
+ 1795               	.LVL158:
  264:utils/MCP2515.c **** 	MCP2515_reg_write(CANbus, mob+5, numBytes);		//set how many bytes we wish to send
- 1610               		.loc 1 264 0
- 1611 0092 4B2D      		mov r20,r11
- 1612 0094 65E0      		ldi r22,lo8(5)
- 1613 0096 6C0F      		add r22,r28
- 1614 0098 8D2F      		mov r24,r29
- 1615 009a 0E94 0000 		call MCP2515_reg_write
- 1616               	.LVL159:
- 1617 009e E92C      		mov r14,r9
- 1618 00a0 FA2C      		mov r15,r10
- 1619 00a2 BC0E      		add r11,r28
- 1620               	.LVL160:
- 1621               	.L79:
- 1622               	.LBB25:
+ 1796               		.loc 1 264 2 view .LVU346
+ 1797 0092 4B2D      		mov r20,r11
+ 1798 0094 65E0      		ldi r22,lo8(5)
+ 1799 0096 6C0F      		add r22,r28
+ 1800 0098 8D2F      		mov r24,r29
+ 1801 009a 0E94 0000 		call MCP2515_reg_write
+ 1802               	.LVL159:
  265:utils/MCP2515.c **** 	//MCP2515_reg_write(CANbus, mob, 0x03);
  266:utils/MCP2515.c **** 	//MCP2515_reg_write(CANbus, mob+1, 0);
  267:utils/MCP2515.c **** 	//MCP2515_reg_write(CANbus, mob+2, (1<<3));
@@ -1930,297 +2201,337 @@
  270:utils/MCP2515.c **** 	//MCP2515_reg_write(CANbus, mob+5, 0);
  271:utils/MCP2515.c **** 	
  272:utils/MCP2515.c **** 	for (uint8_t byteCount = 0; byteCount < numBytes; byteCount++)
- 1623               		.loc 1 272 0
- 1624 00a4 1B11      		cpse r17,r11
- 1625 00a6 00C0      		rjmp .L80
- 1626               	.LBE25:
+ 1803               		.loc 1 272 2 view .LVU347
+ 1804               	.LBB25:
+ 1805               		.loc 1 272 7 view .LVU348
+ 1806               		.loc 1 272 7 is_stmt 0 view .LVU349
+ 1807 009e E92C      		mov r14,r9
+ 1808 00a0 FA2C      		mov r15,r10
+ 1809 00a2 BC0E      		add r11,r28
+ 1810               	.LVL160:
+ 1811               	.L76:
+ 1812               		.loc 1 272 2 view .LVU350
+ 1813 00a4 1B11      		cpse r17,r11
+ 1814 00a6 00C0      		rjmp .L77
+ 1815               	.LBE25:
  273:utils/MCP2515.c **** 	{
  274:utils/MCP2515.c **** 		MCP2515_reg_write(CANbus, mob+6+byteCount, *(data+byteCount));	//fill the data bytes register.
  275:utils/MCP2515.c **** 	}
  276:utils/MCP2515.c **** 	MCP2515_instruction(CANbus, 128|(1<<((mob>>4) - 3)));		//creates an instruction that matches the m
- 1627               		.loc 1 276 0
- 1628 00a8 C595      		asr r28
- 1629 00aa C595      		asr r28
- 1630 00ac C595      		asr r28
- 1631 00ae C595      		asr r28
- 1632               	.LVL161:
- 1633 00b0 C350      		subi r28,lo8(-(-3))
- 1634 00b2 61E0      		ldi r22,lo8(1)
- 1635 00b4 70E0      		ldi r23,0
- 1636 00b6 00C0      		rjmp 2f
- 1637               		1:
- 1638 00b8 660F      		lsl r22
- 1639               		2:
- 1640 00ba CA95      		dec r28
- 1641 00bc 02F4      		brpl 1b
- 1642 00be 6068      		ori r22,lo8(-128)
- 1643 00c0 8D2F      		mov r24,r29
- 1644               	/* epilogue start */
- 1645               	.LBE24:
- 1646               	.LBE23:
+ 1816               		.loc 1 276 2 is_stmt 1 view .LVU351
+ 1817               		.loc 1 276 43 is_stmt 0 view .LVU352
+ 1818 00a8 C595      		asr r28
+ 1819 00aa C595      		asr r28
+ 1820 00ac C595      		asr r28
+ 1821 00ae C595      		asr r28
+ 1822               	.LVL161:
+ 1823               		.loc 1 276 48 view .LVU353
+ 1824 00b0 C350      		subi r28,lo8(-(-3))
+ 1825               		.loc 1 276 36 view .LVU354
+ 1826 00b2 61E0      		ldi r22,lo8(1)
+ 1827 00b4 70E0      		ldi r23,0
+ 1828 00b6 00C0      		rjmp 2f
+ 1829               		1:
+ 1830 00b8 660F      		lsl r22
+ 1831               		2:
+ 1832 00ba CA95      		dec r28
+ 1833 00bc 02F4      		brpl 1b
+ 1834               		.loc 1 276 33 view .LVU355
+ 1835 00be 6068      		ori r22,lo8(-128)
+ 1836               		.loc 1 276 2 view .LVU356
+ 1837 00c0 8D2F      		mov r24,r29
+ 1838               	/* epilogue start */
+ 1839               	.LBE24:
+ 1840               	.LBE23:
  277:utils/MCP2515.c **** 	//PORTC &= ~(1<<PINC7);		//Drop the TX
  278:utils/MCP2515.c **** 	//_delay_us(50);
  279:utils/MCP2515.c **** 	//PORTC |= (1<<PINC7);		
  280:utils/MCP2515.c **** }
- 1647               		.loc 1 280 0
- 1648 00c2 DF91      		pop r29
- 1649               	.LVL162:
- 1650 00c4 CF91      		pop r28
- 1651 00c6 1F91      		pop r17
- 1652               	.LVL163:
- 1653 00c8 0F91      		pop r16
- 1654 00ca FF90      		pop r15
- 1655 00cc EF90      		pop r14
- 1656 00ce DF90      		pop r13
- 1657 00d0 CF90      		pop r12
- 1658               	.LVL164:
- 1659 00d2 BF90      		pop r11
- 1660 00d4 AF90      		pop r10
- 1661               	.LVL165:
- 1662 00d6 9F90      		pop r9
- 1663               	.LBB28:
- 1664               	.LBB27:
+ 1841               		.loc 1 280 1 view .LVU357
+ 1842 00c2 DF91      		pop r29
+ 1843               	.LVL162:
+ 1844               		.loc 1 280 1 view .LVU358
+ 1845 00c4 CF91      		pop r28
+ 1846 00c6 1F91      		pop r17
+ 1847               	.LVL163:
+ 1848               		.loc 1 280 1 view .LVU359
+ 1849 00c8 0F91      		pop r16
+ 1850 00ca FF90      		pop r15
+ 1851 00cc EF90      		pop r14
+ 1852 00ce DF90      		pop r13
+ 1853 00d0 CF90      		pop r12
+ 1854               	.LVL164:
+ 1855               		.loc 1 280 1 view .LVU360
+ 1856 00d2 BF90      		pop r11
+ 1857 00d4 AF90      		pop r10
+ 1858               	.LVL165:
+ 1859               		.loc 1 280 1 view .LVU361
+ 1860 00d6 9F90      		pop r9
+ 1861               	.LBB28:
+ 1862               	.LBB27:
  276:utils/MCP2515.c **** 	//PORTC &= ~(1<<PINC7);		//Drop the TX
- 1665               		.loc 1 276 0
- 1666 00d8 0C94 0000 		jmp MCP2515_instruction
- 1667               	.LVL166:
- 1668               	.L80:
- 1669               	.LBB26:
+ 1863               		.loc 1 276 2 view .LVU362
+ 1864 00d8 0C94 0000 		jmp MCP2515_instruction
+ 1865               	.LVL166:
+ 1866               	.L77:
+ 1867               	.LBB26:
  274:utils/MCP2515.c **** 	}
- 1670               		.loc 1 274 0
- 1671 00dc F701      		movw r30,r14
- 1672 00de 4191      		ld r20,Z+
- 1673 00e0 7F01      		movw r14,r30
- 1674 00e2 66E0      		ldi r22,lo8(6)
- 1675 00e4 610F      		add r22,r17
- 1676 00e6 8D2F      		mov r24,r29
- 1677 00e8 0E94 0000 		call MCP2515_reg_write
- 1678               	.LVL167:
- 1679 00ec 1F5F      		subi r17,lo8(-(1))
- 1680               	.LVL168:
- 1681 00ee 00C0      		rjmp .L79
- 1682               	.LVL169:
- 1683               	.L77:
- 1684               	/* epilogue start */
- 1685               	.LBE26:
- 1686               	.LBE27:
- 1687               	.LBE28:
- 1688               		.loc 1 280 0
- 1689 00f0 DF91      		pop r29
- 1690 00f2 CF91      		pop r28
- 1691 00f4 1F91      		pop r17
- 1692 00f6 0F91      		pop r16
- 1693 00f8 FF90      		pop r15
- 1694 00fa EF90      		pop r14
- 1695 00fc DF90      		pop r13
- 1696 00fe CF90      		pop r12
- 1697 0100 BF90      		pop r11
- 1698               	.LVL170:
- 1699 0102 AF90      		pop r10
- 1700 0104 9F90      		pop r9
- 1701 0106 0895      		ret
- 1702               		.cfi_endproc
- 1703               	.LFE19:
- 1705               		.section	.text.MCP2515_check_receive_status,"ax",@progbits
- 1706               	.global	MCP2515_check_receive_status
- 1708               	MCP2515_check_receive_status:
- 1709               	.LFB20:
+ 1868               		.loc 1 274 3 is_stmt 1 view .LVU363
+ 1869 00dc F701      		movw r30,r14
+ 1870 00de 4191      		ld r20,Z+
+ 1871 00e0 7F01      		movw r14,r30
+ 1872 00e2 66E0      		ldi r22,lo8(6)
+ 1873 00e4 610F      		add r22,r17
+ 1874 00e6 8D2F      		mov r24,r29
+ 1875 00e8 0E94 0000 		call MCP2515_reg_write
+ 1876               	.LVL167:
+ 274:utils/MCP2515.c **** 	}
+ 1877               		.loc 1 274 3 is_stmt 0 view .LVU364
+ 1878 00ec 1F5F      		subi r17,lo8(-(1))
+ 1879               	.LVL168:
+ 274:utils/MCP2515.c **** 	}
+ 1880               		.loc 1 274 3 view .LVU365
+ 1881 00ee 00C0      		rjmp .L76
+ 1882               	.LVL169:
+ 1883               	.L74:
+ 1884               	/* epilogue start */
+ 274:utils/MCP2515.c **** 	}
+ 1885               		.loc 1 274 3 view .LVU366
+ 1886               	.LBE26:
+ 1887               	.LBE27:
+ 1888               	.LBE28:
+ 1889               		.loc 1 280 1 view .LVU367
+ 1890 00f0 DF91      		pop r29
+ 1891 00f2 CF91      		pop r28
+ 1892 00f4 1F91      		pop r17
+ 1893 00f6 0F91      		pop r16
+ 1894 00f8 FF90      		pop r15
+ 1895 00fa EF90      		pop r14
+ 1896 00fc DF90      		pop r13
+ 1897 00fe CF90      		pop r12
+ 1898 0100 BF90      		pop r11
+ 1899               	.LVL170:
+ 1900               		.loc 1 280 1 view .LVU368
+ 1901 0102 AF90      		pop r10
+ 1902 0104 9F90      		pop r9
+ 1903 0106 0895      		ret
+ 1904               		.cfi_endproc
+ 1905               	.LFE13:
+ 1907               		.section	.text.MCP2515_check_receive_status,"ax",@progbits
+ 1908               	.global	MCP2515_check_receive_status
+ 1910               	MCP2515_check_receive_status:
+ 1911               	.LVL171:
+ 1912               	.LFB14:
  281:utils/MCP2515.c **** 
  282:utils/MCP2515.c **** 
  283:utils/MCP2515.c **** uint8_t MCP2515_check_receive_status(uint8_t CANbus)
  284:utils/MCP2515.c **** {
- 1710               		.loc 1 284 0
- 1711               		.cfi_startproc
- 1712               	.LVL171:
- 1713 0000 CF93      		push r28
- 1714               	.LCFI58:
- 1715               		.cfi_def_cfa_offset 3
- 1716               		.cfi_offset 28, -2
- 1717 0002 DF93      		push r29
- 1718               	.LCFI59:
- 1719               		.cfi_def_cfa_offset 4
- 1720               		.cfi_offset 29, -3
- 1721               	/* prologue: function */
- 1722               	/* frame size = 0 */
- 1723               	/* stack size = 2 */
- 1724               	.L__stack_usage = 2
- 1725 0004 C82F      		mov r28,r24
+ 1913               		.loc 1 284 1 is_stmt 1 view -0
+ 1914               		.cfi_startproc
+ 1915               		.loc 1 284 1 is_stmt 0 view .LVU370
+ 1916 0000 CF93      		push r28
+ 1917               	.LCFI58:
+ 1918               		.cfi_def_cfa_offset 3
+ 1919               		.cfi_offset 28, -2
+ 1920 0002 DF93      		push r29
+ 1921               	.LCFI59:
+ 1922               		.cfi_def_cfa_offset 4
+ 1923               		.cfi_offset 29, -3
+ 1924               	/* prologue: function */
+ 1925               	/* frame size = 0 */
+ 1926               	/* stack size = 2 */
+ 1927               	.L__stack_usage = 2
+ 1928 0004 C82F      		mov r28,r24
  285:utils/MCP2515.c **** 	uint8_t status;
+ 1929               		.loc 1 285 2 is_stmt 1 view .LVU371
  286:utils/MCP2515.c **** 	MCP2515_CS_low(CANbus);			//unset CS so MCP2515 knows we are talking
- 1726               		.loc 1 286 0
- 1727 0006 0E94 0000 		call MCP2515_CS_low
- 1728               	.LVL172:
+ 1930               		.loc 1 286 2 view .LVU372
+ 1931 0006 0E94 0000 		call MCP2515_CS_low
+ 1932               	.LVL172:
  287:utils/MCP2515.c **** 	SPI_send_byte(MCP2515_RXSTATUS);
- 1729               		.loc 1 287 0
- 1730 000a 80EB      		ldi r24,lo8(-80)
- 1731 000c 0E94 0000 		call SPI_send_byte
- 1732               	.LVL173:
+ 1933               		.loc 1 287 2 view .LVU373
+ 1934 000a 80EB      		ldi r24,lo8(-80)
+ 1935 000c 0E94 0000 		call SPI_send_byte
+ 1936               	.LVL173:
  288:utils/MCP2515.c **** 	status = SPI_send_byte(0x00);						//send zeros to get data
- 1733               		.loc 1 288 0
- 1734 0010 80E0      		ldi r24,0
- 1735 0012 0E94 0000 		call SPI_send_byte
- 1736               	.LVL174:
- 1737 0016 D82F      		mov r29,r24
- 1738               	.LVL175:
+ 1937               		.loc 1 288 2 view .LVU374
+ 1938               		.loc 1 288 11 is_stmt 0 view .LVU375
+ 1939 0010 80E0      		ldi r24,0
+ 1940 0012 0E94 0000 		call SPI_send_byte
+ 1941               	.LVL174:
+ 1942 0016 D82F      		mov r29,r24
+ 1943               	.LVL175:
  289:utils/MCP2515.c **** 	SPI_send_byte(0x00);							//MCP2515 will repeat the data output, so send another batch of zeros
- 1739               		.loc 1 289 0
- 1740 0018 80E0      		ldi r24,0
- 1741               	.LVL176:
- 1742 001a 0E94 0000 		call SPI_send_byte
- 1743               	.LVL177:
+ 1944               		.loc 1 289 2 is_stmt 1 view .LVU376
+ 1945 0018 80E0      		ldi r24,0
+ 1946               	.LVL176:
+ 1947               		.loc 1 289 2 is_stmt 0 view .LVU377
+ 1948 001a 0E94 0000 		call SPI_send_byte
+ 1949               	.LVL177:
  290:utils/MCP2515.c **** 	MCP2515_CS_high(CANbus);			//set the CS
- 1744               		.loc 1 290 0
- 1745 001e 8C2F      		mov r24,r28
- 1746 0020 0E94 0000 		call MCP2515_CS_high
- 1747               	.LVL178:
+ 1950               		.loc 1 290 2 is_stmt 1 view .LVU378
+ 1951 001e 8C2F      		mov r24,r28
+ 1952 0020 0E94 0000 		call MCP2515_CS_high
+ 1953               	.LVL178:
  291:utils/MCP2515.c **** 	return status;
+ 1954               		.loc 1 291 2 view .LVU379
  292:utils/MCP2515.c **** }
- 1748               		.loc 1 292 0
- 1749 0024 8D2F      		mov r24,r29
- 1750               	/* epilogue start */
- 1751 0026 DF91      		pop r29
- 1752               	.LVL179:
- 1753 0028 CF91      		pop r28
- 1754               	.LVL180:
- 1755 002a 0895      		ret
- 1756               		.cfi_endproc
- 1757               	.LFE20:
- 1759               		.section	.text.MCP2515_send_test,"ax",@progbits
- 1760               	.global	MCP2515_send_test
- 1762               	MCP2515_send_test:
- 1763               	.LFB21:
+ 1955               		.loc 1 292 1 is_stmt 0 view .LVU380
+ 1956 0024 8D2F      		mov r24,r29
+ 1957               	/* epilogue start */
+ 1958 0026 DF91      		pop r29
+ 1959               	.LVL179:
+ 1960               		.loc 1 292 1 view .LVU381
+ 1961 0028 CF91      		pop r28
+ 1962               	.LVL180:
+ 1963               		.loc 1 292 1 view .LVU382
+ 1964 002a 0895      		ret
+ 1965               		.cfi_endproc
+ 1966               	.LFE14:
+ 1968               		.section	.text.MCP2515_send_test,"ax",@progbits
+ 1969               	.global	MCP2515_send_test
+ 1971               	MCP2515_send_test:
+ 1972               	.LVL181:
+ 1973               	.LFB15:
  293:utils/MCP2515.c **** 
  294:utils/MCP2515.c **** uint8_t MCP2515_send_test(uint8_t CANbus)
  295:utils/MCP2515.c **** {
- 1764               		.loc 1 295 0
- 1765               		.cfi_startproc
- 1766               	.LVL181:
- 1767 0000 DF92      		push r13
- 1768               	.LCFI60:
- 1769               		.cfi_def_cfa_offset 3
- 1770               		.cfi_offset 13, -2
- 1771 0002 EF92      		push r14
- 1772               	.LCFI61:
- 1773               		.cfi_def_cfa_offset 4
- 1774               		.cfi_offset 14, -3
- 1775 0004 FF92      		push r15
- 1776               	.LCFI62:
- 1777               		.cfi_def_cfa_offset 5
- 1778               		.cfi_offset 15, -4
- 1779 0006 0F93      		push r16
- 1780               	.LCFI63:
- 1781               		.cfi_def_cfa_offset 6
- 1782               		.cfi_offset 16, -5
- 1783 0008 1F93      		push r17
- 1784               	.LCFI64:
- 1785               		.cfi_def_cfa_offset 7
- 1786               		.cfi_offset 17, -6
- 1787 000a CF93      		push r28
- 1788               	.LCFI65:
- 1789               		.cfi_def_cfa_offset 8
- 1790               		.cfi_offset 28, -7
- 1791 000c DF93      		push r29
- 1792               	.LCFI66:
- 1793               		.cfi_def_cfa_offset 9
- 1794               		.cfi_offset 29, -8
- 1795 000e 1F92      		push __zero_reg__
- 1796               	.LCFI67:
- 1797               		.cfi_def_cfa_offset 10
- 1798 0010 CDB7      		in r28,__SP_L__
- 1799 0012 DEB7      		in r29,__SP_H__
- 1800               	.LCFI68:
- 1801               		.cfi_def_cfa_register 28
- 1802               	/* prologue: function */
- 1803               	/* frame size = 1 */
- 1804               	/* stack size = 8 */
- 1805               	.L__stack_usage = 8
- 1806 0014 D82E      		mov r13,r24
+ 1974               		.loc 1 295 1 is_stmt 1 view -0
+ 1975               		.cfi_startproc
+ 1976               		.loc 1 295 1 is_stmt 0 view .LVU384
+ 1977 0000 DF92      		push r13
+ 1978               	.LCFI60:
+ 1979               		.cfi_def_cfa_offset 3
+ 1980               		.cfi_offset 13, -2
+ 1981 0002 EF92      		push r14
+ 1982               	.LCFI61:
+ 1983               		.cfi_def_cfa_offset 4
+ 1984               		.cfi_offset 14, -3
+ 1985 0004 FF92      		push r15
+ 1986               	.LCFI62:
+ 1987               		.cfi_def_cfa_offset 5
+ 1988               		.cfi_offset 15, -4
+ 1989 0006 0F93      		push r16
+ 1990               	.LCFI63:
+ 1991               		.cfi_def_cfa_offset 6
+ 1992               		.cfi_offset 16, -5
+ 1993 0008 1F93      		push r17
+ 1994               	.LCFI64:
+ 1995               		.cfi_def_cfa_offset 7
+ 1996               		.cfi_offset 17, -6
+ 1997 000a CF93      		push r28
+ 1998               	.LCFI65:
+ 1999               		.cfi_def_cfa_offset 8
+ 2000               		.cfi_offset 28, -7
+ 2001 000c DF93      		push r29
+ 2002               	.LCFI66:
+ 2003               		.cfi_def_cfa_offset 9
+ 2004               		.cfi_offset 29, -8
+ 2005 000e 0F92      		push __tmp_reg__
+ 2006               	.LCFI67:
+ 2007               		.cfi_def_cfa_offset 10
+ 2008 0010 CDB7      		in r28,__SP_L__
+ 2009 0012 DEB7      		in r29,__SP_H__
+ 2010               	.LCFI68:
+ 2011               		.cfi_def_cfa_register 28
+ 2012               	/* prologue: function */
+ 2013               	/* frame size = 1 */
+ 2014               	/* stack size = 8 */
+ 2015               	.L__stack_usage = 8
+ 2016 0014 D82E      		mov r13,r24
  296:utils/MCP2515.c **** 	uint8_t data = 0x2D;
- 1807               		.loc 1 296 0
- 1808 0016 8DE2      		ldi r24,lo8(45)
- 1809               	.LVL182:
- 1810 0018 8983      		std Y+1,r24
+ 2017               		.loc 1 296 2 is_stmt 1 view .LVU385
+ 2018               		.loc 1 296 10 is_stmt 0 view .LVU386
+ 2019 0016 8DE2      		ldi r24,lo8(45)
+ 2020               	.LVL182:
+ 2021               		.loc 1 296 10 view .LVU387
+ 2022 0018 8983      		std Y+1,r24
  297:utils/MCP2515.c **** 	uint8_t free_buffer = MCP2515_findFreeTxBuffer(CANbus);						//obtain a free transmit buffer.
- 1811               		.loc 1 297 0
- 1812 001a 8D2D      		mov r24,r13
- 1813 001c 0E94 0000 		call MCP2515_findFreeTxBuffer
- 1814               	.LVL183:
+ 2023               		.loc 1 297 2 is_stmt 1 view .LVU388
+ 2024               		.loc 1 297 24 is_stmt 0 view .LVU389
+ 2025 001a 8D2D      		mov r24,r13
+ 2026 001c 0E94 0000 		call MCP2515_findFreeTxBuffer
+ 2027               	.LVL183:
  298:utils/MCP2515.c **** 
  299:utils/MCP2515.c **** 	if(free_buffer)
- 1815               		.loc 1 299 0
- 1816 0020 8823      		tst r24
- 1817 0022 01F0      		breq .L82
+ 2028               		.loc 1 299 2 is_stmt 1 view .LVU390
+ 2029               		.loc 1 299 4 is_stmt 0 view .LVU391
+ 2030 0020 8823      		tst r24
+ 2031 0022 01F0      		breq .L79
  300:utils/MCP2515.c **** 	{
  301:utils/MCP2515.c **** 		//flash_LED(1, YELLOW_LED, 50);
  302:utils/MCP2515.c **** 		//MCP2515_tx(AMU,free_buffer,DEVICE_ID,0x00,AUDIT_REQUEST,0,&data);		//send a CAN packet from a f
  303:utils/MCP2515.c **** 		MCP2515_TX(CANbus, free_buffer, 1, &data, ((uint32_t)1<<27));
- 1818               		.loc 1 303 0
- 1819 0024 E12C      		mov r14,__zero_reg__
- 1820 0026 F12C      		mov r15,__zero_reg__
- 1821 0028 00E0      		ldi r16,0
- 1822 002a 18E0      		ldi r17,lo8(8)
- 1823 002c 9E01      		movw r18,r28
- 1824 002e 2F5F      		subi r18,-1
- 1825 0030 3F4F      		sbci r19,-1
- 1826 0032 41E0      		ldi r20,lo8(1)
- 1827 0034 682F      		mov r22,r24
- 1828 0036 8D2D      		mov r24,r13
- 1829               	.LVL184:
- 1830 0038 0E94 0000 		call MCP2515_TX
- 1831               	.LVL185:
+ 2032               		.loc 1 303 3 is_stmt 1 view .LVU392
+ 2033 0024 E12C      		mov r14,__zero_reg__
+ 2034 0026 F12C      		mov r15,__zero_reg__
+ 2035 0028 00E0      		ldi r16,0
+ 2036 002a 18E0      		ldi r17,lo8(8)
+ 2037 002c 9E01      		movw r18,r28
+ 2038 002e 2F5F      		subi r18,-1
+ 2039 0030 3F4F      		sbci r19,-1
+ 2040 0032 41E0      		ldi r20,lo8(1)
+ 2041 0034 682F      		mov r22,r24
+ 2042 0036 8D2D      		mov r24,r13
+ 2043               	.LVL184:
+ 2044               		.loc 1 303 3 is_stmt 0 view .LVU393
+ 2045 0038 0E94 0000 		call MCP2515_TX
+ 2046               	.LVL185:
  304:utils/MCP2515.c **** 		return 1;					//return successful
- 1832               		.loc 1 304 0
- 1833 003c 81E0      		ldi r24,lo8(1)
- 1834               	.L82:
- 1835               	/* epilogue start */
+ 2047               		.loc 1 304 3 is_stmt 1 view .LVU394
+ 2048               		.loc 1 304 10 is_stmt 0 view .LVU395
+ 2049 003c 81E0      		ldi r24,lo8(1)
+ 2050               	.L79:
+ 2051               	/* epilogue start */
  305:utils/MCP2515.c **** 	}
  306:utils/MCP2515.c **** 	else
  307:utils/MCP2515.c **** 	{
  308:utils/MCP2515.c **** 		return 0;					//return error, there were no free buffers.
  309:utils/MCP2515.c **** 	}
  310:utils/MCP2515.c **** }...
- 1836               		.loc 1 310 0
- 1837 003e 0F90      		pop __tmp_reg__
- 1838 0040 DF91      		pop r29
- 1839 0042 CF91      		pop r28
- 1840 0044 1F91      		pop r17
- 1841 0046 0F91      		pop r16
- 1842 0048 FF90      		pop r15
- 1843 004a EF90      		pop r14
- 1844 004c DF90      		pop r13
- 1845               	.LVL186:
- 1846 004e 0895      		ret
- 1847               		.cfi_endproc
- 1848               	.LFE21:
- 1850               		.text
- 1851               	.Letext0:
- 1852               		.file 2 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdint.h"
- 1853               		.file 3 "<built-in>"
- 1854               		.file 4 "utils/SPI.h"
+ 2052               		.loc 1 310 1 view .LVU396
+ 2053 003e 0F90      		pop __tmp_reg__
+ 2054 0040 DF91      		pop r29
+ 2055 0042 CF91      		pop r28
+ 2056 0044 1F91      		pop r17
+ 2057 0046 0F91      		pop r16
+ 2058 0048 FF90      		pop r15
+ 2059 004a EF90      		pop r14
+ 2060 004c DF90      		pop r13
+ 2061               	.LVL186:
+ 2062               		.loc 1 310 1 view .LVU397
+ 2063 004e 0895      		ret
+ 2064               		.cfi_endproc
+ 2065               	.LFE15:
+ 2067               		.text
+ 2068               	.Letext0:
+ 2069               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+ 2070               		.file 3 "utils/SPI.h"
+ 2071               		.file 4 "<built-in>"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 MCP2515.c
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:2      *ABS*:000000000000003e __SP_H__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:3      *ABS*:000000000000003d __SP_L__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:4      *ABS*:000000000000003f __SREG__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:5      *ABS*:000000000000003b __RAMPZ__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:6      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:7      *ABS*:0000000000000001 __zero_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:14     .text.MCP2515_CS_low:0000000000000000 MCP2515_CS_low
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:67     .text.MCP2515_CS_high:0000000000000000 MCP2515_CS_high
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:119    .text.MCP2515_reg_write:0000000000000000 MCP2515_reg_write
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:177    .text.MCP2515_instruction:0000000000000000 MCP2515_instruction
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:220    .text.MCP2515_bit_modify:0000000000000000 MCP2515_bit_modify
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:289    .text.MCP2515_init:0000000000000000 MCP2515_init
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:362    .text.MCP2515_receive_status:0000000000000000 MCP2515_receive_status
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:416    .text.MCP2515_RxBufferRead:0000000000000000 MCP2515_RxBufferRead
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:550    .text.MCP2515_PullCanPacket:0000000000000000 MCP2515_PullCanPacket
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:779    .text.MCP2515_reg_read:0000000000000000 MCP2515_reg_read
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:834    .text.MCP2515_findFreeTxBuffer:0000000000000000 MCP2515_findFreeTxBuffer
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:906    .text.MCP2515_FilterInit:0000000000000000 MCP2515_FilterInit
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:1290   .text.MCP2515_RXInit:0000000000000000 MCP2515_RXInit
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:1482   .text.MCP2515_TX:0000000000000000 MCP2515_TX
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:1708   .text.MCP2515_check_receive_status:0000000000000000 MCP2515_check_receive_status
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccTBnSOF.s:1762   .text.MCP2515_send_test:0000000000000000 MCP2515_send_test
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:5      *ABS*:000000000000003b __RAMPZ__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:6      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:7      *ABS*:0000000000000001 __zero_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:14     .text.MCP2515_CS_low:0000000000000000 MCP2515_CS_low
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:74     .text.MCP2515_CS_high:0000000000000000 MCP2515_CS_high
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:133    .text.MCP2515_reg_write:0000000000000000 MCP2515_reg_write
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:195    .text.MCP2515_instruction:0000000000000000 MCP2515_instruction
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:241    .text.MCP2515_bit_modify:0000000000000000 MCP2515_bit_modify
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:315    .text.MCP2515_init:0000000000000000 MCP2515_init
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:390    .text.MCP2515_receive_status:0000000000000000 MCP2515_receive_status
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:452    .text.MCP2515_RxBufferRead:0000000000000000 MCP2515_RxBufferRead
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:601    .text.MCP2515_PullCanPacket:0000000000000000 MCP2515_PullCanPacket
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:855    .text.MCP2515_reg_read:0000000000000000 MCP2515_reg_read
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:917    .text.MCP2515_findFreeTxBuffer:0000000000000000 MCP2515_findFreeTxBuffer
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:998    .text.MCP2515_FilterInit:0000000000000000 MCP2515_FilterInit
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:1439   .text.MCP2515_RXInit:0000000000000000 MCP2515_RXInit
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:1656   .text.MCP2515_TX:0000000000000000 MCP2515_TX
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:1910   .text.MCP2515_check_receive_status:0000000000000000 MCP2515_check_receive_status
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccKZWQLz.s:1971   .text.MCP2515_send_test:0000000000000000 MCP2515_send_test
 
 UNDEFINED SYMBOLS
 SPI_send_byte

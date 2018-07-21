@@ -28,7 +28,7 @@ void led_flash(unsigned char times);
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
  * 
  */
-void led_toggle();
+void led_toggle(void);
 
 /**
  * @brief Turns off the LED
@@ -36,7 +36,7 @@ void led_toggle();
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
  * 
  */
-void led_off();
+void led_off(void);
 
 /**
  * @brief Turns on the LED
@@ -44,7 +44,7 @@ void led_off();
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
  * 
  */
-void led_on();
+void led_on(void);
 
 
 #endif // CHASSIS_LED_H

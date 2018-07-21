@@ -15,8 +15,9 @@
   14               		.section	.text.send_error_message,"ax",@progbits
   15               	.global	send_error_message
   17               	send_error_message:
-  18               	.LFB7:
-  19               		.file 1 "includes/chassisError.c"
+  18               	.LVL0:
+  19               	.LFB7:
+  20               		.file 1 "includes/chassisError.c"
    1:includes/chassisError.c **** /**
    2:includes/chassisError.c ****  * @brief Handles functions, calls and utilities related to the Error system
    3:includes/chassisError.c ****  * 
@@ -626,1386 +627,1481 @@
  607:includes/chassisError.c ****  * */
  608:includes/chassisError.c **** void send_error_message(char start[], char message[], uint16_t part_number) 
  609:includes/chassisError.c **** {
-  20               		.loc 1 609 0
-  21               		.cfi_startproc
-  22               	.LVL0:
-  23 0000 0F93      		push r16
-  24               	.LCFI0:
-  25               		.cfi_def_cfa_offset 3
-  26               		.cfi_offset 16, -2
-  27 0002 1F93      		push r17
-  28               	.LCFI1:
-  29               		.cfi_def_cfa_offset 4
-  30               		.cfi_offset 17, -3
-  31 0004 CF93      		push r28
-  32               	.LCFI2:
-  33               		.cfi_def_cfa_offset 5
-  34               		.cfi_offset 28, -4
-  35 0006 DF93      		push r29
-  36               	.LCFI3:
-  37               		.cfi_def_cfa_offset 6
-  38               		.cfi_offset 29, -5
-  39               	/* prologue: function */
-  40               	/* frame size = 0 */
-  41               	/* stack size = 4 */
-  42               	.L__stack_usage = 4
-  43 0008 182F      		mov r17,r24
-  44 000a 092F      		mov r16,r25
+  21               		.loc 1 609 1 view -0
+  22               		.cfi_startproc
+  23               		.loc 1 609 1 is_stmt 0 view .LVU1
+  24 0000 0F93      		push r16
+  25               	.LCFI0:
+  26               		.cfi_def_cfa_offset 3
+  27               		.cfi_offset 16, -2
+  28 0002 1F93      		push r17
+  29               	.LCFI1:
+  30               		.cfi_def_cfa_offset 4
+  31               		.cfi_offset 17, -3
+  32 0004 CF93      		push r28
+  33               	.LCFI2:
+  34               		.cfi_def_cfa_offset 5
+  35               		.cfi_offset 28, -4
+  36 0006 DF93      		push r29
+  37               	.LCFI3:
+  38               		.cfi_def_cfa_offset 6
+  39               		.cfi_offset 29, -5
+  40               	/* prologue: function */
+  41               	/* frame size = 0 */
+  42               	/* stack size = 4 */
+  43               	.L__stack_usage = 4
+  44 0008 182F      		mov r17,r24
+  45 000a 092F      		mov r16,r25
  610:includes/chassisError.c **** 	unsigned char *messageWithNumber;
+  46               		.loc 1 610 2 is_stmt 1 view .LVU2
  611:includes/chassisError.c **** 	unsigned char *errorData;
+  47               		.loc 1 611 2 view .LVU3
  612:includes/chassisError.c **** 	
  613:includes/chassisError.c **** 	// Format error message with part number if given
  614:includes/chassisError.c **** 	snprintf(messageWithNumber, MAX_ERROR_MESSAGE_LENGTH, message, part_number);
-  45               		.loc 1 614 0
-  46 000c 5F93      		push r21
-  47               	.LCFI4:
-  48               		.cfi_def_cfa_offset 7
-  49 000e 4F93      		push r20
-  50               	.LCFI5:
-  51               		.cfi_def_cfa_offset 8
-  52 0010 7F93      		push r23
-  53               	.LCFI6:
-  54               		.cfi_def_cfa_offset 9
-  55 0012 6F93      		push r22
-  56               	.LCFI7:
-  57               		.cfi_def_cfa_offset 10
-  58 0014 1F92      		push __zero_reg__
-  59               	.LCFI8:
-  60               		.cfi_def_cfa_offset 11
-  61 0016 88E2      		ldi r24,lo8(40)
-  62               	.LVL1:
-  63 0018 8F93      		push r24
-  64               	.LCFI9:
-  65               		.cfi_def_cfa_offset 12
-  66 001a D0E0      		ldi r29,0
-  67 001c DF93      		push r29
-  68               	.LCFI10:
-  69               		.cfi_def_cfa_offset 13
-  70 001e C0E0      		ldi r28,0
-  71 0020 CF93      		push r28
-  72               	.LCFI11:
-  73               		.cfi_def_cfa_offset 14
-  74 0022 0E94 0000 		call snprintf
-  75               	.LVL2:
+  48               		.loc 1 614 2 view .LVU4
+  49 000c 5F93      		push r21
+  50               	.LCFI4:
+  51               		.cfi_def_cfa_offset 7
+  52 000e 4F93      		push r20
+  53               	.LCFI5:
+  54               		.cfi_def_cfa_offset 8
+  55 0010 7F93      		push r23
+  56               	.LCFI6:
+  57               		.cfi_def_cfa_offset 9
+  58 0012 6F93      		push r22
+  59               	.LCFI7:
+  60               		.cfi_def_cfa_offset 10
+  61 0014 1F92      		push __zero_reg__
+  62               	.LCFI8:
+  63               		.cfi_def_cfa_offset 11
+  64 0016 88E2      		ldi r24,lo8(40)
+  65               	.LVL1:
+  66               		.loc 1 614 2 is_stmt 0 view .LVU5
+  67 0018 8F93      		push r24
+  68               	.LCFI9:
+  69               		.cfi_def_cfa_offset 12
+  70 001a D0E0      		ldi r29,0
+  71 001c DF93      		push r29
+  72               	.LCFI10:
+  73               		.cfi_def_cfa_offset 13
+  74 001e C0E0      		ldi r28,0
+  75 0020 CF93      		push r28
+  76               	.LCFI11:
+  77               		.cfi_def_cfa_offset 14
+  78 0022 0E94 0000 		call snprintf
+  79               	.LVL2:
  615:includes/chassisError.c **** 
  616:includes/chassisError.c **** 	// Create error data
  617:includes/chassisError.c **** 	snprintf(errorData, MAX_ERROR_MESSAGE_LENGTH + 10, "%s %s", start, messageWithNumber);
-  76               		.loc 1 617 0
-  77 0026 DF93      		push r29
-  78               	.LCFI12:
-  79               		.cfi_def_cfa_offset 15
-  80 0028 CF93      		push r28
-  81               	.LCFI13:
-  82               		.cfi_def_cfa_offset 16
-  83 002a 0F93      		push r16
-  84               	.LCFI14:
-  85               		.cfi_def_cfa_offset 17
-  86 002c 1F93      		push r17
-  87               	.LCFI15:
-  88               		.cfi_def_cfa_offset 18
-  89 002e 80E0      		ldi r24,lo8(.LC0)
-  90 0030 90E0      		ldi r25,hi8(.LC0)
-  91 0032 9F93      		push r25
-  92               	.LCFI16:
-  93               		.cfi_def_cfa_offset 19
-  94 0034 8F93      		push r24
-  95               	.LCFI17:
-  96               		.cfi_def_cfa_offset 20
-  97 0036 1F92      		push __zero_reg__
-  98               	.LCFI18:
-  99               		.cfi_def_cfa_offset 21
- 100 0038 82E3      		ldi r24,lo8(50)
- 101 003a 8F93      		push r24
- 102               	.LCFI19:
- 103               		.cfi_def_cfa_offset 22
- 104 003c 1F92      		push __zero_reg__
- 105               	.LCFI20:
- 106               		.cfi_def_cfa_offset 23
- 107 003e 1F92      		push __zero_reg__
- 108               	.LCFI21:
- 109               		.cfi_def_cfa_offset 24
- 110 0040 0E94 0000 		call snprintf
- 111               	.LVL3:
+  80               		.loc 1 617 2 is_stmt 1 view .LVU6
+  81 0026 DF93      		push r29
+  82               	.LCFI12:
+  83               		.cfi_def_cfa_offset 15
+  84 0028 CF93      		push r28
+  85               	.LCFI13:
+  86               		.cfi_def_cfa_offset 16
+  87 002a 0F93      		push r16
+  88               	.LCFI14:
+  89               		.cfi_def_cfa_offset 17
+  90 002c 1F93      		push r17
+  91               	.LCFI15:
+  92               		.cfi_def_cfa_offset 18
+  93 002e 80E0      		ldi r24,lo8(.LC0)
+  94 0030 90E0      		ldi r25,hi8(.LC0)
+  95 0032 9F93      		push r25
+  96               	.LCFI16:
+  97               		.cfi_def_cfa_offset 19
+  98 0034 8F93      		push r24
+  99               	.LCFI17:
+ 100               		.cfi_def_cfa_offset 20
+ 101 0036 1F92      		push __zero_reg__
+ 102               	.LCFI18:
+ 103               		.cfi_def_cfa_offset 21
+ 104 0038 82E3      		ldi r24,lo8(50)
+ 105 003a 8F93      		push r24
+ 106               	.LCFI19:
+ 107               		.cfi_def_cfa_offset 22
+ 108 003c 1F92      		push __zero_reg__
+ 109               	.LCFI20:
+ 110               		.cfi_def_cfa_offset 23
+ 111 003e 1F92      		push __zero_reg__
+ 112               	.LCFI21:
+ 113               		.cfi_def_cfa_offset 24
+ 114 0040 0E94 0000 		call snprintf
+ 115               	.LVL3:
  618:includes/chassisError.c **** 	
  619:includes/chassisError.c **** 	// Send error data over UART
  620:includes/chassisError.c **** 	// uart_send_data(errorData, MAX_ERROR_MESSAGE_LENGTH + 10);
  621:includes/chassisError.c **** }
- 112               		.loc 1 621 0
- 113 0044 8DB7      		in r24,__SP_L__
- 114 0046 9EB7      		in r25,__SP_H__
- 115 0048 4296      		adiw r24,18
- 116 004a 0FB6      		in __tmp_reg__,__SREG__
- 117 004c F894      		cli
- 118 004e 9EBF      		out __SP_H__,r25
- 119 0050 0FBE      		out __SREG__,__tmp_reg__
- 120 0052 8DBF      		out __SP_L__,r24
- 121               	.LCFI22:
- 122               		.cfi_def_cfa_offset 6
- 123               	/* epilogue start */
- 124 0054 DF91      		pop r29
- 125 0056 CF91      		pop r28
- 126 0058 1F91      		pop r17
- 127 005a 0F91      		pop r16
- 128 005c 0895      		ret
- 129               		.cfi_endproc
- 130               	.LFE7:
- 132               		.section	.rodata.str1.1
- 133               	.LC1:
- 134 0006 4572 726F 		.string	"Error"
- 134      7200 
- 135               	.LC2:
- 136 000c 494E 464F 		.string	"INFO"
- 136      00
- 137               	.LC3:
- 138 0011 4572 726F 		.string	"Error!"
- 138      7221 00
- 139               	.LC4:
- 140 0018 2157 4152 		.string	"!WARNING!"
- 140      4E49 4E47 
- 140      2100 
- 141               	.LC5:
- 142 0022 4552 524F 		.string	"ERROR"
- 142      5200 
- 143               	.LC6:
- 144 0028 2323 4552 		.string	"##ERROR##"
- 144      524F 5223 
- 144      2300 
- 145               	.LC7:
- 146 0032 4341 4E42 		.string	"CANBUS 1 No Response"
- 146      5553 2031 
- 146      204E 6F20 
- 146      5265 7370 
- 146      6F6E 7365 
- 147               	.LC8:
- 148 0047 4341 4E42 		.string	"CANBUS 1 No Response!"
- 148      5553 2031 
- 148      204E 6F20 
- 148      5265 7370 
- 148      6F6E 7365 
- 149               	.LC9:
- 150 005d 4341 4E42 		.string	"CANBUS 1 CRITICAL NO RESPONSE"
+ 116               		.loc 1 621 1 is_stmt 0 view .LVU7
+ 117 0044 8DB7      		in r24,__SP_L__
+ 118 0046 9EB7      		in r25,__SP_H__
+ 119 0048 4296      		adiw r24,18
+ 120 004a 0FB6      		in __tmp_reg__,__SREG__
+ 121 004c F894      		cli
+ 122 004e 9EBF      		out __SP_H__,r25
+ 123 0050 0FBE      		out __SREG__,__tmp_reg__
+ 124 0052 8DBF      		out __SP_L__,r24
+ 125               	.LCFI22:
+ 126               		.cfi_def_cfa_offset 6
+ 127               	/* epilogue start */
+ 128 0054 DF91      		pop r29
+ 129 0056 CF91      		pop r28
+ 130 0058 1F91      		pop r17
+ 131 005a 0F91      		pop r16
+ 132 005c 0895      		ret
+ 133               		.cfi_endproc
+ 134               	.LFE7:
+ 136               		.section	.rodata.str1.1
+ 137               	.LC1:
+ 138 0006 4572 726F 		.string	"Error"
+ 138      7200 
+ 139               	.LC2:
+ 140 000c 494E 464F 		.string	"INFO"
+ 140      00
+ 141               	.LC3:
+ 142 0011 4572 726F 		.string	"Error!"
+ 142      7221 00
+ 143               	.LC4:
+ 144 0018 2157 4152 		.string	"!WARNING!"
+ 144      4E49 4E47 
+ 144      2100 
+ 145               	.LC5:
+ 146 0022 4552 524F 		.string	"ERROR"
+ 146      5200 
+ 147               	.LC6:
+ 148 0028 2323 4552 		.string	"##ERROR##"
+ 148      524F 5223 
+ 148      2300 
+ 149               	.LC7:
+ 150 0032 4341 4E42 		.string	"CANBUS 1 No Response"
  150      5553 2031 
- 150      2043 5249 
- 150      5449 4341 
- 150      4C20 4E4F 
- 151               	.LC10:
- 152 007b 4341 4E42 		.string	"CANBUS 1 Malformed Packet"
+ 150      204E 6F20 
+ 150      5265 7370 
+ 150      6F6E 7365 
+ 151               	.LC8:
+ 152 0047 4341 4E42 		.string	"CANBUS 1 No Response!"
  152      5553 2031 
- 152      204D 616C 
- 152      666F 726D 
- 152      6564 2050 
- 153               	.LC11:
- 154 0095 4341 4E42 		.string	"CANBUS 1 Malformed Packet!"
+ 152      204E 6F20 
+ 152      5265 7370 
+ 152      6F6E 7365 
+ 153               	.LC9:
+ 154 005d 4341 4E42 		.string	"CANBUS 1 CRITICAL NO RESPONSE"
  154      5553 2031 
- 154      204D 616C 
- 154      666F 726D 
- 154      6564 2050 
- 155               	.LC12:
- 156 00b0 4341 4E42 		.string	"CANBUS 1 CRITICAL MALFORMED PACKET"
+ 154      2043 5249 
+ 154      5449 4341 
+ 154      4C20 4E4F 
+ 155               	.LC10:
+ 156 007b 4341 4E42 		.string	"CANBUS 1 Malformed Packet"
  156      5553 2031 
- 156      2043 5249 
- 156      5449 4341 
- 156      4C20 4D41 
- 157               	.LC13:
- 158 00d3 4341 4E42 		.string	"CANBUS 2 No Response"
- 158      5553 2032 
- 158      204E 6F20 
- 158      5265 7370 
- 158      6F6E 7365 
- 159               	.LC14:
- 160 00e8 4341 4E42 		.string	"CANBUS 2 No Response!"
- 160      5553 2032 
- 160      204E 6F20 
- 160      5265 7370 
- 160      6F6E 7365 
- 161               	.LC15:
- 162 00fe 4341 4E42 		.string	"CANBUS 2 CRITICAL NO RESPONSE"
+ 156      204D 616C 
+ 156      666F 726D 
+ 156      6564 2050 
+ 157               	.LC11:
+ 158 0095 4341 4E42 		.string	"CANBUS 1 Malformed Packet!"
+ 158      5553 2031 
+ 158      204D 616C 
+ 158      666F 726D 
+ 158      6564 2050 
+ 159               	.LC12:
+ 160 00b0 4341 4E42 		.string	"CANBUS 1 CRITICAL MALFORMED PACKET"
+ 160      5553 2031 
+ 160      2043 5249 
+ 160      5449 4341 
+ 160      4C20 4D41 
+ 161               	.LC13:
+ 162 00d3 4341 4E42 		.string	"CANBUS 2 No Response"
  162      5553 2032 
- 162      2043 5249 
- 162      5449 4341 
- 162      4C20 4E4F 
- 163               	.LC16:
- 164 011c 4341 4E42 		.string	"CANBUS 2 Malformed Packet"
+ 162      204E 6F20 
+ 162      5265 7370 
+ 162      6F6E 7365 
+ 163               	.LC14:
+ 164 00e8 4341 4E42 		.string	"CANBUS 2 No Response!"
  164      5553 2032 
- 164      204D 616C 
- 164      666F 726D 
- 164      6564 2050 
- 165               	.LC17:
- 166 0136 4341 4E42 		.string	"CANBUS 2 Malformed Packet!"
+ 164      204E 6F20 
+ 164      5265 7370 
+ 164      6F6E 7365 
+ 165               	.LC15:
+ 166 00fe 4341 4E42 		.string	"CANBUS 2 CRITICAL NO RESPONSE"
  166      5553 2032 
- 166      204D 616C 
- 166      666F 726D 
- 166      6564 2050 
- 167               	.LC18:
- 168 0151 4341 4E42 		.string	"CANBUS 2 CRITICAL MALFORMED PACKET"
+ 166      2043 5249 
+ 166      5449 4341 
+ 166      4C20 4E4F 
+ 167               	.LC16:
+ 168 011c 4341 4E42 		.string	"CANBUS 2 Malformed Packet"
  168      5553 2032 
- 168      2043 5249 
- 168      5449 4341 
- 168      4C20 4D41 
- 169               	.LC19:
- 170 0174 4341 4E42 		.string	"CANBUS 3 No Response"
- 170      5553 2033 
- 170      204E 6F20 
- 170      5265 7370 
- 170      6F6E 7365 
- 171               	.LC20:
- 172 0189 4341 4E42 		.string	"CANBUS 3 No Response!"
- 172      5553 2033 
- 172      204E 6F20 
- 172      5265 7370 
- 172      6F6E 7365 
- 173               	.LC21:
- 174 019f 4341 4E42 		.string	"CANBUS 3 CRITICAL NO RESPONSE"
+ 168      204D 616C 
+ 168      666F 726D 
+ 168      6564 2050 
+ 169               	.LC17:
+ 170 0136 4341 4E42 		.string	"CANBUS 2 Malformed Packet!"
+ 170      5553 2032 
+ 170      204D 616C 
+ 170      666F 726D 
+ 170      6564 2050 
+ 171               	.LC18:
+ 172 0151 4341 4E42 		.string	"CANBUS 2 CRITICAL MALFORMED PACKET"
+ 172      5553 2032 
+ 172      2043 5249 
+ 172      5449 4341 
+ 172      4C20 4D41 
+ 173               	.LC19:
+ 174 0174 4341 4E42 		.string	"CANBUS 3 No Response"
  174      5553 2033 
- 174      2043 5249 
- 174      5449 4341 
- 174      4C20 4E4F 
- 175               	.LC22:
- 176 01bd 4341 4E42 		.string	"CANBUS 3 Malformed Packet"
+ 174      204E 6F20 
+ 174      5265 7370 
+ 174      6F6E 7365 
+ 175               	.LC20:
+ 176 0189 4341 4E42 		.string	"CANBUS 3 No Response!"
  176      5553 2033 
- 176      204D 616C 
- 176      666F 726D 
- 176      6564 2050 
- 177               	.LC23:
- 178 01d7 4341 4E42 		.string	"CANBUS 3 Malformed Packet!"
+ 176      204E 6F20 
+ 176      5265 7370 
+ 176      6F6E 7365 
+ 177               	.LC21:
+ 178 019f 4341 4E42 		.string	"CANBUS 3 CRITICAL NO RESPONSE"
  178      5553 2033 
- 178      204D 616C 
- 178      666F 726D 
- 178      6564 2050 
- 179               	.LC24:
- 180 01f2 4341 4E42 		.string	"CANBUS 3 CRITICAL MALFORMED PACKET"
+ 178      2043 5249 
+ 178      5449 4341 
+ 178      4C20 4E4F 
+ 179               	.LC22:
+ 180 01bd 4341 4E42 		.string	"CANBUS 3 Malformed Packet"
  180      5553 2033 
- 180      2043 5249 
- 180      5449 4341 
- 180      4C20 4D41 
- 181               	.LC25:
- 182 0215 4765 6172 		.string	"Gearbox %d Temperature Normal"
- 182      626F 7820 
- 182      2564 2054 
- 182      656D 7065 
- 182      7261 7475 
- 183               	.LC26:
- 184 0233 4765 6172 		.string	"Gearbox %d Temperature Abnormally Low!"
- 184      626F 7820 
- 184      2564 2054 
- 184      656D 7065 
- 184      7261 7475 
- 185               	.LC27:
- 186 025a 4745 4152 		.string	"GEARBOX %d TEMPERATURE CRITICALLY LOW"
- 186      424F 5820 
+ 180      204D 616C 
+ 180      666F 726D 
+ 180      6564 2050 
+ 181               	.LC23:
+ 182 01d7 4341 4E42 		.string	"CANBUS 3 Malformed Packet!"
+ 182      5553 2033 
+ 182      204D 616C 
+ 182      666F 726D 
+ 182      6564 2050 
+ 183               	.LC24:
+ 184 01f2 4341 4E42 		.string	"CANBUS 3 CRITICAL MALFORMED PACKET"
+ 184      5553 2033 
+ 184      2043 5249 
+ 184      5449 4341 
+ 184      4C20 4D41 
+ 185               	.LC25:
+ 186 0215 4765 6172 		.string	"Gearbox %d Temperature Normal"
+ 186      626F 7820 
  186      2564 2054 
- 186      454D 5045 
- 186      5241 5455 
- 187               	.LC28:
- 188 0280 4765 6172 		.string	"Gearbox %d Temperature Abnormally High!"
+ 186      656D 7065 
+ 186      7261 7475 
+ 187               	.LC26:
+ 188 0233 4765 6172 		.string	"Gearbox %d Temperature Abnormally Low!"
  188      626F 7820 
  188      2564 2054 
  188      656D 7065 
  188      7261 7475 
- 189               	.LC29:
- 190 02a8 4745 4152 		.string	"GEARBOX %d TEMPERATURE CRITICALLY HIGH"
+ 189               	.LC27:
+ 190 025a 4745 4152 		.string	"GEARBOX %d TEMPERATURE CRITICALLY LOW"
  190      424F 5820 
  190      2564 2054 
  190      454D 5045 
  190      5241 5455 
- 191               	.LC30:
- 192 02cf 5261 6469 		.string	"Radiator %d Temperature Normal"
- 192      6174 6F72 
- 192      2025 6420 
- 192      5465 6D70 
- 192      6572 6174 
- 193               	.LC31:
- 194 02ee 5261 6469 		.string	"Radiator %d Temperature Abnormally Low!"
- 194      6174 6F72 
- 194      2025 6420 
- 194      5465 6D70 
- 194      6572 6174 
- 195               	.LC32:
- 196 0316 5241 4449 		.string	"RADIATOR %d TEMPERATURE CRITICALLY LOW"
- 196      4154 4F52 
+ 191               	.LC28:
+ 192 0280 4765 6172 		.string	"Gearbox %d Temperature Abnormally High!"
+ 192      626F 7820 
+ 192      2564 2054 
+ 192      656D 7065 
+ 192      7261 7475 
+ 193               	.LC29:
+ 194 02a8 4745 4152 		.string	"GEARBOX %d TEMPERATURE CRITICALLY HIGH"
+ 194      424F 5820 
+ 194      2564 2054 
+ 194      454D 5045 
+ 194      5241 5455 
+ 195               	.LC30:
+ 196 02cf 5261 6469 		.string	"Radiator %d Temperature Normal"
+ 196      6174 6F72 
  196      2025 6420 
- 196      5445 4D50 
- 196      4552 4154 
- 197               	.LC33:
- 198 033d 5261 6469 		.string	"Radiator %d Temperature Abnormally High!"
+ 196      5465 6D70 
+ 196      6572 6174 
+ 197               	.LC31:
+ 198 02ee 5261 6469 		.string	"Radiator %d Temperature Abnormally Low!"
  198      6174 6F72 
  198      2025 6420 
  198      5465 6D70 
  198      6572 6174 
- 199               	.LC34:
- 200 0366 5241 4449 		.string	"RADIATOR %d TEMPERATURE CRITICALLY HIGH"
+ 199               	.LC32:
+ 200 0316 5241 4449 		.string	"RADIATOR %d TEMPERATURE CRITICALLY LOW"
  200      4154 4F52 
  200      2025 6420 
  200      5445 4D50 
  200      4552 4154 
- 201               	.LC35:
- 202 038e 4272 616B 		.string	"Brakes %d Pressure Normal"
- 202      6573 2025 
- 202      6420 5072 
- 202      6573 7375 
- 202      7265 204E 
- 203               	.LC36:
- 204 03a8 4272 616B 		.string	"Brakes %d Pressure Abnormally Low!"
- 204      6573 2025 
- 204      6420 5072 
- 204      6573 7375 
- 204      7265 2041 
- 205               	.LC37:
- 206 03cb 4252 414B 		.string	"BRAKES %d PRESSURE CRITICALLY LOW"
- 206      4553 2025 
- 206      6420 5052 
- 206      4553 5355 
- 206      5245 2043 
- 207               	.LC38:
- 208 03ed 4272 616B 		.string	"Brakes %d Pressure Abnormally High!"
+ 201               	.LC33:
+ 202 033d 5261 6469 		.string	"Radiator %d Temperature Abnormally High!"
+ 202      6174 6F72 
+ 202      2025 6420 
+ 202      5465 6D70 
+ 202      6572 6174 
+ 203               	.LC34:
+ 204 0366 5241 4449 		.string	"RADIATOR %d TEMPERATURE CRITICALLY HIGH"
+ 204      4154 4F52 
+ 204      2025 6420 
+ 204      5445 4D50 
+ 204      4552 4154 
+ 205               	.LC35:
+ 206 038e 4272 616B 		.string	"Brakes %d Pressure Normal"
+ 206      6573 2025 
+ 206      6420 5072 
+ 206      6573 7375 
+ 206      7265 204E 
+ 207               	.LC36:
+ 208 03a8 4272 616B 		.string	"Brakes %d Pressure Abnormally Low!"
  208      6573 2025 
  208      6420 5072 
  208      6573 7375 
  208      7265 2041 
- 209               	.LC39:
- 210 0411 4252 414B 		.string	"BRAKES %d PRESSURE CRITICALLY HIGH"
+ 209               	.LC37:
+ 210 03cb 4252 414B 		.string	"BRAKES %d PRESSURE CRITICALLY LOW"
  210      4553 2025 
  210      6420 5052 
  210      4553 5355 
  210      5245 2043 
- 211               	.LC40:
- 212 0434 4272 616B 		.string	"Brakes %d Pressure Warnning!"
+ 211               	.LC38:
+ 212 03ed 4272 616B 		.string	"Brakes %d Pressure Abnormally High!"
  212      6573 2025 
  212      6420 5072 
  212      6573 7375 
- 212      7265 2057 
- 213               	.LC41:
- 214 0451 4252 414B 		.string	"BRAKES %d PRESSURE CRITICAL!"
+ 212      7265 2041 
+ 213               	.LC39:
+ 214 0411 4252 414B 		.string	"BRAKES %d PRESSURE CRITICALLY HIGH"
  214      4553 2025 
  214      6420 5052 
  214      4553 5355 
  214      5245 2043 
- 215               	.LC42:
- 216 046e 4272 616B 		.string	"Brakes %d Position Normal"
+ 215               	.LC40:
+ 216 0434 4272 616B 		.string	"Brakes %d Pressure Warnning!"
  216      6573 2025 
- 216      6420 506F 
- 216      7369 7469 
- 216      6F6E 204E 
- 217               	.LC43:
- 218 0488 4272 616B 		.string	"Brakes %d Position Abnormally Low!"
- 218      6573 2025 
- 218      6420 506F 
- 218      7369 7469 
- 218      6F6E 2041 
- 219               	.LC44:
- 220 04ab 4252 414B 		.string	"BRAKES %d POSITION CRITICALLY LOW"
- 220      4553 2025 
- 220      6420 504F 
- 220      5349 5449 
- 220      4F4E 2043 
- 221               	.LC45:
- 222 04cd 4272 616B 		.string	"Brakes %d Position Warning!"
+ 216      6420 5072 
+ 216      6573 7375 
+ 216      7265 2057 
+ 217               	.LC41:
+ 218 0451 4252 414B 		.string	"BRAKES %d PRESSURE CRITICAL!"
+ 218      4553 2025 
+ 218      6420 5052 
+ 218      4553 5355 
+ 218      5245 2043 
+ 219               	.LC42:
+ 220 046e 4272 616B 		.string	"Brakes %d Position Normal"
+ 220      6573 2025 
+ 220      6420 506F 
+ 220      7369 7469 
+ 220      6F6E 204E 
+ 221               	.LC43:
+ 222 0488 4272 616B 		.string	"Brakes %d Position Abnormally Low!"
  222      6573 2025 
  222      6420 506F 
  222      7369 7469 
- 222      6F6E 2057 
- 223               	.LC46:
- 224 04e9 4252 414B 		.string	"BRAKES %d POSITION CRITICAL"
+ 222      6F6E 2041 
+ 223               	.LC44:
+ 224 04ab 4252 414B 		.string	"BRAKES %d POSITION CRITICALLY LOW"
  224      4553 2025 
  224      6420 504F 
  224      5349 5449 
  224      4F4E 2043 
- 225               	.LC47:
- 226 0505 5374 6565 		.string	"Steering Angle Normal"
- 226      7269 6E67 
- 226      2041 6E67 
- 226      6C65 204E 
- 226      6F72 6D61 
- 227               	.LC48:
- 228 051b 5354 4545 		.string	"STEERING ANGLE OUTSIDE LEFT PARAMETER"
- 228      5249 4E47 
- 228      2041 4E47 
- 228      4C45 204F 
- 228      5554 5349 
- 229               	.LC49:
- 230 0541 5354 4545 		.string	"STEERING ANGLE OUTSIDE RIGHT PARAMETER"
- 230      5249 4E47 
- 230      2041 4E47 
- 230      4C45 204F 
- 230      5554 5349 
- 231               	.LC50:
- 232 0568 5468 726F 		.string	"Throttle Function Normal"
- 232      7474 6C65 
- 232      2046 756E 
- 232      6374 696F 
- 232      6E20 4E6F 
- 233               	.LC51:
- 234 0581 5448 524F 		.string	"THROTTLE CRITICAL MALFUNCTION"
- 234      5454 4C45 
- 234      2043 5249 
- 234      5449 4341 
- 234      4C20 4D41 
- 235               	.LC52:
- 236 059f 4361 7220 		.string	"Car is upright"
- 236      6973 2075 
- 236      7072 6967 
- 236      6874 00
- 237               	.LC53:
- 238 05ae 4341 5220 		.string	"CAR HAS OVERTURNED"
- 238      4841 5320 
- 238      4F56 4552 
- 238      5455 524E 
- 238      4544 00
- 239               	.LC54:
- 240 05c1 4261 7474 		.string	"Battery %d Charge Normal"
- 240      6572 7920 
- 240      2564 2043 
- 240      6861 7267 
- 240      6520 4E6F 
- 241               	.LC55:
- 242 05da 4261 7474 		.string	"Battery %d Charge Low"
- 242      6572 7920 
- 242      2564 2043 
- 242      6861 7267 
- 242      6520 4C6F 
- 243               	.LC56:
- 244 05f0 4241 5454 		.string	"BATTERY %d CHARGE CRITICAL"
- 244      4552 5920 
+ 225               	.LC45:
+ 226 04cd 4272 616B 		.string	"Brakes %d Position Warning!"
+ 226      6573 2025 
+ 226      6420 506F 
+ 226      7369 7469 
+ 226      6F6E 2057 
+ 227               	.LC46:
+ 228 04e9 4252 414B 		.string	"BRAKES %d POSITION CRITICAL"
+ 228      4553 2025 
+ 228      6420 504F 
+ 228      5349 5449 
+ 228      4F4E 2043 
+ 229               	.LC47:
+ 230 0505 5374 6565 		.string	"Steering Angle Normal"
+ 230      7269 6E67 
+ 230      2041 6E67 
+ 230      6C65 204E 
+ 230      6F72 6D61 
+ 231               	.LC48:
+ 232 051b 5354 4545 		.string	"STEERING ANGLE OUTSIDE LEFT PARAMETER"
+ 232      5249 4E47 
+ 232      2041 4E47 
+ 232      4C45 204F 
+ 232      5554 5349 
+ 233               	.LC49:
+ 234 0541 5354 4545 		.string	"STEERING ANGLE OUTSIDE RIGHT PARAMETER"
+ 234      5249 4E47 
+ 234      2041 4E47 
+ 234      4C45 204F 
+ 234      5554 5349 
+ 235               	.LC50:
+ 236 0568 5468 726F 		.string	"Throttle Function Normal"
+ 236      7474 6C65 
+ 236      2046 756E 
+ 236      6374 696F 
+ 236      6E20 4E6F 
+ 237               	.LC51:
+ 238 0581 5448 524F 		.string	"THROTTLE CRITICAL MALFUNCTION"
+ 238      5454 4C45 
+ 238      2043 5249 
+ 238      5449 4341 
+ 238      4C20 4D41 
+ 239               	.LC52:
+ 240 059f 4361 7220 		.string	"Car is upright"
+ 240      6973 2075 
+ 240      7072 6967 
+ 240      6874 00
+ 241               	.LC53:
+ 242 05ae 4341 5220 		.string	"CAR HAS OVERTURNED"
+ 242      4841 5320 
+ 242      4F56 4552 
+ 242      5455 524E 
+ 242      4544 00
+ 243               	.LC54:
+ 244 05c1 4261 7474 		.string	"Battery %d Charge Normal"
+ 244      6572 7920 
  244      2564 2043 
- 244      4841 5247 
- 244      4520 4352 
- 245               	.LC57:
- 246 060b 4261 7474 		.string	"Battery %d Temperature Normal"
+ 244      6861 7267 
+ 244      6520 4E6F 
+ 245               	.LC55:
+ 246 05da 4261 7474 		.string	"Battery %d Charge Low"
  246      6572 7920 
- 246      2564 2054 
- 246      656D 7065 
- 246      7261 7475 
- 247               	.LC58:
- 248 0629 4261 7474 		.string	"Battery %d Temperature Abnormally Low!"
- 248      6572 7920 
- 248      2564 2054 
- 248      656D 7065 
- 248      7261 7475 
- 249               	.LC59:
- 250 0650 4241 5454 		.string	"BATTERY %d TEMPERATURE CRITICALLY LOW"
- 250      4552 5920 
+ 246      2564 2043 
+ 246      6861 7267 
+ 246      6520 4C6F 
+ 247               	.LC56:
+ 248 05f0 4241 5454 		.string	"BATTERY %d CHARGE CRITICAL"
+ 248      4552 5920 
+ 248      2564 2043 
+ 248      4841 5247 
+ 248      4520 4352 
+ 249               	.LC57:
+ 250 060b 4261 7474 		.string	"Battery %d Temperature Normal"
+ 250      6572 7920 
  250      2564 2054 
- 250      454D 5045 
- 250      5241 5455 
- 251               	.LC60:
- 252 0676 4261 7474 		.string	"Battery %d Temperature Abnormally High!"
+ 250      656D 7065 
+ 250      7261 7475 
+ 251               	.LC58:
+ 252 0629 4261 7474 		.string	"Battery %d Temperature Abnormally Low!"
  252      6572 7920 
  252      2564 2054 
  252      656D 7065 
  252      7261 7475 
- 253               	.LC61:
- 254 069e 4241 5454 		.string	"BATTERY %d TEMPERATURE CRITICALLY HIGH"
+ 253               	.LC59:
+ 254 0650 4241 5454 		.string	"BATTERY %d TEMPERATURE CRITICALLY LOW"
  254      4552 5920 
  254      2564 2054 
  254      454D 5045 
  254      5241 5455 
- 255               		.section	.text.throw_error_code_with_number,"ax",@progbits
- 256               	.global	throw_error_code_with_number
- 258               	throw_error_code_with_number:
- 259               	.LFB6:
+ 255               	.LC60:
+ 256 0676 4261 7474 		.string	"Battery %d Temperature Abnormally High!"
+ 256      6572 7920 
+ 256      2564 2054 
+ 256      656D 7065 
+ 256      7261 7475 
+ 257               	.LC61:
+ 258 069e 4241 5454 		.string	"BATTERY %d TEMPERATURE CRITICALLY HIGH"
+ 258      4552 5920 
+ 258      2564 2054 
+ 258      454D 5045 
+ 258      5241 5455 
+ 259               		.section	.text.throw_error_code_with_number,"ax",@progbits
+ 260               	.global	throw_error_code_with_number
+ 262               	throw_error_code_with_number:
+ 263               	.LVL4:
+ 264               	.LFB6:
   37:includes/chassisError.c **** 	switch (error_code) {
- 260               		.loc 1 37 0
- 261               		.cfi_startproc
- 262               	.LVL4:
- 263               	/* prologue: function */
- 264               	/* frame size = 0 */
- 265               	/* stack size = 0 */
- 266               	.L__stack_usage = 0
+ 265               		.loc 1 37 1 is_stmt 1 view -0
+ 266               		.cfi_startproc
+ 267               	/* prologue: function */
+ 268               	/* frame size = 0 */
+ 269               	/* stack size = 0 */
+ 270               	.L__stack_usage = 0
   38:includes/chassisError.c **** 		
- 267               		.loc 1 38 0
- 268 0000 6C30      		cpi r22,12
- 269 0002 7105      		cpc r23,__zero_reg__
- 270 0004 01F4      		brne .+2
- 271 0006 00C0      		rjmp .L4
- 272 0008 00F4      		brsh .L5
- 273 000a 6630      		cpi r22,6
- 274 000c 7105      		cpc r23,__zero_reg__
- 275 000e 01F4      		brne .+2
- 276 0010 00C0      		rjmp .L6
- 277 0012 00F4      		brsh .L7
- 278 0014 6330      		cpi r22,3
- 279 0016 7105      		cpc r23,__zero_reg__
- 280 0018 01F4      		brne .+2
- 281 001a 00C0      		rjmp .L8
- 282 001c 00F4      		brsh .L9
- 283 001e 6115      		cp r22,__zero_reg__
- 284 0020 7105      		cpc r23,__zero_reg__
- 285 0022 01F4      		brne .+2
- 286 0024 00C0      		rjmp .L10
- 287 0026 6230      		cpi r22,2
- 288 0028 7105      		cpc r23,__zero_reg__
- 289 002a 01F4      		brne .+2
- 290 002c 00C0      		rjmp .L11
- 291 002e 0895      		ret
- 292               	.L9:
- 293 0030 6430      		cpi r22,4
- 294 0032 7105      		cpc r23,__zero_reg__
- 295 0034 01F4      		brne .+2
- 296 0036 00C0      		rjmp .L12
- 297 0038 6530      		cpi r22,5
- 298 003a 7105      		cpc r23,__zero_reg__
- 299 003c 01F4      		brne .+2
- 300 003e 00C0      		rjmp .L13
- 301 0040 0895      		ret
- 302               	.L7:
- 303 0042 6930      		cpi r22,9
- 304 0044 7105      		cpc r23,__zero_reg__
- 305 0046 01F4      		brne .+2
- 306 0048 00C0      		rjmp .L14
- 307 004a 00F4      		brsh .L15
- 308 004c 6730      		cpi r22,7
- 309 004e 7105      		cpc r23,__zero_reg__
- 310 0050 01F4      		brne .+2
- 311 0052 00C0      		rjmp .L18
- 312 0054 6830      		cpi r22,8
- 313 0056 7105      		cpc r23,__zero_reg__
- 314 0058 01F4      		brne .+2
- 315 005a 00C0      		rjmp .L17
- 316 005c 0895      		ret
- 317               	.L15:
- 318 005e 6A30      		cpi r22,10
- 319 0060 7105      		cpc r23,__zero_reg__
- 320 0062 01F4      		brne .+2
- 321 0064 00C0      		rjmp .L18
- 322 0066 6B30      		cpi r22,11
- 323 0068 7105      		cpc r23,__zero_reg__
- 324 006a 01F4      		brne .+2
- 325 006c 00C0      		rjmp .L19
- 326 006e 0895      		ret
- 327               	.L5:
- 328 0070 6231      		cpi r22,18
- 329 0072 7105      		cpc r23,__zero_reg__
- 330 0074 01F4      		brne .+2
- 331 0076 00C0      		rjmp .L20
- 332 0078 00F4      		brsh .L21
- 333 007a 6F30      		cpi r22,15
- 334 007c 7105      		cpc r23,__zero_reg__
- 335 007e 01F4      		brne .+2
- 336 0080 00C0      		rjmp .L22
- 337 0082 00F4      		brsh .L23
- 338 0084 6D30      		cpi r22,13
- 339 0086 7105      		cpc r23,__zero_reg__
- 340 0088 01F4      		brne .+2
- 341 008a 00C0      		rjmp .L24
- 342 008c 6E30      		cpi r22,14
- 343 008e 7105      		cpc r23,__zero_reg__
- 344 0090 01F4      		brne .+2
- 345 0092 00C0      		rjmp .L25
- 346 0094 0895      		ret
- 347               	.L23:
- 348 0096 6031      		cpi r22,16
- 349 0098 7105      		cpc r23,__zero_reg__
- 350 009a 01F4      		brne .+2
- 351 009c 00C0      		rjmp .L26
- 352 009e 6131      		cpi r22,17
- 353 00a0 7105      		cpc r23,__zero_reg__
- 354 00a2 01F4      		brne .+2
- 355 00a4 00C0      		rjmp .L27
- 356 00a6 0895      		ret
- 357               	.L21:
- 358 00a8 6937      		cpi r22,121
- 359 00aa 7105      		cpc r23,__zero_reg__
- 360 00ac 01F4      		brne .+2
- 361 00ae 00C0      		rjmp .L28
- 362 00b0 00F4      		brsh .L29
- 363 00b2 6F36      		cpi r22,111
- 364 00b4 7105      		cpc r23,__zero_reg__
- 365 00b6 01F0      		breq .L30
- 366 00b8 6037      		cpi r22,112
- 367 00ba 7105      		cpc r23,__zero_reg__
- 368 00bc 01F4      		brne .+2
- 369 00be 00C0      		rjmp .L31
- 370 00c0 0895      		ret
- 371               	.L29:
- 372 00c2 6338      		cpi r22,-125
- 373 00c4 7105      		cpc r23,__zero_reg__
- 374 00c6 01F4      		brne .+2
- 375 00c8 00C0      		rjmp .L32
- 376 00ca 6438      		cpi r22,-124
- 377 00cc 7105      		cpc r23,__zero_reg__
- 378 00ce 01F4      		brne .+2
- 379 00d0 00C0      		rjmp .L33
- 380 00d2 6A37      		cpi r22,122
- 381 00d4 7105      		cpc r23,__zero_reg__
- 382 00d6 01F4      		brne .L2
+ 271               		.loc 1 38 2 view .LVU9
+ 272 0000 6C30      		cpi r22,12
+ 273 0002 7105      		cpc r23,__zero_reg__
+ 274 0004 01F4      		brne .+2
+ 275 0006 00C0      		rjmp .L3
+ 276 0008 00F4      		brsh .L4
+ 277 000a 6630      		cpi r22,6
+ 278 000c 7105      		cpc r23,__zero_reg__
+ 279 000e 01F4      		brne .+2
+ 280 0010 00C0      		rjmp .L5
+ 281 0012 00F4      		brsh .L6
+ 282 0014 6330      		cpi r22,3
+ 283 0016 7105      		cpc r23,__zero_reg__
+ 284 0018 01F4      		brne .+2
+ 285 001a 00C0      		rjmp .L7
+ 286 001c 00F4      		brsh .L8
+ 287 001e 6115      		cp r22,__zero_reg__
+ 288 0020 7105      		cpc r23,__zero_reg__
+ 289 0022 01F4      		brne .+2
+ 290 0024 00C0      		rjmp .L9
+ 291 0026 6230      		cpi r22,2
+ 292 0028 7105      		cpc r23,__zero_reg__
+ 293 002a 01F4      		brne .+2
+ 294 002c 00C0      		rjmp .L10
+ 295 002e 0895      		ret
+ 296               	.L8:
+ 297 0030 6430      		cpi r22,4
+ 298 0032 7105      		cpc r23,__zero_reg__
+ 299 0034 01F4      		brne .+2
+ 300 0036 00C0      		rjmp .L12
+ 301 0038 6530      		cpi r22,5
+ 302 003a 7105      		cpc r23,__zero_reg__
+ 303 003c 01F4      		brne .+2
+ 304 003e 00C0      		rjmp .L13
+ 305 0040 0895      		ret
+ 306               	.L6:
+ 307 0042 6930      		cpi r22,9
+ 308 0044 7105      		cpc r23,__zero_reg__
+ 309 0046 01F4      		brne .+2
+ 310 0048 00C0      		rjmp .L14
+ 311 004a 00F4      		brsh .L15
+ 312 004c 6730      		cpi r22,7
+ 313 004e 7105      		cpc r23,__zero_reg__
+ 314 0050 01F4      		brne .+2
+ 315 0052 00C0      		rjmp .L18
+ 316 0054 6830      		cpi r22,8
+ 317 0056 7105      		cpc r23,__zero_reg__
+ 318 0058 01F4      		brne .+2
+ 319 005a 00C0      		rjmp .L17
+ 320 005c 0895      		ret
+ 321               	.L15:
+ 322 005e 6A30      		cpi r22,10
+ 323 0060 7105      		cpc r23,__zero_reg__
+ 324 0062 01F4      		brne .+2
+ 325 0064 00C0      		rjmp .L18
+ 326 0066 6B30      		cpi r22,11
+ 327 0068 7105      		cpc r23,__zero_reg__
+ 328 006a 01F4      		brne .+2
+ 329 006c 00C0      		rjmp .L19
+ 330 006e 0895      		ret
+ 331               	.L4:
+ 332 0070 6231      		cpi r22,18
+ 333 0072 7105      		cpc r23,__zero_reg__
+ 334 0074 01F4      		brne .+2
+ 335 0076 00C0      		rjmp .L20
+ 336 0078 00F4      		brsh .L21
+ 337 007a 6F30      		cpi r22,15
+ 338 007c 7105      		cpc r23,__zero_reg__
+ 339 007e 01F4      		brne .+2
+ 340 0080 00C0      		rjmp .L22
+ 341 0082 00F4      		brsh .L23
+ 342 0084 6D30      		cpi r22,13
+ 343 0086 7105      		cpc r23,__zero_reg__
+ 344 0088 01F4      		brne .+2
+ 345 008a 00C0      		rjmp .L24
+ 346 008c 6E30      		cpi r22,14
+ 347 008e 7105      		cpc r23,__zero_reg__
+ 348 0090 01F4      		brne .+2
+ 349 0092 00C0      		rjmp .L25
+ 350 0094 0895      		ret
+ 351               	.L23:
+ 352 0096 6031      		cpi r22,16
+ 353 0098 7105      		cpc r23,__zero_reg__
+ 354 009a 01F4      		brne .+2
+ 355 009c 00C0      		rjmp .L26
+ 356 009e 6131      		cpi r22,17
+ 357 00a0 7105      		cpc r23,__zero_reg__
+ 358 00a2 01F4      		brne .+2
+ 359 00a4 00C0      		rjmp .L27
+ 360 00a6 0895      		ret
+ 361               	.L21:
+ 362 00a8 6937      		cpi r22,121
+ 363 00aa 7105      		cpc r23,__zero_reg__
+ 364 00ac 01F4      		brne .+2
+ 365 00ae 00C0      		rjmp .L28
+ 366 00b0 00F4      		brsh .L29
+ 367 00b2 6F36      		cpi r22,111
+ 368 00b4 7105      		cpc r23,__zero_reg__
+ 369 00b6 01F0      		breq .L30
+ 370 00b8 6037      		cpi r22,112
+ 371 00ba 7105      		cpc r23,__zero_reg__
+ 372 00bc 01F4      		brne .+2
+ 373 00be 00C0      		rjmp .L31
+ 374 00c0 0895      		ret
+ 375               	.L29:
+ 376 00c2 6338      		cpi r22,-125
+ 377 00c4 7105      		cpc r23,__zero_reg__
+ 378 00c6 01F4      		brne .+2
+ 379 00c8 00C0      		rjmp .L32
+ 380 00ca 6438      		cpi r22,-124
+ 381 00cc 7105      		cpc r23,__zero_reg__
+ 382 00ce 01F4      		brne .+2
+ 383 00d0 00C0      		rjmp .L33
+ 384 00d2 6A37      		cpi r22,122
+ 385 00d4 7105      		cpc r23,__zero_reg__
+ 386 00d6 01F4      		brne .L2
  154:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 383               		.loc 1 154 0
- 384 00d8 8230      		cpi r24,2
- 385 00da 9105      		cpc r25,__zero_reg__
- 386 00dc 01F4      		brne .+2
- 387 00de 00C0      		rjmp .L47
- 388 00e0 8330      		cpi r24,3
- 389 00e2 9105      		cpc r25,__zero_reg__
- 390 00e4 01F4      		brne .+2
- 391 00e6 00C0      		rjmp .L48
+ 387               		.loc 1 154 4 view .LVU10
+ 388 00d8 8230      		cpi r24,2
+ 389 00da 9105      		cpc r25,__zero_reg__
+ 390 00dc 01F4      		brne .+2
+ 391 00de 00C0      		rjmp .L43
+ 392 00e0 8330      		cpi r24,3
+ 393 00e2 9105      		cpc r25,__zero_reg__
+ 394 00e4 01F4      		brne .+2
+ 395 00e6 00C0      		rjmp .L44
  157:includes/chassisError.c **** 				// Additional Info Handling
- 392               		.loc 1 157 0
- 393 00e8 60E0      		ldi r22,lo8(.LC16)
- 394 00ea 70E0      		ldi r23,hi8(.LC16)
- 395               	.LVL5:
- 154:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 396               		.loc 1 154 0
- 397 00ec 0197      		sbiw r24,1
- 398 00ee 01F4      		brne .L2
- 399 00f0 00C0      		rjmp .L163
- 400               	.LVL6:
- 401               	.L10:
+ 396               		.loc 1 157 5 is_stmt 0 view .LVU11
+ 397 00e8 60E0      		ldi r22,lo8(.LC16)
+ 398 00ea 70E0      		ldi r23,hi8(.LC16)
+ 399               	.LVL5:
+ 157:includes/chassisError.c **** 				// Additional Info Handling
+ 400               		.loc 1 157 5 view .LVU12
+ 401 00ec 0197      		sbiw r24,1
+ 402 00ee 01F4      		brne .L2
+ 403 00f0 00C0      		rjmp .L140
+ 404               	.LVL6:
+ 405               	.L9:
   63:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 402               		.loc 1 63 0
- 403 00f2 8230      		cpi r24,2
- 404 00f4 9105      		cpc r25,__zero_reg__
- 405 00f6 01F0      		breq .L35
- 406 00f8 8330      		cpi r24,3
- 407 00fa 9105      		cpc r25,__zero_reg__
- 408 00fc 01F0      		breq .L36
+ 406               		.loc 1 63 4 is_stmt 1 view .LVU13
+ 407 00f2 8230      		cpi r24,2
+ 408 00f4 9105      		cpc r25,__zero_reg__
+ 409 00f6 01F0      		breq .L35
+ 410 00f8 8330      		cpi r24,3
+ 411 00fa 9105      		cpc r25,__zero_reg__
+ 412 00fc 01F0      		breq .L36
   66:includes/chassisError.c **** 				// Additional Info Handling
- 409               		.loc 1 66 0
- 410 00fe 60E0      		ldi r22,lo8(.LC1)
- 411 0100 70E0      		ldi r23,hi8(.LC1)
- 412               	.LVL7:
-  63:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 413               		.loc 1 63 0
- 414 0102 0197      		sbiw r24,1
- 415 0104 01F0      		breq .L163
- 416               	.L2:
- 417               	/* epilogue start */
+ 413               		.loc 1 66 5 is_stmt 0 view .LVU14
+ 414 00fe 60E0      		ldi r22,lo8(.LC1)
+ 415 0100 70E0      		ldi r23,hi8(.LC1)
+ 416               	.LVL7:
+  66:includes/chassisError.c **** 				// Additional Info Handling
+ 417               		.loc 1 66 5 view .LVU15
+ 418 0102 0197      		sbiw r24,1
+ 419 0104 01F0      		breq .L140
+ 420               	.L2:
+ 421               	/* epilogue start */
  597:includes/chassisError.c **** 
- 418               		.loc 1 597 0
- 419 0106 0895      		ret
- 420               	.LVL8:
- 421               	.L35:
+ 422               		.loc 1 597 1 view .LVU16
+ 423 0106 0895      		ret
+ 424               	.LVL8:
+ 425               	.L35:
   72:includes/chassisError.c **** 				// Additional Warning Handling
- 422               		.loc 1 72 0
- 423 0108 60E0      		ldi r22,lo8(.LC3)
- 424 010a 70E0      		ldi r23,hi8(.LC3)
- 425               	.LVL9:
- 426               	.L164:
+ 426               		.loc 1 72 5 is_stmt 1 view .LVU17
+ 427 0108 60E0      		ldi r22,lo8(.LC3)
+ 428 010a 70E0      		ldi r23,hi8(.LC3)
+ 429               	.LVL9:
+ 430               	.L141:
  560:includes/chassisError.c **** 				// Additional Warning Handling
- 427               		.loc 1 560 0
- 428 010c 80E0      		ldi r24,lo8(.LC4)
- 429 010e 90E0      		ldi r25,hi8(.LC4)
- 430               	.LVL10:
- 431 0110 00C0      		rjmp .L161
- 432               	.LVL11:
- 433               	.L36:
+ 431               		.loc 1 560 5 is_stmt 0 view .LVU18
+ 432 010c 80E0      		ldi r24,lo8(.LC4)
+ 433 010e 90E0      		ldi r25,hi8(.LC4)
+ 434               	.LVL10:
+ 560:includes/chassisError.c **** 				// Additional Warning Handling
+ 435               		.loc 1 560 5 view .LVU19
+ 436 0110 00C0      		rjmp .L135
+ 437               	.LVL11:
+ 438               	.L36:
   78:includes/chassisError.c **** 				// Additional Error Handling
- 434               		.loc 1 78 0
- 435 0112 60E0      		ldi r22,lo8(.LC5)
- 436 0114 70E0      		ldi r23,hi8(.LC5)
- 437               	.LVL12:
- 438               	.L162:
+ 439               		.loc 1 78 5 is_stmt 1 view .LVU20
+ 440 0112 60E0      		ldi r22,lo8(.LC5)
+ 441 0114 70E0      		ldi r23,hi8(.LC5)
+ 442               	.LVL12:
+ 443               	.L136:
  566:includes/chassisError.c **** 				// Additional Error Handling
- 439               		.loc 1 566 0
- 440 0116 80E0      		ldi r24,lo8(.LC6)
- 441 0118 90E0      		ldi r25,hi8(.LC6)
- 442               	.LVL13:
- 443 011a 00C0      		rjmp .L161
- 444               	.LVL14:
- 445               	.L30:
+ 444               		.loc 1 566 5 is_stmt 0 view .LVU21
+ 445 0116 80E0      		ldi r24,lo8(.LC6)
+ 446 0118 90E0      		ldi r25,hi8(.LC6)
+ 447               	.LVL13:
+ 566:includes/chassisError.c **** 				// Additional Error Handling
+ 448               		.loc 1 566 5 view .LVU22
+ 449 011a 00C0      		rjmp .L135
+ 450               	.LVL14:
+ 451               	.L30:
   88:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 446               		.loc 1 88 0
- 447 011c 8230      		cpi r24,2
- 448 011e 9105      		cpc r25,__zero_reg__
- 449 0120 01F0      		breq .L38
- 450 0122 8330      		cpi r24,3
- 451 0124 9105      		cpc r25,__zero_reg__
- 452 0126 01F0      		breq .L39
- 453 0128 0197      		sbiw r24,1
- 454 012a 01F4      		brne .L2
+ 452               		.loc 1 88 4 is_stmt 1 view .LVU23
+ 453 011c 8230      		cpi r24,2
+ 454 011e 9105      		cpc r25,__zero_reg__
+ 455 0120 01F0      		breq .L37
+ 456 0122 8330      		cpi r24,3
+ 457 0124 9105      		cpc r25,__zero_reg__
+ 458 0126 01F0      		breq .L38
+ 459 0128 0197      		sbiw r24,1
+ 460 012a 01F4      		brne .L2
   91:includes/chassisError.c **** 				// Additional Info Handling
- 455               		.loc 1 91 0
- 456 012c 60E0      		ldi r22,lo8(.LC7)
- 457 012e 70E0      		ldi r23,hi8(.LC7)
- 458               	.LVL15:
- 459               	.L163:
- 460 0130 80E0      		ldi r24,lo8(.LC2)
- 461 0132 90E0      		ldi r25,hi8(.LC2)
- 462               	.LVL16:
- 463               	.L161:
+ 461               		.loc 1 91 5 view .LVU24
+ 462 012c 60E0      		ldi r22,lo8(.LC7)
+ 463 012e 70E0      		ldi r23,hi8(.LC7)
+ 464               	.LVL15:
+ 465               	.L140:
+  91:includes/chassisError.c **** 				// Additional Info Handling
+ 466               		.loc 1 91 5 is_stmt 0 view .LVU25
+ 467 0130 80E0      		ldi r24,lo8(.LC2)
+ 468 0132 90E0      		ldi r25,hi8(.LC2)
+ 469               	.LVL16:
+ 470               	.L135:
  566:includes/chassisError.c **** 				// Additional Error Handling
- 464               		.loc 1 566 0
- 465 0134 0C94 0000 		jmp send_error_message
- 466               	.LVL17:
- 467               	.L38:
+ 471               		.loc 1 566 5 view .LVU26
+ 472 0134 0C94 0000 		jmp send_error_message
+ 473               	.LVL17:
+ 474               	.L37:
   97:includes/chassisError.c **** 				// Additional Warning Handling
- 468               		.loc 1 97 0
- 469 0138 60E0      		ldi r22,lo8(.LC8)
- 470 013a 70E0      		ldi r23,hi8(.LC8)
- 471               	.LVL18:
- 472 013c 00C0      		rjmp .L164
- 473               	.LVL19:
- 474               	.L39:
+ 475               		.loc 1 97 5 is_stmt 1 view .LVU27
+ 476 0138 60E0      		ldi r22,lo8(.LC8)
+ 477 013a 70E0      		ldi r23,hi8(.LC8)
+ 478               	.LVL18:
+  97:includes/chassisError.c **** 				// Additional Warning Handling
+ 479               		.loc 1 97 5 is_stmt 0 view .LVU28
+ 480 013c 00C0      		rjmp .L141
+ 481               	.LVL19:
+ 482               	.L38:
  103:includes/chassisError.c **** 				// Additional Error Handling
- 475               		.loc 1 103 0
- 476 013e 60E0      		ldi r22,lo8(.LC9)
- 477 0140 70E0      		ldi r23,hi8(.LC9)
- 478               	.LVL20:
- 479 0142 00C0      		rjmp .L162
- 480               	.LVL21:
- 481               	.L31:
+ 483               		.loc 1 103 5 is_stmt 1 view .LVU29
+ 484 013e 60E0      		ldi r22,lo8(.LC9)
+ 485 0140 70E0      		ldi r23,hi8(.LC9)
+ 486               	.LVL20:
+ 103:includes/chassisError.c **** 				// Additional Error Handling
+ 487               		.loc 1 103 5 is_stmt 0 view .LVU30
+ 488 0142 00C0      		rjmp .L136
+ 489               	.LVL21:
+ 490               	.L31:
  110:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 482               		.loc 1 110 0
- 483 0144 8230      		cpi r24,2
- 484 0146 9105      		cpc r25,__zero_reg__
- 485 0148 01F0      		breq .L41
- 486 014a 8330      		cpi r24,3
- 487 014c 9105      		cpc r25,__zero_reg__
- 488 014e 01F0      		breq .L42
+ 491               		.loc 1 110 4 is_stmt 1 view .LVU31
+ 492 0144 8230      		cpi r24,2
+ 493 0146 9105      		cpc r25,__zero_reg__
+ 494 0148 01F0      		breq .L39
+ 495 014a 8330      		cpi r24,3
+ 496 014c 9105      		cpc r25,__zero_reg__
+ 497 014e 01F0      		breq .L40
  113:includes/chassisError.c **** 				// Additional Info Handling
- 489               		.loc 1 113 0
- 490 0150 60E0      		ldi r22,lo8(.LC10)
- 491 0152 70E0      		ldi r23,hi8(.LC10)
- 492               	.LVL22:
- 110:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 493               		.loc 1 110 0
- 494 0154 0197      		sbiw r24,1
- 495 0156 01F4      		brne .L2
- 496 0158 00C0      		rjmp .L163
- 497               	.LVL23:
- 498               	.L41:
+ 498               		.loc 1 113 5 is_stmt 0 view .LVU32
+ 499 0150 60E0      		ldi r22,lo8(.LC10)
+ 500 0152 70E0      		ldi r23,hi8(.LC10)
+ 501               	.LVL22:
+ 113:includes/chassisError.c **** 				// Additional Info Handling
+ 502               		.loc 1 113 5 view .LVU33
+ 503 0154 0197      		sbiw r24,1
+ 504 0156 01F4      		brne .L2
+ 505 0158 00C0      		rjmp .L140
+ 506               	.LVL23:
+ 507               	.L39:
  119:includes/chassisError.c **** 				// Additional Warning Handling
- 499               		.loc 1 119 0
- 500 015a 60E0      		ldi r22,lo8(.LC11)
- 501 015c 70E0      		ldi r23,hi8(.LC11)
- 502               	.LVL24:
- 503 015e 00C0      		rjmp .L164
- 504               	.LVL25:
- 505               	.L42:
+ 508               		.loc 1 119 5 is_stmt 1 view .LVU34
+ 509 015a 60E0      		ldi r22,lo8(.LC11)
+ 510 015c 70E0      		ldi r23,hi8(.LC11)
+ 511               	.LVL24:
+ 119:includes/chassisError.c **** 				// Additional Warning Handling
+ 512               		.loc 1 119 5 is_stmt 0 view .LVU35
+ 513 015e 00C0      		rjmp .L141
+ 514               	.LVL25:
+ 515               	.L40:
  125:includes/chassisError.c **** 				// Additional Error Handling
- 506               		.loc 1 125 0
- 507 0160 60E0      		ldi r22,lo8(.LC12)
- 508 0162 70E0      		ldi r23,hi8(.LC12)
- 509               	.LVL26:
- 510 0164 00C0      		rjmp .L162
- 511               	.LVL27:
- 512               	.L28:
+ 516               		.loc 1 125 5 is_stmt 1 view .LVU36
+ 517 0160 60E0      		ldi r22,lo8(.LC12)
+ 518 0162 70E0      		ldi r23,hi8(.LC12)
+ 519               	.LVL26:
+ 125:includes/chassisError.c **** 				// Additional Error Handling
+ 520               		.loc 1 125 5 is_stmt 0 view .LVU37
+ 521 0164 00C0      		rjmp .L136
+ 522               	.LVL27:
+ 523               	.L28:
  132:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 513               		.loc 1 132 0
- 514 0166 8230      		cpi r24,2
- 515 0168 9105      		cpc r25,__zero_reg__
- 516 016a 01F0      		breq .L44
- 517 016c 8330      		cpi r24,3
- 518 016e 9105      		cpc r25,__zero_reg__
- 519 0170 01F0      		breq .L45
+ 524               		.loc 1 132 4 is_stmt 1 view .LVU38
+ 525 0166 8230      		cpi r24,2
+ 526 0168 9105      		cpc r25,__zero_reg__
+ 527 016a 01F0      		breq .L41
+ 528 016c 8330      		cpi r24,3
+ 529 016e 9105      		cpc r25,__zero_reg__
+ 530 0170 01F0      		breq .L42
  135:includes/chassisError.c **** 				// Additional Info Handling
- 520               		.loc 1 135 0
- 521 0172 60E0      		ldi r22,lo8(.LC13)
- 522 0174 70E0      		ldi r23,hi8(.LC13)
- 523               	.LVL28:
- 132:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 524               		.loc 1 132 0
- 525 0176 0197      		sbiw r24,1
- 526 0178 01F4      		brne .L2
- 527 017a 00C0      		rjmp .L163
- 528               	.LVL29:
- 529               	.L44:
+ 531               		.loc 1 135 5 is_stmt 0 view .LVU39
+ 532 0172 60E0      		ldi r22,lo8(.LC13)
+ 533 0174 70E0      		ldi r23,hi8(.LC13)
+ 534               	.LVL28:
+ 135:includes/chassisError.c **** 				// Additional Info Handling
+ 535               		.loc 1 135 5 view .LVU40
+ 536 0176 0197      		sbiw r24,1
+ 537 0178 01F4      		brne .L2
+ 538 017a 00C0      		rjmp .L140
+ 539               	.LVL29:
+ 540               	.L41:
  141:includes/chassisError.c **** 				// Additional Warning Handling
- 530               		.loc 1 141 0
- 531 017c 60E0      		ldi r22,lo8(.LC14)
- 532 017e 70E0      		ldi r23,hi8(.LC14)
- 533               	.LVL30:
- 534 0180 00C0      		rjmp .L164
- 535               	.LVL31:
- 536               	.L45:
+ 541               		.loc 1 141 5 is_stmt 1 view .LVU41
+ 542 017c 60E0      		ldi r22,lo8(.LC14)
+ 543 017e 70E0      		ldi r23,hi8(.LC14)
+ 544               	.LVL30:
+ 141:includes/chassisError.c **** 				// Additional Warning Handling
+ 545               		.loc 1 141 5 is_stmt 0 view .LVU42
+ 546 0180 00C0      		rjmp .L141
+ 547               	.LVL31:
+ 548               	.L42:
  147:includes/chassisError.c **** 				// Additional Error Handling
- 537               		.loc 1 147 0
- 538 0182 60E0      		ldi r22,lo8(.LC15)
- 539 0184 70E0      		ldi r23,hi8(.LC15)
- 540               	.LVL32:
- 541 0186 00C0      		rjmp .L162
- 542               	.LVL33:
- 543               	.L47:
+ 549               		.loc 1 147 5 is_stmt 1 view .LVU43
+ 550 0182 60E0      		ldi r22,lo8(.LC15)
+ 551 0184 70E0      		ldi r23,hi8(.LC15)
+ 552               	.LVL32:
+ 147:includes/chassisError.c **** 				// Additional Error Handling
+ 553               		.loc 1 147 5 is_stmt 0 view .LVU44
+ 554 0186 00C0      		rjmp .L136
+ 555               	.LVL33:
+ 556               	.L43:
  163:includes/chassisError.c **** 				// Additional Warning Handling
- 544               		.loc 1 163 0
- 545 0188 60E0      		ldi r22,lo8(.LC17)
- 546 018a 70E0      		ldi r23,hi8(.LC17)
- 547               	.LVL34:
- 548 018c 00C0      		rjmp .L164
- 549               	.LVL35:
- 550               	.L48:
+ 557               		.loc 1 163 5 is_stmt 1 view .LVU45
+ 558 0188 60E0      		ldi r22,lo8(.LC17)
+ 559 018a 70E0      		ldi r23,hi8(.LC17)
+ 560               	.LVL34:
+ 163:includes/chassisError.c **** 				// Additional Warning Handling
+ 561               		.loc 1 163 5 is_stmt 0 view .LVU46
+ 562 018c 00C0      		rjmp .L141
+ 563               	.LVL35:
+ 564               	.L44:
  169:includes/chassisError.c **** 				// Additional Error Handling
- 551               		.loc 1 169 0
- 552 018e 60E0      		ldi r22,lo8(.LC18)
- 553 0190 70E0      		ldi r23,hi8(.LC18)
- 554               	.LVL36:
- 555 0192 00C0      		rjmp .L162
- 556               	.LVL37:
- 557               	.L32:
+ 565               		.loc 1 169 5 is_stmt 1 view .LVU47
+ 566 018e 60E0      		ldi r22,lo8(.LC18)
+ 567 0190 70E0      		ldi r23,hi8(.LC18)
+ 568               	.LVL36:
+ 169:includes/chassisError.c **** 				// Additional Error Handling
+ 569               		.loc 1 169 5 is_stmt 0 view .LVU48
+ 570 0192 00C0      		rjmp .L136
+ 571               	.LVL37:
+ 572               	.L32:
  176:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 558               		.loc 1 176 0
- 559 0194 8230      		cpi r24,2
- 560 0196 9105      		cpc r25,__zero_reg__
- 561 0198 01F0      		breq .L50
- 562 019a 8330      		cpi r24,3
- 563 019c 9105      		cpc r25,__zero_reg__
- 564 019e 01F0      		breq .L51
+ 573               		.loc 1 176 4 is_stmt 1 view .LVU49
+ 574 0194 8230      		cpi r24,2
+ 575 0196 9105      		cpc r25,__zero_reg__
+ 576 0198 01F0      		breq .L45
+ 577 019a 8330      		cpi r24,3
+ 578 019c 9105      		cpc r25,__zero_reg__
+ 579 019e 01F0      		breq .L46
  179:includes/chassisError.c **** 				// Additional Info Handling
- 565               		.loc 1 179 0
- 566 01a0 60E0      		ldi r22,lo8(.LC19)
- 567 01a2 70E0      		ldi r23,hi8(.LC19)
- 568               	.LVL38:
- 176:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 569               		.loc 1 176 0
- 570 01a4 0197      		sbiw r24,1
- 571 01a6 01F0      		breq .+2
- 572 01a8 00C0      		rjmp .L2
- 573 01aa 00C0      		rjmp .L163
- 574               	.LVL39:
- 575               	.L50:
+ 580               		.loc 1 179 5 is_stmt 0 view .LVU50
+ 581 01a0 60E0      		ldi r22,lo8(.LC19)
+ 582 01a2 70E0      		ldi r23,hi8(.LC19)
+ 583               	.LVL38:
+ 179:includes/chassisError.c **** 				// Additional Info Handling
+ 584               		.loc 1 179 5 view .LVU51
+ 585 01a4 0197      		sbiw r24,1
+ 586 01a6 01F0      		breq .+2
+ 587 01a8 00C0      		rjmp .L2
+ 588 01aa 00C0      		rjmp .L140
+ 589               	.LVL39:
+ 590               	.L45:
  185:includes/chassisError.c **** 				// Additional Warning Handling
- 576               		.loc 1 185 0
- 577 01ac 60E0      		ldi r22,lo8(.LC20)
- 578 01ae 70E0      		ldi r23,hi8(.LC20)
- 579               	.LVL40:
- 580 01b0 00C0      		rjmp .L164
- 581               	.LVL41:
- 582               	.L51:
+ 591               		.loc 1 185 5 is_stmt 1 view .LVU52
+ 592 01ac 60E0      		ldi r22,lo8(.LC20)
+ 593 01ae 70E0      		ldi r23,hi8(.LC20)
+ 594               	.LVL40:
+ 185:includes/chassisError.c **** 				// Additional Warning Handling
+ 595               		.loc 1 185 5 is_stmt 0 view .LVU53
+ 596 01b0 00C0      		rjmp .L141
+ 597               	.LVL41:
+ 598               	.L46:
  191:includes/chassisError.c **** 				// Additional Error Handling
- 583               		.loc 1 191 0
- 584 01b2 60E0      		ldi r22,lo8(.LC21)
- 585 01b4 70E0      		ldi r23,hi8(.LC21)
- 586               	.LVL42:
- 587 01b6 00C0      		rjmp .L162
- 588               	.LVL43:
- 589               	.L33:
+ 599               		.loc 1 191 5 is_stmt 1 view .LVU54
+ 600 01b2 60E0      		ldi r22,lo8(.LC21)
+ 601 01b4 70E0      		ldi r23,hi8(.LC21)
+ 602               	.LVL42:
+ 191:includes/chassisError.c **** 				// Additional Error Handling
+ 603               		.loc 1 191 5 is_stmt 0 view .LVU55
+ 604 01b6 00C0      		rjmp .L136
+ 605               	.LVL43:
+ 606               	.L33:
  198:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 590               		.loc 1 198 0
- 591 01b8 8230      		cpi r24,2
- 592 01ba 9105      		cpc r25,__zero_reg__
- 593 01bc 01F0      		breq .L53
- 594 01be 8330      		cpi r24,3
- 595 01c0 9105      		cpc r25,__zero_reg__
- 596 01c2 01F0      		breq .L54
+ 607               		.loc 1 198 4 is_stmt 1 view .LVU56
+ 608 01b8 8230      		cpi r24,2
+ 609 01ba 9105      		cpc r25,__zero_reg__
+ 610 01bc 01F0      		breq .L47
+ 611 01be 8330      		cpi r24,3
+ 612 01c0 9105      		cpc r25,__zero_reg__
+ 613 01c2 01F0      		breq .L48
  201:includes/chassisError.c **** 				// Additional Info Handling
- 597               		.loc 1 201 0
- 598 01c4 60E0      		ldi r22,lo8(.LC22)
- 599 01c6 70E0      		ldi r23,hi8(.LC22)
- 600               	.LVL44:
- 198:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 601               		.loc 1 198 0
- 602 01c8 0197      		sbiw r24,1
- 603 01ca 01F0      		breq .+2
- 604 01cc 00C0      		rjmp .L2
- 605 01ce 00C0      		rjmp .L163
- 606               	.LVL45:
- 607               	.L53:
+ 614               		.loc 1 201 5 is_stmt 0 view .LVU57
+ 615 01c4 60E0      		ldi r22,lo8(.LC22)
+ 616 01c6 70E0      		ldi r23,hi8(.LC22)
+ 617               	.LVL44:
+ 201:includes/chassisError.c **** 				// Additional Info Handling
+ 618               		.loc 1 201 5 view .LVU58
+ 619 01c8 0197      		sbiw r24,1
+ 620 01ca 01F0      		breq .+2
+ 621 01cc 00C0      		rjmp .L2
+ 622 01ce 00C0      		rjmp .L140
+ 623               	.LVL45:
+ 624               	.L47:
  207:includes/chassisError.c **** 				// Additional Warning Handling
- 608               		.loc 1 207 0
- 609 01d0 60E0      		ldi r22,lo8(.LC23)
- 610 01d2 70E0      		ldi r23,hi8(.LC23)
- 611               	.LVL46:
- 612 01d4 00C0      		rjmp .L164
- 613               	.LVL47:
- 614               	.L54:
+ 625               		.loc 1 207 5 is_stmt 1 view .LVU59
+ 626 01d0 60E0      		ldi r22,lo8(.LC23)
+ 627 01d2 70E0      		ldi r23,hi8(.LC23)
+ 628               	.LVL46:
+ 207:includes/chassisError.c **** 				// Additional Warning Handling
+ 629               		.loc 1 207 5 is_stmt 0 view .LVU60
+ 630 01d4 00C0      		rjmp .L141
+ 631               	.LVL47:
+ 632               	.L48:
  213:includes/chassisError.c **** 				// Additional Error Handling
- 615               		.loc 1 213 0
- 616 01d6 60E0      		ldi r22,lo8(.LC24)
- 617 01d8 70E0      		ldi r23,hi8(.LC24)
- 618               	.LVL48:
- 619 01da 00C0      		rjmp .L162
- 620               	.LVL49:
- 621               	.L11:
+ 633               		.loc 1 213 5 is_stmt 1 view .LVU61
+ 634 01d6 60E0      		ldi r22,lo8(.LC24)
+ 635 01d8 70E0      		ldi r23,hi8(.LC24)
+ 636               	.LVL48:
+ 213:includes/chassisError.c **** 				// Additional Error Handling
+ 637               		.loc 1 213 5 is_stmt 0 view .LVU62
+ 638 01da 00C0      		rjmp .L136
+ 639               	.LVL49:
+ 640               	.L10:
  223:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 622               		.loc 1 223 0
- 623 01dc 8230      		cpi r24,2
- 624 01de 9105      		cpc r25,__zero_reg__
- 625 01e0 01F0      		breq .L56
- 626 01e2 8330      		cpi r24,3
- 627 01e4 9105      		cpc r25,__zero_reg__
- 628 01e6 01F0      		breq .L57
- 629               	.L148:
+ 641               		.loc 1 223 4 is_stmt 1 view .LVU63
+ 642 01dc 8230      		cpi r24,2
+ 643 01de 9105      		cpc r25,__zero_reg__
+ 644 01e0 01F0      		breq .L49
+ 645 01e2 8330      		cpi r24,3
+ 646 01e4 9105      		cpc r25,__zero_reg__
+ 647 01e6 01F0      		breq .L50
+ 648               	.L124:
  226:includes/chassisError.c **** 				// Additional Info Handling
- 630               		.loc 1 226 0
- 631 01e8 60E0      		ldi r22,lo8(.LC25)
- 632 01ea 70E0      		ldi r23,hi8(.LC25)
- 633               	.LVL50:
- 223:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 634               		.loc 1 223 0
- 635 01ec 0197      		sbiw r24,1
- 636 01ee 01F0      		breq .+2
- 637 01f0 00C0      		rjmp .L2
- 638 01f2 00C0      		rjmp .L163
- 639               	.LVL51:
- 640               	.L56:
+ 649               		.loc 1 226 5 is_stmt 0 view .LVU64
+ 650 01e8 60E0      		ldi r22,lo8(.LC25)
+ 651 01ea 70E0      		ldi r23,hi8(.LC25)
+ 652               	.LVL50:
+ 226:includes/chassisError.c **** 				// Additional Info Handling
+ 653               		.loc 1 226 5 view .LVU65
+ 654 01ec 0197      		sbiw r24,1
+ 655 01ee 01F0      		breq .+2
+ 656 01f0 00C0      		rjmp .L2
+ 657 01f2 00C0      		rjmp .L140
+ 658               	.LVL51:
+ 659               	.L49:
  232:includes/chassisError.c **** 				// Additional Warning Handling
- 641               		.loc 1 232 0
- 642 01f4 60E0      		ldi r22,lo8(.LC26)
- 643 01f6 70E0      		ldi r23,hi8(.LC26)
- 644               	.LVL52:
- 645 01f8 00C0      		rjmp .L164
- 646               	.LVL53:
- 647               	.L57:
+ 660               		.loc 1 232 5 is_stmt 1 view .LVU66
+ 661 01f4 60E0      		ldi r22,lo8(.LC26)
+ 662 01f6 70E0      		ldi r23,hi8(.LC26)
+ 663               	.LVL52:
+ 232:includes/chassisError.c **** 				// Additional Warning Handling
+ 664               		.loc 1 232 5 is_stmt 0 view .LVU67
+ 665 01f8 00C0      		rjmp .L141
+ 666               	.LVL53:
+ 667               	.L50:
  238:includes/chassisError.c **** 				// Additional Error Handling
- 648               		.loc 1 238 0
- 649 01fa 60E0      		ldi r22,lo8(.LC27)
- 650 01fc 70E0      		ldi r23,hi8(.LC27)
- 651               	.LVL54:
- 652 01fe 00C0      		rjmp .L162
- 653               	.LVL55:
- 654               	.L8:
+ 668               		.loc 1 238 5 is_stmt 1 view .LVU68
+ 669 01fa 60E0      		ldi r22,lo8(.LC27)
+ 670 01fc 70E0      		ldi r23,hi8(.LC27)
+ 671               	.LVL54:
+ 238:includes/chassisError.c **** 				// Additional Error Handling
+ 672               		.loc 1 238 5 is_stmt 0 view .LVU69
+ 673 01fe 00C0      		rjmp .L136
+ 674               	.LVL55:
+ 675               	.L7:
  245:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 655               		.loc 1 245 0
- 656 0200 8230      		cpi r24,2
- 657 0202 9105      		cpc r25,__zero_reg__
- 658 0204 01F0      		breq .L59
- 659 0206 8330      		cpi r24,3
- 660 0208 9105      		cpc r25,__zero_reg__
- 661 020a 01F4      		brne .L148
+ 676               		.loc 1 245 4 is_stmt 1 view .LVU70
+ 677 0200 8230      		cpi r24,2
+ 678 0202 9105      		cpc r25,__zero_reg__
+ 679 0204 01F0      		breq .L51
+ 680 0206 8330      		cpi r24,3
+ 681 0208 9105      		cpc r25,__zero_reg__
+ 682 020a 01F4      		brne .L124
  260:includes/chassisError.c **** 				// Additional Error Handling
- 662               		.loc 1 260 0
- 663 020c 60E0      		ldi r22,lo8(.LC29)
- 664 020e 70E0      		ldi r23,hi8(.LC29)
- 665               	.LVL56:
- 666 0210 00C0      		rjmp .L162
- 667               	.LVL57:
- 668               	.L59:
+ 683               		.loc 1 260 5 view .LVU71
+ 684 020c 60E0      		ldi r22,lo8(.LC29)
+ 685 020e 70E0      		ldi r23,hi8(.LC29)
+ 686               	.LVL56:
+ 260:includes/chassisError.c **** 				// Additional Error Handling
+ 687               		.loc 1 260 5 is_stmt 0 view .LVU72
+ 688 0210 00C0      		rjmp .L136
+ 689               	.LVL57:
+ 690               	.L51:
  254:includes/chassisError.c **** 				// Additional Warning Handling
- 669               		.loc 1 254 0
- 670 0212 60E0      		ldi r22,lo8(.LC28)
- 671 0214 70E0      		ldi r23,hi8(.LC28)
- 672               	.LVL58:
- 673 0216 00C0      		rjmp .L164
- 674               	.LVL59:
- 675               	.L12:
+ 691               		.loc 1 254 5 is_stmt 1 view .LVU73
+ 692 0212 60E0      		ldi r22,lo8(.LC28)
+ 693 0214 70E0      		ldi r23,hi8(.LC28)
+ 694               	.LVL58:
+ 254:includes/chassisError.c **** 				// Additional Warning Handling
+ 695               		.loc 1 254 5 is_stmt 0 view .LVU74
+ 696 0216 00C0      		rjmp .L141
+ 697               	.LVL59:
+ 698               	.L12:
  267:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 676               		.loc 1 267 0
- 677 0218 8230      		cpi r24,2
- 678 021a 9105      		cpc r25,__zero_reg__
- 679 021c 01F0      		breq .L61
- 680 021e 8330      		cpi r24,3
- 681 0220 9105      		cpc r25,__zero_reg__
- 682 0222 01F0      		breq .L62
- 683               	.L150:
+ 699               		.loc 1 267 4 is_stmt 1 view .LVU75
+ 700 0218 8230      		cpi r24,2
+ 701 021a 9105      		cpc r25,__zero_reg__
+ 702 021c 01F0      		breq .L54
+ 703 021e 8330      		cpi r24,3
+ 704 0220 9105      		cpc r25,__zero_reg__
+ 705 0222 01F0      		breq .L55
+ 706               	.L126:
  270:includes/chassisError.c **** 				// Additional Info Handling
- 684               		.loc 1 270 0
- 685 0224 60E0      		ldi r22,lo8(.LC30)
- 686 0226 70E0      		ldi r23,hi8(.LC30)
- 687               	.LVL60:
- 267:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 688               		.loc 1 267 0
- 689 0228 0197      		sbiw r24,1
- 690 022a 01F0      		breq .+2
- 691 022c 00C0      		rjmp .L2
- 692 022e 00C0      		rjmp .L163
- 693               	.LVL61:
- 694               	.L61:
+ 707               		.loc 1 270 5 is_stmt 0 view .LVU76
+ 708 0224 60E0      		ldi r22,lo8(.LC30)
+ 709 0226 70E0      		ldi r23,hi8(.LC30)
+ 710               	.LVL60:
+ 270:includes/chassisError.c **** 				// Additional Info Handling
+ 711               		.loc 1 270 5 view .LVU77
+ 712 0228 0197      		sbiw r24,1
+ 713 022a 01F0      		breq .+2
+ 714 022c 00C0      		rjmp .L2
+ 715 022e 00C0      		rjmp .L140
+ 716               	.LVL61:
+ 717               	.L54:
  276:includes/chassisError.c **** 				// Additional Warning Handling
- 695               		.loc 1 276 0
- 696 0230 60E0      		ldi r22,lo8(.LC31)
- 697 0232 70E0      		ldi r23,hi8(.LC31)
- 698               	.LVL62:
- 699 0234 00C0      		rjmp .L164
- 700               	.LVL63:
- 701               	.L62:
+ 718               		.loc 1 276 5 is_stmt 1 view .LVU78
+ 719 0230 60E0      		ldi r22,lo8(.LC31)
+ 720 0232 70E0      		ldi r23,hi8(.LC31)
+ 721               	.LVL62:
+ 276:includes/chassisError.c **** 				// Additional Warning Handling
+ 722               		.loc 1 276 5 is_stmt 0 view .LVU79
+ 723 0234 00C0      		rjmp .L141
+ 724               	.LVL63:
+ 725               	.L55:
  282:includes/chassisError.c **** 				// Additional Error Handling
- 702               		.loc 1 282 0
- 703 0236 60E0      		ldi r22,lo8(.LC32)
- 704 0238 70E0      		ldi r23,hi8(.LC32)
- 705               	.LVL64:
- 706 023a 00C0      		rjmp .L162
- 707               	.LVL65:
- 708               	.L13:
+ 726               		.loc 1 282 5 is_stmt 1 view .LVU80
+ 727 0236 60E0      		ldi r22,lo8(.LC32)
+ 728 0238 70E0      		ldi r23,hi8(.LC32)
+ 729               	.LVL64:
+ 282:includes/chassisError.c **** 				// Additional Error Handling
+ 730               		.loc 1 282 5 is_stmt 0 view .LVU81
+ 731 023a 00C0      		rjmp .L136
+ 732               	.LVL65:
+ 733               	.L13:
  289:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 709               		.loc 1 289 0
- 710 023c 8230      		cpi r24,2
- 711 023e 9105      		cpc r25,__zero_reg__
- 712 0240 01F0      		breq .L64
- 713 0242 8330      		cpi r24,3
- 714 0244 9105      		cpc r25,__zero_reg__
- 715 0246 01F4      		brne .L150
+ 734               		.loc 1 289 4 is_stmt 1 view .LVU82
+ 735 023c 8230      		cpi r24,2
+ 736 023e 9105      		cpc r25,__zero_reg__
+ 737 0240 01F0      		breq .L56
+ 738 0242 8330      		cpi r24,3
+ 739 0244 9105      		cpc r25,__zero_reg__
+ 740 0246 01F4      		brne .L126
  304:includes/chassisError.c **** 				// Additional Error Handling
- 716               		.loc 1 304 0
- 717 0248 60E0      		ldi r22,lo8(.LC34)
- 718 024a 70E0      		ldi r23,hi8(.LC34)
- 719               	.LVL66:
- 720 024c 00C0      		rjmp .L162
- 721               	.LVL67:
- 722               	.L64:
+ 741               		.loc 1 304 5 view .LVU83
+ 742 0248 60E0      		ldi r22,lo8(.LC34)
+ 743 024a 70E0      		ldi r23,hi8(.LC34)
+ 744               	.LVL66:
+ 304:includes/chassisError.c **** 				// Additional Error Handling
+ 745               		.loc 1 304 5 is_stmt 0 view .LVU84
+ 746 024c 00C0      		rjmp .L136
+ 747               	.LVL67:
+ 748               	.L56:
  298:includes/chassisError.c **** 				// Additional Warning Handling
- 723               		.loc 1 298 0
- 724 024e 60E0      		ldi r22,lo8(.LC33)
- 725 0250 70E0      		ldi r23,hi8(.LC33)
- 726               	.LVL68:
- 727 0252 00C0      		rjmp .L164
- 728               	.LVL69:
- 729               	.L6:
+ 749               		.loc 1 298 5 is_stmt 1 view .LVU85
+ 750 024e 60E0      		ldi r22,lo8(.LC33)
+ 751 0250 70E0      		ldi r23,hi8(.LC33)
+ 752               	.LVL68:
+ 298:includes/chassisError.c **** 				// Additional Warning Handling
+ 753               		.loc 1 298 5 is_stmt 0 view .LVU86
+ 754 0252 00C0      		rjmp .L141
+ 755               	.LVL69:
+ 756               	.L5:
  311:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 730               		.loc 1 311 0
- 731 0254 8230      		cpi r24,2
- 732 0256 9105      		cpc r25,__zero_reg__
- 733 0258 01F0      		breq .L66
- 734 025a 8330      		cpi r24,3
- 735 025c 9105      		cpc r25,__zero_reg__
- 736 025e 01F0      		breq .L67
- 737               	.L152:
+ 757               		.loc 1 311 4 is_stmt 1 view .LVU87
+ 758 0254 8230      		cpi r24,2
+ 759 0256 9105      		cpc r25,__zero_reg__
+ 760 0258 01F0      		breq .L59
+ 761 025a 8330      		cpi r24,3
+ 762 025c 9105      		cpc r25,__zero_reg__
+ 763 025e 01F0      		breq .L60
+ 764               	.L128:
  314:includes/chassisError.c **** 				// Additional Info Handling
- 738               		.loc 1 314 0
- 739 0260 60E0      		ldi r22,lo8(.LC35)
- 740 0262 70E0      		ldi r23,hi8(.LC35)
- 741               	.LVL70:
- 311:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 742               		.loc 1 311 0
- 743 0264 0197      		sbiw r24,1
- 744 0266 01F0      		breq .+2
- 745 0268 00C0      		rjmp .L2
- 746 026a 00C0      		rjmp .L163
- 747               	.LVL71:
- 748               	.L66:
+ 765               		.loc 1 314 5 is_stmt 0 view .LVU88
+ 766 0260 60E0      		ldi r22,lo8(.LC35)
+ 767 0262 70E0      		ldi r23,hi8(.LC35)
+ 768               	.LVL70:
+ 314:includes/chassisError.c **** 				// Additional Info Handling
+ 769               		.loc 1 314 5 view .LVU89
+ 770 0264 0197      		sbiw r24,1
+ 771 0266 01F0      		breq .+2
+ 772 0268 00C0      		rjmp .L2
+ 773 026a 00C0      		rjmp .L140
+ 774               	.LVL71:
+ 775               	.L59:
  320:includes/chassisError.c **** 				// Additional Warning Handling
- 749               		.loc 1 320 0
- 750 026c 60E0      		ldi r22,lo8(.LC36)
- 751 026e 70E0      		ldi r23,hi8(.LC36)
- 752               	.LVL72:
- 753 0270 00C0      		rjmp .L164
- 754               	.LVL73:
- 755               	.L67:
+ 776               		.loc 1 320 5 is_stmt 1 view .LVU90
+ 777 026c 60E0      		ldi r22,lo8(.LC36)
+ 778 026e 70E0      		ldi r23,hi8(.LC36)
+ 779               	.LVL72:
+ 320:includes/chassisError.c **** 				// Additional Warning Handling
+ 780               		.loc 1 320 5 is_stmt 0 view .LVU91
+ 781 0270 00C0      		rjmp .L141
+ 782               	.LVL73:
+ 783               	.L60:
  326:includes/chassisError.c **** 				// Additional Error Handling
- 756               		.loc 1 326 0
- 757 0272 60E0      		ldi r22,lo8(.LC37)
- 758 0274 70E0      		ldi r23,hi8(.LC37)
- 759               	.LVL74:
- 760 0276 00C0      		rjmp .L162
- 761               	.LVL75:
- 762               	.L69:
+ 784               		.loc 1 326 5 is_stmt 1 view .LVU92
+ 785 0272 60E0      		ldi r22,lo8(.LC37)
+ 786 0274 70E0      		ldi r23,hi8(.LC37)
+ 787               	.LVL74:
+ 326:includes/chassisError.c **** 				// Additional Error Handling
+ 788               		.loc 1 326 5 is_stmt 0 view .LVU93
+ 789 0276 00C0      		rjmp .L136
+ 790               	.LVL75:
+ 791               	.L61:
  342:includes/chassisError.c **** 				// Additional Warning Handling
- 763               		.loc 1 342 0
- 764 0278 60E0      		ldi r22,lo8(.LC38)
- 765 027a 70E0      		ldi r23,hi8(.LC38)
- 766               	.LVL76:
- 767 027c 00C0      		rjmp .L164
- 768               	.LVL77:
- 769               	.L17:
+ 792               		.loc 1 342 5 is_stmt 1 view .LVU94
+ 793 0278 60E0      		ldi r22,lo8(.LC38)
+ 794 027a 70E0      		ldi r23,hi8(.LC38)
+ 795               	.LVL76:
+ 342:includes/chassisError.c **** 				// Additional Warning Handling
+ 796               		.loc 1 342 5 is_stmt 0 view .LVU95
+ 797 027c 00C0      		rjmp .L141
+ 798               	.LVL77:
+ 799               	.L17:
  355:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 770               		.loc 1 355 0
- 771 027e 8230      		cpi r24,2
- 772 0280 9105      		cpc r25,__zero_reg__
- 773 0282 01F0      		breq .L71
- 774 0284 8330      		cpi r24,3
- 775 0286 9105      		cpc r25,__zero_reg__
- 776 0288 01F4      		brne .L152
+ 800               		.loc 1 355 4 is_stmt 1 view .LVU96
+ 801 027e 8230      		cpi r24,2
+ 802 0280 9105      		cpc r25,__zero_reg__
+ 803 0282 01F0      		breq .L64
+ 804 0284 8330      		cpi r24,3
+ 805 0286 9105      		cpc r25,__zero_reg__
+ 806 0288 01F4      		brne .L128
  370:includes/chassisError.c **** 				// Additional Error Handling
- 777               		.loc 1 370 0
- 778 028a 60E0      		ldi r22,lo8(.LC41)
- 779 028c 70E0      		ldi r23,hi8(.LC41)
- 780               	.LVL78:
- 781 028e 00C0      		rjmp .L162
- 782               	.LVL79:
- 783               	.L71:
+ 807               		.loc 1 370 5 view .LVU97
+ 808 028a 60E0      		ldi r22,lo8(.LC41)
+ 809 028c 70E0      		ldi r23,hi8(.LC41)
+ 810               	.LVL78:
+ 370:includes/chassisError.c **** 				// Additional Error Handling
+ 811               		.loc 1 370 5 is_stmt 0 view .LVU98
+ 812 028e 00C0      		rjmp .L136
+ 813               	.LVL79:
+ 814               	.L64:
  364:includes/chassisError.c **** 				// Additional Warning Handling
- 784               		.loc 1 364 0
- 785 0290 60E0      		ldi r22,lo8(.LC40)
- 786 0292 70E0      		ldi r23,hi8(.LC40)
- 787               	.LVL80:
- 788 0294 00C0      		rjmp .L164
- 789               	.LVL81:
- 790               	.L14:
+ 815               		.loc 1 364 5 is_stmt 1 view .LVU99
+ 816 0290 60E0      		ldi r22,lo8(.LC40)
+ 817 0292 70E0      		ldi r23,hi8(.LC40)
+ 818               	.LVL80:
+ 364:includes/chassisError.c **** 				// Additional Warning Handling
+ 819               		.loc 1 364 5 is_stmt 0 view .LVU100
+ 820 0294 00C0      		rjmp .L141
+ 821               	.LVL81:
+ 822               	.L14:
  377:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 791               		.loc 1 377 0
- 792 0296 8230      		cpi r24,2
- 793 0298 9105      		cpc r25,__zero_reg__
- 794 029a 01F0      		breq .L73
- 795 029c 8330      		cpi r24,3
- 796 029e 9105      		cpc r25,__zero_reg__
- 797 02a0 01F0      		breq .L74
- 798               	.L157:
+ 823               		.loc 1 377 4 is_stmt 1 view .LVU101
+ 824 0296 8230      		cpi r24,2
+ 825 0298 9105      		cpc r25,__zero_reg__
+ 826 029a 01F0      		breq .L66
+ 827 029c 8330      		cpi r24,3
+ 828 029e 9105      		cpc r25,__zero_reg__
+ 829 02a0 01F0      		breq .L67
+ 830               	.L132:
  380:includes/chassisError.c **** 				// Additional Info Handling
- 799               		.loc 1 380 0
- 800 02a2 60E0      		ldi r22,lo8(.LC42)
- 801 02a4 70E0      		ldi r23,hi8(.LC42)
- 802               	.LVL82:
- 377:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 803               		.loc 1 377 0
- 804 02a6 0197      		sbiw r24,1
- 805 02a8 01F0      		breq .+2
- 806 02aa 00C0      		rjmp .L2
- 807 02ac 00C0      		rjmp .L163
- 808               	.LVL83:
- 809               	.L73:
+ 831               		.loc 1 380 5 is_stmt 0 view .LVU102
+ 832 02a2 60E0      		ldi r22,lo8(.LC42)
+ 833 02a4 70E0      		ldi r23,hi8(.LC42)
+ 834               	.LVL82:
+ 380:includes/chassisError.c **** 				// Additional Info Handling
+ 835               		.loc 1 380 5 view .LVU103
+ 836 02a6 0197      		sbiw r24,1
+ 837 02a8 01F0      		breq .+2
+ 838 02aa 00C0      		rjmp .L2
+ 839 02ac 00C0      		rjmp .L140
+ 840               	.LVL83:
+ 841               	.L66:
  386:includes/chassisError.c **** 				// Additional Warning Handling
- 810               		.loc 1 386 0
- 811 02ae 60E0      		ldi r22,lo8(.LC43)
- 812 02b0 70E0      		ldi r23,hi8(.LC43)
- 813               	.LVL84:
- 814 02b2 00C0      		rjmp .L164
- 815               	.LVL85:
- 816               	.L74:
+ 842               		.loc 1 386 5 is_stmt 1 view .LVU104
+ 843 02ae 60E0      		ldi r22,lo8(.LC43)
+ 844 02b0 70E0      		ldi r23,hi8(.LC43)
+ 845               	.LVL84:
+ 386:includes/chassisError.c **** 				// Additional Warning Handling
+ 846               		.loc 1 386 5 is_stmt 0 view .LVU105
+ 847 02b2 00C0      		rjmp .L141
+ 848               	.LVL85:
+ 849               	.L67:
  392:includes/chassisError.c **** 				// Additional Error Handling
- 817               		.loc 1 392 0
- 818 02b4 60E0      		ldi r22,lo8(.LC44)
- 819 02b6 70E0      		ldi r23,hi8(.LC44)
- 820               	.LVL86:
- 821 02b8 00C0      		rjmp .L162
- 822               	.LVL87:
- 823               	.L18:
+ 850               		.loc 1 392 5 is_stmt 1 view .LVU106
+ 851 02b4 60E0      		ldi r22,lo8(.LC44)
+ 852 02b6 70E0      		ldi r23,hi8(.LC44)
+ 853               	.LVL86:
+ 392:includes/chassisError.c **** 				// Additional Error Handling
+ 854               		.loc 1 392 5 is_stmt 0 view .LVU107
+ 855 02b8 00C0      		rjmp .L136
+ 856               	.LVL87:
+ 857               	.L18:
  399:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 824               		.loc 1 399 0
- 825 02ba 8230      		cpi r24,2
- 826 02bc 9105      		cpc r25,__zero_reg__
- 827 02be 01F0      		breq .L69
- 828 02c0 8330      		cpi r24,3
- 829 02c2 9105      		cpc r25,__zero_reg__
- 830 02c4 01F4      		brne .L152
+ 858               		.loc 1 399 4 is_stmt 1 view .LVU108
+ 859 02ba 8230      		cpi r24,2
+ 860 02bc 9105      		cpc r25,__zero_reg__
+ 861 02be 01F0      		breq .L61
+ 862 02c0 8330      		cpi r24,3
+ 863 02c2 9105      		cpc r25,__zero_reg__
+ 864 02c4 01F4      		brne .L128
  348:includes/chassisError.c **** 				// Additional Error Handling
- 831               		.loc 1 348 0
- 832 02c6 60E0      		ldi r22,lo8(.LC39)
- 833 02c8 70E0      		ldi r23,hi8(.LC39)
- 834               	.LVL88:
- 835 02ca 00C0      		rjmp .L162
- 836               	.LVL89:
- 837               	.L19:
+ 865               		.loc 1 348 5 view .LVU109
+ 866 02c6 60E0      		ldi r22,lo8(.LC39)
+ 867 02c8 70E0      		ldi r23,hi8(.LC39)
+ 868               	.LVL88:
+ 348:includes/chassisError.c **** 				// Additional Error Handling
+ 869               		.loc 1 348 5 is_stmt 0 view .LVU110
+ 870 02ca 00C0      		rjmp .L136
+ 871               	.LVL89:
+ 872               	.L19:
  421:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 838               		.loc 1 421 0
- 839 02cc 8230      		cpi r24,2
- 840 02ce 9105      		cpc r25,__zero_reg__
- 841 02d0 01F0      		breq .L76
- 842 02d2 8330      		cpi r24,3
- 843 02d4 9105      		cpc r25,__zero_reg__
- 844 02d6 01F4      		brne .L157
+ 873               		.loc 1 421 4 is_stmt 1 view .LVU111
+ 874 02cc 8230      		cpi r24,2
+ 875 02ce 9105      		cpc r25,__zero_reg__
+ 876 02d0 01F0      		breq .L68
+ 877 02d2 8330      		cpi r24,3
+ 878 02d4 9105      		cpc r25,__zero_reg__
+ 879 02d6 01F4      		brne .L132
  436:includes/chassisError.c **** 				// Additional Error Handling
- 845               		.loc 1 436 0
- 846 02d8 60E0      		ldi r22,lo8(.LC46)
- 847 02da 70E0      		ldi r23,hi8(.LC46)
- 848               	.LVL90:
- 849 02dc 00C0      		rjmp .L162
- 850               	.LVL91:
- 851               	.L76:
+ 880               		.loc 1 436 5 view .LVU112
+ 881 02d8 60E0      		ldi r22,lo8(.LC46)
+ 882 02da 70E0      		ldi r23,hi8(.LC46)
+ 883               	.LVL90:
+ 436:includes/chassisError.c **** 				// Additional Error Handling
+ 884               		.loc 1 436 5 is_stmt 0 view .LVU113
+ 885 02dc 00C0      		rjmp .L136
+ 886               	.LVL91:
+ 887               	.L68:
  430:includes/chassisError.c **** 				// Additional Warning Handling
- 852               		.loc 1 430 0
- 853 02de 60E0      		ldi r22,lo8(.LC45)
- 854 02e0 70E0      		ldi r23,hi8(.LC45)
- 855               	.LVL92:
- 856 02e2 00C0      		rjmp .L164
- 857               	.LVL93:
- 858               	.L4:
+ 888               		.loc 1 430 5 is_stmt 1 view .LVU114
+ 889 02de 60E0      		ldi r22,lo8(.LC45)
+ 890 02e0 70E0      		ldi r23,hi8(.LC45)
+ 891               	.LVL92:
+ 430:includes/chassisError.c **** 				// Additional Warning Handling
+ 892               		.loc 1 430 5 is_stmt 0 view .LVU115
+ 893 02e2 00C0      		rjmp .L141
+ 894               	.LVL93:
+ 895               	.L3:
  443:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 859               		.loc 1 443 0
- 860 02e4 8130      		cpi r24,1
- 861 02e6 9105      		cpc r25,__zero_reg__
- 862 02e8 01F0      		breq .L78
- 863 02ea 0397      		sbiw r24,3
- 864 02ec 01F0      		breq .L79
- 865 02ee 0895      		ret
- 866               	.L78:
+ 896               		.loc 1 443 4 is_stmt 1 view .LVU116
+ 897 02e4 8130      		cpi r24,1
+ 898 02e6 9105      		cpc r25,__zero_reg__
+ 899 02e8 01F0      		breq .L71
+ 900 02ea 0397      		sbiw r24,3
+ 901 02ec 01F0      		breq .L72
+ 902 02ee 0895      		ret
+ 903               	.L71:
  446:includes/chassisError.c **** 				// Additional Info Handling
- 867               		.loc 1 446 0
- 868 02f0 60E0      		ldi r22,lo8(.LC47)
- 869 02f2 70E0      		ldi r23,hi8(.LC47)
- 870               	.LVL94:
- 871 02f4 00C0      		rjmp .L163
- 872               	.LVL95:
- 873               	.L79:
+ 904               		.loc 1 446 5 view .LVU117
+ 905 02f0 60E0      		ldi r22,lo8(.LC47)
+ 906 02f2 70E0      		ldi r23,hi8(.LC47)
+ 907               	.LVL94:
+ 446:includes/chassisError.c **** 				// Additional Info Handling
+ 908               		.loc 1 446 5 is_stmt 0 view .LVU118
+ 909 02f4 00C0      		rjmp .L140
+ 910               	.LVL95:
+ 911               	.L72:
  452:includes/chassisError.c **** 				// Additional Error Handling
- 874               		.loc 1 452 0
- 875 02f6 60E0      		ldi r22,lo8(.LC48)
- 876 02f8 70E0      		ldi r23,hi8(.LC48)
- 877               	.LVL96:
- 878 02fa 00C0      		rjmp .L162
- 879               	.LVL97:
- 880               	.L24:
+ 912               		.loc 1 452 5 is_stmt 1 view .LVU119
+ 913 02f6 60E0      		ldi r22,lo8(.LC48)
+ 914 02f8 70E0      		ldi r23,hi8(.LC48)
+ 915               	.LVL96:
+ 452:includes/chassisError.c **** 				// Additional Error Handling
+ 916               		.loc 1 452 5 is_stmt 0 view .LVU120
+ 917 02fa 00C0      		rjmp .L136
+ 918               	.LVL97:
+ 919               	.L24:
  459:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 881               		.loc 1 459 0
- 882 02fc 8130      		cpi r24,1
- 883 02fe 9105      		cpc r25,__zero_reg__
- 884 0300 01F0      		breq .L78
+ 920               		.loc 1 459 4 is_stmt 1 view .LVU121
+ 921 02fc 8130      		cpi r24,1
+ 922 02fe 9105      		cpc r25,__zero_reg__
+ 923 0300 01F0      		breq .L71
  468:includes/chassisError.c **** 				// Additional Error Handling
- 885               		.loc 1 468 0
- 886 0302 60E0      		ldi r22,lo8(.LC49)
- 887 0304 70E0      		ldi r23,hi8(.LC49)
- 888               	.LVL98:
- 459:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 889               		.loc 1 459 0
- 890 0306 0397      		sbiw r24,3
- 891 0308 01F4      		brne .+2
- 892 030a 00C0      		rjmp .L162
- 893 030c 00C0      		rjmp .L2
- 894               	.LVL99:
- 895               	.L25:
+ 924               		.loc 1 468 5 is_stmt 0 view .LVU122
+ 925 0302 60E0      		ldi r22,lo8(.LC49)
+ 926 0304 70E0      		ldi r23,hi8(.LC49)
+ 927               	.LVL98:
+ 468:includes/chassisError.c **** 				// Additional Error Handling
+ 928               		.loc 1 468 5 view .LVU123
+ 929 0306 0397      		sbiw r24,3
+ 930 0308 01F4      		brne .+2
+ 931 030a 00C0      		rjmp .L136
+ 932 030c 00C0      		rjmp .L2
+ 933               	.LVL99:
+ 934               	.L25:
  475:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 896               		.loc 1 475 0
- 897 030e 8130      		cpi r24,1
- 898 0310 9105      		cpc r25,__zero_reg__
- 899 0312 01F0      		breq .L81
- 900 0314 0397      		sbiw r24,3
- 901 0316 01F0      		breq .L82
- 902 0318 0895      		ret
- 903               	.L81:
+ 935               		.loc 1 475 4 is_stmt 1 view .LVU124
+ 936 030e 8130      		cpi r24,1
+ 937 0310 9105      		cpc r25,__zero_reg__
+ 938 0312 01F0      		breq .L73
+ 939 0314 0397      		sbiw r24,3
+ 940 0316 01F0      		breq .L74
+ 941 0318 0895      		ret
+ 942               	.L73:
  478:includes/chassisError.c **** 				// Additional Info Handling
- 904               		.loc 1 478 0
- 905 031a 60E0      		ldi r22,lo8(.LC50)
- 906 031c 70E0      		ldi r23,hi8(.LC50)
- 907               	.LVL100:
- 908 031e 00C0      		rjmp .L163
- 909               	.LVL101:
- 910               	.L82:
+ 943               		.loc 1 478 5 view .LVU125
+ 944 031a 60E0      		ldi r22,lo8(.LC50)
+ 945 031c 70E0      		ldi r23,hi8(.LC50)
+ 946               	.LVL100:
+ 478:includes/chassisError.c **** 				// Additional Info Handling
+ 947               		.loc 1 478 5 is_stmt 0 view .LVU126
+ 948 031e 00C0      		rjmp .L140
+ 949               	.LVL101:
+ 950               	.L74:
  484:includes/chassisError.c **** 				// Additional Error Handling
- 911               		.loc 1 484 0
- 912 0320 60E0      		ldi r22,lo8(.LC51)
- 913 0322 70E0      		ldi r23,hi8(.LC51)
- 914               	.LVL102:
- 915 0324 00C0      		rjmp .L162
- 916               	.LVL103:
- 917               	.L22:
+ 951               		.loc 1 484 5 is_stmt 1 view .LVU127
+ 952 0320 60E0      		ldi r22,lo8(.LC51)
+ 953 0322 70E0      		ldi r23,hi8(.LC51)
+ 954               	.LVL102:
+ 484:includes/chassisError.c **** 				// Additional Error Handling
+ 955               		.loc 1 484 5 is_stmt 0 view .LVU128
+ 956 0324 00C0      		rjmp .L136
+ 957               	.LVL103:
+ 958               	.L22:
  491:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 918               		.loc 1 491 0
- 919 0326 8130      		cpi r24,1
- 920 0328 9105      		cpc r25,__zero_reg__
- 921 032a 01F0      		breq .L83
- 922 032c 0397      		sbiw r24,3
- 923 032e 01F0      		breq .L84
- 924 0330 0895      		ret
- 925               	.L83:
+ 959               		.loc 1 491 4 is_stmt 1 view .LVU129
+ 960 0326 8130      		cpi r24,1
+ 961 0328 9105      		cpc r25,__zero_reg__
+ 962 032a 01F0      		breq .L75
+ 963 032c 0397      		sbiw r24,3
+ 964 032e 01F0      		breq .L76
+ 965 0330 0895      		ret
+ 966               	.L75:
  494:includes/chassisError.c **** 				// Additional Info Handling
- 926               		.loc 1 494 0
- 927 0332 60E0      		ldi r22,lo8(.LC52)
- 928 0334 70E0      		ldi r23,hi8(.LC52)
- 929               	.LVL104:
- 930 0336 00C0      		rjmp .L163
- 931               	.LVL105:
- 932               	.L84:
+ 967               		.loc 1 494 5 view .LVU130
+ 968 0332 60E0      		ldi r22,lo8(.LC52)
+ 969 0334 70E0      		ldi r23,hi8(.LC52)
+ 970               	.LVL104:
+ 494:includes/chassisError.c **** 				// Additional Info Handling
+ 971               		.loc 1 494 5 is_stmt 0 view .LVU131
+ 972 0336 00C0      		rjmp .L140
+ 973               	.LVL105:
+ 974               	.L76:
  500:includes/chassisError.c **** 				// Additional Error Handling
- 933               		.loc 1 500 0
- 934 0338 60E0      		ldi r22,lo8(.LC53)
- 935 033a 70E0      		ldi r23,hi8(.LC53)
- 936               	.LVL106:
- 937 033c 00C0      		rjmp .L162
- 938               	.LVL107:
- 939               	.L26:
+ 975               		.loc 1 500 5 is_stmt 1 view .LVU132
+ 976 0338 60E0      		ldi r22,lo8(.LC53)
+ 977 033a 70E0      		ldi r23,hi8(.LC53)
+ 978               	.LVL106:
+ 500:includes/chassisError.c **** 				// Additional Error Handling
+ 979               		.loc 1 500 5 is_stmt 0 view .LVU133
+ 980 033c 00C0      		rjmp .L136
+ 981               	.LVL107:
+ 982               	.L26:
  507:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 940               		.loc 1 507 0
- 941 033e 8230      		cpi r24,2
- 942 0340 9105      		cpc r25,__zero_reg__
- 943 0342 01F0      		breq .L85
- 944 0344 8330      		cpi r24,3
- 945 0346 9105      		cpc r25,__zero_reg__
- 946 0348 01F0      		breq .L86
+ 983               		.loc 1 507 4 is_stmt 1 view .LVU134
+ 984 033e 8230      		cpi r24,2
+ 985 0340 9105      		cpc r25,__zero_reg__
+ 986 0342 01F0      		breq .L77
+ 987 0344 8330      		cpi r24,3
+ 988 0346 9105      		cpc r25,__zero_reg__
+ 989 0348 01F0      		breq .L78
  510:includes/chassisError.c **** 				// Additional Info Handling
- 947               		.loc 1 510 0
- 948 034a 60E0      		ldi r22,lo8(.LC54)
- 949 034c 70E0      		ldi r23,hi8(.LC54)
- 950               	.LVL108:
- 507:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 951               		.loc 1 507 0
- 952 034e 0197      		sbiw r24,1
- 953 0350 01F0      		breq .+2
- 954 0352 00C0      		rjmp .L2
- 955 0354 00C0      		rjmp .L163
- 956               	.LVL109:
- 957               	.L85:
+ 990               		.loc 1 510 5 is_stmt 0 view .LVU135
+ 991 034a 60E0      		ldi r22,lo8(.LC54)
+ 992 034c 70E0      		ldi r23,hi8(.LC54)
+ 993               	.LVL108:
+ 510:includes/chassisError.c **** 				// Additional Info Handling
+ 994               		.loc 1 510 5 view .LVU136
+ 995 034e 0197      		sbiw r24,1
+ 996 0350 01F0      		breq .+2
+ 997 0352 00C0      		rjmp .L2
+ 998 0354 00C0      		rjmp .L140
+ 999               	.LVL109:
+ 1000               	.L77:
  516:includes/chassisError.c **** 				// Additional Warning Handling
- 958               		.loc 1 516 0
- 959 0356 60E0      		ldi r22,lo8(.LC55)
- 960 0358 70E0      		ldi r23,hi8(.LC55)
- 961               	.LVL110:
- 962 035a 00C0      		rjmp .L164
- 963               	.LVL111:
- 964               	.L86:
+ 1001               		.loc 1 516 5 is_stmt 1 view .LVU137
+ 1002 0356 60E0      		ldi r22,lo8(.LC55)
+ 1003 0358 70E0      		ldi r23,hi8(.LC55)
+ 1004               	.LVL110:
+ 516:includes/chassisError.c **** 				// Additional Warning Handling
+ 1005               		.loc 1 516 5 is_stmt 0 view .LVU138
+ 1006 035a 00C0      		rjmp .L141
+ 1007               	.LVL111:
+ 1008               	.L78:
  522:includes/chassisError.c **** 				// Additional Error Handling
- 965               		.loc 1 522 0
- 966 035c 60E0      		ldi r22,lo8(.LC56)
- 967 035e 70E0      		ldi r23,hi8(.LC56)
- 968               	.LVL112:
- 969 0360 00C0      		rjmp .L162
- 970               	.LVL113:
- 971               	.L27:
+ 1009               		.loc 1 522 5 is_stmt 1 view .LVU139
+ 1010 035c 60E0      		ldi r22,lo8(.LC56)
+ 1011 035e 70E0      		ldi r23,hi8(.LC56)
+ 1012               	.LVL112:
+ 522:includes/chassisError.c **** 				// Additional Error Handling
+ 1013               		.loc 1 522 5 is_stmt 0 view .LVU140
+ 1014 0360 00C0      		rjmp .L136
+ 1015               	.LVL113:
+ 1016               	.L27:
  529:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 972               		.loc 1 529 0
- 973 0362 8230      		cpi r24,2
- 974 0364 9105      		cpc r25,__zero_reg__
- 975 0366 01F0      		breq .L88
- 976 0368 8330      		cpi r24,3
- 977 036a 9105      		cpc r25,__zero_reg__
- 978 036c 01F0      		breq .L89
- 979               	.L160:
+ 1017               		.loc 1 529 4 is_stmt 1 view .LVU141
+ 1018 0362 8230      		cpi r24,2
+ 1019 0364 9105      		cpc r25,__zero_reg__
+ 1020 0366 01F0      		breq .L79
+ 1021 0368 8330      		cpi r24,3
+ 1022 036a 9105      		cpc r25,__zero_reg__
+ 1023 036c 01F0      		breq .L80
+ 1024               	.L134:
  532:includes/chassisError.c **** 				// Additional Info Handling
- 980               		.loc 1 532 0
- 981 036e 60E0      		ldi r22,lo8(.LC57)
- 982 0370 70E0      		ldi r23,hi8(.LC57)
- 983               	.LVL114:
- 529:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 984               		.loc 1 529 0
- 985 0372 0197      		sbiw r24,1
- 986 0374 01F0      		breq .+2
- 987 0376 00C0      		rjmp .L2
- 988 0378 00C0      		rjmp .L163
- 989               	.LVL115:
- 990               	.L88:
+ 1025               		.loc 1 532 5 is_stmt 0 view .LVU142
+ 1026 036e 60E0      		ldi r22,lo8(.LC57)
+ 1027 0370 70E0      		ldi r23,hi8(.LC57)
+ 1028               	.LVL114:
+ 532:includes/chassisError.c **** 				// Additional Info Handling
+ 1029               		.loc 1 532 5 view .LVU143
+ 1030 0372 0197      		sbiw r24,1
+ 1031 0374 01F0      		breq .+2
+ 1032 0376 00C0      		rjmp .L2
+ 1033 0378 00C0      		rjmp .L140
+ 1034               	.LVL115:
+ 1035               	.L79:
  538:includes/chassisError.c **** 				// Additional Warning Handling
- 991               		.loc 1 538 0
- 992 037a 60E0      		ldi r22,lo8(.LC58)
- 993 037c 70E0      		ldi r23,hi8(.LC58)
- 994               	.LVL116:
- 995 037e 00C0      		rjmp .L164
- 996               	.LVL117:
- 997               	.L89:
+ 1036               		.loc 1 538 5 is_stmt 1 view .LVU144
+ 1037 037a 60E0      		ldi r22,lo8(.LC58)
+ 1038 037c 70E0      		ldi r23,hi8(.LC58)
+ 1039               	.LVL116:
+ 538:includes/chassisError.c **** 				// Additional Warning Handling
+ 1040               		.loc 1 538 5 is_stmt 0 view .LVU145
+ 1041 037e 00C0      		rjmp .L141
+ 1042               	.LVL117:
+ 1043               	.L80:
  544:includes/chassisError.c **** 				// Additional Error Handling
- 998               		.loc 1 544 0
- 999 0380 60E0      		ldi r22,lo8(.LC59)
- 1000 0382 70E0      		ldi r23,hi8(.LC59)
- 1001               	.LVL118:
- 1002 0384 00C0      		rjmp .L162
- 1003               	.LVL119:
- 1004               	.L20:
+ 1044               		.loc 1 544 5 is_stmt 1 view .LVU146
+ 1045 0380 60E0      		ldi r22,lo8(.LC59)
+ 1046 0382 70E0      		ldi r23,hi8(.LC59)
+ 1047               	.LVL118:
+ 544:includes/chassisError.c **** 				// Additional Error Handling
+ 1048               		.loc 1 544 5 is_stmt 0 view .LVU147
+ 1049 0384 00C0      		rjmp .L136
+ 1050               	.LVL119:
+ 1051               	.L20:
  551:includes/chassisError.c **** 				case ERROR_LEVEL_INFO:
- 1005               		.loc 1 551 0
- 1006 0386 8230      		cpi r24,2
- 1007 0388 9105      		cpc r25,__zero_reg__
- 1008 038a 01F0      		breq .L91
- 1009 038c 8330      		cpi r24,3
- 1010 038e 9105      		cpc r25,__zero_reg__
- 1011 0390 01F4      		brne .L160
+ 1052               		.loc 1 551 4 is_stmt 1 view .LVU148
+ 1053 0386 8230      		cpi r24,2
+ 1054 0388 9105      		cpc r25,__zero_reg__
+ 1055 038a 01F0      		breq .L81
+ 1056 038c 8330      		cpi r24,3
+ 1057 038e 9105      		cpc r25,__zero_reg__
+ 1058 0390 01F4      		brne .L134
  566:includes/chassisError.c **** 				// Additional Error Handling
- 1012               		.loc 1 566 0
- 1013 0392 60E0      		ldi r22,lo8(.LC61)
- 1014 0394 70E0      		ldi r23,hi8(.LC61)
- 1015               	.LVL120:
- 1016 0396 00C0      		rjmp .L162
- 1017               	.LVL121:
- 1018               	.L91:
+ 1059               		.loc 1 566 5 view .LVU149
+ 1060 0392 60E0      		ldi r22,lo8(.LC61)
+ 1061 0394 70E0      		ldi r23,hi8(.LC61)
+ 1062               	.LVL120:
+ 566:includes/chassisError.c **** 				// Additional Error Handling
+ 1063               		.loc 1 566 5 is_stmt 0 view .LVU150
+ 1064 0396 00C0      		rjmp .L136
+ 1065               	.LVL121:
+ 1066               	.L81:
  560:includes/chassisError.c **** 				// Additional Warning Handling
- 1019               		.loc 1 560 0
- 1020 0398 60E0      		ldi r22,lo8(.LC60)
- 1021 039a 70E0      		ldi r23,hi8(.LC60)
- 1022               	.LVL122:
- 1023 039c 00C0      		rjmp .L164
- 1024               		.cfi_endproc
- 1025               	.LFE6:
- 1027               		.section	.text.throw_error_code,"ax",@progbits
- 1028               	.global	throw_error_code
- 1030               	throw_error_code:
- 1031               	.LFB5:
+ 1067               		.loc 1 560 5 is_stmt 1 view .LVU151
+ 1068 0398 60E0      		ldi r22,lo8(.LC60)
+ 1069 039a 70E0      		ldi r23,hi8(.LC60)
+ 1070               	.LVL122:
+ 560:includes/chassisError.c **** 				// Additional Warning Handling
+ 1071               		.loc 1 560 5 is_stmt 0 view .LVU152
+ 1072 039c 00C0      		rjmp .L141
+ 1073               		.cfi_endproc
+ 1074               	.LFE6:
+ 1076               		.section	.text.throw_error_code,"ax",@progbits
+ 1077               	.global	throw_error_code
+ 1079               	throw_error_code:
+ 1080               	.LVL123:
+ 1081               	.LFB5:
   22:includes/chassisError.c **** 	throw_error_code_with_number(severity, error_code, 0);
- 1032               		.loc 1 22 0
- 1033               		.cfi_startproc
- 1034               	.LVL123:
- 1035               	/* prologue: function */
- 1036               	/* frame size = 0 */
- 1037               	/* stack size = 0 */
- 1038               	.L__stack_usage = 0
+ 1082               		.loc 1 22 1 is_stmt 1 view -0
+ 1083               		.cfi_startproc
+ 1084               	/* prologue: function */
+ 1085               	/* frame size = 0 */
+ 1086               	/* stack size = 0 */
+ 1087               	.L__stack_usage = 0
   23:includes/chassisError.c **** }
- 1039               		.loc 1 23 0
- 1040 0000 50E0      		ldi r21,0
- 1041 0002 40E0      		ldi r20,0
- 1042 0004 0C94 0000 		jmp throw_error_code_with_number
- 1043               	.LVL124:
- 1044               		.cfi_endproc
- 1045               	.LFE5:
- 1047               		.text
- 1048               	.Letext0:
- 1049               		.file 2 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdlib.h"
- 1050               		.file 3 "/usr/local/Cellar/avr-gcc/7.3.0/lib/avr-gcc/7/gcc/avr/7.3.0/include/stddef.h"
- 1051               		.file 4 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdint.h"
- 1052               		.file 5 "/usr/local/Cellar/avr-gcc/7.3.0/avr/include/stdio.h"
+ 1088               		.loc 1 23 2 view .LVU154
+ 1089 0000 50E0      		ldi r21,0
+ 1090 0002 40E0      		ldi r20,0
+ 1091 0004 0C94 0000 		jmp throw_error_code_with_number
+ 1092               	.LVL124:
+  23:includes/chassisError.c **** }
+ 1093               		.loc 1 23 2 is_stmt 0 view .LVU155
+ 1094               		.cfi_endproc
+ 1095               	.LFE5:
+ 1097               		.text
+ 1098               	.Letext0:
+ 1099               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdlib.h"
+ 1100               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/lib/avr-gcc/8/gcc/avr/8.1.0/include/stddef.h"
+ 1101               		.file 4 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+ 1102               		.file 5 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdio.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 chassisError.c
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:2      *ABS*:000000000000003e __SP_H__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:3      *ABS*:000000000000003d __SP_L__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:4      *ABS*:000000000000003f __SREG__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:5      *ABS*:000000000000003b __RAMPZ__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:6      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:7      *ABS*:0000000000000001 __zero_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:17     .text.send_error_message:0000000000000000 send_error_message
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:258    .text.throw_error_code_with_number:0000000000000000 throw_error_code_with_number
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccdYpuW0.s:1030   .text.throw_error_code:0000000000000000 throw_error_code
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:5      *ABS*:000000000000003b __RAMPZ__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:6      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:7      *ABS*:0000000000000001 __zero_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:17     .text.send_error_message:0000000000000000 send_error_message
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:262    .text.throw_error_code_with_number:0000000000000000 throw_error_code_with_number
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc5S7PLG.s:1079   .text.throw_error_code:0000000000000000 throw_error_code
 
 UNDEFINED SYMBOLS
 snprintf

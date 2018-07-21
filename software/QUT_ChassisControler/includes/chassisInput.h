@@ -5,6 +5,16 @@
  * @brief Defines and outlines all variables and definitions related to everything related to input within the car.
  **/
 
+/**
+ * 
+ * 
+ * Throttle Primary     CH1     ADC5    Right   MIN 325     MAX 497
+ * Throttle Secondary   CH2     ADC2    Left    MIN 314     MAX 498
+ * 
+ * Brake    Primary     CH1     ADC10   Right   MIN 426     MAX 665
+ * Brake    Secondary   CH2     ADC8    Left    MIN 455     MAX 686
+ */
+
 #ifndef CHASSIS_INPUT_H
 #define CHASSIS_INPUT_H
 
@@ -14,14 +24,21 @@
 #include "chassisError.h"
 #include "a2dUtil.h"
 
-#define INPUT_PEDAL_BRAKE_HIGH		(900)	/**< Temporary Value, High Brake Pedal Application */
-#define INPUT_PEDAL_BRAKE_LOW		(100)	/**< Temporary Value, Low Brake Pedal Application */
+#define INPUT_ADC_ERROR              (40)     /**< 3% Lower trim */
+#define INPUT_ADC_THRESH             (3)    /**< 90% Upper trim */
+
+#define INPUT_PEDAL_BRAKE_CH1_HIGH		(665)	/**< Temporary Value, High Brake Pedal Application */
+#define INPUT_PEDAL_BRAKE_CH1_LOW		(426)	/**< Temporary Value, Low Brake Pedal Application */
+#define INPUT_PEDAL_BRAKE_CH2_HIGH		(455)	/**< Temporary Value, High Brake Pedal Application */
+#define INPUT_PEDAL_BRAKE_CH2_LOW		(686)	/**< Temporary Value, Low Brake Pedal Application */
 #define INPUT_PEDAL_BRAKE_LIGHT_ON 	(512)   /**< Temporary Value, must be updated with testing. Moderate Brake Pedal Application */
 #define INPUT_PEDAL_BRAKE_CH1       (10)    /**< Brake Pedal POT Ch1 on ADC */
 #define INPUT_PEDAL_BRAKE_CH2       (8)     /**< Brake Pedal POT Ch2 on ADC */
 
-#define INPUT_PEDAL_THROTTLE_HIGH	(900)	/**< High Throttle Pedal Application */
-#define INPUT_PEDAL_THROTTLE_LOW	(100)	/**< Low Throttle Pedal Application */
+#define INPUT_PEDAL_THROTTLE_CH1_HIGH	(497)	/**< High Throttle Pedal Application */
+#define INPUT_PEDAL_THROTTLE_CH1_LOW	(325)	/**< Low Throttle Pedal Application */
+#define INPUT_PEDAL_THROTTLE_CH2_HIGH	(498)	/**< High Throttle Pedal Application */
+#define INPUT_PEDAL_THROTTLE_CH2_LOW	(314)	/**< Low Throttle Pedal Application */
 #define INPUT_PEDAL_THROTTLE_CH1    (5)     /**< Throttle Pedal POT Ch1 on ADC */ // Channel is confirmed
 #define INPUT_PEDAL_THROTTLE_CH2    (2)     /**< Throttle Pedal POT Ch2 on ADC */ // Channel is confirmed
 
@@ -38,12 +55,13 @@
 #define INPUT_RADIATOR_RIGHT_CH		(0)	    /**< Radiator ADC CH Right (AN5) */
 #define INPUT_RADIATOR_LEFT_CH		(12)	/**< Radiator ADC CH Left (AN10) */
 
-extern uint16_t INPUT_steeringAngle;
-extern uint16_t INPUT_accelerationPedal;
-extern uint16_t INPUT_brakePedal;
-extern uint16_t INPUT_brakePressureFront;
-extern uint16_t INPUT_brakePressureBack;
+extern uint8_t INPUT_steeringAngle;
+extern uint8_t INPUT_accelerationPedal;
+extern uint8_t INPUT_brakePedal;
+extern uint8_t INPUT_brakePressureFront;
+extern uint8_t INPUT_brakePressureBack;
 
+uint8_t INPUT_scaleInput(uint16_t * value, uint16_t max, uint16_t min);
 
 /**
  * @brief INPUT_get_accelPedal
@@ -53,7 +71,7 @@ extern uint16_t INPUT_brakePressureBack;
  * @param val Given value to populate
  * @return uint8_t State of read
  */
-uint8_t INPUT_get_accelPedal(uint16_t * val);
+uint8_t INPUT_get_accelPedal(uint8_t * val);
 
 /**
  * @brief INPUT_get_brakePedal
@@ -63,7 +81,7 @@ uint8_t INPUT_get_accelPedal(uint16_t * val);
  * @param val Given value to populate
  * @return uint8_t State of read
  */
-uint8_t INPUT_get_brakePedal(uint16_t * val);
+uint8_t INPUT_get_brakePedal(uint8_t * val);
 
 /**
  * @brief INPUT_get_brakePressureFront

@@ -37,10 +37,11 @@ void led_flash(uint8_t times)
  * 
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
  **/
-void led_toggle()
+void led_toggle(void)
 {
-    // PORTK ^= 0b00100000;
-	PORTK ^= 1<<PINK5;
+    PORTK ^= 0b00100000;
+	// PORTK ^= 1<<PINK5;
+    return 1;
 }
 
 /**
@@ -52,12 +53,12 @@ void led_toggle()
  * 
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
  **/
-void led_off()
+void led_off(void)
 {
-	PORTK &= ~(1<<PINK5);
+	PORTK &= ~(0b00100000);
 }
 
-void led_on()
+void led_on(void)
 {
-	PORTK |= 1<<PINK5;
+	PORTK |= 0b00100000;
 }

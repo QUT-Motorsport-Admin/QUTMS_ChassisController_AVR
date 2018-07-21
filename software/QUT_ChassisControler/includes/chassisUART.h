@@ -11,26 +11,12 @@
 #include <stdlib.h>
 #include <avr/io.h>
 #include "utils/uart.h"
+#include "chassisInput.h"
 
-/**
- * @brief UART_getString
- *
- * Will return a completed string from the UART
- * This should called everytime there is an an avaliable byte in the stdIN buffer
- * 
- * @author Jonn Dillon
- */
-char *UART_getString(void);
+void uart_process_byte(char data);
+void uart_parse_input(unsigned char* s);
+void uart_parse_poke(unsigned char* s);
+void uart_send_real_time_data (void);
 
-
-/**
- * @brief UART_sendString
- * 
- * Will take a string pointer, and send it down UART
- * One way method, no error reporting
- *
- * @param s Given string pointer to send (char[])
- */
-// void UART_sendString(unsigned char *s);
 
 #endif // CHASSIS_UART_H

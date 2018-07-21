@@ -8,11 +8,12 @@
    8               		.text
    9               	.Ltext0:
   10               		.cfi_sections	.debug_frame
-  11               		.section	.text.a2dOn,"ax",@progbits
-  12               	.global	a2dOn
-  14               	a2dOn:
-  15               	.LFB2:
-  16               		.file 1 "utils/a2d.c"
+  11               		.section	.text.a2dInit,"ax",@progbits
+  12               	.global	a2dInit
+  14               	a2dInit:
+  15               	.LVL0:
+  16               	.LFB1:
+  17               		.file 1 "utils/a2d.c"
    1:utils/a2d.c   **** /*! \file a2d.c \brief Analog-to-Digital converter function library. */
    2:utils/a2d.c   **** //*****************************************************************************
    3:utils/a2d.c   **** //
@@ -40,209 +41,198 @@
   25:utils/a2d.c   **** // initialize a2d converter
   26:utils/a2d.c   **** void a2dInit(unsigned char prescale, unsigned char ref)
   27:utils/a2d.c   **** {
+  18               		.loc 1 27 1 view -0
+  19               		.cfi_startproc
+  20               		.loc 1 27 1 is_stmt 0 view .LVU1
+  21 0000 CF93      		push r28
+  22               	.LCFI0:
+  23               		.cfi_def_cfa_offset 3
+  24               		.cfi_offset 28, -2
+  25               	/* prologue: function */
+  26               	/* frame size = 0 */
+  27               	/* stack size = 1 */
+  28               	.L__stack_usage = 1
+  29 0002 C62F      		mov r28,r22
   28:utils/a2d.c   **** 	// Set to Single Mode, ADC Auto Trigger OFF, ADC Int OFF, Prescale 0
   29:utils/a2d.c   **** 	ADCSRA = 0; //clear!
+  30               		.loc 1 29 2 is_stmt 1 view .LVU2
+  31               		.loc 1 29 9 is_stmt 0 view .LVU3
+  32 0004 1092 7A00 		sts 122,__zero_reg__
   30:utils/a2d.c   **** 
   31:utils/a2d.c   **** 	// Right adjust result
   32:utils/a2d.c   **** 	ADMUX &= ~(1<<ADLAR); //clear
+  33               		.loc 1 32 2 is_stmt 1 view .LVU4
+  34               		.loc 1 32 8 is_stmt 0 view .LVU5
+  35 0008 ECE7      		ldi r30,lo8(124)
+  36 000a F0E0      		ldi r31,0
+  37 000c 9081      		ld r25,Z
+  38 000e 9F7D      		andi r25,lo8(-33)
+  39 0010 9083      		st Z,r25
   33:utils/a2d.c   **** 
   34:utils/a2d.c   **** 	// Set prescaler
   35:utils/a2d.c   **** 	a2dSetPrescaler(prescale);
+  40               		.loc 1 35 2 is_stmt 1 view .LVU6
+  41 0012 0E94 0000 		call a2dSetPrescaler
+  42               	.LVL1:
   36:utils/a2d.c   **** 
   37:utils/a2d.c   **** 	// Set default reference
   38:utils/a2d.c   **** 	a2dSetReference(ref);	
+  43               		.loc 1 38 2 view .LVU7
+  44 0016 8C2F      		mov r24,r28
+  45 0018 0E94 0000 		call a2dSetReference
+  46               	.LVL2:
   39:utils/a2d.c   **** 
   40:utils/a2d.c   **** 	// Turn ADC on
   41:utils/a2d.c   **** 	a2dOn();
+  47               		.loc 1 41 2 view .LVU8
+  48               	/* epilogue start */
   42:utils/a2d.c   **** 
   43:utils/a2d.c   **** 	// int input = a2d_10bit();
   44:utils/a2d.c   **** 	// input = a2d_10bit();
   45:utils/a2d.c   **** }
+  49               		.loc 1 45 1 is_stmt 0 view .LVU9
+  50 001c CF91      		pop r28
+  51               	.LVL3:
+  41:utils/a2d.c   **** 
+  52               		.loc 1 41 2 view .LVU10
+  53 001e 0C94 0000 		jmp a2dOn
+  54               	.LVL4:
+  55               		.cfi_endproc
+  56               	.LFE1:
+  58               		.section	.text.a2dOn,"ax",@progbits
+  59               	.global	a2dOn
+  61               	a2dOn:
+  62               	.LFB2:
   46:utils/a2d.c   **** 
   47:utils/a2d.c   **** // turn On a2d converter
   48:utils/a2d.c   **** void a2dOn(void)
   49:utils/a2d.c   **** {
-  17               		.loc 1 49 1 view -0
-  18               		.cfi_startproc
-  19               	/* prologue: function */
-  20               	/* frame size = 0 */
-  21               	/* stack size = 0 */
-  22               	.L__stack_usage = 0
+  63               		.loc 1 49 1 is_stmt 1 view -0
+  64               		.cfi_startproc
+  65               	/* prologue: function */
+  66               	/* frame size = 0 */
+  67               	/* stack size = 0 */
+  68               	.L__stack_usage = 0
   50:utils/a2d.c   **** 	ADCSRA |= (1 << ADEN);				// enable ADC (turn on ADC power), Set
-  23               		.loc 1 50 2 view .LVU1
-  24               		.loc 1 50 9 is_stmt 0 view .LVU2
-  25 0000 EAE7      		ldi r30,lo8(122)
-  26 0002 F0E0      		ldi r31,0
-  27 0004 8081      		ld r24,Z
-  28 0006 8068      		ori r24,lo8(-128)
-  29 0008 8083      		st Z,r24
-  30               	/* epilogue start */
+  69               		.loc 1 50 2 view .LVU12
+  70               		.loc 1 50 9 is_stmt 0 view .LVU13
+  71 0000 EAE7      		ldi r30,lo8(122)
+  72 0002 F0E0      		ldi r31,0
+  73 0004 8081      		ld r24,Z
+  74 0006 8068      		ori r24,lo8(-128)
+  75 0008 8083      		st Z,r24
+  76               	/* epilogue start */
   51:utils/a2d.c   **** }
-  31               		.loc 1 51 1 view .LVU3
-  32 000a 0895      		ret
-  33               		.cfi_endproc
-  34               	.LFE2:
-  36               		.section	.text.a2dOff,"ax",@progbits
-  37               	.global	a2dOff
-  39               	a2dOff:
-  40               	.LFB3:
+  77               		.loc 1 51 1 view .LVU14
+  78 000a 0895      		ret
+  79               		.cfi_endproc
+  80               	.LFE2:
+  82               		.section	.text.a2dOff,"ax",@progbits
+  83               	.global	a2dOff
+  85               	a2dOff:
+  86               	.LFB3:
   52:utils/a2d.c   **** 
   53:utils/a2d.c   **** // turn off a2d converter
   54:utils/a2d.c   **** void a2dOff(void)
   55:utils/a2d.c   **** {
-  41               		.loc 1 55 1 is_stmt 1 view -0
-  42               		.cfi_startproc
-  43               	/* prologue: function */
-  44               	/* frame size = 0 */
-  45               	/* stack size = 0 */
-  46               	.L__stack_usage = 0
+  87               		.loc 1 55 1 is_stmt 1 view -0
+  88               		.cfi_startproc
+  89               	/* prologue: function */
+  90               	/* frame size = 0 */
+  91               	/* stack size = 0 */
+  92               	.L__stack_usage = 0
   56:utils/a2d.c   **** 	ADCSRA &= ~(1 << ADEN);				// disable ADC (turn off ADC power), Clear
-  47               		.loc 1 56 2 view .LVU5
-  48               		.loc 1 56 9 is_stmt 0 view .LVU6
-  49 0000 EAE7      		ldi r30,lo8(122)
-  50 0002 F0E0      		ldi r31,0
-  51 0004 8081      		ld r24,Z
-  52 0006 8F77      		andi r24,lo8(127)
-  53 0008 8083      		st Z,r24
-  54               	/* epilogue start */
+  93               		.loc 1 56 2 view .LVU16
+  94               		.loc 1 56 9 is_stmt 0 view .LVU17
+  95 0000 EAE7      		ldi r30,lo8(122)
+  96 0002 F0E0      		ldi r31,0
+  97 0004 8081      		ld r24,Z
+  98 0006 8F77      		andi r24,lo8(127)
+  99 0008 8083      		st Z,r24
+ 100               	/* epilogue start */
   57:utils/a2d.c   **** }
-  55               		.loc 1 57 1 view .LVU7
-  56 000a 0895      		ret
-  57               		.cfi_endproc
-  58               	.LFE3:
-  60               		.section	.text.a2dSetPrescaler,"ax",@progbits
-  61               	.global	a2dSetPrescaler
-  63               	a2dSetPrescaler:
-  64               	.LVL0:
-  65               	.LFB4:
+ 101               		.loc 1 57 1 view .LVU18
+ 102 000a 0895      		ret
+ 103               		.cfi_endproc
+ 104               	.LFE3:
+ 106               		.section	.text.a2dSetPrescaler,"ax",@progbits
+ 107               	.global	a2dSetPrescaler
+ 109               	a2dSetPrescaler:
+ 110               	.LVL5:
+ 111               	.LFB4:
   58:utils/a2d.c   **** 
   59:utils/a2d.c   **** // configure A2D converter clock division (prescaling)
   60:utils/a2d.c   **** void a2dSetPrescaler(unsigned char prescale)
   61:utils/a2d.c   **** {
-  66               		.loc 1 61 1 is_stmt 1 view -0
-  67               		.cfi_startproc
-  68               	/* prologue: function */
-  69               	/* frame size = 0 */
-  70               	/* stack size = 0 */
-  71               	.L__stack_usage = 0
+ 112               		.loc 1 61 1 is_stmt 1 view -0
+ 113               		.cfi_startproc
+ 114               	/* prologue: function */
+ 115               	/* frame size = 0 */
+ 116               	/* stack size = 0 */
+ 117               	.L__stack_usage = 0
   62:utils/a2d.c   **** 	ADCSRA &= ADC_PRESCALE_MASK;
-  72               		.loc 1 62 2 view .LVU9
-  73               		.loc 1 62 9 is_stmt 0 view .LVU10
-  74 0000 EAE7      		ldi r30,lo8(122)
-  75 0002 F0E0      		ldi r31,0
-  76 0004 9081      		ld r25,Z
-  77 0006 987F      		andi r25,lo8(-8)
-  78 0008 9083      		st Z,r25
+ 118               		.loc 1 62 2 view .LVU20
+ 119               		.loc 1 62 9 is_stmt 0 view .LVU21
+ 120 0000 EAE7      		ldi r30,lo8(122)
+ 121 0002 F0E0      		ldi r31,0
+ 122 0004 9081      		ld r25,Z
+ 123 0006 987F      		andi r25,lo8(-8)
+ 124 0008 9083      		st Z,r25
   63:utils/a2d.c   **** 	ADCSRA |= prescale;
-  79               		.loc 1 63 2 is_stmt 1 view .LVU11
-  80               		.loc 1 63 9 is_stmt 0 view .LVU12
-  81 000a 9081      		ld r25,Z
-  82 000c 892B      		or r24,r25
-  83               	.LVL1:
-  84               		.loc 1 63 9 view .LVU13
-  85 000e 8083      		st Z,r24
-  86               	/* epilogue start */
+ 125               		.loc 1 63 2 is_stmt 1 view .LVU22
+ 126               		.loc 1 63 9 is_stmt 0 view .LVU23
+ 127 000a 9081      		ld r25,Z
+ 128 000c 892B      		or r24,r25
+ 129               	.LVL6:
+ 130               		.loc 1 63 9 view .LVU24
+ 131 000e 8083      		st Z,r24
+ 132               	/* epilogue start */
   64:utils/a2d.c   **** }
-  87               		.loc 1 64 1 view .LVU14
-  88 0010 0895      		ret
-  89               		.cfi_endproc
-  90               	.LFE4:
-  92               		.section	.text.a2dSetReference,"ax",@progbits
-  93               	.global	a2dSetReference
-  95               	a2dSetReference:
-  96               	.LVL2:
-  97               	.LFB5:
+ 133               		.loc 1 64 1 view .LVU25
+ 134 0010 0895      		ret
+ 135               		.cfi_endproc
+ 136               	.LFE4:
+ 138               		.section	.text.a2dSetReference,"ax",@progbits
+ 139               	.global	a2dSetReference
+ 141               	a2dSetReference:
+ 142               	.LVL7:
+ 143               	.LFB5:
   65:utils/a2d.c   **** 
   66:utils/a2d.c   **** // configure A2D converter voltage reference
   67:utils/a2d.c   **** void a2dSetReference(unsigned char ref)
   68:utils/a2d.c   **** {
-  98               		.loc 1 68 1 is_stmt 1 view -0
-  99               		.cfi_startproc
- 100               	/* prologue: function */
- 101               	/* frame size = 0 */
- 102               	/* stack size = 0 */
- 103               	.L__stack_usage = 0
+ 144               		.loc 1 68 1 is_stmt 1 view -0
+ 145               		.cfi_startproc
+ 146               	/* prologue: function */
+ 147               	/* frame size = 0 */
+ 148               	/* stack size = 0 */
+ 149               	.L__stack_usage = 0
   69:utils/a2d.c   **** 	ADMUX &= ADC_REFERENCE_MASK;
- 104               		.loc 1 69 2 view .LVU16
- 105               		.loc 1 69 8 is_stmt 0 view .LVU17
- 106 0000 ECE7      		ldi r30,lo8(124)
- 107 0002 F0E0      		ldi r31,0
- 108 0004 9081      		ld r25,Z
- 109 0006 9C7F      		andi r25,lo8(-4)
- 110 0008 9083      		st Z,r25
+ 150               		.loc 1 69 2 view .LVU27
+ 151               		.loc 1 69 8 is_stmt 0 view .LVU28
+ 152 0000 ECE7      		ldi r30,lo8(124)
+ 153 0002 F0E0      		ldi r31,0
+ 154 0004 9081      		ld r25,Z
+ 155 0006 9C7F      		andi r25,lo8(-4)
+ 156 0008 9083      		st Z,r25
   70:utils/a2d.c   **** 	ADMUX |= (ref<<6);
- 111               		.loc 1 70 2 is_stmt 1 view .LVU18
- 112               		.loc 1 70 8 is_stmt 0 view .LVU19
- 113 000a 9081      		ld r25,Z
- 114               		.loc 1 70 15 view .LVU20
- 115 000c 40E4      		ldi r20,lo8(64)
- 116 000e 849F      		mul r24,r20
- 117 0010 9001      		movw r18,r0
- 118 0012 1124      		clr __zero_reg__
- 119               		.loc 1 70 8 view .LVU21
- 120 0014 922B      		or r25,r18
- 121 0016 9083      		st Z,r25
- 122               	/* epilogue start */
+ 157               		.loc 1 70 2 is_stmt 1 view .LVU29
+ 158               		.loc 1 70 8 is_stmt 0 view .LVU30
+ 159 000a 9081      		ld r25,Z
+ 160               		.loc 1 70 15 view .LVU31
+ 161 000c 40E4      		ldi r20,lo8(64)
+ 162 000e 849F      		mul r24,r20
+ 163 0010 9001      		movw r18,r0
+ 164 0012 1124      		clr __zero_reg__
+ 165               		.loc 1 70 8 view .LVU32
+ 166 0014 922B      		or r25,r18
+ 167 0016 9083      		st Z,r25
+ 168               	/* epilogue start */
   71:utils/a2d.c   **** }
- 123               		.loc 1 71 1 view .LVU22
- 124 0018 0895      		ret
- 125               		.cfi_endproc
- 126               	.LFE5:
- 128               		.section	.text.a2dInit,"ax",@progbits
- 129               	.global	a2dInit
- 131               	a2dInit:
- 132               	.LVL3:
- 133               	.LFB1:
-  27:utils/a2d.c   **** 	// Set to Single Mode, ADC Auto Trigger OFF, ADC Int OFF, Prescale 0
- 134               		.loc 1 27 1 is_stmt 1 view -0
- 135               		.cfi_startproc
-  27:utils/a2d.c   **** 	// Set to Single Mode, ADC Auto Trigger OFF, ADC Int OFF, Prescale 0
- 136               		.loc 1 27 1 is_stmt 0 view .LVU24
- 137 0000 CF93      		push r28
- 138               	.LCFI0:
- 139               		.cfi_def_cfa_offset 3
- 140               		.cfi_offset 28, -2
- 141               	/* prologue: function */
- 142               	/* frame size = 0 */
- 143               	/* stack size = 1 */
- 144               	.L__stack_usage = 1
- 145 0002 C62F      		mov r28,r22
-  29:utils/a2d.c   **** 
- 146               		.loc 1 29 2 is_stmt 1 view .LVU25
-  29:utils/a2d.c   **** 
- 147               		.loc 1 29 9 is_stmt 0 view .LVU26
- 148 0004 1092 7A00 		sts 122,__zero_reg__
-  32:utils/a2d.c   **** 
- 149               		.loc 1 32 2 is_stmt 1 view .LVU27
-  32:utils/a2d.c   **** 
- 150               		.loc 1 32 8 is_stmt 0 view .LVU28
- 151 0008 ECE7      		ldi r30,lo8(124)
- 152 000a F0E0      		ldi r31,0
- 153 000c 9081      		ld r25,Z
- 154 000e 9F7D      		andi r25,lo8(-33)
- 155 0010 9083      		st Z,r25
-  35:utils/a2d.c   **** 
- 156               		.loc 1 35 2 is_stmt 1 view .LVU29
- 157 0012 0E94 0000 		call a2dSetPrescaler
- 158               	.LVL4:
-  38:utils/a2d.c   **** 
- 159               		.loc 1 38 2 view .LVU30
- 160 0016 8C2F      		mov r24,r28
- 161 0018 0E94 0000 		call a2dSetReference
- 162               	.LVL5:
-  41:utils/a2d.c   **** 
- 163               		.loc 1 41 2 view .LVU31
- 164               	/* epilogue start */
-  45:utils/a2d.c   **** 
- 165               		.loc 1 45 1 is_stmt 0 view .LVU32
- 166 001c CF91      		pop r28
- 167               	.LVL6:
-  41:utils/a2d.c   **** 
- 168               		.loc 1 41 2 view .LVU33
- 169 001e 0C94 0000 		jmp a2dOn
- 170               	.LVL7:
+ 169               		.loc 1 71 1 view .LVU33
+ 170 0018 0895      		ret
  171               		.cfi_endproc
- 172               	.LFE1:
+ 172               	.LFE5:
  174               		.section	.text.a2dSetChannel,"ax",@progbits
  175               	.global	a2dSetChannel
  177               	a2dSetChannel:
@@ -319,17 +309,17 @@
  228 000e 86FD      		sbrc r24,6
  229 0010 00C0      		rjmp .L8
   92:utils/a2d.c   **** 
-  93:utils/a2d.c   ****     // return ADC;                // read ADC (full 10 bits);
-  94:utils/a2d.c   **** 	// return (8 << ADCH)|(ADCL); // read ADC (full 10 bits);
-  95:utils/a2d.c   ****     return ADCL;                // read ADC (first 8 bits)
- 230               		.loc 1 95 5 is_stmt 1 view .LVU48
- 231               		.loc 1 95 12 is_stmt 0 view .LVU49
+  93:utils/a2d.c   ****     return ADC;                // read ADC (full 10 bits);
+ 230               		.loc 1 93 5 is_stmt 1 view .LVU48
+ 231               		.loc 1 93 12 is_stmt 0 view .LVU49
  232 0012 8091 7800 		lds r24,120
+ 233 0016 9091 7900 		lds r25,120+1
+ 234               	/* epilogue start */
+  94:utils/a2d.c   **** 	// return (8 << ADCH)|(ADCL); // read ADC (full 10 bits);
+  95:utils/a2d.c   ****     // return ADCL;                // read ADC (first 8 bits)
   96:utils/a2d.c   **** }
- 233               		.loc 1 96 1 view .LVU50
- 234 0016 90E0      		ldi r25,0
- 235               	/* epilogue start */
- 236 0018 0895      		ret
+ 235               		.loc 1 96 1 view .LVU50
+ 236 001a 0895      		ret
  237               		.cfi_endproc
  238               	.LFE7:
  240               		.section	.text.a2d_8bit,"ax",@progbits
@@ -392,310 +382,330 @@
  281 0004 907E      		andi r25,lo8(-32)
  282 0006 9093 7C00 		sts 124,r25
  116:utils/a2d.c   **** 	
- 117:utils/a2d.c   **** 	/*   qfp100 parts code below (16 channel)
- 118:utils/a2d.c   **** 	if (ch > 7) 
- 119:utils/a2d.c   **** 	{
- 120:utils/a2d.c   **** 		ADCSRB |= 8;
- 121:utils/a2d.c   **** 		ADMUX |= (ch - 8);
- 122:utils/a2d.c   **** 	}
- 123:utils/a2d.c   **** 
- 124:utils/a2d.c   **** 	else
- 125:utils/a2d.c   **** 	{
- 126:utils/a2d.c   **** 		ADCSRB &= 247;
- 127:utils/a2d.c   **** 		ADMUX |= ch;
- 128:utils/a2d.c   **** 	}
- 129:utils/a2d.c   **** 	*/
- 130:utils/a2d.c   **** 	
- 131:utils/a2d.c   **** 	ADMUX |= ch;	//comment out this line when using on 16ch parts
- 283               		.loc 1 131 2 is_stmt 1 view .LVU59
- 284               		.loc 1 131 8 is_stmt 0 view .LVU60
- 285 000a 9091 7C00 		lds r25,124
- 286 000e 892B      		or r24,r25
- 287               	.LVL12:
- 288               		.loc 1 131 8 view .LVU61
- 289 0010 8093 7C00 		sts 124,r24
+ 117:utils/a2d.c   **** 	if (ch > 7) 
+ 283               		.loc 1 117 2 is_stmt 1 view .LVU59
+ 118:utils/a2d.c   **** 	{
+ 119:utils/a2d.c   **** 		ADCSRB |= 8;
+ 284               		.loc 1 119 10 is_stmt 0 view .LVU60
+ 285 000a 9091 7B00 		lds r25,123
+ 117:utils/a2d.c   **** 	{
+ 286               		.loc 1 117 5 view .LVU61
+ 287 000e 8830      		cpi r24,lo8(8)
+ 288 0010 00F0      		brlo .L12
+ 289               		.loc 1 119 3 is_stmt 1 view .LVU62
+ 290               		.loc 1 119 10 is_stmt 0 view .LVU63
+ 291 0012 9860      		ori r25,lo8(8)
+ 292 0014 9093 7B00 		sts 123,r25
+ 120:utils/a2d.c   **** 		ADMUX |= (ch - 8);
+ 293               		.loc 1 120 3 is_stmt 1 view .LVU64
+ 294               		.loc 1 120 9 is_stmt 0 view .LVU65
+ 295 0018 9091 7C00 		lds r25,124
+ 296               		.loc 1 120 16 view .LVU66
+ 297 001c 8850      		subi r24,lo8(-(-8))
+ 298               	.LVL12:
+ 299               	.L16:
+ 121:utils/a2d.c   **** 	}
+ 122:utils/a2d.c   **** 	else
+ 123:utils/a2d.c   **** 	{
+ 124:utils/a2d.c   **** 		ADCSRB &= 247;
+ 125:utils/a2d.c   **** 		ADMUX |= ch;
+ 300               		.loc 1 125 9 view .LVU67
+ 301 001e 892B      		or r24,r25
+ 302 0020 8093 7C00 		sts 124,r24
+ 126:utils/a2d.c   **** 	}
+ 127:utils/a2d.c   **** 	
+ 128:utils/a2d.c   **** 	// ADMUX |= ch;	//comment out this line when using on 16ch parts
+ 129:utils/a2d.c   **** 
+ 130:utils/a2d.c   **** 	// start conversion
+ 131:utils/a2d.c   **** 	ADCSRA |= (1<<ADSC);
+ 303               		.loc 1 131 2 is_stmt 1 view .LVU68
+ 304               		.loc 1 131 9 is_stmt 0 view .LVU69
+ 305 0024 8091 7A00 		lds r24,122
+ 306 0028 8064      		ori r24,lo8(64)
+ 307 002a 8093 7A00 		sts 122,r24
  132:utils/a2d.c   **** 
- 133:utils/a2d.c   **** 	// start conversion
- 134:utils/a2d.c   **** 	ADCSRA |= (1<<ADSC);
- 290               		.loc 1 134 2 is_stmt 1 view .LVU62
- 291               		.loc 1 134 9 is_stmt 0 view .LVU63
- 292 0014 8091 7A00 		lds r24,122
- 293 0018 8064      		ori r24,lo8(64)
- 294 001a 8093 7A00 		sts 122,r24
- 135:utils/a2d.c   **** 
- 136:utils/a2d.c   **** 	while(ADCSRA & (1 << ADSC))
- 295               		.loc 1 136 2 is_stmt 1 view .LVU64
- 296               	.L12:
- 137:utils/a2d.c   **** 	{
- 138:utils/a2d.c   **** 		// wait until conversion complete
- 139:utils/a2d.c   **** 	}
- 297               		.loc 1 139 2 discriminator 1 view .LVU65
- 136:utils/a2d.c   **** 	{
- 298               		.loc 1 136 8 is_stmt 0 discriminator 1 view .LVU66
- 299 001e 8091 7A00 		lds r24,122
- 136:utils/a2d.c   **** 	{
- 300               		.loc 1 136 7 discriminator 1 view .LVU67
- 301 0022 86FD      		sbrc r24,6
- 302 0024 00C0      		rjmp .L12
+ 133:utils/a2d.c   **** 	while(ADCSRA & (1 << ADSC)) {} // wait until conversion complete 
+ 308               		.loc 1 133 2 is_stmt 1 view .LVU70
+ 309               	.L14:
+ 310               		.loc 1 133 31 discriminator 1 view .LVU71
+ 311               		.loc 1 133 8 is_stmt 0 discriminator 1 view .LVU72
+ 312 002e 8091 7A00 		lds r24,122
+ 313               		.loc 1 133 7 discriminator 1 view .LVU73
+ 314 0032 86FD      		sbrc r24,6
+ 315 0034 00C0      		rjmp .L14
+ 134:utils/a2d.c   **** 
+ 135:utils/a2d.c   **** 	return ADC;                // read ADC (full 10 bits);
+ 316               		.loc 1 135 2 is_stmt 1 view .LVU74
+ 317               		.loc 1 135 9 is_stmt 0 view .LVU75
+ 318 0036 8091 7800 		lds r24,120
+ 319 003a 9091 7900 		lds r25,120+1
+ 320               	/* epilogue start */
+ 136:utils/a2d.c   **** 	// return (8 << ADCH)|(ADCL); // read ADC (full 10 bits);
+ 137:utils/a2d.c   ****     // return ADCL;                // read ADC (first 8 bits)
+ 138:utils/a2d.c   **** }
+ 321               		.loc 1 138 1 view .LVU76
+ 322 003e 0895      		ret
+ 323               	.LVL13:
+ 324               	.L12:
+ 124:utils/a2d.c   **** 		ADMUX |= ch;
+ 325               		.loc 1 124 3 is_stmt 1 view .LVU77
+ 124:utils/a2d.c   **** 		ADMUX |= ch;
+ 326               		.loc 1 124 10 is_stmt 0 view .LVU78
+ 327 0040 977F      		andi r25,lo8(-9)
+ 328 0042 9093 7B00 		sts 123,r25
+ 125:utils/a2d.c   **** 	}
+ 329               		.loc 1 125 3 is_stmt 1 view .LVU79
+ 125:utils/a2d.c   **** 	}
+ 330               		.loc 1 125 9 is_stmt 0 view .LVU80
+ 331 0046 9091 7C00 		lds r25,124
+ 332 004a 00C0      		rjmp .L16
+ 333               		.cfi_endproc
+ 334               	.LFE9:
+ 336               		.section	.text.a2d_8bitCh,"ax",@progbits
+ 337               	.global	a2d_8bitCh
+ 339               	a2d_8bitCh:
+ 340               	.LVL14:
+ 341               	.LFB10:
+ 139:utils/a2d.c   **** 
  140:utils/a2d.c   **** 
- 141:utils/a2d.c   **** 	// return ADC;                // read ADC (full 10 bits);
- 142:utils/a2d.c   **** 	// return (8 << ADCH)|(ADCL); // read ADC (full 10 bits);
- 143:utils/a2d.c   ****     return ADCL;                // read ADC (first 8 bits)
- 303               		.loc 1 143 5 is_stmt 1 view .LVU68
- 304               		.loc 1 143 12 is_stmt 0 view .LVU69
- 305 0026 8091 7800 		lds r24,120
- 144:utils/a2d.c   **** }
- 306               		.loc 1 144 1 view .LVU70
- 307 002a 90E0      		ldi r25,0
- 308               	/* epilogue start */
- 309 002c 0895      		ret
- 310               		.cfi_endproc
- 311               	.LFE9:
- 313               		.section	.text.a2d_8bitCh,"ax",@progbits
- 314               	.global	a2d_8bitCh
- 316               	a2d_8bitCh:
- 317               	.LVL13:
- 318               	.LFB10:
- 145:utils/a2d.c   **** 
- 146:utils/a2d.c   **** 
- 147:utils/a2d.c   **** // Perform a 8-bit conversion on given channel
- 148:utils/a2d.c   **** // starts conversion, waits until conversion is done, and returns result
- 149:utils/a2d.c   **** unsigned char a2d_8bitCh(unsigned char ch)
- 150:utils/a2d.c   **** {
- 319               		.loc 1 150 1 is_stmt 1 view -0
- 320               		.cfi_startproc
- 321               	/* prologue: function */
- 322               	/* frame size = 0 */
- 323               	/* stack size = 0 */
- 324               	.L__stack_usage = 0
- 151:utils/a2d.c   **** 	// do 10-bit conversion and return highest 8 bits
- 152:utils/a2d.c   **** 	return a2d_10bitCh(ch)>>2;			// return ADC MSB byte
- 325               		.loc 1 152 2 view .LVU72
- 326               		.loc 1 152 9 is_stmt 0 view .LVU73
- 327 0000 0E94 0000 		call a2d_10bitCh
- 328               	.LVL14:
- 329               		.loc 1 152 24 view .LVU74
- 330 0004 9695      		lsr r25
- 331 0006 8795      		ror r24
- 332 0008 9695      		lsr r25
- 333 000a 8795      		ror r24
- 334               	/* epilogue start */
- 153:utils/a2d.c   **** }
- 335               		.loc 1 153 1 view .LVU75
- 336 000c 0895      		ret
- 337               		.cfi_endproc
- 338               	.LFE10:
- 340               		.section	.text.a2dFrom_mV,"ax",@progbits
- 341               	.global	a2dFrom_mV
- 343               	a2dFrom_mV:
- 344               	.LVL15:
- 345               	.LFB11:
- 154:utils/a2d.c   **** 
- 155:utils/a2d.c   **** //! Converts a supplied mV value into A/D bits
- 156:utils/a2d.c   **** unsigned short a2dFrom_mV(unsigned short mV,unsigned short a2dmVmax,unsigned short a2dMax)
- 157:utils/a2d.c   **** {
- 346               		.loc 1 157 1 is_stmt 1 view -0
- 347               		.cfi_startproc
- 348               	/* prologue: function */
- 349               	/* frame size = 0 */
- 350               	/* stack size = 0 */
- 351               	.L__stack_usage = 0
- 352               		.loc 1 157 1 is_stmt 0 view .LVU77
- 353 0000 FB01      		movw r30,r22
- 354 0002 9A01      		movw r18,r20
- 158:utils/a2d.c   **** 	unsigned long temp_u32;
- 355               		.loc 1 158 2 is_stmt 1 view .LVU78
- 159:utils/a2d.c   **** 
- 160:utils/a2d.c   **** 	//a2dBits = (mV * a2dBits) / a2dmVmax
- 161:utils/a2d.c   **** 	temp_u32 = mV;
- 356               		.loc 1 161 2 view .LVU79
- 357               	.LVL16:
- 162:utils/a2d.c   **** 	temp_u32 *= a2dMax;
- 358               		.loc 1 162 2 view .LVU80
- 359               		.loc 1 162 11 is_stmt 0 view .LVU81
- 360 0004 DC01      		movw r26,r24
- 361 0006 0E94 0000 		call __umulhisi3
- 362               	.LVL17:
- 163:utils/a2d.c   **** 	temp_u32 /= a2dmVmax;
- 363               		.loc 1 163 2 is_stmt 1 view .LVU82
- 164:utils/a2d.c   **** 	return temp_u32;
- 364               		.loc 1 164 2 view .LVU83
- 163:utils/a2d.c   **** 	temp_u32 /= a2dmVmax;
- 365               		.loc 1 163 11 is_stmt 0 view .LVU84
- 366 000a 9F01      		movw r18,r30
- 367 000c 50E0      		ldi r21,0
- 368 000e 40E0      		ldi r20,0
- 369               	.LVL18:
- 163:utils/a2d.c   **** 	temp_u32 /= a2dmVmax;
- 370               		.loc 1 163 11 view .LVU85
- 371 0010 0E94 0000 		call __udivmodsi4
- 372               	.LVL19:
- 165:utils/a2d.c   **** }
- 373               		.loc 1 165 1 view .LVU86
- 374 0014 C901      		movw r24,r18
- 375               	.LVL20:
- 376               	/* epilogue start */
- 377               		.loc 1 165 1 view .LVU87
- 378 0016 0895      		ret
- 379               		.cfi_endproc
- 380               	.LFE11:
- 382               		.section	.text.a2dmVFrom_a2d,"ax",@progbits
- 383               	.global	a2dmVFrom_a2d
- 385               	a2dmVFrom_a2d:
- 386               	.LVL21:
- 387               	.LFB12:
- 166:utils/a2d.c   **** 
- 167:utils/a2d.c   **** //! Converts a supplied A/D value into mV
- 168:utils/a2d.c   **** unsigned short a2dmVFrom_a2d(unsigned short a2dBits,unsigned short a2dmVmax,unsigned short a2dMax)
- 169:utils/a2d.c   **** {
- 388               		.loc 1 169 1 is_stmt 1 view -0
- 389               		.cfi_startproc
- 390               	/* prologue: function */
- 391               	/* frame size = 0 */
- 392               	/* stack size = 0 */
- 393               	.L__stack_usage = 0
- 394               		.loc 1 169 1 is_stmt 0 view .LVU89
- 395 0000 9B01      		movw r18,r22
- 170:utils/a2d.c   **** 	unsigned long temp_u32;
- 396               		.loc 1 170 2 is_stmt 1 view .LVU90
- 171:utils/a2d.c   **** 
- 172:utils/a2d.c   **** 	//a2dBits = (mV * a2dBits) / a2dmVmax
- 173:utils/a2d.c   **** 	temp_u32 = a2dBits;
- 397               		.loc 1 173 2 view .LVU91
- 398               	.LVL22:
- 174:utils/a2d.c   **** 	temp_u32 *= a2dmVmax;
- 399               		.loc 1 174 2 view .LVU92
- 400               		.loc 1 174 11 is_stmt 0 view .LVU93
- 401 0002 DC01      		movw r26,r24
- 402 0004 0E94 0000 		call __umulhisi3
- 403               	.LVL23:
- 175:utils/a2d.c   **** 	temp_u32 /= a2dMax;
- 404               		.loc 1 175 2 is_stmt 1 view .LVU94
- 176:utils/a2d.c   **** 	return temp_u32;
- 405               		.loc 1 176 2 view .LVU95
- 175:utils/a2d.c   **** 	temp_u32 /= a2dMax;
- 406               		.loc 1 175 11 is_stmt 0 view .LVU96
- 407 0008 9A01      		movw r18,r20
- 408               	.LVL24:
- 175:utils/a2d.c   **** 	temp_u32 /= a2dMax;
- 409               		.loc 1 175 11 view .LVU97
- 410 000a 50E0      		ldi r21,0
- 411 000c 40E0      		ldi r20,0
- 412               	.LVL25:
- 175:utils/a2d.c   **** 	temp_u32 /= a2dMax;
- 413               		.loc 1 175 11 view .LVU98
- 414 000e 0E94 0000 		call __udivmodsi4
- 415               	.LVL26:
- 177:utils/a2d.c   **** }
- 416               		.loc 1 177 1 view .LVU99
- 417 0012 C901      		movw r24,r18
- 418               	.LVL27:
- 419               	/* epilogue start */
- 420               		.loc 1 177 1 view .LVU100
- 421 0014 0895      		ret
- 422               		.cfi_endproc
- 423               	.LFE12:
- 425               		.section	.text.d2a_10bit,"ax",@progbits
- 426               	.global	d2a_10bit
- 428               	d2a_10bit:
- 429               	.LVL28:
- 430               	.LFB13:
- 178:utils/a2d.c   **** 
- 179:utils/a2d.c   **** 
- 180:utils/a2d.c   **** 
- 181:utils/a2d.c   **** //-----------------------------------------------------------------------------
- 182:utils/a2d.c   **** // Sets the d2a value onthe R2R port/s
- 183:utils/a2d.c   **** //-----------------------------------------------------------------------------
- 184:utils/a2d.c   **** void d2a_10bit(unsigned short d2a)
- 185:utils/a2d.c   **** {
- 431               		.loc 1 185 1 is_stmt 1 view -0
- 432               		.cfi_startproc
- 433               	/* prologue: function */
- 434               	/* frame size = 0 */
- 435               	/* stack size = 0 */
- 436               	.L__stack_usage = 0
- 437               		.loc 1 185 1 is_stmt 0 view .LVU102
- 438 0000 9C01      		movw r18,r24
- 186:utils/a2d.c   **** 	unsigned char d2a_u8_l;
- 439               		.loc 1 186 2 is_stmt 1 view .LVU103
- 187:utils/a2d.c   **** 	unsigned char d2a_u8_h;
- 440               		.loc 1 187 2 view .LVU104
- 188:utils/a2d.c   **** 	unsigned char d2a_u8_temp;
- 441               		.loc 1 188 2 view .LVU105
- 189:utils/a2d.c   **** 
- 190:utils/a2d.c   **** 	d2a_u8_temp = d2a & 0b0000000000000011;	//Get Low Byte (PORTD)
- 442               		.loc 1 190 2 view .LVU106
- 443               	.LVL29:
- 191:utils/a2d.c   **** 	d2a_u8_temp = (d2a_u8_temp << 5);
- 444               		.loc 1 191 2 view .LVU107
- 192:utils/a2d.c   **** 	d2a_u8_l = PORTD & 0b10011111; //clear bits 0 and 1
- 445               		.loc 1 192 2 view .LVU108
- 446               		.loc 1 192 19 is_stmt 0 view .LVU109
- 447 0002 8BB1      		in r24,0xb
- 448               	.LVL30:
- 449               		.loc 1 192 11 view .LVU110
- 450 0004 8F79      		andi r24,lo8(-97)
- 451               	.LVL31:
- 193:utils/a2d.c   **** 	d2a_u8_l |= d2a_u8_temp;		//Ready to write to PORTD
- 452               		.loc 1 193 2 is_stmt 1 view .LVU111
- 191:utils/a2d.c   **** 	d2a_u8_temp = (d2a_u8_temp << 5);
- 453               		.loc 1 191 14 is_stmt 0 view .LVU112
- 454 0006 922F      		mov r25,r18
- 455 0008 9295      		swap r25
- 456 000a 990F      		lsl r25
- 457 000c 9076      		andi r25,lo8(96)
- 458               		.loc 1 193 11 view .LVU113
- 459 000e 982B      		or r25,r24
- 460               	.LVL32:
- 194:utils/a2d.c   **** 
- 195:utils/a2d.c   **** 	d2a_u8_h = (d2a >> 2);		 //Get High Byte (PORTC), ready to write to PORTC
- 461               		.loc 1 195 2 is_stmt 1 view .LVU114
- 462               		.loc 1 195 18 is_stmt 0 view .LVU115
- 463 0010 3695      		lsr r19
- 464 0012 2795      		ror r18
- 465 0014 3695      		lsr r19
- 466 0016 2795      		ror r18
- 467               	.LVL33:
- 196:utils/a2d.c   **** 
- 197:utils/a2d.c   **** 	PORTC = d2a_u8_h;
- 468               		.loc 1 197 2 is_stmt 1 view .LVU116
- 469               		.loc 1 197 8 is_stmt 0 view .LVU117
- 470 0018 28B9      		out 0x8,r18
- 198:utils/a2d.c   **** 	PORTD = d2a_u8_l;
- 471               		.loc 1 198 2 is_stmt 1 view .LVU118
- 472               		.loc 1 198 8 is_stmt 0 view .LVU119
- 473 001a 9BB9      		out 0xb,r25
- 474               	/* epilogue start */
- 199:utils/a2d.c   **** }
- 475               		.loc 1 199 1 view .LVU120
- 476 001c 0895      		ret
- 477               		.cfi_endproc
- 478               	.LFE13:
- 480               		.text
- 481               	.Letext0:
- 482               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdio.h"
- 483               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+ 141:utils/a2d.c   **** // Perform a 8-bit conversion on given channel
+ 142:utils/a2d.c   **** // starts conversion, waits until conversion is done, and returns result
+ 143:utils/a2d.c   **** unsigned char a2d_8bitCh(unsigned char ch)
+ 144:utils/a2d.c   **** {
+ 342               		.loc 1 144 1 is_stmt 1 view -0
+ 343               		.cfi_startproc
+ 344               	/* prologue: function */
+ 345               	/* frame size = 0 */
+ 346               	/* stack size = 0 */
+ 347               	.L__stack_usage = 0
+ 145:utils/a2d.c   **** 	// do 10-bit conversion and return highest 8 bits
+ 146:utils/a2d.c   **** 	return a2d_10bitCh(ch)>>2;			// return ADC MSB byte
+ 348               		.loc 1 146 2 view .LVU82
+ 349               		.loc 1 146 9 is_stmt 0 view .LVU83
+ 350 0000 0E94 0000 		call a2d_10bitCh
+ 351               	.LVL15:
+ 352               		.loc 1 146 24 view .LVU84
+ 353 0004 9695      		lsr r25
+ 354 0006 8795      		ror r24
+ 355 0008 9695      		lsr r25
+ 356 000a 8795      		ror r24
+ 357               	/* epilogue start */
+ 147:utils/a2d.c   **** }
+ 358               		.loc 1 147 1 view .LVU85
+ 359 000c 0895      		ret
+ 360               		.cfi_endproc
+ 361               	.LFE10:
+ 363               		.section	.text.a2dFrom_mV,"ax",@progbits
+ 364               	.global	a2dFrom_mV
+ 366               	a2dFrom_mV:
+ 367               	.LVL16:
+ 368               	.LFB11:
+ 148:utils/a2d.c   **** 
+ 149:utils/a2d.c   **** //! Converts a supplied mV value into A/D bits
+ 150:utils/a2d.c   **** unsigned short a2dFrom_mV(unsigned short mV,unsigned short a2dmVmax,unsigned short a2dMax)
+ 151:utils/a2d.c   **** {
+ 369               		.loc 1 151 1 is_stmt 1 view -0
+ 370               		.cfi_startproc
+ 371               	/* prologue: function */
+ 372               	/* frame size = 0 */
+ 373               	/* stack size = 0 */
+ 374               	.L__stack_usage = 0
+ 375               		.loc 1 151 1 is_stmt 0 view .LVU87
+ 376 0000 FB01      		movw r30,r22
+ 377 0002 9A01      		movw r18,r20
+ 152:utils/a2d.c   **** 	unsigned long temp_u32;
+ 378               		.loc 1 152 2 is_stmt 1 view .LVU88
+ 153:utils/a2d.c   **** 
+ 154:utils/a2d.c   **** 	//a2dBits = (mV * a2dBits) / a2dmVmax
+ 155:utils/a2d.c   **** 	temp_u32 = mV;
+ 379               		.loc 1 155 2 view .LVU89
+ 380               	.LVL17:
+ 156:utils/a2d.c   **** 	temp_u32 *= a2dMax;
+ 381               		.loc 1 156 2 view .LVU90
+ 382               		.loc 1 156 11 is_stmt 0 view .LVU91
+ 383 0004 DC01      		movw r26,r24
+ 384 0006 0E94 0000 		call __umulhisi3
+ 385               	.LVL18:
+ 157:utils/a2d.c   **** 	temp_u32 /= a2dmVmax;
+ 386               		.loc 1 157 2 is_stmt 1 view .LVU92
+ 158:utils/a2d.c   **** 	return temp_u32;
+ 387               		.loc 1 158 2 view .LVU93
+ 157:utils/a2d.c   **** 	temp_u32 /= a2dmVmax;
+ 388               		.loc 1 157 11 is_stmt 0 view .LVU94
+ 389 000a 9F01      		movw r18,r30
+ 390 000c 50E0      		ldi r21,0
+ 391 000e 40E0      		ldi r20,0
+ 392               	.LVL19:
+ 157:utils/a2d.c   **** 	temp_u32 /= a2dmVmax;
+ 393               		.loc 1 157 11 view .LVU95
+ 394 0010 0E94 0000 		call __udivmodsi4
+ 395               	.LVL20:
+ 159:utils/a2d.c   **** }
+ 396               		.loc 1 159 1 view .LVU96
+ 397 0014 C901      		movw r24,r18
+ 398               	.LVL21:
+ 399               	/* epilogue start */
+ 400               		.loc 1 159 1 view .LVU97
+ 401 0016 0895      		ret
+ 402               		.cfi_endproc
+ 403               	.LFE11:
+ 405               		.section	.text.a2dmVFrom_a2d,"ax",@progbits
+ 406               	.global	a2dmVFrom_a2d
+ 408               	a2dmVFrom_a2d:
+ 409               	.LVL22:
+ 410               	.LFB12:
+ 160:utils/a2d.c   **** 
+ 161:utils/a2d.c   **** //! Converts a supplied A/D value into mV
+ 162:utils/a2d.c   **** unsigned short a2dmVFrom_a2d(unsigned short a2dBits,unsigned short a2dmVmax,unsigned short a2dMax)
+ 163:utils/a2d.c   **** {
+ 411               		.loc 1 163 1 is_stmt 1 view -0
+ 412               		.cfi_startproc
+ 413               	/* prologue: function */
+ 414               	/* frame size = 0 */
+ 415               	/* stack size = 0 */
+ 416               	.L__stack_usage = 0
+ 417               		.loc 1 163 1 is_stmt 0 view .LVU99
+ 418 0000 9B01      		movw r18,r22
+ 164:utils/a2d.c   **** 	unsigned long temp_u32;
+ 419               		.loc 1 164 2 is_stmt 1 view .LVU100
+ 165:utils/a2d.c   **** 
+ 166:utils/a2d.c   **** 	//a2dBits = (mV * a2dBits) / a2dmVmax
+ 167:utils/a2d.c   **** 	temp_u32 = a2dBits;
+ 420               		.loc 1 167 2 view .LVU101
+ 421               	.LVL23:
+ 168:utils/a2d.c   **** 	temp_u32 *= a2dmVmax;
+ 422               		.loc 1 168 2 view .LVU102
+ 423               		.loc 1 168 11 is_stmt 0 view .LVU103
+ 424 0002 DC01      		movw r26,r24
+ 425 0004 0E94 0000 		call __umulhisi3
+ 426               	.LVL24:
+ 169:utils/a2d.c   **** 	temp_u32 /= a2dMax;
+ 427               		.loc 1 169 2 is_stmt 1 view .LVU104
+ 170:utils/a2d.c   **** 	return temp_u32;
+ 428               		.loc 1 170 2 view .LVU105
+ 169:utils/a2d.c   **** 	temp_u32 /= a2dMax;
+ 429               		.loc 1 169 11 is_stmt 0 view .LVU106
+ 430 0008 9A01      		movw r18,r20
+ 431               	.LVL25:
+ 169:utils/a2d.c   **** 	temp_u32 /= a2dMax;
+ 432               		.loc 1 169 11 view .LVU107
+ 433 000a 50E0      		ldi r21,0
+ 434 000c 40E0      		ldi r20,0
+ 435               	.LVL26:
+ 169:utils/a2d.c   **** 	temp_u32 /= a2dMax;
+ 436               		.loc 1 169 11 view .LVU108
+ 437 000e 0E94 0000 		call __udivmodsi4
+ 438               	.LVL27:
+ 171:utils/a2d.c   **** }
+ 439               		.loc 1 171 1 view .LVU109
+ 440 0012 C901      		movw r24,r18
+ 441               	.LVL28:
+ 442               	/* epilogue start */
+ 443               		.loc 1 171 1 view .LVU110
+ 444 0014 0895      		ret
+ 445               		.cfi_endproc
+ 446               	.LFE12:
+ 448               		.section	.text.d2a_10bit,"ax",@progbits
+ 449               	.global	d2a_10bit
+ 451               	d2a_10bit:
+ 452               	.LVL29:
+ 453               	.LFB13:
+ 172:utils/a2d.c   **** 
+ 173:utils/a2d.c   **** 
+ 174:utils/a2d.c   **** 
+ 175:utils/a2d.c   **** //-----------------------------------------------------------------------------
+ 176:utils/a2d.c   **** // Sets the d2a value onthe R2R port/s
+ 177:utils/a2d.c   **** //-----------------------------------------------------------------------------
+ 178:utils/a2d.c   **** void d2a_10bit(unsigned short d2a)
+ 179:utils/a2d.c   **** {
+ 454               		.loc 1 179 1 is_stmt 1 view -0
+ 455               		.cfi_startproc
+ 456               	/* prologue: function */
+ 457               	/* frame size = 0 */
+ 458               	/* stack size = 0 */
+ 459               	.L__stack_usage = 0
+ 460               		.loc 1 179 1 is_stmt 0 view .LVU112
+ 461 0000 9C01      		movw r18,r24
+ 180:utils/a2d.c   **** 	unsigned char d2a_u8_l;
+ 462               		.loc 1 180 2 is_stmt 1 view .LVU113
+ 181:utils/a2d.c   **** 	unsigned char d2a_u8_h;
+ 463               		.loc 1 181 2 view .LVU114
+ 182:utils/a2d.c   **** 	unsigned char d2a_u8_temp;
+ 464               		.loc 1 182 2 view .LVU115
+ 183:utils/a2d.c   **** 
+ 184:utils/a2d.c   **** 	d2a_u8_temp = d2a & 0b0000000000000011;	//Get Low Byte (PORTD)
+ 465               		.loc 1 184 2 view .LVU116
+ 466               	.LVL30:
+ 185:utils/a2d.c   **** 	d2a_u8_temp = (d2a_u8_temp << 5);
+ 467               		.loc 1 185 2 view .LVU117
+ 186:utils/a2d.c   **** 	d2a_u8_l = PORTD & 0b10011111; //clear bits 0 and 1
+ 468               		.loc 1 186 2 view .LVU118
+ 469               		.loc 1 186 19 is_stmt 0 view .LVU119
+ 470 0002 8BB1      		in r24,0xb
+ 471               	.LVL31:
+ 472               		.loc 1 186 11 view .LVU120
+ 473 0004 8F79      		andi r24,lo8(-97)
+ 474               	.LVL32:
+ 187:utils/a2d.c   **** 	d2a_u8_l |= d2a_u8_temp;		//Ready to write to PORTD
+ 475               		.loc 1 187 2 is_stmt 1 view .LVU121
+ 185:utils/a2d.c   **** 	d2a_u8_temp = (d2a_u8_temp << 5);
+ 476               		.loc 1 185 14 is_stmt 0 view .LVU122
+ 477 0006 922F      		mov r25,r18
+ 478 0008 9295      		swap r25
+ 479 000a 990F      		lsl r25
+ 480 000c 9076      		andi r25,lo8(96)
+ 481               		.loc 1 187 11 view .LVU123
+ 482 000e 982B      		or r25,r24
+ 483               	.LVL33:
+ 188:utils/a2d.c   **** 
+ 189:utils/a2d.c   **** 	d2a_u8_h = (d2a >> 2);		 //Get High Byte (PORTC), ready to write to PORTC
+ 484               		.loc 1 189 2 is_stmt 1 view .LVU124
+ 485               		.loc 1 189 18 is_stmt 0 view .LVU125
+ 486 0010 3695      		lsr r19
+ 487 0012 2795      		ror r18
+ 488 0014 3695      		lsr r19
+ 489 0016 2795      		ror r18
+ 490               	.LVL34:
+ 190:utils/a2d.c   **** 
+ 191:utils/a2d.c   **** 	PORTC = d2a_u8_h;
+ 491               		.loc 1 191 2 is_stmt 1 view .LVU126
+ 492               		.loc 1 191 8 is_stmt 0 view .LVU127
+ 493 0018 28B9      		out 0x8,r18
+ 192:utils/a2d.c   **** 	PORTD = d2a_u8_l;
+ 494               		.loc 1 192 2 is_stmt 1 view .LVU128
+ 495               		.loc 1 192 8 is_stmt 0 view .LVU129
+ 496 001a 9BB9      		out 0xb,r25
+ 497               	/* epilogue start */
+ 193:utils/a2d.c   **** }
+ 498               		.loc 1 193 1 view .LVU130
+ 499 001c 0895      		ret
+ 500               		.cfi_endproc
+ 501               	.LFE13:
+ 503               		.text
+ 504               	.Letext0:
+ 505               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+ 506               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdio.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 a2d.c
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:2      *ABS*:000000000000003e __SP_H__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:3      *ABS*:000000000000003d __SP_L__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:4      *ABS*:000000000000003f __SREG__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:5      *ABS*:000000000000003b __RAMPZ__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:6      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:7      *ABS*:0000000000000001 __zero_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:14     .text.a2dOn:0000000000000000 a2dOn
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:39     .text.a2dOff:0000000000000000 a2dOff
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:63     .text.a2dSetPrescaler:0000000000000000 a2dSetPrescaler
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:95     .text.a2dSetReference:0000000000000000 a2dSetReference
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:131    .text.a2dInit:0000000000000000 a2dInit
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:177    .text.a2dSetChannel:0000000000000000 a2dSetChannel
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:209    .text.a2d_10bit:0000000000000000 a2d_10bit
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:243    .text.a2d_8bit:0000000000000000 a2d_8bit
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:269    .text.a2d_10bitCh:0000000000000000 a2d_10bitCh
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:316    .text.a2d_8bitCh:0000000000000000 a2d_8bitCh
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:343    .text.a2dFrom_mV:0000000000000000 a2dFrom_mV
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:385    .text.a2dmVFrom_a2d:0000000000000000 a2dmVFrom_a2d
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclfviDq.s:428    .text.d2a_10bit:0000000000000000 d2a_10bit
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:5      *ABS*:000000000000003b __RAMPZ__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:6      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:7      *ABS*:0000000000000001 __zero_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:14     .text.a2dInit:0000000000000000 a2dInit
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:109    .text.a2dSetPrescaler:0000000000000000 a2dSetPrescaler
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:141    .text.a2dSetReference:0000000000000000 a2dSetReference
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:61     .text.a2dOn:0000000000000000 a2dOn
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:85     .text.a2dOff:0000000000000000 a2dOff
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:177    .text.a2dSetChannel:0000000000000000 a2dSetChannel
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:209    .text.a2d_10bit:0000000000000000 a2d_10bit
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:243    .text.a2d_8bit:0000000000000000 a2d_8bit
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:269    .text.a2d_10bitCh:0000000000000000 a2d_10bitCh
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:339    .text.a2d_8bitCh:0000000000000000 a2d_8bitCh
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:366    .text.a2dFrom_mV:0000000000000000 a2dFrom_mV
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:408    .text.a2dmVFrom_a2d:0000000000000000 a2dmVFrom_a2d
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccrtxqIk.s:451    .text.d2a_10bit:0000000000000000 d2a_10bit
 
 UNDEFINED SYMBOLS
 __umulhisi3
