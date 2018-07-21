@@ -1,47 +1,11 @@
 
-#include <avr/io.h>
-#include <avr/interrupt.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
-#include <util/delay.h>
-#include "utils/MCP2515.h"
-#include "utils/uart.h"
-#include "utils/a2d.h"
-#include "includes/chassisInit.h"
-#include "includes/chassisUART.h"
-#include "includes/chassisLED.h"
-#include "includes/chassisInput.h"
-#include "includes/chassisCAN.h"
-#include "includes/chassisError.h"
+
+#include "main.h"
+
 
 uint8_t buttonStateDebounceCount = 0; 
 bool buttonStateLock = 0;
 bool buttonState = 0;
-
-// Variables used in the 1kHz CAN heartbeat loop
-#define CAN_HEARTBEAT_TIME_INVERTERS (10)   // Defines the 10ms (100Hz) for the inverter trigger
-#define CAN_HEARTBEAT_TIME_DATA (10)        // Defines the 10ms (100Hz) for the data trigger
-#define CAN_HEARTBEAT_TIME_POWER (50)       // Defines the 50ms (20Hz) for the power trigger
-uint8_t CAN_HEARTBEAT_COUNT_INVERTERS = 0;  // Number of iterations for the inverter heartbeat trigger
-uint8_t CAN_HEARTBEAT_COUNT_DATA = 1;       // Number of iterations for the data heartbeat trigger
-uint8_t CAN_HEARTBEAT_COUNT_POWER = 2;      // Number of iterations for the power heartbeat trigger
-
-#define CAN_HEARTBEAT_ERROR_DELAY (110)     // Milliseconds without return heartbeat, must be slightly larger than largest heartbeat time x2
-uint8_t CAN_HEARTBEAT_ERROR_INVERTERS = 100;// Time without successfull heartbeat for inverters
-uint8_t CAN_HEARTBEAT_ERROR_DATA = 101;     // Time without successfull heartbeat for data
-uint8_t CAN_HEARTBEAT_ERROR_POWER = 102;    // Time without successfull heartbeat for power
-
-#define INPUT_TIME_PEDAL_THROTTLE  (10)     // Defines the 10ms (100Hz) for the input send trigger
-#define INPUT_TIME_PEDAL_BRAKE  (10)        // Defines the 10ms (100Hz) for the input send trigger
-#define INPUT_TIME_TEMP (100)               // Defines the 100ms (10Hz) for the input send trigger
-uint8_t INPUT_PEDAL_THROTTLE_COUNT = 3;     // Number of iterations for the pot heartbeat trigger
-uint8_t INPUT_PEDAL_BRAKE_COUNT = 4;        // Number of iterations for the pot heartbeat trigger
-uint8_t INPUT_TEMP_COUNT = 5;               // Number of iterations for the temp heartbeat trigger
-
-#define CAN_INPUT_SEND_DELAY (10)           // Defines the 200ms (5Hz) for the input send trigger
-uint8_t CAN_INPUT_SEND_TIME = 0;            // Number of iterations for the input send trigger
 
 int main(void) {    
 
@@ -99,73 +63,73 @@ void oneKHzTimer() {
     // Send CAN heartbeats -> Inverters: 100Hz, Data: 100Hz, Power: 20Hz
     // 100Hz = 1 / 100 = 0.01s = 10ms, 20Hz = 1 / 20 = 0.05s = 50ms
     // ------------------------------------------------------------------------
-    // if(CAN_HEARTBEAT_COUNT_INVERTERS > CAN_HEARTBEAT_TIME_INVERTERS)
+    // if(CanHeartbeatCountInverters > CAN_HEARTBEAT_TIME_INVERTERS)
     // {
     //     // Reset inverter heartbeat counter
-    //     CAN_HEARTBEAT_COUNT_INVERTERS = 0;
+    //     CanHeartbeatCountInverters = 0;
     //     // Send inverter system heartbeat
     //     // CAN_send(MCP2515_CAN1, )
     // }
-    // if(CAN_HEARTBEAT_COUNT_DATA > CAN_HEARTBEAT_TIME_DATA)
+    // if(CanHeartbeatCountData > CAN_HEARTBEAT_TIME_DATA)
     // {
     //     // Reset data heartbeat counter
-    //     CAN_HEARTBEAT_COUNT_DATA = 0;
+    //     CanHeartbeatCountData = 0;
     //     // Send data system heartbeat
     //     // CAN_send(MCP2515_CAN2, )
     // }
-    // if(CAN_HEARTBEAT_COUNT_POWER > CAN_HEARTBEAT_TIME_POWER)
+    // if(CanHeartbeatCountPower > CAN_HEARTBEAT_TIME_POWER)
     // {
     //     // Reset power heartbeat counter
-    //     CAN_HEARTBEAT_COUNT_POWER = 0;
+    //     CanHeartbeatCountPower = 0;
     //     // Send power system heartbeat
     //     // CAN_send(MCP2515_CAN2, )
     // }
-    // CAN_HEARTBEAT_COUNT_INVERTERS++;
-    // CAN_HEARTBEAT_COUNT_DATA++;
-    // CAN_HEARTBEAT_COUNT_POWER++;
+    // CanHeartbeatCountInverters++;
+    // CanHeartbeatCountData++;
+    // CanHeartbeatCountPower++;
 
 
 
     // CAN Error counts -> Missing Receives
     // ------------------------------------------------------------------------
-    // if(CAN_HEARTBEAT_ERROR_INVERTERS > CAN_HEARTBEAT_ERROR_DELAY)
+    // if(CanHeartbeatErrorInverters > CAN_HEARTBEAT_ERROR_DELAY)
     // {
     //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_NO_RESPONSE);
     // }
-    // if(CAN_HEARTBEAT_ERROR_DATA > CAN_HEARTBEAT_ERROR_DELAY)
+    // if(CanHeartbeatErrorData > CAN_HEARTBEAT_ERROR_DELAY)
     // {
     //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_NO_RESPONSE);
     // }
-    // if(CAN_HEARTBEAT_ERROR_POWER > CAN_HEARTBEAT_ERROR_DELAY)
+    // if(CanHeartbeatErrorPower > CAN_HEARTBEAT_ERROR_DELAY)
     // {
     //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_NO_RESPONSE);
     // }
-    // CAN_HEARTBEAT_ERROR_INVERTERS++;
-    // CAN_HEARTBEAT_ERROR_DATA++;
-    // CAN_HEARTBEAT_ERROR_POWER++;
+    // CanHeartbeatErrorInverters++;
+    // CanHeartbeatErrorData++;
+    // CanHeartbeatErrorPower++;
 
 
     // Send CAN input
     // uint8_t tmpInputVal;
-    if(INPUT_PEDAL_THROTTLE_COUNT > INPUT_TIME_PEDAL_THROTTLE)
+    if(InputPedalThrottleCount > INPUT_TIME_PEDAL_THROTTLE)
     {
         INPUT_accelerationPedal = a2d_10bitCh(5);
         // if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
         //     // PORTK |= 0b00100000;
         //     INPUT_accelerationPedal = tmpInputVal;
         // }
-        INPUT_PEDAL_THROTTLE_COUNT = 0;
+        InputPedalThrottleCount = 0;
     }
 
-    // if(INPUT_PEDAL_BRAKE_COUNT > INPUT_TIME_PEDAL_BRAKE)
+    // if(InputPedalBrakeCount > INPUT_TIME_PEDAL_BRAKE)
     // {
     //     if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
     //         INPUT_brakePedal = tmpInputVal;
     //     }
-    //     INPUT_PEDAL_BRAKE_COUNT = 0;
+    //     InputPedalBrakeCount = 0;
     // }
-    INPUT_PEDAL_THROTTLE_COUNT++;
-    // INPUT_PEDAL_BRAKE_COUNT++;
+    InputPedalThrottleCount++;
+    // InputPedalBrakeCount++;
     
 
     // if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {

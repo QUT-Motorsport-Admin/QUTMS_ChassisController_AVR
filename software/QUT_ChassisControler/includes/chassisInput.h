@@ -6,13 +6,15 @@
  **/
 
 /**
- * 
+ * Confirmed and tested values from the ADC when working properly
  * 
  * Throttle Primary     CH1     ADC5    Right   MIN 325     MAX 497
  * Throttle Secondary   CH2     ADC2    Left    MIN 314     MAX 498
+ *                                              DIF 11      DIF 1
  * 
  * Brake    Primary     CH1     ADC10   Right   MIN 426     MAX 665
  * Brake    Secondary   CH2     ADC8    Left    MIN 455     MAX 686
+ *                                              DIF 29      DIF 21
  */
 
 #ifndef CHASSIS_INPUT_H
@@ -24,42 +26,29 @@
 #include "chassisError.h"
 #include "a2dUtil.h"
 
-#define INPUT_ADC_ERROR              (40)     /**< 3% Lower trim */
-#define INPUT_ADC_THRESH             (3)    /**< 90% Upper trim */
 
-#define INPUT_PEDAL_BRAKE_CH1_HIGH		(665)	/**< Temporary Value, High Brake Pedal Application */
-#define INPUT_PEDAL_BRAKE_CH1_LOW		(426)	/**< Temporary Value, Low Brake Pedal Application */
-#define INPUT_PEDAL_BRAKE_CH2_HIGH		(455)	/**< Temporary Value, High Brake Pedal Application */
-#define INPUT_PEDAL_BRAKE_CH2_LOW		(686)	/**< Temporary Value, Low Brake Pedal Application */
-#define INPUT_PEDAL_BRAKE_LIGHT_ON 	(512)   /**< Temporary Value, must be updated with testing. Moderate Brake Pedal Application */
-#define INPUT_PEDAL_BRAKE_CH1       (10)    /**< Brake Pedal POT Ch1 on ADC */
-#define INPUT_PEDAL_BRAKE_CH2       (8)     /**< Brake Pedal POT Ch2 on ADC */
+#define INPUT_PEDAL_BRAKE_CH1 (10)                      /**< Brake Pedal POT Ch1 on ADC */
+#define INPUT_PEDAL_BRAKE_CH2 (8)                       /**< Brake Pedal POT Ch2 on ADC */
+#define INPUT_PEDAL_THROTTLE_CH1 (5)                    /**< Throttle Pedal POT Ch1 on ADC */ // Channel is confirmed
+#define INPUT_PEDAL_THROTTLE_CH2 (2)                    /**< Throttle Pedal POT Ch2 on ADC */ // Channel is confirmed
+#define INPUT_PRESSURE_BRAKE_FRONT (11)                 /**< Brake pressure front POT Ch on ADC (AN6) */
+#define INPUT_PRESSURE_BRAKE_BACK  (7)                  /**< Brake pressure back POT Ch on ADC (AN7) */
 
-#define INPUT_PEDAL_THROTTLE_CH1_HIGH	(497)	/**< High Throttle Pedal Application */
-#define INPUT_PEDAL_THROTTLE_CH1_LOW	(325)	/**< Low Throttle Pedal Application */
-#define INPUT_PEDAL_THROTTLE_CH2_HIGH	(498)	/**< High Throttle Pedal Application */
-#define INPUT_PEDAL_THROTTLE_CH2_LOW	(314)	/**< Low Throttle Pedal Application */
-#define INPUT_PEDAL_THROTTLE_CH1    (5)     /**< Throttle Pedal POT Ch1 on ADC */ // Channel is confirmed
-#define INPUT_PEDAL_THROTTLE_CH2    (2)     /**< Throttle Pedal POT Ch2 on ADC */ // Channel is confirmed
+#define INPUT_STEERING_ANGLE_CH (4)                     /**< Steering Angle POT CH on ADC (AN8)*/
 
-#define INPUT_PRESSURE_BRAKE_HIGH   (1022)  /**< High pressure lim in brake */
-#define INPUT_PRESSURE_BRAKE_LOW    (1)     /**< Low pressure lim in brake */
-#define INPUT_PRESSURE_BRAKE_FRONT  (11)    /**< Brake pressure front POT Ch on ADC (AN6) */
-#define INPUT_PRESSURE_BRAKE_BACK   (7)     /**< Brake pressure back POT Ch on ADC (AN7) */
+#define INPUT_RADIATOR_RIGHT_CH (0)	                    /**< Radiator ADC CH Right (AN5) */
+#define INPUT_RADIATOR_LEFT_CH (12)	                    /**< Radiator ADC CH Left (AN10) */
 
-#define INPUT_PEDAL_DELTA_THRESH_L	(50)    /**< Low Value for pedal sensor discrepancy */
-#define INPUT_PEDAL_DELTA_THRESH_H	(150)   /**< High Value for pedal sensor discrepancy */
-
-#define INPUT_STEERING_ANGLE_CH     (4)     /**< Steering Angle POT CH on ADC (AN8)*/
-
-#define INPUT_RADIATOR_RIGHT_CH		(0)	    /**< Radiator ADC CH Right (AN5) */
-#define INPUT_RADIATOR_LEFT_CH		(12)	/**< Radiator ADC CH Left (AN10) */
+#define ADC_SAMPLES	(8)                                 /**< Samples required for ADC */
 
 extern uint8_t INPUT_steeringAngle;
 extern uint8_t INPUT_accelerationPedal;
 extern uint8_t INPUT_brakePedal;
 extern uint8_t INPUT_brakePressureFront;
 extern uint8_t INPUT_brakePressureBack;
+
+
+
 
 uint8_t INPUT_scaleInput(uint16_t * value, uint16_t max, uint16_t min);
 
