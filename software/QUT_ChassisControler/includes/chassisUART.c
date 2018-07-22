@@ -7,6 +7,9 @@
 
 #include "chassisUART.h"
 
+uint8_t debugPDMSig = 0;
+
+
 void uart_process_byte(char data)
 {
 	//PORTA ^= 32;

@@ -14,6 +14,8 @@
 #include "utils/uart.h"
 #include "main.h"
 
+extern uint8_t debugPDMSig;
+
 void uart_process_byte(char data);
 void uart_parse_input(unsigned char* s);
 void uart_parse_poke(unsigned char* s);

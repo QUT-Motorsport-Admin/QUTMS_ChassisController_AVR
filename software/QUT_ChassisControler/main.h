@@ -1,4 +1,7 @@
 
+#ifndef MAIN_H
+#define MAIN_H
+
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <stdio.h>
@@ -15,6 +18,13 @@
 #include "includes/chassisCAN.h"
 #include "includes/chassisError.h"
 
+// EEPROM Values that need to be editable later, (root)
+#define CORE_INVERTER_FRONT_LEFT    (0b00000001)
+#define CORE_INVERTER_FRONT_RIGHT   (0b00000010)
+#define CORE_INVERTER_BACK_RIGHT    (0b00000100)
+#define CORE_INVERTER_BACK_LEFT     (0b00001000)
+extern uint8_t CORE_invertersPresent;
+
 // Variables used in the 1kHz CAN heartbeat loop
 #define CAN_HEARTBEAT_TIME_INVERTERS (10)   // Defines the 10ms (100Hz) for the inverter trigger
 #define CAN_HEARTBEAT_TIME_DATA (10)        // Defines the 10ms (100Hz) for the data trigger
@@ -28,9 +38,12 @@
 
 #define CAN_INPUT_SEND_DELAY (10)           // Defines the 200ms (5Hz) for the input send trigger
 
+// Variables for the car's various states
 #define CAR_ARM_HV (1)                      // Used to set the car's armed state to high
 #define CAR_DISARM_HV (0)                   // Used to set the car's armed state to low
-extern uint8_t armedState;              // Stores the car's armed state
-extern uint8_t ignitionState;           // Stores the car's ignition switch/button state
+extern uint8_t armedState;                  // Stores the car's armed state
+extern uint8_t ignitionState;               // Stores the car's ignition switch/button state
 
-extern uint8_t shutdownState;           // Stores the car's current state of its shutdown circuity
+extern uint8_t shutdownState;               // Stores the car's current state of its shutdown circuity
+
+#endif // MAIN_H

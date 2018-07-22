@@ -7,7 +7,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         00000c34  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000113  00800202  00800202  00000cca  2**0
+  2 .bss          00000114  00800202  00800202  00000cca  2**0
                   ALLOC
   3 .comment      00000011  00000000  00000000  00000cca  2**0
                   CONTENTS, READONLY
@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000358  00000000  00000000  00000d20  2**3
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00003021  00000000  00000000  00001078  2**0
+  6 .debug_info   0000304b  00000000  00000000  00001078  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000178c  00000000  00000000  00004099  2**0
+  7 .debug_abbrev 0000178c  00000000  00000000  000040c3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00003079  00000000  00000000  00005825  2**0
+  8 .debug_line   0000307d  00000000  00000000  0000584f  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000aec  00000000  00000000  000088a0  2**2
+  9 .debug_frame  00000aec  00000000  00000000  000088cc  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000118d  00000000  00000000  0000938c  2**0
+ 10 .debug_str    000011af  00000000  00000000  000093b8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001f6b  00000000  00000000  0000a519  2**0
+ 11 .debug_loc    00001f6b  00000000  00000000  0000a567  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000002d8  00000000  00000000  0000c484  2**0
+ 12 .debug_ranges 000002d8  00000000  00000000  0000c4d2  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -181,7 +181,7 @@ Disassembly of section .text:
  112:	1d 92       	st	X+, r1
 
 00000114 <.do_clear_bss_start>:
- 114:	a5 31       	cpi	r26, 0x15	; 21
+ 114:	a6 31       	cpi	r26, 0x16	; 22
  116:	b2 07       	cpc	r27, r18
  118:	e1 f7       	brne	.-8      	; 0x112 <.do_clear_bss_loop>
  11a:	02 d0       	rcall	.+4      	; 0x120 <main>
@@ -191,7 +191,7 @@ Disassembly of section .text:
  11e:	70 cf       	rjmp	.-288    	; 0x0 <__vectors>
 
 00000120 <main>:
-uint8_t shutdownState = 0;
+uint8_t CORE_invertersPresent = 0b00000000;
 
 int main(void) {    
 
@@ -272,10 +272,10 @@ int main(void) {
  184:	8b 30       	cpi	r24, 0x0B	; 11
  186:	30 f0       	brcs	.+12     	; 0x194 <oneKHzTimer+0x68>
     {
-        INPUT_accelerationPedal = a2d_10bitCh(5);
+        INPUT_accelerationPedal = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
  188:	85 e0       	ldi	r24, 0x05	; 5
  18a:	82 d1       	rcall	.+772    	; 0x490 <a2d_10bitCh>
- 18c:	80 93 95 02 	sts	0x0295, r24	; 0x800295 <INPUT_accelerationPedal>
+ 18c:	80 93 96 02 	sts	0x0296, r24	; 0x800296 <INPUT_accelerationPedal>
         // if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
         //     // PORTK |= 0b00100000;
         //     INPUT_accelerationPedal = tmpInputVal;
@@ -285,28 +285,28 @@ int main(void) {
     }
 
     if(InputPedalBrakeCount > INPUT_TIME_PEDAL_BRAKE)
- 194:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <InputPedalBrakeCount.2634>
+ 194:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <InputPedalBrakeCount.2550>
  198:	8b 30       	cpi	r24, 0x0B	; 11
  19a:	30 f0       	brcs	.+12     	; 0x1a8 <oneKHzTimer+0x7c>
     {
-        INPUT_brakePedal = a2d_10bitCh(10);
+        INPUT_brakePedal = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH1);
  19c:	8a e0       	ldi	r24, 0x0A	; 10
  19e:	78 d1       	rcall	.+752    	; 0x490 <a2d_10bitCh>
- 1a0:	80 93 96 02 	sts	0x0296, r24	; 0x800296 <INPUT_brakePedal>
+ 1a0:	80 93 97 02 	sts	0x0297, r24	; 0x800297 <INPUT_brakePedal>
         // if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
         //     INPUT_brakePedal = tmpInputVal;
         // }
         InputPedalBrakeCount = 0;
- 1a4:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <InputPedalBrakeCount.2634>
+ 1a4:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <InputPedalBrakeCount.2550>
     }
     InputPedalThrottleCount++;
  1a8:	80 91 00 02 	lds	r24, 0x0200	; 0x800200 <__data_start>
  1ac:	8f 5f       	subi	r24, 0xFF	; 255
  1ae:	80 93 00 02 	sts	0x0200, r24	; 0x800200 <__data_start>
     InputPedalBrakeCount++;
- 1b2:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <InputPedalBrakeCount.2634>
+ 1b2:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <InputPedalBrakeCount.2550>
  1b6:	8f 5f       	subi	r24, 0xFF	; 255
- 1b8:	80 93 01 02 	sts	0x0201, r24	; 0x800201 <InputPedalBrakeCount.2634>
+ 1b8:	80 93 01 02 	sts	0x0201, r24	; 0x800201 <InputPedalBrakeCount.2550>
     //     INPUT_brakePressureBack = tmpInputVal;
     // }
     // if(INPUT_get_brakePressureFront(&tmpInputVal) == 0) {
@@ -1405,12 +1405,12 @@ SIGNAL(UART0_RECEIVE_INTERRUPT)
         
     // calculate buffer index 
     tmphead = ( UART_RxHead + 1) & UART_RX_BUFFER_MASK;
- 82a:	e0 91 4f 02 	lds	r30, 0x024F	; 0x80024f <UART_RxHead>
+ 82a:	e0 91 50 02 	lds	r30, 0x0250	; 0x800250 <UART_RxHead>
  82e:	ef 5f       	subi	r30, 0xFF	; 255
  830:	ef 71       	andi	r30, 0x1F	; 31
     
     if ( tmphead == UART_RxTail ) {
- 832:	20 91 4e 02 	lds	r18, 0x024E	; 0x80024e <UART_RxTail>
+ 832:	20 91 4f 02 	lds	r18, 0x024F	; 0x80024f <UART_RxTail>
  836:	2e 17       	cp	r18, r30
  838:	99 f0       	breq	.+38     	; 0x860 <__vector_25+0x50>
     lastRxError = (usr & (_BV(FE0)|_BV(DOR0)) );
@@ -1420,16 +1420,16 @@ SIGNAL(UART0_RECEIVE_INTERRUPT)
     }else{
         // store new index 
         UART_RxHead = tmphead;
- 83c:	e0 93 4f 02 	sts	0x024F, r30	; 0x80024f <UART_RxHead>
+ 83c:	e0 93 50 02 	sts	0x0250, r30	; 0x800250 <UART_RxHead>
         // store received data in buffer 
        UART_RxBuf[tmphead] = data;
  840:	f0 e0       	ldi	r31, 0x00	; 0
- 842:	ee 5a       	subi	r30, 0xAE	; 174
+ 842:	ed 5a       	subi	r30, 0xAD	; 173
  844:	fd 4f       	sbci	r31, 0xFD	; 253
  846:	90 83       	st	Z, r25
     }
     UART_LastRxError = lastRxError;   
- 848:	80 93 4d 02 	sts	0x024D, r24	; 0x80024d <UART_LastRxError>
+ 848:	80 93 4e 02 	sts	0x024E, r24	; 0x80024e <UART_LastRxError>
 	
 }
  84c:	ff 91       	pop	r31
@@ -1477,12 +1477,12 @@ SIGNAL(UART1_RECEIVE_INTERRUPT)
         
     // calculate buffer index 
     tmphead1 = ( UART1_RxHead + 1) & UART1_RX_BUFFER_MASK;
- 87e:	e0 91 0a 02 	lds	r30, 0x020A	; 0x80020a <UART1_RxHead>
+ 87e:	e0 91 0b 02 	lds	r30, 0x020B	; 0x80020b <UART1_RxHead>
  882:	ef 5f       	subi	r30, 0xFF	; 255
  884:	ef 71       	andi	r30, 0x1F	; 31
     
     if ( tmphead1 == UART1_RxTail ) {
- 886:	20 91 09 02 	lds	r18, 0x0209	; 0x800209 <UART1_RxTail>
+ 886:	20 91 0a 02 	lds	r18, 0x020A	; 0x80020a <UART1_RxTail>
  88a:	2e 17       	cp	r18, r30
  88c:	99 f0       	breq	.+38     	; 0x8b4 <__vector_36+0x50>
     lastRxError1 = (usr1 & (_BV(FE0)|_BV(DOR0)) );
@@ -1492,16 +1492,16 @@ SIGNAL(UART1_RECEIVE_INTERRUPT)
     }else{
         // store new index 
         UART1_RxHead = tmphead1;
- 890:	e0 93 0a 02 	sts	0x020A, r30	; 0x80020a <UART1_RxHead>
+ 890:	e0 93 0b 02 	sts	0x020B, r30	; 0x80020b <UART1_RxHead>
         // store received data in buffer 
        UART1_RxBuf[tmphead1] = data1;
  894:	f0 e0       	ldi	r31, 0x00	; 0
- 896:	e3 5f       	subi	r30, 0xF3	; 243
+ 896:	e2 5f       	subi	r30, 0xF2	; 242
  898:	fd 4f       	sbci	r31, 0xFD	; 253
  89a:	90 83       	st	Z, r25
     }
     UART1_LastRxError = lastRxError1;   
- 89c:	80 93 08 02 	sts	0x0208, r24	; 0x800208 <UART1_LastRxError>
+ 89c:	80 93 09 02 	sts	0x0209, r24	; 0x800209 <UART1_LastRxError>
 	
 }
  8a0:	ff 91       	pop	r31
@@ -1536,21 +1536,21 @@ Purpose:  called when the UART is ready to transmit the next byte
     unsigned char tmptail;
     
     if ( UART_TxHead != UART_TxTail) {
- 8c8:	90 91 51 02 	lds	r25, 0x0251	; 0x800251 <UART_TxHead>
- 8cc:	80 91 50 02 	lds	r24, 0x0250	; 0x800250 <UART_TxTail>
+ 8c8:	90 91 52 02 	lds	r25, 0x0252	; 0x800252 <UART_TxHead>
+ 8cc:	80 91 51 02 	lds	r24, 0x0251	; 0x800251 <UART_TxTail>
  8d0:	98 17       	cp	r25, r24
  8d2:	a9 f0       	breq	.+42     	; 0x8fe <__vector_26+0x46>
         /* calculate and store new buffer index */
         tmptail = (UART_TxTail + 1) & UART_TX_BUFFER_MASK;
- 8d4:	e0 91 50 02 	lds	r30, 0x0250	; 0x800250 <UART_TxTail>
+ 8d4:	e0 91 51 02 	lds	r30, 0x0251	; 0x800251 <UART_TxTail>
  8d8:	ef 5f       	subi	r30, 0xFF	; 255
  8da:	ef 71       	andi	r30, 0x1F	; 31
         UART_TxTail = tmptail;
- 8dc:	e0 93 50 02 	sts	0x0250, r30	; 0x800250 <UART_TxTail>
+ 8dc:	e0 93 51 02 	sts	0x0251, r30	; 0x800251 <UART_TxTail>
         /* get one byte from buffer and write it to UART */
         UART0_DATA = UART_TxBuf[tmptail];  /* start transmission */
  8e0:	f0 e0       	ldi	r31, 0x00	; 0
- 8e2:	ee 58       	subi	r30, 0x8E	; 142
+ 8e2:	ed 58       	subi	r30, 0x8D	; 141
  8e4:	fd 4f       	sbci	r31, 0xFD	; 253
  8e6:	80 81       	ld	r24, Z
  8e8:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7e00c6>
@@ -1594,21 +1594,21 @@ Purpose:  called when the UART1 is ready to transmit the next byte
 
     
     if ( UART1_TxHead != UART1_TxTail) {
- 91a:	90 91 0c 02 	lds	r25, 0x020C	; 0x80020c <UART1_TxHead>
- 91e:	80 91 0b 02 	lds	r24, 0x020B	; 0x80020b <UART1_TxTail>
+ 91a:	90 91 0d 02 	lds	r25, 0x020D	; 0x80020d <UART1_TxHead>
+ 91e:	80 91 0c 02 	lds	r24, 0x020C	; 0x80020c <UART1_TxTail>
  922:	98 17       	cp	r25, r24
  924:	a9 f0       	breq	.+42     	; 0x950 <__vector_37+0x46>
         /* calculate and store new buffer index */
         tmptail1 = (UART1_TxTail + 1) & UART1_TX_BUFFER_MASK;
- 926:	e0 91 0b 02 	lds	r30, 0x020B	; 0x80020b <UART1_TxTail>
+ 926:	e0 91 0c 02 	lds	r30, 0x020C	; 0x80020c <UART1_TxTail>
  92a:	ef 5f       	subi	r30, 0xFF	; 255
  92c:	ef 71       	andi	r30, 0x1F	; 31
         UART1_TxTail = tmptail1;
- 92e:	e0 93 0b 02 	sts	0x020B, r30	; 0x80020b <UART1_TxTail>
+ 92e:	e0 93 0c 02 	sts	0x020C, r30	; 0x80020c <UART1_TxTail>
         /* get one byte from buffer and write it to UART */
         UART1_DATA = UART1_TxBuf[tmptail1];  /* start transmission */
  932:	f0 e0       	ldi	r31, 0x00	; 0
- 934:	e3 5d       	subi	r30, 0xD3	; 211
+ 934:	e2 5d       	subi	r30, 0xD2	; 210
  936:	fd 4f       	sbci	r31, 0xFD	; 253
  938:	80 81       	ld	r24, Z
  93a:	80 93 ce 00 	sts	0x00CE, r24	; 0x8000ce <__TEXT_REGION_LENGTH__+0x7e00ce>
@@ -1640,13 +1640,13 @@ Returns:  none
 void uart_init(unsigned int baudrate)
 {
     UART_TxHead = 0;
- 95c:	10 92 51 02 	sts	0x0251, r1	; 0x800251 <UART_TxHead>
+ 95c:	10 92 52 02 	sts	0x0252, r1	; 0x800252 <UART_TxHead>
     UART_TxTail = 0;
- 960:	10 92 50 02 	sts	0x0250, r1	; 0x800250 <UART_TxTail>
+ 960:	10 92 51 02 	sts	0x0251, r1	; 0x800251 <UART_TxTail>
     UART_RxHead = 0;
- 964:	10 92 4f 02 	sts	0x024F, r1	; 0x80024f <UART_RxHead>
+ 964:	10 92 50 02 	sts	0x0250, r1	; 0x800250 <UART_RxHead>
     UART_RxTail = 0;
- 968:	10 92 4e 02 	sts	0x024E, r1	; 0x80024e <UART_RxTail>
+ 968:	10 92 4f 02 	sts	0x024F, r1	; 0x80024f <UART_RxTail>
     
 	CLKPR = (1<<CLKPCE);  	//enable clock prescaler change
  96c:	e1 e6       	ldi	r30, 0x61	; 97
@@ -1681,13 +1681,13 @@ void uart_init(unsigned int baudrate)
 void uart1_init(unsigned int baudrate)
 {
 	UART1_TxHead = 0;
- 994:	10 92 0c 02 	sts	0x020C, r1	; 0x80020c <UART1_TxHead>
+ 994:	10 92 0d 02 	sts	0x020D, r1	; 0x80020d <UART1_TxHead>
     UART1_TxTail = 0;
- 998:	10 92 0b 02 	sts	0x020B, r1	; 0x80020b <UART1_TxTail>
+ 998:	10 92 0c 02 	sts	0x020C, r1	; 0x80020c <UART1_TxTail>
     UART1_RxHead = 0;
- 99c:	10 92 0a 02 	sts	0x020A, r1	; 0x80020a <UART1_RxHead>
+ 99c:	10 92 0b 02 	sts	0x020B, r1	; 0x80020b <UART1_RxHead>
     UART1_RxTail = 0;
- 9a0:	10 92 09 02 	sts	0x0209, r1	; 0x800209 <UART1_RxTail>
+ 9a0:	10 92 0a 02 	sts	0x020A, r1	; 0x80020a <UART1_RxTail>
 	
 	CLKPR = (1<<CLKPCE);  	//enable clock prescaler change
  9a4:	e1 e6       	ldi	r30, 0x61	; 97

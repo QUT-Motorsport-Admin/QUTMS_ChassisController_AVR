@@ -8,6 +8,8 @@ uint8_t armedState = 0;
 
 uint8_t shutdownState = 0;
 
+uint8_t CORE_invertersPresent = 0b00000000;
+
 int main(void) {    
 
     // Set Up
@@ -126,7 +128,7 @@ void oneKHzTimer() {
     // uint8_t tmpInputVal;
     if(InputPedalThrottleCount > INPUT_TIME_PEDAL_THROTTLE)
     {
-        INPUT_accelerationPedal = a2d_10bitCh(5);
+        INPUT_accelerationPedal = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
         // if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
         //     // PORTK |= 0b00100000;
         //     INPUT_accelerationPedal = tmpInputVal;
@@ -136,7 +138,7 @@ void oneKHzTimer() {
 
     if(InputPedalBrakeCount > INPUT_TIME_PEDAL_BRAKE)
     {
-        INPUT_brakePedal = a2d_10bitCh(10);
+        INPUT_brakePedal = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH1);
         // if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
         //     INPUT_brakePedal = tmpInputVal;
         // }

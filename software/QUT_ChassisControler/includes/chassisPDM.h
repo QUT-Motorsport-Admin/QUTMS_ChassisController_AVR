@@ -10,35 +10,29 @@
 
 #include <stdlib.h>
 #include <avr/io.h>
+#include "utils/a2d.h"
+#include "includes/chassisUART.h"
+#include "includes/chassisError.h"
+#include "main.h"
 
-#define PDM_BRAKELIGHT 		16 /**< Byte 0 */
-#define PDM_ATOMIC_ALARM	32 /**< Byte 0 */
-#define PDM_SHUTDOWN_PLUS	64 /**< Byte 0 */
-#define PDM_SHUTDOWN_MINUS	128 /**< Byte 0 */
-#define PDM_PRECHARGE		1 /**< Byte 1 */
+#define PDM_TEMP_RIGHT_CH   (0) // Left side temperature sensor     - ADC11
+#define PDM_TEMP_LEFT_CH    (2) // Right side temperature sensor    - ADC12
 
-/**
- * @brief Data Structure for PDM Information
- * 
- */
-typedef struct PDM { uint8_t flags[4]; } PDM;
+extern uint8_t pdmRightTemp;
+extern uint8_t pdmLeftTemp;
 
-/**
- * @brief Central storage for PDM Data
- * 
- */
-struct PDM pdm;
+const uint8_t pdmInverterONTemp =       53;
+const uint8_t pdmInverterOFFTemp =      50;
+const uint8_t pdmTempSensorONTemp =     53;
+const uint8_t pdmTempSensorOFFTemp =    50;
 
-/**
- * @brief Appears unused?
- * 
- */
-unsigned char PDM_data[4] = {2, 0, 0, 0};
-
-/**
- * @brief Precharge the motor controllers and then enable relays to allow the starting of the car
- * 
- */
-void pdm_init();
+const uint16_t RADIATOR_CALIBRATION_VALUES[27] = { // radiator_cals_acewell_22k
+    801, 800, 799, 797, 791, 
+    785, 767, 750, 734, 707, 
+    689, 671, 637, 598, 581, 
+    562, 529, 493, 464, 443, 
+    359, 338, 317, 297, 278, 
+    234, 204
+};
 
 #endif // CHASSIS_PDM_H
