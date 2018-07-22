@@ -12,10 +12,13 @@
 #include <avr/io.h>
 #include "includes/chassisInput.h"
 #include "utils/uart.h"
+#include "main.h"
 
 void uart_process_byte(char data);
 void uart_parse_input(unsigned char* s);
 void uart_parse_poke(unsigned char* s);
 void uart_send_real_time_data (void);
+void UART_formTestPacket(void);
+void UART_sendPacket(uint8_t * outgoingString);
 
 #endif // CHASSIS_UART_H

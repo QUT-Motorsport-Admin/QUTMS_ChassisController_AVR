@@ -1,11 +1,12 @@
-
-
 #include "main.h"
 
+uint16_t ignitionStateDebounceCount = 0; 
+uint8_t ignitionStateLock = 0;
+uint8_t ignitionState = 0;
 
-uint8_t buttonStateDebounceCount = 0; 
-bool buttonStateLock = 0;
-bool buttonState = 0;
+uint8_t armedState = 0;
+
+uint8_t shutdownState = 0;
 
 int main(void) {    
 
@@ -13,20 +14,15 @@ int main(void) {
     firmware_init();
     timer_init();
 
+    // Grab the state of the shutdown circuity
+    shutdownState = 0;
+
     // Enable Interupts
     sei();
 
     // Main Poll
     // ------------------------------------------------------------------------
-    while(1)
-    {
-        for(long i = 0; i < 600000; i++) {
-
-        }
-        uart_putc(68);
-        uart1_putc(68);
-        
-    }
+    while(1) { }
 }
 
 /**
@@ -34,31 +30,48 @@ int main(void) {
  */
 void oneKHzTimer() {
 
-    // Check the button state
-    // -> 50ms Timer / State Change
-    // 50ms debounce, IE hold for 50ms and if held, change state
+    // static uint8_t CanHeartbeatCountInverters = 0;     // Number of iterations for the inverter heartbeat trigger
+    // static uint8_t CanHeartbeatCountData = 1;          // Number of iterations for the data heartbeat trigger
+    // static uint8_t CanHeartbeatCountPower = 2;         // Number of iterations for the power heartbeat trigger
+
+    // static uint8_t CanHeartbeatErrorInverters = 100;   // Time without successfull heartbeat for inverters
+    // static uint8_t CanHeartbeatErrorData = 101;        // Time without successfull heartbeat for data
+    // static uint8_t CanHeartbeatErrorPower = 102;       // Time without successfull heartbeat for power
+
+    static uint8_t InputPedalThrottleCount = 3;        // Number of iterations for the pot heartbeat trigger
+    static uint8_t InputPedalBrakeCount = 4;           // Number of iterations for the pot heartbeat trigger
+    // static uint8_t InputTempCount = 5;                 // Number of iterations for the temp heartbeat trigger
+
+    // static uint8_t CANInputSendTime = 0;               // Number of iterations for the input send trigger
+
+
+
+    // Check the ignition button state
+    // 1s debounce, IE hold for 50ms and if held, change state
     // ------------------------------------------------------------------------
-    // if(PRESSING_BUTTON) // No idea to which PIN set to check
-    // {
-    //     // Count up 1ms
-    //     buttonStateDebounceCount++;
-    //     // If 50ms have been counted
-    //     if(buttonStateDebounceCount >= 50) 
-    //     {
-    //         // Lock the state change till un-press of button
-    //         buttonStateLock = true;
-    //         // 
-    //         if(buttonStateDebounceCount > 254) { buttonStateDebounceCount = 50; }
-    //         // Triggering every 50ms
-    //         buttonState = !buttonState;
-    //         led_toggle();
-    //     }
-    // } 
-    // else 
-    // {
-    //     buttonStateLock = false;
-    //     buttonStateDebounceCount = 0;
-    // }
+    if(!(PINJ & (1<<PJ6))) // Checking Pin J6 (69)
+    {
+        ignitionState = 1; // Tracks that the ignition button is on
+        ignitionStateDebounceCount++; // Count up 1ms
+        if(ignitionStateDebounceCount >= 1000) // If 1s has been counted
+        {
+            // Limit the range it exists in
+            if(ignitionStateDebounceCount > 5000) { ignitionStateDebounceCount = 1001; }
+            // If this is the first time though from a previous press
+            if(ignitionStateLock == 0) {
+                ignitionStateLock = 1; // Disabled first run though after press
+                armedState = !armedState; // Flips armed state
+            }
+        }
+    } 
+    else 
+    {
+        ignitionState = 0; // Tracks that the ignition button is off
+        ignitionStateLock = 0; // Re-enables the first run though after the timer has been reached
+        ignitionStateDebounceCount = 0; // Resets the counter for time the button is pressed
+    }
+
+
 
     // Send CAN heartbeats -> Inverters: 100Hz, Data: 100Hz, Power: 20Hz
     // 100Hz = 1 / 100 = 0.01s = 10ms, 20Hz = 1 / 20 = 0.05s = 50ms
@@ -121,15 +134,16 @@ void oneKHzTimer() {
         InputPedalThrottleCount = 0;
     }
 
-    // if(InputPedalBrakeCount > INPUT_TIME_PEDAL_BRAKE)
-    // {
-    //     if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
-    //         INPUT_brakePedal = tmpInputVal;
-    //     }
-    //     InputPedalBrakeCount = 0;
-    // }
+    if(InputPedalBrakeCount > INPUT_TIME_PEDAL_BRAKE)
+    {
+        INPUT_brakePedal = a2d_10bitCh(10);
+        // if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
+        //     INPUT_brakePedal = tmpInputVal;
+        // }
+        InputPedalBrakeCount = 0;
+    }
     InputPedalThrottleCount++;
-    // InputPedalBrakeCount++;
+    InputPedalBrakeCount++;
     
 
     // if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
