@@ -6,22 +6,25 @@
 #include <avr/io.h>
 #include <string.h>
 
-#define MCP2515_CAN1_PORT_CS	PORTH			//pin 12
-#define MCP2515_CAN2_PORT_CS	PORTH			//pin 13
-#define MCP2515_CAN3_PORT_CS	PORTB			//pin 19
-#define MCP2515_CAN1_PIN_CS		PINH0			//pin 12
-#define MCP2515_CAN2_PIN_CS		PINH1			//pin 13
-#define MCP2515_CAN3_PIN_CS		PINB0			//pin 19
+#define TRACTIVE_CAN_PORT_CS	PORTH			//pin 12
+#define POWER_CAN_PORT_CS	PORTH				//pin 13
+#define DATA_CAN_PORT_CS	PORTB				//pin 19
+#define TRACTIVE_CAN_PIN_CS		PINH0			//pin 12
+#define POWER_CAN_PIN_CS		PINH1			//pin 13
+#define DATA_CAN_PIN_CS		PINB0				//pin 19
 
-#define MCP2515_CAN1	1
-#define MCP2515_CAN2	2
-#define MCP2515_CAN3	4
-//#define MCP2515_CAN1_PORT_CS	PORTH			//pin 12
-//#define MCP2515_CAN2_PORT_CS	PORTH			//pin 13
-//#define MCP2515_CAN3_PORT_CS	PORTB			//pin 19
-//#define MCP2515_CAN1_PIN_CS		PINH0			//pin 12
-//#define MCP2515_CAN2_PIN_CS		PINH1			//pin 13
-//#define MCP2515_CAN3_PIN_CS		PINB0			//pin 19
+#define TRACTIVE_CAN	1
+#define POWER_CAN		2
+#define DATA_CAN		4
+
+#define MCP2515_MODE_ONESHOT 0x08
+#define MCP2515_MODE_NORMAL 0x00
+//#define TRACTIVE_CAN_PORT_CS	PORTH			//pin 12
+//#define DATA_CAN	PORTH			//pin 13
+//#define DATA_CAN_PORT_CS	PORTB			//pin 19
+//#define TRACTIVE_CAN_PIN_CS		PINH0			//pin 12
+//#define POWER_CAN_PIN_CS		PINH1			//pin 13
+//#define DATA_CAN_PIN_CS		PINB0			//pin 19
 
 
 //#define MCP2515_PORT_CS		PORTB

@@ -241,9 +241,9 @@
  159               	.global	timer_init
  161               	timer_init:
  162               	.LFB8:
-  89:includes/chassisInit.c **** 	// MCP2515_init(MCP2515_CAN1);
-  90:includes/chassisInit.c **** 	// MCP2515_init(MCP2515_CAN2);
-  91:includes/chassisInit.c **** 	// MCP2515_init(MCP2515_CAN3);
+  89:includes/chassisInit.c **** 	// MCP2515_init(TRACTIVE_CAN);
+  90:includes/chassisInit.c **** 	// MCP2515_init(POWER_CAN);
+  91:includes/chassisInit.c **** 	// MCP2515_init(DATA_CAN);
   92:includes/chassisInit.c **** 
   93:includes/chassisInit.c **** 	// Enable the pullup on the input. This allows the pin to be active low
   94:includes/chassisInit.c **** 	// PORTJ |= (1<<PINJ6);

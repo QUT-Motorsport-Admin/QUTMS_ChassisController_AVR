@@ -21,7 +21,7 @@ void MCP2515_init(uint8_t CANbus)
 	//MCP2515_reg_write(CANbus, MCP2515_CANINTF, 0b00011100);	//enable interrupt in rx0, rx1, tx0, tx1, tx2.
 	MCP2515_reg_write(CANbus, MCP2515_RTSCTRL, 0x01); //probably want to move this to a tx init function. eventually. if it aint broke don't fix it...
 	//MCP2515_init_Rx();
-	MCP2515_bit_modify(CANbus, MCP2515_CANCTRL, 0x00, 0xE0);		//put the device into it's functional mode currently: normal 0xE0, listen is 0x60
+	MCP2515_bit_modify(CANbus, MCP2515_CANCTRL, MCP2515_MODE_ONESHOT | MCP2515_MODE_NORMAL, 0xE8);		//put the device into it's functional mode currently: 0x08 - normal mode with one shot
 	
 }
 
@@ -30,14 +30,14 @@ void MCP2515_CS_low(uint8_t CANbus)
 {
 	switch(CANbus)
 	{
-		case MCP2515_CAN1:
-			MCP2515_CAN1_PORT_CS &= ~(1<<MCP2515_CAN1_PIN_CS);
+		case TRACTIVE_CAN:
+			TRACTIVE_CAN_PORT_CS &= ~(1<<TRACTIVE_CAN_PIN_CS);
 			break;
-		case MCP2515_CAN2:
-			MCP2515_CAN2_PORT_CS &= ~(1<<MCP2515_CAN2_PIN_CS);
+		case POWER_CAN:
+			POWER_CAN_PORT_CS &= ~(1<<POWER_CAN_PIN_CS);
 			break;
-		case MCP2515_CAN3:
-			MCP2515_CAN3_PORT_CS &= ~(1<<MCP2515_CAN3_PIN_CS);
+		case DATA_CAN:
+			DATA_CAN_PORT_CS &= ~(1<<DATA_CAN_PIN_CS);
 			break;
 		default:
 			break;
@@ -48,14 +48,14 @@ void MCP2515_CS_high(uint8_t CANbus)
 {
 	switch(CANbus)
 	{
-		case MCP2515_CAN1:
-			MCP2515_CAN1_PORT_CS |= (1<<MCP2515_CAN1_PIN_CS);
+		case TRACTIVE_CAN:
+			TRACTIVE_CAN_PORT_CS |= (1<<TRACTIVE_CAN_PIN_CS);
 			break;
-		case MCP2515_CAN2:
-			MCP2515_CAN2_PORT_CS |= (1<<MCP2515_CAN2_PIN_CS);
+		case POWER_CAN:
+			POWER_CAN_PORT_CS |= (1<<POWER_CAN_PIN_CS);
 			break;
-		case MCP2515_CAN3:
-			MCP2515_CAN3_PORT_CS |= (1<<MCP2515_CAN3_PIN_CS);
+		case DATA_CAN:
+			DATA_CAN_PORT_CS |= (1<<DATA_CAN_PIN_CS);
 			break;
 		default:
 			break;

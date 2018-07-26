@@ -18,6 +18,6 @@ void uart_parse_input(unsigned char* s);
 void uart_parse_poke(unsigned char* s);
 void uart_send_real_time_data (void);
 void UART_formTestPacket(void);
-void UART_sendPacket(uint8_t * outgoingString);
+void UART_sendPacket(uint8_t * outgoingString, uint8_t length);
 
 #endif // CHASSIS_UART_H

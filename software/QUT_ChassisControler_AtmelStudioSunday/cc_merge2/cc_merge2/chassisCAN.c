@@ -68,40 +68,40 @@ void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t*
 // 	{
 // 		case INVERTERS_ID:
 // 			//obtain a freeTxBuffer that is free
-// 			freeTxBuffer = MCP2515_findFreeTxBuffer(MCP2515_CAN1);
+// 			freeTxBuffer = MCP2515_findFreeTxBuffer(TRACTIVE_CAN);
 // 			//type = what sort of command. address is which inverters should listen, status is whether the inverters are active or not.
 // 			// ID = (HEARTBEAT_INV_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|inverterStatus);
 //             ID = MCP2515_wrapper_ID_constructor(CAN_ID_INV, type, address, inverterStatus);
 // 			//transmit the packet.
-// 			MCP2515_TX(MCP2515_CAN1, freeTxBuffer, 8, (uint8_t*)currentTorqueDemand, ID);
+// 			MCP2515_TX(TRACTIVE_CAN, freeTxBuffer, 8, (uint8_t*)currentTorqueDemand, ID);
 // 			break;
 // 		case PDM_ID:
-// 			//unsigned char TXstatus = MCP2515_reg_read(MCP2515_CAN2, 0x30);		//check the tx reg status
+// 			//unsigned char TXstatus = MCP2515_reg_read(POWER_CAN, 0x30);		//check the tx reg status
 // 			//obtain a freeTxBuffer that is free
-// 			freeTxBuffer = MCP2515_findFreeTxBuffer(MCP2515_CAN2);
+// 			freeTxBuffer = MCP2515_findFreeTxBuffer(POWER_CAN);
 // 			//type = what sort of command. address is which address of pdm, normal heartbeat packet;
 // 			// ID = (HEARTBEAT_PDM_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
 //             ID = MCP2515_wrapper_ID_constructor(CAN_ID_PDM, type, address, 1);
 // 			//transmit the packet.
 // 			pdm.flags[0]=10;
-// 			MCP2515_TX(MCP2515_CAN2, freeTxBuffer, 4, pdm.flags, ID);
+// 			MCP2515_TX(POWER_CAN, freeTxBuffer, 4, pdm.flags, ID);
 // 			break;
 // 		case AMU_ID:
 // 			//obtain a freeTxBuffer that is free
-// 			freeTxBuffer = MCP2515_findFreeTxBuffer(MCP2515_CAN2);
+// 			freeTxBuffer = MCP2515_findFreeTxBuffer(POWER_CAN);
 // 			//type = what sort of command. address is which address of AMU, normal heartbeat packet;
 // 			// ID = (HEARTBEAT_AMU_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
 //             ID = MCP2515_wrapper_ID_constructor(CAN_ID_AMU, type, address, 1);
 // 			//transmit the packet.
-// 			MCP2515_TX(MCP2515_CAN2, freeTxBuffer, 4, accumulators[0].flags, ID);
+// 			MCP2515_TX(POWER_CAN, freeTxBuffer, 4, accumulators[0].flags, ID);
 // 			break;
 // 		case WHEEL_ID:
 // 			//obtain a freeTxBuffer that is free
-// 			freeTxBuffer = MCP2515_findFreeTxBuffer(MCP2515_CAN3);
+// 			freeTxBuffer = MCP2515_findFreeTxBuffer(DATA_CAN);
 // 			//type = what sort of command. address is which address of AMU, normal heartbeat packet;
 // 			// ID = (HEARTBEAT_WHEEL_ID|((uint32_t)type<<18)|((uint32_t)address<<13)|1);
 //             ID = MCP2515_wrapper_ID_constructor(CAN_ID_WHEEL, type, address, 1);
-// 			MCP2515_TX(MCP2515_CAN3, freeTxBuffer, 4, steeringWheel.flags, ID);
+// 			MCP2515_TX(DATA_CAN, freeTxBuffer, 4, steeringWheel.flags, ID);
 // 			break;
 // 		default:
 // 			break;
@@ -126,7 +126,7 @@ void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t*
 // {
 // 	if(STATUS_REG & CAN1_DataWaiting)
 // 		{
-// 			uint8_t status = MCP2515_check_receive_status(MCP2515_CAN1);
+// 			uint8_t status = MCP2515_check_receive_status(TRACTIVE_CAN);
 // 			uint8_t data[8];
 // 			uint32_t ID;
 // 			uint8_t numBytes;
@@ -136,19 +136,19 @@ void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t*
 // 				// Message in RXB0
 // 				case 1:
 // 					//pull the data off the MCP2515 and place in memory
-// 					MCP2515_PullCanPacket(MCP2515_CAN1, MCP2515_RXB0SIDH, &numBytes, data, &ID);
+// 					MCP2515_PullCanPacket(TRACTIVE_CAN, MCP2515_RXB0SIDH, &numBytes, data, &ID);
 // 					if(inverters_save_data(data) == 0)throw_error_code(ERROR, ERROR_INVERTER_RESPONSE);
 // 					break;
 // 				// Message in RXB1
 // 				case 2:
-// 					MCP2515_PullCanPacket(MCP2515_CAN1, MCP2515_RXB1SIDH, &numBytes, data, &ID );
+// 					MCP2515_PullCanPacket(TRACTIVE_CAN, MCP2515_RXB1SIDH, &numBytes, data, &ID );
 // 					if(inverters_save_data(data) == 0)throw_error_code(ERROR, ERROR_INVERTER_RESPONSE);
 // 					break;
 // 				// Message in both buffers
 // 				case 3:
-// 					MCP2515_PullCanPacket(MCP2515_CAN1, MCP2515_RXB0SIDH, &numBytes, data, &ID );
+// 					MCP2515_PullCanPacket(TRACTIVE_CAN, MCP2515_RXB0SIDH, &numBytes, data, &ID );
 // 					if(inverters_save_data(data) == 0)throw_error_code(ERROR, ERROR_INVERTER_RESPONSE);
-// 					MCP2515_PullCanPacket(MCP2515_CAN1, MCP2515_RXB1SIDH, &numBytes, data, &ID );
+// 					MCP2515_PullCanPacket(TRACTIVE_CAN, MCP2515_RXB1SIDH, &numBytes, data, &ID );
 // 					if(inverters_save_data(data) == 0)throw_error_code(ERROR, ERROR_INVERTER_RESPONSE);
 // 					break;
 // 				default:
@@ -202,24 +202,24 @@ void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t*
 // {
 // 	if(STATUS_REG & CAN2_DataWaiting)
 // 	{
-// 		uint8_t status = MCP2515_check_receive_status(MCP2515_CAN2);
+// 		uint8_t status = MCP2515_check_receive_status(POWER_CAN);
 // 		uint8_t data[8];
 // 		uint32_t ID;
 // 		uint8_t numBytes;
 // 		switch(status>>6)
 // 		{
 // 			case 1:
-// 				MCP2515_PullCanPacket(MCP2515_CAN2, MCP2515_RXB0SIDH, &numBytes, data, &ID);
+// 				MCP2515_PullCanPacket(POWER_CAN, MCP2515_RXB0SIDH, &numBytes, data, &ID);
 // 				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR, ERROR_CAN2_RESPONSE);
 // 				break;
 // 			case 2:
-// 				MCP2515_PullCanPacket(MCP2515_CAN2, MCP2515_RXB1SIDH, &numBytes, data, &ID);
+// 				MCP2515_PullCanPacket(POWER_CAN, MCP2515_RXB1SIDH, &numBytes, data, &ID);
 // 				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR, ERROR_CAN2_RESPONSE);
 // 				break;
 // 			case 3:
-// 				MCP2515_PullCanPacket(MCP2515_CAN2, MCP2515_RXB0SIDH, &numBytes, data, &ID);
+// 				MCP2515_PullCanPacket(POWER_CAN, MCP2515_RXB0SIDH, &numBytes, data, &ID);
 // 				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR, ERROR_CAN2_RESPONSE);
-// 				MCP2515_PullCanPacket(MCP2515_CAN2, MCP2515_RXB1SIDH, &numBytes, data, &ID);
+// 				MCP2515_PullCanPacket(POWER_CAN, MCP2515_RXB1SIDH, &numBytes, data, &ID);
 // 				if(can2_save_data(data, ID) == 0)throw_error_code(ERROR, ERROR_CAN2_RESPONSE);
 // 				break;
 // 		}

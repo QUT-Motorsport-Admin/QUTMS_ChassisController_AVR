@@ -44,8 +44,8 @@ void uart_process_byte(char data)
 void uart_parse_input(unsigned char* s)
 {
 	uart_parse_poke(s);
-	uart1_putc('D');				// reply with the header byte (preserved - 33 bytes should follow)
-	uart_send_real_time_data();
+	//uart1_putc('D');				// reply with the header byte (preserved - 33 bytes should follow)
+	UART_formTestPacket();
 
 	s[0] = '\0';					// clear the header byte
 }
@@ -59,13 +59,14 @@ void uart_parse_input(unsigned char* s)
  **/
 void uart_parse_poke(unsigned char* s)
 {
-	uint16_t addr = ((uint16_t)(s[1]) << 8);
-	addr +=         (uint16_t)(s[2]);
-	uint32_t data = ((uint32_t)s[3]) << 24;
-	data =          ((uint32_t)s[4]) << 16;
-	data +=         ((uint32_t)s[5]) << 8;
-	data +=         ((uint32_t)s[6]);
-	
+	PDMarray[0] = s[0];
+	//uint16_t addr = ((uint16_t)(s[1]) << 8);
+	//addr +=         (uint16_t)(s[2]);
+	//uint32_t data = ((uint32_t)s[3]) << 24;
+	//data =          ((uint32_t)s[4]) << 16;
+	//data +=         ((uint32_t)s[5]) << 8;
+	//data +=         ((uint32_t)s[6]);
+	/*
 	if (addr == 20)
 	{
 		if (data == 128)
@@ -104,6 +105,7 @@ void uart_parse_poke(unsigned char* s)
 			// cellBalancing = 0;
 		}
 	}
+	*/
 }
 
 /**
@@ -179,19 +181,30 @@ void uart_parse_poke(unsigned char* s)
 // }
 
 void UART_formTestPacket(void) {
+	
+	static uint8_t fakeThrottle = 0;
+	
+	if(fakeThrottle++ > 100)fakeThrottle = 0;
     uint8_t testPacketArray[4];
     testPacketArray[0] = (ignitionState) | (armedState << 1) | (shutdownState << 2); // Button states - 1
     testPacketArray[1] = INPUT_accelerationPedal;   // Throttle Pedal Percentage - 1
     testPacketArray[2] = INPUT_brakePedal;          // Brake Pedal Percentage - 1
-    testPacketArray[3] = INPUT_steeringAngle;       // Steering Angle - 1
-                                                    //  -> RADIAN(x -> -0.99 < 0 < 0.99) * 100 + 100
-    UART_sendPacket(testPacketArray);
+    testPacketArray[3] = INPUT_steeringAngle;       // Steering Angle - 1   -> RADIAN(x -> -0.99 < 0 < 0.99) * 100 + 100
+           
+    UART_sendPacket(testPacketArray, 4);
 }
 
-void UART_sendPacket(uint8_t outgoingString[]) {
-    uint8_t *ptr = outgoingString;
+void UART_sendPacket(uint8_t outgoingString[], uint8_t length) {
+    //uint8_t *ptr = outgoingString;
+	
+	//int testADC = a2d_10bitCh(5);
+	//char  testString[5];
+	//itoa(testADC, testString, 10);
 	uart_putc('D');
-    while (*ptr++) {
-        uart_putc(*ptr);
+	int i = 0;
+    for(i = 0; i < length; i++) {
+        uart_putc(outgoingString[i]);
     }
+	uart_putc('\r');
+	uart_putc('\n');
 }

@@ -9,7 +9,10 @@ uint8_t armedState = 0;
 
 uint8_t shutdownState = 0;
 
-volatile uint8_t testArm = 0;
+volatile uint8_t testError = 0;
+
+ uint8_t inverterArray[8] = {0,0,0,0,0,0,0,0};
+ uint8_t PDMarray[8] = {0,0,0,0,0,0,0,0};
 
 int main(void) {    
 
@@ -19,12 +22,14 @@ int main(void) {
 
     // Grab the state of the shutdown circuity
     shutdownState = 0;
-
+	_delay_ms(500);
     // Enable Interupts
     sei();					
     // Main Poll
     // ------------------------------------------------------------------------
     while(1) {
+		
+		if(isCharAvailable_1() == 1)uart_process_byte(receiveChar_1());
 
 	}
 	
@@ -35,12 +40,12 @@ int main(void) {
  * @brief Core system's timer, 1ms, core of the pseudo RTOS system
  */
 void oneKHzTimer(void)
-{	
+{
 	static int test_counter = 0;
 
-    static uint8_t CANheartbeatCountInverters = 0;		// Number of iterations for the inverter heartbeat trigger
-    static uint8_t CANheartbeatCountData = 1;			// Number of iterations for the data heartbeat trigger
-    static uint8_t CANheartbeatCountPower = 2;			// Number of iterations for the power heartbeat trigger
+    static uint16_t CANheartbeatCountInverters = 0;		// Number of iterations for the inverter heartbeat trigger
+    static uint16_t CANheartbeatCountData = 1;			// Number of iterations for the data heartbeat trigger
+    static uint16_t CANheartbeatCountPower = 2;			// Number of iterations for the power heartbeat trigger
 
     // static uint8_t CanHeartbeatErrorInverters = 100;		// Time without successfull heartbeat for inverters
     // static uint8_t CanHeartbeatErrorData = 101;			// Time without successfull heartbeat for data
@@ -48,6 +53,7 @@ void oneKHzTimer(void)
 
     static uint8_t InputPedalThrottleCount = 3;				// Number of iterations for the pot heartbeat trigger
     static uint8_t InputPedalBrakeCount = 4;				// Number of iterations for the pot heartbeat trigger
+	static uint8_t InputSteeringCount = 5;			// Number of iterations for the pot heartbeat trigger
     // static uint8_t InputTempCount = 5;					// Number of iterations for the temp heartbeat trigger
 
     // static uint8_t CANInputSendTime = 0;					// Number of iterations for the input send trigger
@@ -55,9 +61,9 @@ void oneKHzTimer(void)
 	// flash the LED to show the system is running
 	if(test_counter++ > 100)
 	{
-		PORTK ^= 32;
+		//PORTK ^= 32;
 		test_counter = 0;
-		UART_formTestPacket();
+		//UART_formTestPacket();
 	}
 	
 	
@@ -76,9 +82,8 @@ void oneKHzTimer(void)
                 armedState ^= 1;
             }
         }
-    } 
-    else
-    {
+    }
+    else {
         ignitionState = 0; // Tracks that the ignition button is off
         ignitionStateLock = 0; // Re-enables the first run though after the timer has been reached
         ignitionStateDebounceCount = 0; // Resets the counter for time the button is pressed
@@ -88,13 +93,14 @@ void oneKHzTimer(void)
      //100Hz = 1 / 100 = 0.01s = 10ms, 20Hz = 1 / 20 = 0.05s = 50ms
      //------------------------------------------------------------------------
     
-	 uint8_t inverterArray[8] = {0,0,0,0,0,0,0,0};
-	 if(CANheartbeatCountInverters > CAN_HEARTBEAT_TIME_INVERTERS)
+	
+	 inverterArray[0] = INPUT_accelerationPedal;
+	 if(CANheartbeatCountInverters >= CAN_HEARTBEAT_TIME_INVERTERS)
 	 {
 		 // Reset inverter heartbeat counter
 		 CANheartbeatCountInverters = 0;
 		 // Send inverter system heartbeat
-		 CAN_send(MCP2515_CAN1, 8, inverterArray, 0b0100100000000000000000000011110);
+		 CAN_send(TRACTIVE_CAN, 8, inverterArray, 0b0100100000000000000000000011110);
 	 }
 	 /*
 	 if(CANheartbeatCountData > CAN_HEARTBEAT_TIME_DATA)
@@ -102,20 +108,20 @@ void oneKHzTimer(void)
 		 // Reset data heartbeat counter
 		 CANheartbeatCountData = 0;
 		 // Send data system heartbeat
-		 // CAN_send(MCP2515_CAN2, )
-	 }
+		 // CAN_send(POWER_CAN, )
+	 }*/
 	 if(CANheartbeatCountPower > CAN_HEARTBEAT_TIME_POWER)
 	 {
 		 // Reset power heartbeat counter
 		 CANheartbeatCountPower = 0;
 		 // Send power system heartbeat
-		 // CAN_send(MCP2515_CAN2, )
+		 CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_PDM_ID | 1);
 	 }
-	 */
+	 
 	 CANheartbeatCountInverters++;
 	 CANheartbeatCountData++;
 	 CANheartbeatCountPower++;
-
+	
     // CAN Error counts -> Missing Receives
     // ------------------------------------------------------------------------
     // if(CanHeartbeatErrorInverters > CAN_HEARTBEAT_ERROR_DELAY)
@@ -136,27 +142,38 @@ void oneKHzTimer(void)
 
 
     // Send CAN input
-    // uint8_t tmpInputVal;
+    uint8_t tmpInputVal;
     if(InputPedalThrottleCount > INPUT_TIME_PEDAL_THROTTLE)
     {
-        INPUT_accelerationPedal = a2d_10bitCh(5);
-        // if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
-        //     // PORTK |= 0b00100000;
-        //     INPUT_accelerationPedal = tmpInputVal;
-        // }
+		//INPUT_accelerationPedal = a2d_10bitCh(5);
+
+        if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
+             INPUT_accelerationPedal = tmpInputVal;
+        }
         InputPedalThrottleCount = 0;
     }
 
     if(InputPedalBrakeCount > INPUT_TIME_PEDAL_BRAKE)
     {
-        INPUT_brakePedal = a2d_10bitCh(10);
-        // if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
-        //     INPUT_brakePedal = tmpInputVal;
-        // }
+        //INPUT_brakePedal = (uint8_t)(a2d_10bitCh(8)/4);
+        if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
+             INPUT_brakePedal = tmpInputVal;
+		}
+		
         InputPedalBrakeCount = 0;
     }
+	
+	if(InputSteeringCount > INPUT_TIME_STEERING)
+	{
+		if(INPUT_get_steeringWheel(&tmpInputVal) == 0) {
+			INPUT_steeringAngle = tmpInputVal;
+		}
+		
+		InputPedalBrakeCount = 0;
+	}
     InputPedalThrottleCount++;
     InputPedalBrakeCount++;
+	InputSteeringCount++;
     
 
     // if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
@@ -195,7 +212,7 @@ ISR(INT1_vect) {
 	uint8_t numBytes;
 
 	// Get the data from the CAN bus and process it
-	CAN_pull_packet(MCP2515_CAN1, &numBytes, data, &ID);
+	CAN_pull_packet(TRACTIVE_CAN, &numBytes, data, &ID);
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_RESPONSE_MALFORMED);
@@ -212,7 +229,7 @@ ISR(INT0_vect)	{
 	uint8_t numBytes;
 
 	// Get the data from the CAN bus and process it
-	CAN_pull_packet(MCP2515_CAN2, &numBytes, data, &ID);
+	CAN_pull_packet(POWER_CAN, &numBytes, data, &ID);
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_RESPONSE_MALFORMED);
@@ -229,7 +246,7 @@ ISR(PCINT0_vect) {
 	uint8_t numBytes;
 
 	// Get the data from the CAN bus and process it
-	CAN_pull_packet(MCP2515_CAN3, &numBytes, data, &ID);
+	CAN_pull_packet(DATA_CAN, &numBytes, data, &ID);
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_RESPONSE_MALFORMED);

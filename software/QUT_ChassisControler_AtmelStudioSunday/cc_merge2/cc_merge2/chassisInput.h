@@ -15,6 +15,8 @@
  * Brake    Primary     CH1     ADC10   Right   MIN 426     MAX 665
  * Brake    Secondary   CH2     ADC8    Left    MIN 455     MAX 686
  *                                              DIF 29      DIF 21
+ *
+ *Steering	Single		CH1		ADC4			TBA			TBA
  */
 
 #ifndef CHASSIS_INPUT_H
@@ -71,6 +73,16 @@ uint8_t INPUT_get_accelPedal(uint8_t * val);
 uint8_t INPUT_get_brakePedal(uint8_t * val);
 
 /**
+ * @brief INPUT_get_steeringWheel
+ * 
+ * Provides wrapper with error calling on INPUT_read_steeringWheel
+ * 
+ * @param val Given value to populate
+ * @return uint8_t State of read
+ */
+uint8_t INPUT_get_steeringWheel(uint8_t * val);
+
+/**
  * @brief INPUT_get_brakePressureFront
  * 
  * Provides wrapper with error calling on INPUT_read_brakePressureFront
@@ -105,6 +117,14 @@ uint8_t INPUT_read_accelPedal(uint16_t * throttle);
  * @return uint8_t 0 if the value is out of spec
  */
 uint8_t INPUT_read_brakePedal(uint16_t * brake);
+
+/**
+ * @brief INPUT_read_steeringWheel
+ * 
+ * @param brake Given uint16_t pointer to populate
+ * @return uint8_t 0 if the value is out of spec
+ */
+uint8_t INPUT_read_steeringWheel(uint16_t * brake);
 
 /**
  * @brief INPUT_read_brakePressureFront

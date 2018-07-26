@@ -19,6 +19,12 @@
 
 
 
+
+#define HEARTBEAT_INV_ID	0x0C000000
+#define	HEARTBEAT_AMU_ID	0x0A000000
+#define HEARTBEAT_PDM_ID	0x09000000
+#define HEARTBEAT_WHEEL_ID	0x00400000
+
 // Variables used in the 1kHz CAN heartbeat loop
 #define CAN_HEARTBEAT_TIME_INVERTERS (10)   // Defines the 10ms (100Hz) for the inverter trigger
 #define CAN_HEARTBEAT_TIME_DATA (10)        // Defines the 10ms (100Hz) for the data trigger
@@ -28,6 +34,7 @@
 
 #define INPUT_TIME_PEDAL_THROTTLE  (10)     // Defines the 10ms (100Hz) for the input send trigger
 #define INPUT_TIME_PEDAL_BRAKE  (10)        // Defines the 10ms (100Hz) for the input send trigger
+#define INPUT_TIME_STEERING  (10)			// Defines the 10ms (100Hz) for the input send trigger
 #define INPUT_TIME_TEMP (100)               // Defines the 100ms (10Hz) for the input send trigger
 
 #define CAN_INPUT_SEND_DELAY (10)           // Defines the 200ms (5Hz) for the input send trigger
@@ -38,3 +45,5 @@ extern uint8_t armedState;              // Stores the car's armed state
 extern uint8_t ignitionState;           // Stores the car's ignition switch/button state
 
 extern uint8_t shutdownState;           // Stores the car's current state of its shutdown circuity
+
+extern uint8_t PDMarray[8];
