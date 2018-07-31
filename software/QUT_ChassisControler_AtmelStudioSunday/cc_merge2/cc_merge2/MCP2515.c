@@ -121,12 +121,11 @@ uint8_t MCP2515_receive_status(uint8_t CANbus)
  */
 void MCP2515_RxBufferRead(uint8_t CANbus, uint8_t * data, uint8_t rxBuffer)
 {
-
-
 	//the following line combines the instruction(0b10010000), with: 0b100 for rxb0 or 0b000 for rxb1, and: 0b10 for data starting at data0, or 0b00 for SIDH
 	uint8_t instruction = 0b10010000|((rxBuffer > 0x70)<<2)|((rxBuffer == MCP2515_RXB0D0 || rxBuffer == MCP2515_RXB1D0)<<1);
 	MCP2515_CS_low(CANbus);			//lower CS.
-	SPI_send_byte(instruction);							//send instruction for stream of data
+	SPI_send_byte(instruction);	
+							//send instruction for stream of data
 	//loop counts to 8 or 12 depending on whether bit 1 of instruction is set.
 	for(uint8_t counter = 0; counter < (8 + 4*((instruction & 2)==0)); counter++)
 	{
@@ -135,9 +134,9 @@ void MCP2515_RxBufferRead(uint8_t CANbus, uint8_t * data, uint8_t rxBuffer)
 	}
 		MCP2515_CS_high(CANbus);				//raise CS.
 }
+
 void MCP2515_PullCanPacket(uint8_t CANbus, uint8_t mob,uint8_t * numBytes , uint8_t * data, uint32_t * ID)
 {
-
 	//the following line combines the instruction(0b10010000), with: 0b100 for rxb0 or 0b000 for rxb1, and: 0b10 for data starting at data0, or 0b00 for SIDH
 	uint8_t instruction = 0b10010000|((mob > 0x70)<<2);
 	MCP2515_CS_low(CANbus);			//lower CS.
@@ -148,14 +147,14 @@ void MCP2515_PullCanPacket(uint8_t CANbus, uint8_t mob,uint8_t * numBytes , uint
 	{
 		tmpData[counter] = SPI_send_byte(0x00);
 	}
+
 	*ID  = ((uint32_t)(tmpData[0]&0b11111111)<<21);
 	*ID |= ((uint32_t)(tmpData[1]&0b11100000)<<13);
 	*ID |= ((uint32_t)(tmpData[1]&0b00000011)<<16);
 	*ID |= ((uint32_t)(tmpData[2]&0b11111111)<<8);
 	*ID |= ((uint32_t)(tmpData[3]&0b11111111));
 	*numBytes = tmpData[12] & 0b00001111;
-	memcpy(data, &tmpData[4], *numBytes);
-	
+	memcpy(data, &tmpData[4], *numBytes);	
 	
 	MCP2515_CS_high(CANbus);				//raise CS.
 }
@@ -268,7 +267,7 @@ void MCP2515_TX(uint8_t CANbus, int8_t mob, uint8_t numBytes, uint8_t * data, ui
 	//MCP2515_reg_write(CANbus, mob+3, 0);
 	//MCP2515_reg_write(CANbus, mob+4, 0);
 	//MCP2515_reg_write(CANbus, mob+5, 0);
-	
+
 	for (uint8_t byteCount = 0; byteCount < numBytes; byteCount++)
 	{
 		MCP2515_reg_write(CANbus, mob+6+byteCount, *(data+byteCount));	//fill the data bytes register.

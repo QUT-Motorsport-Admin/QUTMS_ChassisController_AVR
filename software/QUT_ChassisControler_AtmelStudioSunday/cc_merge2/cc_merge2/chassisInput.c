@@ -280,7 +280,7 @@ uint8_t INPUT_read_steeringWheel(uint16_t * steeringAngle) {
 	uint8_t returnState = 0;
 	
     // Read the values of the two throttle sensors and verify if the received values are valid
-    history[historyIndex] = a2d_10bitCh(INPUT_STEERING_ANGLE_CH);
+    history[historyIndex] = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
 
     if(historyIndex >= ADC_SAMPLES) { historyIndex = 0; }
 

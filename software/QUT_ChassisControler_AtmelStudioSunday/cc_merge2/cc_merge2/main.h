@@ -20,15 +20,19 @@
 
 
 
-#define HEARTBEAT_INV_ID	0x0C000000
-#define	HEARTBEAT_AMU_ID	0x0A000000
-#define HEARTBEAT_PDM_ID	0x09000000
-#define HEARTBEAT_WHEEL_ID	0x00400000
+#define HEARTBEAT_INV_ID		0x0C000000
+#define	HEARTBEAT_AMU_ID		0x0A000000
+#define HEARTBEAT_PDM_ID		0x09000000
+#define HEARTBEAT_SHUTDOWN_ID	0x08800000
+#define HEARTBEAT_WHEEL_ID		0x08400000
 
 // Variables used in the 1kHz CAN heartbeat loop
 #define CAN_HEARTBEAT_TIME_INVERTERS (10)   // Defines the 10ms (100Hz) for the inverter trigger
 #define CAN_HEARTBEAT_TIME_DATA (10)        // Defines the 10ms (100Hz) for the data trigger
-#define CAN_HEARTBEAT_TIME_POWER (50)       // Defines the 50ms (20Hz) for the power trigger
+#define CAN_HEARTBEAT_TIME_PDM (50)       // Defines the 50ms (20Hz) for the power trigger
+#define CAN_HEARTBEAT_TIME_WHEEL (50)       // Defines the 50ms (20Hz) for the power trigger
+#define CAN_HEARTBEAT_TIME_SHUTDOWN (100)       // Defines the 50ms (20Hz) for the power trigger
+#define CAN_HEARTBEAT_TIME_AMU (50)       // Defines the 50ms (20Hz) for the power trigger
 
 #define CAN_HEARTBEAT_ERROR_DELAY (110)     // Milliseconds without return heartbeat, must be slightly larger than largest heartbeat time x2
 

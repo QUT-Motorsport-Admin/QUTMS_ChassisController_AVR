@@ -92,7 +92,7 @@ void firmware_init()
 	a2dInit(ADC_PRESCALE_DIV64, ADC_REFERENCE_AVCC); // Turns ON ADC
 	MCP2515_init(TRACTIVE_CAN);
 	MCP2515_init(POWER_CAN);
-	//MCP2515_init(DATA_CAN);
+	MCP2515_init(DATA_CAN);
 
 	// Enable the pullup on the input. This allows the pin to be active low
 	// PORTJ |= (1<<PINJ6);

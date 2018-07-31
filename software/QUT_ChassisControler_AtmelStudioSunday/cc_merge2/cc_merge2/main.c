@@ -11,8 +11,9 @@ uint8_t shutdownState = 0;
 
 volatile uint8_t testError = 0;
 
- uint8_t inverterArray[8] = {0,0,0,0,0,0,0,0};
- uint8_t PDMarray[8] = {0,0,0,0,0,0,0,0};
+uint8_t inverterArray[8] = {0,0,0,0,0,0,0,0};
+uint8_t PDMarray[8] = {0,0,0,0,0,0,0,0};
+uint8_t WheelArray[8] = {0,0,10,10,0,0,40,200};
 
 int main(void) {    
 
@@ -29,7 +30,7 @@ int main(void) {
     // ------------------------------------------------------------------------
     while(1) {
 		
-		if(isCharAvailable_1() == 1)uart_process_byte(receiveChar_1());
+		if(isCharAvailable() == 1)uart_process_byte(receiveChar());
 
 	}
 	
@@ -44,8 +45,10 @@ void oneKHzTimer(void)
 	static int test_counter = 0;
 
     static uint16_t CANheartbeatCountInverters = 0;		// Number of iterations for the inverter heartbeat trigger
-    static uint16_t CANheartbeatCountData = 1;			// Number of iterations for the data heartbeat trigger
-    static uint16_t CANheartbeatCountPower = 2;			// Number of iterations for the power heartbeat trigger
+    static uint16_t CANheartbeatCountWheel = 1;			// Number of iterations for the data heartbeat trigger
+    static uint16_t CANheartbeatCountPDM = 2;			// Number of iterations for the power heartbeat trigger
+	static uint16_t CANheartbeatCountShutdown = 3;			// Number of iterations for the power heartbeat trigger
+	static uint16_t CANheartbeatCountAMU = 4;			// Number of iterations for the power heartbeat trigger
 
     // static uint8_t CanHeartbeatErrorInverters = 100;		// Time without successfull heartbeat for inverters
     // static uint8_t CanHeartbeatErrorData = 101;			// Time without successfull heartbeat for data
@@ -102,26 +105,47 @@ void oneKHzTimer(void)
 		 // Send inverter system heartbeat
 		 CAN_send(TRACTIVE_CAN, 8, inverterArray, 0b0100100000000000000000000011110);
 	 }
-	 /*
-	 if(CANheartbeatCountData > CAN_HEARTBEAT_TIME_DATA)
+	 
+	 if(CANheartbeatCountWheel > CAN_HEARTBEAT_TIME_WHEEL)
 	 {
 		 // Reset data heartbeat counter
-		 CANheartbeatCountData = 0;
+		 CANheartbeatCountWheel = 0;
 		 // Send data system heartbeat
-		 // CAN_send(POWER_CAN, )
-	 }*/
-	 if(CANheartbeatCountPower > CAN_HEARTBEAT_TIME_POWER)
+		 //CAN_send(DATA_CAN, 8, WheelArray, HEARTBEAT_WHEEL_ID | 1);
+		 
+	 }
+	 
+	 if(CANheartbeatCountPDM > CAN_HEARTBEAT_TIME_PDM)
 	 {
 		 // Reset power heartbeat counter
-		 CANheartbeatCountPower = 0;
+		 CANheartbeatCountPDM = 0;
 		 // Send power system heartbeat
+		 if(armedState == 1)PDMarray[0] |= 192;
+		 else PDMarray[0] &= ~192;
 		 CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_PDM_ID | 1);
 	 }
 	 
+	 if(CANheartbeatCountShutdown > CAN_HEARTBEAT_TIME_SHUTDOWN)
+	 {
+		 // Reset power heartbeat counter
+		 CANheartbeatCountShutdown = 0;
+		 // Send shutdown heartbeat (dont care what for now)
+		 //CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_SHUTDOWN_ID | 1);
+	 }
+	 
+	 if(CANheartbeatCountAMU > CAN_HEARTBEAT_TIME_AMU)
+	 {
+		 // Reset power heartbeat counter
+		 CANheartbeatCountAMU = 0;
+		 // Send shutdown heartbeat (dont care what for now)
+		 //CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_AMU_ID | 1);
+	 }
+	 
 	 CANheartbeatCountInverters++;
-	 CANheartbeatCountData++;
-	 CANheartbeatCountPower++;
-	
+	 CANheartbeatCountWheel++;
+	 CANheartbeatCountPDM++;
+	 CANheartbeatCountShutdown++;
+	 CANheartbeatCountAMU++;
     // CAN Error counts -> Missing Receives
     // ------------------------------------------------------------------------
     // if(CanHeartbeatErrorInverters > CAN_HEARTBEAT_ERROR_DELAY)
@@ -165,16 +189,21 @@ void oneKHzTimer(void)
 	
 	if(InputSteeringCount > INPUT_TIME_STEERING)
 	{
-		if(INPUT_get_steeringWheel(&tmpInputVal) == 0) {
-			INPUT_steeringAngle = tmpInputVal;
-		}
+		INPUT_steeringAngle = (uint8_t)(a2d_8bitCh(INPUT_STEERING_ANGLE_CH));
+		//if(INPUT_get_steeringWheel(&tmpInputVal) == 0) {
+			//INPUT_steeringAngle = tmpInputVal;
+		//}
 		
-		InputPedalBrakeCount = 0;
+		InputSteeringCount = 0;
 	}
+	
     InputPedalThrottleCount++;
     InputPedalBrakeCount++;
 	InputSteeringCount++;
     
+	
+	inverterArray[0] = INPUT_accelerationPedal;
+	WheelArray[1] = INPUT_accelerationPedal;
 
     // if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
     //     INPUT_brakePressureBack = tmpInputVal;
