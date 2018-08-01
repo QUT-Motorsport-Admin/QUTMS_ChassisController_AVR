@@ -1,6 +1,6 @@
 
 #include "SPI.h"
-#include "MCP2515_CC.h"
+#include "MCP2515.h"
 
 void MCP2515_init(uint8_t CANbus)
 {
@@ -176,15 +176,15 @@ uint8_t MCP2515_findFreeTxBuffer(uint8_t CANbus)
 	//uint8_t MCP2515_TxBuffer = 0;
 	//flash_LED(1,RED_LED);
 	//MCP2515_TxBuffer = (MCP2515_reg_read(CANbus, MCP2515_CANINTF)& 0b00011100);			//get interrupt status, only the txbuffer empty ones though
-	if		((MCP2515_reg_read(CANbus, MCP2515_TX0) & 0b00001000)== 0)						//if tx0 is free,
+	if		((MCP2515_reg_read(CANbus, MCP2515_TX0) & 0b00001000) == 0)						//if tx0 is free,
 	{
 		return MCP2515_TX0;
 	}
-	else if	((MCP2515_reg_read(CANbus, MCP2515_TX1) & 0b00001000)== 0)						//if tx1 is free,
+	else if	((MCP2515_reg_read(CANbus, MCP2515_TX1) & 0b00001000) == 0)						//if tx1 is free,
 	{
 		return MCP2515_TX1;
 	}
-	else if	((MCP2515_reg_read(CANbus, MCP2515_TX2) & 0b00001000)== 0)						//if tx2 is free,
+	else if	((MCP2515_reg_read(CANbus, MCP2515_TX2) & 0b00001000) == 0)						//if tx2 is free,
 	{
 		return MCP2515_TX2;
 	}

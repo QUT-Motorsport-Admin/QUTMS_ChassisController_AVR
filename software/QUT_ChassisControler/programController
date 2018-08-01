@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# You need install the following to run this command:
+#   -> avrdude, preferably though homebrew/brew -> brew install avrdude
+
+#       Denotes the programmer | Chassis Controllers chip | Port to use | File to program and how
+avrdude -c atmelice_isp          -p m1280                   -P usb        -U flash:w:main.hex

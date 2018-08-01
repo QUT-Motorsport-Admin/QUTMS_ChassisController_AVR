@@ -1,0 +1,787 @@
+   1               		.file	"chassisUART.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.Ltext0:
+  10               		.cfi_sections	.debug_frame
+  11               		.comm	portKey,1,1
+  12               		.section	.text.uart_process_byte,"ax",@progbits
+  13               	.global	uart_process_byte
+  15               	uart_process_byte:
+  16               	.LVL0:
+  17               	.LFB5:
+  18               		.file 1 "includes/chassisUART.c"
+   1:includes/chassisUART.c **** /**
+   2:includes/chassisUART.c ****  * @file chassisUART.c
+   3:includes/chassisUART.c ****  * @author Jonn Dillon
+   4:includes/chassisUART.c ****  * @date 19/7/2018
+   5:includes/chassisUART.c ****  * @brief Handles all major communications functions, and related utilities in and out of the MCU.
+   6:includes/chassisUART.c ****  **/
+   7:includes/chassisUART.c **** 
+   8:includes/chassisUART.c **** #include "chassisUART.h"
+   9:includes/chassisUART.c **** #include "chassisInput.h"
+  10:includes/chassisUART.c **** 
+  11:includes/chassisUART.c **** // char *UART_getString(void) {
+  12:includes/chassisUART.c **** //     unsigned char string[255], x, i;
+  13:includes/chassisUART.c **** //     while((x = uart1_getc()) != UART_NO_DATA) {
+  14:includes/chassisUART.c **** //         string[i++] = x;
+  15:includes/chassisUART.c **** //     }
+  16:includes/chassisUART.c **** //     return string;
+  17:includes/chassisUART.c ****     
+  18:includes/chassisUART.c **** // }
+  19:includes/chassisUART.c **** 
+  20:includes/chassisUART.c **** // void UART_sendString(const char *s) {
+  21:includes/chassisUART.c **** //     uart1_puts(*s);
+  22:includes/chassisUART.c **** // }
+  23:includes/chassisUART.c **** 
+  24:includes/chassisUART.c **** 
+  25:includes/chassisUART.c **** // OLD ------------------------------------------------------------------------
+  26:includes/chassisUART.c **** 
+  27:includes/chassisUART.c **** void uart_process_byte(char data)
+  28:includes/chassisUART.c **** {
+  19               		.loc 1 28 1 view -0
+  20               		.cfi_startproc
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	/* stack size = 0 */
+  24               	.L__stack_usage = 0
+  29:includes/chassisUART.c **** 	//PORTA ^= 32;
+  30:includes/chassisUART.c **** 	
+  31:includes/chassisUART.c **** 	static unsigned char count = 0;
+  25               		.loc 1 31 2 view .LVU1
+  32:includes/chassisUART.c **** 	static unsigned char incomingString[48];							//made bigger to accommodate PT packets
+  26               		.loc 1 32 2 view .LVU2
+  33:includes/chassisUART.c **** 	static unsigned char stringActive = 0;
+  27               		.loc 1 33 2 view .LVU3
+  34:includes/chassisUART.c **** 	
+  35:includes/chassisUART.c **** 	if(data == 'D')
+  28               		.loc 1 35 2 view .LVU4
+  29               		.loc 1 35 4 is_stmt 0 view .LVU5
+  30 0000 8434      		cpi r24,lo8(68)
+  31 0002 01F4      		brne .L2
+  36:includes/chassisUART.c **** 	{
+  37:includes/chassisUART.c **** 		stringActive = 1;
+  32               		.loc 1 37 3 is_stmt 1 view .LVU6
+  33               		.loc 1 37 16 is_stmt 0 view .LVU7
+  34 0004 81E0      		ldi r24,lo8(1)
+  35               	.LVL1:
+  36               		.loc 1 37 16 view .LVU8
+  37 0006 8093 0000 		sts stringActive.2027,r24
+  38               	.L3:
+  38:includes/chassisUART.c **** 	}
+  39:includes/chassisUART.c **** 	
+  40:includes/chassisUART.c **** 	else if(stringActive == 1)
+  41:includes/chassisUART.c **** 	{
+  42:includes/chassisUART.c **** 		incomingString[count++] = data;
+  43:includes/chassisUART.c **** 	}
+  44:includes/chassisUART.c **** 	
+  45:includes/chassisUART.c **** 	if(count > 8)
+  39               		.loc 1 45 2 is_stmt 1 view .LVU9
+  40               		.loc 1 45 11 is_stmt 0 view .LVU10
+  41 000a E091 0000 		lds r30,count.2025
+  42               		.loc 1 45 4 view .LVU11
+  43 000e E930      		cpi r30,lo8(9)
+  44 0010 00F0      		brlo .L1
+  46:includes/chassisUART.c **** 	{
+  47:includes/chassisUART.c **** 		incomingString[count - 1] = '\0';
+  45               		.loc 1 47 3 is_stmt 1 view .LVU12
+  46               		.loc 1 47 24 is_stmt 0 view .LVU13
+  47 0012 F0E0      		ldi r31,0
+  48               		.loc 1 47 29 view .LVU14
+  49 0014 E050      		subi r30,lo8(-(incomingString.2026-1))
+  50 0016 F040      		sbci r31,hi8(-(incomingString.2026-1))
+  51 0018 1082      		st Z,__zero_reg__
+  48:includes/chassisUART.c **** 		count = 0;
+  52               		.loc 1 48 3 is_stmt 1 view .LVU15
+  53               		.loc 1 48 9 is_stmt 0 view .LVU16
+  54 001a 1092 0000 		sts count.2025,__zero_reg__
+  49:includes/chassisUART.c **** 		stringActive = 0;
+  55               		.loc 1 49 3 is_stmt 1 view .LVU17
+  56               		.loc 1 49 16 is_stmt 0 view .LVU18
+  57 001e 1092 0000 		sts stringActive.2027,__zero_reg__
+  50:includes/chassisUART.c **** 		uart_parse_input(incomingString);
+  58               		.loc 1 50 3 is_stmt 1 view .LVU19
+  59 0022 80E0      		ldi r24,lo8(incomingString.2026)
+  60 0024 90E0      		ldi r25,hi8(incomingString.2026)
+  61 0026 0C94 0000 		jmp uart_parse_input
+  62               	.LVL2:
+  63               	.L2:
+  40:includes/chassisUART.c **** 	{
+  64               		.loc 1 40 7 view .LVU20
+  40:includes/chassisUART.c **** 	{
+  65               		.loc 1 40 9 is_stmt 0 view .LVU21
+  66 002a 9091 0000 		lds r25,stringActive.2027
+  67 002e 9130      		cpi r25,lo8(1)
+  68 0030 01F4      		brne .L3
+  69 0032 E091 0000 		lds r30,count.2025
+  42:includes/chassisUART.c **** 	}
+  70               		.loc 1 42 3 is_stmt 1 view .LVU22
+  42:includes/chassisUART.c **** 	}
+  71               		.loc 1 42 23 is_stmt 0 view .LVU23
+  72 0036 9E0F      		add r25,r30
+  73 0038 9093 0000 		sts count.2025,r25
+  74 003c F0E0      		ldi r31,0
+  42:includes/chassisUART.c **** 	}
+  75               		.loc 1 42 27 view .LVU24
+  76 003e E050      		subi r30,lo8(-(incomingString.2026))
+  77 0040 F040      		sbci r31,hi8(-(incomingString.2026))
+  78 0042 8083      		st Z,r24
+  79 0044 00C0      		rjmp .L3
+  80               	.LVL3:
+  81               	.L1:
+  82               	/* epilogue start */
+  51:includes/chassisUART.c **** 	}
+  52:includes/chassisUART.c **** }
+  83               		.loc 1 52 1 view .LVU25
+  84 0046 0895      		ret
+  85               		.cfi_endproc
+  86               	.LFE5:
+  88               		.section	.text.uart_parse_input,"ax",@progbits
+  89               	.global	uart_parse_input
+  91               	uart_parse_input:
+  92               	.LVL4:
+  93               	.LFB6:
+  53:includes/chassisUART.c **** 
+  54:includes/chassisUART.c **** /**
+  55:includes/chassisUART.c ****  * uart_parse_input()
+  56:includes/chassisUART.c ****  * Input:	s	-	a string containing the message to be parsed
+  57:includes/chassisUART.c ****  * Returns: none
+  58:includes/chassisUART.c ****  * 
+  59:includes/chassisUART.c ****  * 
+  60:includes/chassisUART.c ****  **/
+  61:includes/chassisUART.c **** void uart_parse_input(unsigned char* s)
+  62:includes/chassisUART.c **** {
+  94               		.loc 1 62 1 is_stmt 1 view -0
+  95               		.cfi_startproc
+  96               		.loc 1 62 1 is_stmt 0 view .LVU27
+  97 0000 CF93      		push r28
+  98               	.LCFI0:
+  99               		.cfi_def_cfa_offset 3
+ 100               		.cfi_offset 28, -2
+ 101 0002 DF93      		push r29
+ 102               	.LCFI1:
+ 103               		.cfi_def_cfa_offset 4
+ 104               		.cfi_offset 29, -3
+ 105               	/* prologue: function */
+ 106               	/* frame size = 0 */
+ 107               	/* stack size = 2 */
+ 108               	.L__stack_usage = 2
+ 109 0004 EC01      		movw r28,r24
+  63:includes/chassisUART.c **** 	uart_parse_poke(s);
+ 110               		.loc 1 63 2 is_stmt 1 view .LVU28
+ 111 0006 0E94 0000 		call uart_parse_poke
+ 112               	.LVL5:
+  64:includes/chassisUART.c **** 	uart1_putc('D');		//reply with the header byte (preserved - 33 bytes should follow)
+ 113               		.loc 1 64 2 view .LVU29
+ 114 000a 84E4      		ldi r24,lo8(68)
+ 115 000c 0E94 0000 		call uart1_putc
+ 116               	.LVL6:
+  65:includes/chassisUART.c **** 	uart_send_real_time_data();
+ 117               		.loc 1 65 2 view .LVU30
+ 118 0010 0E94 0000 		call uart_send_real_time_data
+ 119               	.LVL7:
+  66:includes/chassisUART.c **** 
+  67:includes/chassisUART.c **** 	s[0] = '\0';				// clear the header byte
+ 120               		.loc 1 67 2 view .LVU31
+ 121               		.loc 1 67 7 is_stmt 0 view .LVU32
+ 122 0014 1882      		st Y,__zero_reg__
+ 123               	/* epilogue start */
+  68:includes/chassisUART.c **** }
+ 124               		.loc 1 68 1 view .LVU33
+ 125 0016 DF91      		pop r29
+ 126 0018 CF91      		pop r28
+ 127               	.LVL8:
+ 128               		.loc 1 68 1 view .LVU34
+ 129 001a 0895      		ret
+ 130               		.cfi_endproc
+ 131               	.LFE6:
+ 133               		.section	.text.uart_parse_poke,"ax",@progbits
+ 134               	.global	uart_parse_poke
+ 136               	uart_parse_poke:
+ 137               	.LVL9:
+ 138               	.LFB7:
+  69:includes/chassisUART.c **** 
+  70:includes/chassisUART.c **** /**
+  71:includes/chassisUART.c ****  * uart_parse_poke()
+  72:includes/chassisUART.c ****  * Input:	s	- a string containing the message to be parsed
+  73:includes/chassisUART.c ****  * Returns: none
+  74:includes/chassisUART.c ****  * 
+  75:includes/chassisUART.c ****  * 
+  76:includes/chassisUART.c ****  **/
+  77:includes/chassisUART.c **** void uart_parse_poke(unsigned char* s)
+  78:includes/chassisUART.c **** {
+ 139               		.loc 1 78 1 is_stmt 1 view -0
+ 140               		.cfi_startproc
+ 141               	/* prologue: function */
+ 142               	/* frame size = 0 */
+ 143               	/* stack size = 0 */
+ 144               	.L__stack_usage = 0
+  79:includes/chassisUART.c **** 	uint16_t addr = ((uint16_t)(s[1]) << 8);
+ 145               		.loc 1 79 2 view .LVU36
+ 146               		.loc 1 79 19 is_stmt 0 view .LVU37
+ 147 0000 FC01      		movw r30,r24
+ 148 0002 2181      		ldd r18,Z+1
+ 149 0004 30E0      		ldi r19,0
+ 150               		.loc 1 79 11 view .LVU38
+ 151 0006 322F      		mov r19,r18
+ 152 0008 2227      		clr r18
+ 153               	.LVL10:
+  80:includes/chassisUART.c **** 	addr +=         (uint16_t)(s[2]);
+ 154               		.loc 1 80 2 is_stmt 1 view .LVU39
+  81:includes/chassisUART.c **** 	uint32_t data = ((uint32_t)s[3]) << 24;
+ 155               		.loc 1 81 2 view .LVU40
+  82:includes/chassisUART.c **** 	data =          ((uint32_t)s[4]) << 16;
+ 156               		.loc 1 82 2 view .LVU41
+  83:includes/chassisUART.c **** 	data +=         ((uint32_t)s[5]) << 8;
+ 157               		.loc 1 83 2 view .LVU42
+  84:includes/chassisUART.c **** 	data +=         ((uint32_t)s[6]);
+ 158               		.loc 1 84 2 view .LVU43
+  85:includes/chassisUART.c **** 	
+  86:includes/chassisUART.c **** 	if (addr == 20)
+ 159               		.loc 1 86 2 view .LVU44
+  80:includes/chassisUART.c **** 	uint32_t data = ((uint32_t)s[3]) << 24;
+ 160               		.loc 1 80 18 is_stmt 0 view .LVU45
+ 161 000a 8281      		ldd r24,Z+2
+  80:includes/chassisUART.c **** 	uint32_t data = ((uint32_t)s[3]) << 24;
+ 162               		.loc 1 80 7 view .LVU46
+ 163 000c 280F      		add r18,r24
+ 164 000e 311D      		adc r19,__zero_reg__
+ 165               	.LVL11:
+ 166               		.loc 1 86 5 view .LVU47
+ 167 0010 283C      		cpi r18,-56
+ 168 0012 3105      		cpc r19,__zero_reg__
+ 169 0014 01F4      		brne .L6
+  87:includes/chassisUART.c **** 	{
+  88:includes/chassisUART.c **** 		if (data == 128)
+  89:includes/chassisUART.c **** 		{
+  90:includes/chassisUART.c **** 			
+  91:includes/chassisUART.c **** 		}
+  92:includes/chassisUART.c **** 		else
+  93:includes/chassisUART.c **** 		{
+  94:includes/chassisUART.c **** 			
+  95:includes/chassisUART.c **** 		}
+  96:includes/chassisUART.c **** 	}
+  97:includes/chassisUART.c **** 	
+  98:includes/chassisUART.c **** 	else if (addr == 21)
+ 170               		.loc 1 98 7 is_stmt 1 view .LVU48
+  99:includes/chassisUART.c **** 	{
+ 100:includes/chassisUART.c **** 		if (data == 128)
+ 101:includes/chassisUART.c **** 		{
+ 102:includes/chassisUART.c **** 			
+ 103:includes/chassisUART.c **** 		}
+ 104:includes/chassisUART.c **** 		else
+ 105:includes/chassisUART.c **** 		{
+ 106:includes/chassisUART.c **** 			
+ 107:includes/chassisUART.c **** 		}
+ 108:includes/chassisUART.c **** 	}
+ 109:includes/chassisUART.c **** 	
+ 110:includes/chassisUART.c **** 	else if (addr == 200)		//balancing command
+ 171               		.loc 1 110 7 view .LVU49
+ 172               	.LVL12:
+ 173               	.LBB4:
+ 174               	.LBB5:
+ 111:includes/chassisUART.c **** 	{
+ 112:includes/chassisUART.c **** 		PORTA ^= 32;
+ 175               		.loc 1 112 3 view .LVU50
+ 176               		.loc 1 112 9 is_stmt 0 view .LVU51
+ 177 0016 82B1      		in r24,0x2
+ 178 0018 90E2      		ldi r25,lo8(32)
+ 179 001a 8927      		eor r24,r25
+ 180 001c 82B9      		out 0x2,r24
+ 181               	.LVL13:
+ 113:includes/chassisUART.c **** 		if (data == 1)
+ 182               		.loc 1 113 3 is_stmt 1 view .LVU52
+ 114:includes/chassisUART.c **** 		{
+ 115:includes/chassisUART.c **** 			//turn LED on
+ 116:includes/chassisUART.c **** 			// cellBalancing = 1;
+ 117:includes/chassisUART.c **** 		}
+ 118:includes/chassisUART.c **** 		else
+ 119:includes/chassisUART.c **** 		{
+ 120:includes/chassisUART.c **** 			//turn LED off
+ 121:includes/chassisUART.c **** 			// cellBalancing = 0;
+ 122:includes/chassisUART.c **** 		}
+ 183               		.loc 1 122 3 view .LVU53
+ 184               	.LBE5:
+ 185               	.LBE4:
+ 186               		.loc 1 122 3 view .LVU54
+ 187               	.L6:
+ 188               	/* epilogue start */
+ 123:includes/chassisUART.c **** 	}
+ 124:includes/chassisUART.c **** }
+ 189               		.loc 1 124 1 is_stmt 0 view .LVU55
+ 190 001e 0895      		ret
+ 191               		.cfi_endproc
+ 192               	.LFE7:
+ 194               		.section	.text.uart_send_real_time_data,"ax",@progbits
+ 195               	.global	uart_send_real_time_data
+ 197               	uart_send_real_time_data:
+ 198               	.LFB8:
+ 125:includes/chassisUART.c **** 
+ 126:includes/chassisUART.c **** /**
+ 127:includes/chassisUART.c ****  * uart_send_real_time_data()
+ 128:includes/chassisUART.c ****  * Input:	none
+ 129:includes/chassisUART.c ****  * Returns: none
+ 130:includes/chassisUART.c ****  * 
+ 131:includes/chassisUART.c ****  * Organizes all data stored in memory regarding the other devices into a message to be sent via UA
+ 132:includes/chassisUART.c ****  **/
+ 133:includes/chassisUART.c **** // void _uart_send_real_time_data (void)
+ 134:includes/chassisUART.c **** // {
+ 135:includes/chassisUART.c **** // 	uint8_t outgoingString[34];
+ 136:includes/chassisUART.c **** // 	outgoingString[0] = 45;					//always start with capital D
+ 137:includes/chassisUART.c **** // 	outgoingString[1] = 1;					//packet type (locked at 1 for now)
+ 138:includes/chassisUART.c **** 	
+ 139:includes/chassisUART.c **** // 	outgoingString[2] = (accumulators[0].AvgV >> 8);
+ 140:includes/chassisUART.c **** // 	outgoingString[3] = (accumulators[0].AvgV);	//average volts
+ 141:includes/chassisUART.c **** 	
+ 142:includes/chassisUART.c **** // 	outgoingString[4] = (accumulators[0].AvgT >> 8);
+ 143:includes/chassisUART.c **** // 	outgoingString[5] = (accumulators[0].AvgT);	//average temp
+ 144:includes/chassisUART.c **** 
+ 145:includes/chassisUART.c **** // 	outgoingString[6] = (accumulators[0].MinV >> 8);
+ 146:includes/chassisUART.c **** // 	outgoingString[7] = (accumulators[0].MinV);	//average volts
+ 147:includes/chassisUART.c **** 	
+ 148:includes/chassisUART.c **** // 	outgoingString[8] = (accumulators[0].MinT >> 8);
+ 149:includes/chassisUART.c **** // 	outgoingString[9] = (accumulators[0].MinT);	//min temp
+ 150:includes/chassisUART.c **** 	
+ 151:includes/chassisUART.c **** // 	outgoingString[10] = (accumulators[0].MaxV >> 8);
+ 152:includes/chassisUART.c **** // 	outgoingString[11] = (accumulators[0].MaxV); 
+ 153:includes/chassisUART.c **** 	
+ 154:includes/chassisUART.c **** // 	outgoingString[12] = (accumulators[0].MaxT >> 8);
+ 155:includes/chassisUART.c **** // 	outgoingString[13] = (accumulators[0].MaxT);
+ 156:includes/chassisUART.c **** 	
+ 157:includes/chassisUART.c **** // 	outgoingString[14] = (inverters[0].temperature >> 8);
+ 158:includes/chassisUART.c **** // 	outgoingString[15] = (inverters[0].temperature);
+ 159:includes/chassisUART.c **** 	
+ 160:includes/chassisUART.c **** // 	outgoingString[16] = (inverters[0].current >> 8);
+ 161:includes/chassisUART.c **** // 	outgoingString[17] = (inverters[0].current);
+ 162:includes/chassisUART.c **** 	
+ 163:includes/chassisUART.c **** // 	outgoingString[18] = (T1_temp >> 8); // Temp of right hand cooling ciruit
+ 164:includes/chassisUART.c **** // 	outgoingString[19] = (T1_temp);
+ 165:includes/chassisUART.c **** 	
+ 166:includes/chassisUART.c **** // 	outgoingString[20] = (pdm.flags[0]);
+ 167:includes/chassisUART.c **** 	
+ 168:includes/chassisUART.c **** // 	outgoingString[21] = (accumulators[0].cmus[0].voltages[7]);
+ 169:includes/chassisUART.c **** 	
+ 170:includes/chassisUART.c **** // 	outgoingString[22] = (currentTorqueDemand[0] >> 8);
+ 171:includes/chassisUART.c **** // 	outgoingString[23] = (currentTorqueDemand[0]);	//demand given by the pedal position
+ 172:includes/chassisUART.c **** 	
+ 173:includes/chassisUART.c **** // 	outgoingString[24] = (inverters[0].RPM >> 8);
+ 174:includes/chassisUART.c **** // 	outgoingString[25] = (inverters[0].RPM);		//rpm of inverters
+ 175:includes/chassisUART.c **** 	
+ 176:includes/chassisUART.c **** // 	outgoingString[26] = (enableSwitch_A);
+ 177:includes/chassisUART.c **** // 	outgoingString[27] = (steeringAngle >> 8);
+ 178:includes/chassisUART.c **** //     outgoingString[28] = (steeringAngle);
+ 179:includes/chassisUART.c **** // 	outgoingString[29] = 128;
+ 180:includes/chassisUART.c **** // 	outgoingString[30] = 128;
+ 181:includes/chassisUART.c **** // 	outgoingString[31] = 128;
+ 182:includes/chassisUART.c **** 	
+ 183:includes/chassisUART.c **** // 	for(int i = 0; i < 4; i++)
+ 184:includes/chassisUART.c **** // 	{
+ 185:includes/chassisUART.c **** // 		for(int j = 0; j < 7; j++)
+ 186:includes/chassisUART.c **** // 		{
+ 187:includes/chassisUART.c **** // 			if(outgoingString[(i*7) + j] == 68)			//test if the ith by jth byte is a 68
+ 188:includes/chassisUART.c **** // 			{
+ 189:includes/chassisUART.c **** // 				outgoingString[i + 28] |= (1 << j);		//set the corresponding bit in last 4 bytes to say this
+ 190:includes/chassisUART.c **** // 				outgoingString[(i*7) + j] = 0;			//any non 68 number really - doesnt matter
+ 191:includes/chassisUART.c **** // 			}
+ 192:includes/chassisUART.c **** // 		}
+ 193:includes/chassisUART.c **** // 	}
+ 194:includes/chassisUART.c **** 	
+ 195:includes/chassisUART.c **** // 	for (int i = 0; i < 32; i++) uart1_putc(outgoingString[i]);
+ 196:includes/chassisUART.c **** // }
+ 197:includes/chassisUART.c **** 
+ 198:includes/chassisUART.c **** void uart_send_real_time_data (void)
+ 199:includes/chassisUART.c **** {
+ 199               		.loc 1 199 1 is_stmt 1 view -0
+ 200               		.cfi_startproc
+ 201 0000 AF92      		push r10
+ 202               	.LCFI2:
+ 203               		.cfi_def_cfa_offset 3
+ 204               		.cfi_offset 10, -2
+ 205 0002 BF92      		push r11
+ 206               	.LCFI3:
+ 207               		.cfi_def_cfa_offset 4
+ 208               		.cfi_offset 11, -3
+ 209 0004 CF92      		push r12
+ 210               	.LCFI4:
+ 211               		.cfi_def_cfa_offset 5
+ 212               		.cfi_offset 12, -4
+ 213 0006 DF92      		push r13
+ 214               	.LCFI5:
+ 215               		.cfi_def_cfa_offset 6
+ 216               		.cfi_offset 13, -5
+ 217 0008 EF92      		push r14
+ 218               	.LCFI6:
+ 219               		.cfi_def_cfa_offset 7
+ 220               		.cfi_offset 14, -6
+ 221 000a FF92      		push r15
+ 222               	.LCFI7:
+ 223               		.cfi_def_cfa_offset 8
+ 224               		.cfi_offset 15, -7
+ 225 000c 0F93      		push r16
+ 226               	.LCFI8:
+ 227               		.cfi_def_cfa_offset 9
+ 228               		.cfi_offset 16, -8
+ 229 000e 1F93      		push r17
+ 230               	.LCFI9:
+ 231               		.cfi_def_cfa_offset 10
+ 232               		.cfi_offset 17, -9
+ 233 0010 CF93      		push r28
+ 234               	.LCFI10:
+ 235               		.cfi_def_cfa_offset 11
+ 236               		.cfi_offset 28, -10
+ 237 0012 DF93      		push r29
+ 238               	.LCFI11:
+ 239               		.cfi_def_cfa_offset 12
+ 240               		.cfi_offset 29, -11
+ 241 0014 CDB7      		in r28,__SP_L__
+ 242 0016 DEB7      		in r29,__SP_H__
+ 243               	.LCFI12:
+ 244               		.cfi_def_cfa_register 28
+ 245 0018 A297      		sbiw r28,34
+ 246               	.LCFI13:
+ 247               		.cfi_def_cfa_offset 46
+ 248 001a 0FB6      		in __tmp_reg__,__SREG__
+ 249 001c F894      		cli
+ 250 001e DEBF      		out __SP_H__,r29
+ 251 0020 0FBE      		out __SREG__,__tmp_reg__
+ 252 0022 CDBF      		out __SP_L__,r28
+ 253               	/* prologue: function */
+ 254               	/* frame size = 34 */
+ 255               	/* stack size = 44 */
+ 256               	.L__stack_usage = 44
+ 200:includes/chassisUART.c **** 	uint8_t outgoingString[34];
+ 257               		.loc 1 200 2 view .LVU57
+ 201:includes/chassisUART.c **** 	outgoingString[0] = 45;					//always start with capital D
+ 258               		.loc 1 201 2 view .LVU58
+ 259               		.loc 1 201 20 is_stmt 0 view .LVU59
+ 260 0024 8DE2      		ldi r24,lo8(45)
+ 261 0026 8983      		std Y+1,r24
+ 202:includes/chassisUART.c **** 	outgoingString[1] = 1;					//packet type (locked at 1 for now)
+ 262               		.loc 1 202 2 is_stmt 1 view .LVU60
+ 263               		.loc 1 202 20 is_stmt 0 view .LVU61
+ 264 0028 81E0      		ldi r24,lo8(1)
+ 265 002a 8A83      		std Y+2,r24
+ 203:includes/chassisUART.c **** 	
+ 204:includes/chassisUART.c **** 	outgoingString[2] = 0;
+ 266               		.loc 1 204 2 is_stmt 1 view .LVU62
+ 267               		.loc 1 204 20 is_stmt 0 view .LVU63
+ 268 002c 1B82      		std Y+3,__zero_reg__
+ 205:includes/chassisUART.c **** 	outgoingString[3] = 0;	//average volts
+ 269               		.loc 1 205 2 is_stmt 1 view .LVU64
+ 270               		.loc 1 205 20 is_stmt 0 view .LVU65
+ 271 002e 1C82      		std Y+4,__zero_reg__
+ 206:includes/chassisUART.c **** 	
+ 207:includes/chassisUART.c **** 	outgoingString[4] = 0;
+ 272               		.loc 1 207 2 is_stmt 1 view .LVU66
+ 273               		.loc 1 207 20 is_stmt 0 view .LVU67
+ 274 0030 1D82      		std Y+5,__zero_reg__
+ 208:includes/chassisUART.c **** 	outgoingString[5] = 0;	//average temp
+ 275               		.loc 1 208 2 is_stmt 1 view .LVU68
+ 276               		.loc 1 208 20 is_stmt 0 view .LVU69
+ 277 0032 1E82      		std Y+6,__zero_reg__
+ 209:includes/chassisUART.c **** 
+ 210:includes/chassisUART.c **** 	outgoingString[6] = 0;
+ 278               		.loc 1 210 2 is_stmt 1 view .LVU70
+ 279               		.loc 1 210 20 is_stmt 0 view .LVU71
+ 280 0034 1F82      		std Y+7,__zero_reg__
+ 211:includes/chassisUART.c **** 	outgoingString[7] = 0;	//average volts
+ 281               		.loc 1 211 2 is_stmt 1 view .LVU72
+ 282               		.loc 1 211 20 is_stmt 0 view .LVU73
+ 283 0036 1886      		std Y+8,__zero_reg__
+ 212:includes/chassisUART.c **** 	
+ 213:includes/chassisUART.c **** 	outgoingString[8] = 0;
+ 284               		.loc 1 213 2 is_stmt 1 view .LVU74
+ 285               		.loc 1 213 20 is_stmt 0 view .LVU75
+ 286 0038 1986      		std Y+9,__zero_reg__
+ 214:includes/chassisUART.c **** 	outgoingString[9] = 0;	//min temp
+ 287               		.loc 1 214 2 is_stmt 1 view .LVU76
+ 288               		.loc 1 214 20 is_stmt 0 view .LVU77
+ 289 003a 1A86      		std Y+10,__zero_reg__
+ 215:includes/chassisUART.c **** 	
+ 216:includes/chassisUART.c **** 	outgoingString[10] = 0;
+ 290               		.loc 1 216 2 is_stmt 1 view .LVU78
+ 291               		.loc 1 216 21 is_stmt 0 view .LVU79
+ 292 003c 1B86      		std Y+11,__zero_reg__
+ 217:includes/chassisUART.c **** 	outgoingString[11] = 0; 
+ 293               		.loc 1 217 2 is_stmt 1 view .LVU80
+ 294               		.loc 1 217 21 is_stmt 0 view .LVU81
+ 295 003e 1C86      		std Y+12,__zero_reg__
+ 218:includes/chassisUART.c **** 	
+ 219:includes/chassisUART.c **** 	outgoingString[12] = 0;
+ 296               		.loc 1 219 2 is_stmt 1 view .LVU82
+ 297               		.loc 1 219 21 is_stmt 0 view .LVU83
+ 298 0040 1D86      		std Y+13,__zero_reg__
+ 220:includes/chassisUART.c **** 	outgoingString[13] = 0;
+ 299               		.loc 1 220 2 is_stmt 1 view .LVU84
+ 300               		.loc 1 220 21 is_stmt 0 view .LVU85
+ 301 0042 1E86      		std Y+14,__zero_reg__
+ 221:includes/chassisUART.c **** 	
+ 222:includes/chassisUART.c **** 	outgoingString[14] = 0;
+ 302               		.loc 1 222 2 is_stmt 1 view .LVU86
+ 303               		.loc 1 222 21 is_stmt 0 view .LVU87
+ 304 0044 1F86      		std Y+15,__zero_reg__
+ 223:includes/chassisUART.c **** 	outgoingString[15] = 0;
+ 305               		.loc 1 223 2 is_stmt 1 view .LVU88
+ 306               		.loc 1 223 21 is_stmt 0 view .LVU89
+ 307 0046 188A      		std Y+16,__zero_reg__
+ 224:includes/chassisUART.c **** 	
+ 225:includes/chassisUART.c **** 	outgoingString[16] = 0;
+ 308               		.loc 1 225 2 is_stmt 1 view .LVU90
+ 309               		.loc 1 225 21 is_stmt 0 view .LVU91
+ 310 0048 198A      		std Y+17,__zero_reg__
+ 226:includes/chassisUART.c **** 	outgoingString[17] = 0;
+ 311               		.loc 1 226 2 is_stmt 1 view .LVU92
+ 312               		.loc 1 226 21 is_stmt 0 view .LVU93
+ 313 004a 1A8A      		std Y+18,__zero_reg__
+ 227:includes/chassisUART.c **** 	
+ 228:includes/chassisUART.c **** 	outgoingString[18] = 0;
+ 314               		.loc 1 228 2 is_stmt 1 view .LVU94
+ 315               		.loc 1 228 21 is_stmt 0 view .LVU95
+ 316 004c 1B8A      		std Y+19,__zero_reg__
+ 229:includes/chassisUART.c **** 	outgoingString[19] = 0;
+ 317               		.loc 1 229 2 is_stmt 1 view .LVU96
+ 318               		.loc 1 229 21 is_stmt 0 view .LVU97
+ 319 004e 1C8A      		std Y+20,__zero_reg__
+ 230:includes/chassisUART.c **** 	
+ 231:includes/chassisUART.c **** 	outgoingString[20] = 0;
+ 320               		.loc 1 231 2 is_stmt 1 view .LVU98
+ 321               		.loc 1 231 21 is_stmt 0 view .LVU99
+ 322 0050 1D8A      		std Y+21,__zero_reg__
+ 232:includes/chassisUART.c **** 	
+ 233:includes/chassisUART.c **** 	outgoingString[21] = 0;
+ 323               		.loc 1 233 2 is_stmt 1 view .LVU100
+ 324               		.loc 1 233 21 is_stmt 0 view .LVU101
+ 325 0052 1E8A      		std Y+22,__zero_reg__
+ 234:includes/chassisUART.c **** 	
+ 235:includes/chassisUART.c **** 	outgoingString[22] = (INPUT_accelerationPedal >> 8);
+ 326               		.loc 1 235 2 is_stmt 1 view .LVU102
+ 327               		.loc 1 235 48 is_stmt 0 view .LVU103
+ 328 0054 8091 0000 		lds r24,INPUT_accelerationPedal
+ 329               		.loc 1 235 21 view .LVU104
+ 330 0058 1F8A      		std Y+23,__zero_reg__
+ 236:includes/chassisUART.c **** 	outgoingString[23] = INPUT_accelerationPedal;	//demand given by the pedal position
+ 331               		.loc 1 236 2 is_stmt 1 view .LVU105
+ 332               		.loc 1 236 21 is_stmt 0 view .LVU106
+ 333 005a 888F      		std Y+24,r24
+ 237:includes/chassisUART.c **** 	
+ 238:includes/chassisUART.c **** 	outgoingString[24] = 0;
+ 334               		.loc 1 238 2 is_stmt 1 view .LVU107
+ 335               		.loc 1 238 21 is_stmt 0 view .LVU108
+ 336 005c 198E      		std Y+25,__zero_reg__
+ 239:includes/chassisUART.c **** 	outgoingString[25] = 0;		//rpm of inverters
+ 337               		.loc 1 239 2 is_stmt 1 view .LVU109
+ 338               		.loc 1 239 21 is_stmt 0 view .LVU110
+ 339 005e 1A8E      		std Y+26,__zero_reg__
+ 240:includes/chassisUART.c **** 	
+ 241:includes/chassisUART.c **** 	outgoingString[26] = 0;
+ 340               		.loc 1 241 2 is_stmt 1 view .LVU111
+ 341               		.loc 1 241 21 is_stmt 0 view .LVU112
+ 342 0060 1B8E      		std Y+27,__zero_reg__
+ 242:includes/chassisUART.c **** 	outgoingString[27] = 0;
+ 343               		.loc 1 242 2 is_stmt 1 view .LVU113
+ 344               		.loc 1 242 21 is_stmt 0 view .LVU114
+ 345 0062 1C8E      		std Y+28,__zero_reg__
+ 243:includes/chassisUART.c ****     outgoingString[28] = 0;
+ 346               		.loc 1 243 5 is_stmt 1 view .LVU115
+ 347               		.loc 1 243 24 is_stmt 0 view .LVU116
+ 348 0064 1D8E      		std Y+29,__zero_reg__
+ 244:includes/chassisUART.c **** 	outgoingString[29] = 128;
+ 349               		.loc 1 244 2 is_stmt 1 view .LVU117
+ 350               		.loc 1 244 21 is_stmt 0 view .LVU118
+ 351 0066 80E8      		ldi r24,lo8(-128)
+ 352 0068 8E8F      		std Y+30,r24
+ 245:includes/chassisUART.c **** 	outgoingString[30] = 128;
+ 353               		.loc 1 245 2 is_stmt 1 view .LVU119
+ 354               		.loc 1 245 21 is_stmt 0 view .LVU120
+ 355 006a 8F8F      		std Y+31,r24
+ 246:includes/chassisUART.c **** 	outgoingString[31] = 128;
+ 356               		.loc 1 246 2 is_stmt 1 view .LVU121
+ 357               		.loc 1 246 21 is_stmt 0 view .LVU122
+ 358 006c 88A3      		std Y+32,r24
+ 247:includes/chassisUART.c **** 	
+ 248:includes/chassisUART.c **** 	for(int i = 0; i < 4; i++)
+ 359               		.loc 1 248 2 is_stmt 1 view .LVU123
+ 360               	.LBB6:
+ 361               		.loc 1 248 6 view .LVU124
+ 362               	.LVL14:
+ 363               		.loc 1 248 6 is_stmt 0 view .LVU125
+ 364 006e 8E01      		movw r16,r28
+ 365 0070 0F5F      		subi r16,-1
+ 366 0072 1F4F      		sbci r17,-1
+ 367 0074 7E01      		movw r14,r28
+ 368 0076 85E0      		ldi r24,5
+ 369 0078 E80E      		add r14,r24
+ 370 007a F11C      		adc r15,__zero_reg__
+ 371               	.LBE6:
+ 246:includes/chassisUART.c **** 	outgoingString[31] = 128;
+ 372               		.loc 1 246 21 view .LVU126
+ 373 007c 9801      		movw r18,r16
+ 374 007e F801      		movw r30,r16
+ 375               	.LBB9:
+ 376               	.LBB7:
+ 249:includes/chassisUART.c **** 	{
+ 250:includes/chassisUART.c **** 		for(int j = 0; j < 7; j++)
+ 251:includes/chassisUART.c **** 		{
+ 252:includes/chassisUART.c **** 			if(outgoingString[(i*7) + j] == 68)			//test if the ith by jth byte is a 68
+ 253:includes/chassisUART.c **** 			{
+ 254:includes/chassisUART.c **** 				outgoingString[i + 28] |= (1 << j);		//set the corresponding bit in last 4 bytes to say this sh
+ 377               		.loc 1 254 34 view .LVU127
+ 378 0080 CC24      		clr r12
+ 379 0082 C394      		inc r12
+ 380 0084 D12C      		mov r13,__zero_reg__
+ 381               	.LVL15:
+ 382               	.L9:
+ 383               		.loc 1 254 34 view .LVU128
+ 384               	.LBE7:
+ 385               	.LBE9:
+ 199:includes/chassisUART.c **** 	uint8_t outgoingString[34];
+ 386               		.loc 1 199 1 view .LVU129
+ 387 0086 5901      		movw r10,r18
+ 388               	.LBB10:
+ 389               	.LBB8:
+ 250:includes/chassisUART.c **** 		{
+ 390               		.loc 1 250 11 view .LVU130
+ 391 0088 90E0      		ldi r25,0
+ 392 008a 80E0      		ldi r24,0
+ 393               	.LVL16:
+ 394               	.L11:
+ 252:includes/chassisUART.c **** 			{
+ 395               		.loc 1 252 4 is_stmt 1 view .LVU131
+ 252:includes/chassisUART.c **** 			{
+ 396               		.loc 1 252 21 is_stmt 0 view .LVU132
+ 397 008c D501      		movw r26,r10
+ 398 008e 4D91      		ld r20,X+
+ 399 0090 5D01      		movw r10,r26
+ 252:includes/chassisUART.c **** 			{
+ 400               		.loc 1 252 6 view .LVU133
+ 401 0092 4434      		cpi r20,lo8(68)
+ 402 0094 01F4      		brne .L10
+ 403               		.loc 1 254 5 is_stmt 1 view .LVU134
+ 404               		.loc 1 254 28 is_stmt 0 view .LVU135
+ 405 0096 448D      		ldd r20,Z+28
+ 406 0098 B601      		movw r22,r12
+ 407 009a 082E      		mov r0,r24
+ 408 009c 00C0      		rjmp 2f
+ 409               		1:
+ 410 009e 660F      		lsl r22
+ 411               		2:
+ 412 00a0 0A94      		dec r0
+ 413 00a2 02F4      		brpl 1b
+ 414 00a4 462B      		or r20,r22
+ 415 00a6 448F      		std Z+28,r20
+ 255:includes/chassisUART.c **** 				outgoingString[(i*7) + j] = 0;			//any non 68 number really - doesnt matter
+ 416               		.loc 1 255 5 is_stmt 1 view .LVU136
+ 417               		.loc 1 255 31 is_stmt 0 view .LVU137
+ 418 00a8 AD01      		movw r20,r26
+ 419 00aa 4150      		subi r20,1
+ 420 00ac 5109      		sbc r21,__zero_reg__
+ 421 00ae DA01      		movw r26,r20
+ 422 00b0 1C92      		st X,__zero_reg__
+ 423               	.L10:
+ 250:includes/chassisUART.c **** 		{
+ 424               		.loc 1 250 26 discriminator 2 view .LVU138
+ 425 00b2 0196      		adiw r24,1
+ 426               	.LVL17:
+ 250:includes/chassisUART.c **** 		{
+ 427               		.loc 1 250 3 discriminator 2 view .LVU139
+ 428 00b4 8730      		cpi r24,7
+ 429 00b6 9105      		cpc r25,__zero_reg__
+ 430 00b8 01F4      		brne .L11
+ 250:includes/chassisUART.c **** 		{
+ 431               		.loc 1 250 3 discriminator 2 view .LVU140
+ 432 00ba 3196      		adiw r30,1
+ 433 00bc 295F      		subi r18,-7
+ 434 00be 3F4F      		sbci r19,-1
+ 435               	.LBE8:
+ 248:includes/chassisUART.c **** 	{
+ 436               		.loc 1 248 2 discriminator 2 view .LVU141
+ 437 00c0 EE15      		cp r30,r14
+ 438 00c2 FF05      		cpc r31,r15
+ 439 00c4 01F4      		brne .L9
+ 440 00c6 7801      		movw r14,r16
+ 441 00c8 B0E2      		ldi r27,32
+ 442 00ca EB0E      		add r14,r27
+ 443 00cc F11C      		adc r15,__zero_reg__
+ 444               	.LVL18:
+ 445               	.L13:
+ 248:includes/chassisUART.c **** 	{
+ 446               		.loc 1 248 2 discriminator 2 view .LVU142
+ 447               	.LBE10:
+ 448               	.LBB11:
+ 256:includes/chassisUART.c **** 			}
+ 257:includes/chassisUART.c **** 		}
+ 258:includes/chassisUART.c **** 	}
+ 259:includes/chassisUART.c **** 	
+ 260:includes/chassisUART.c **** 	for (int i = 0; i < 32; i++) uart1_putc(outgoingString[i]);
+ 449               		.loc 1 260 31 is_stmt 1 discriminator 3 view .LVU143
+ 450 00ce F801      		movw r30,r16
+ 451 00d0 8191      		ld r24,Z+
+ 452 00d2 8F01      		movw r16,r30
+ 453 00d4 0E94 0000 		call uart1_putc
+ 454               	.LVL19:
+ 455               		.loc 1 260 2 is_stmt 0 discriminator 3 view .LVU144
+ 456 00d8 E016      		cp r14,r16
+ 457 00da F106      		cpc r15,r17
+ 458 00dc 01F4      		brne .L13
+ 459               	/* epilogue start */
+ 460               	.LBE11:
+ 261:includes/chassisUART.c **** }...
+ 461               		.loc 1 261 1 view .LVU145
+ 462 00de A296      		adiw r28,34
+ 463 00e0 0FB6      		in __tmp_reg__,__SREG__
+ 464 00e2 F894      		cli
+ 465 00e4 DEBF      		out __SP_H__,r29
+ 466 00e6 0FBE      		out __SREG__,__tmp_reg__
+ 467 00e8 CDBF      		out __SP_L__,r28
+ 468 00ea DF91      		pop r29
+ 469 00ec CF91      		pop r28
+ 470 00ee 1F91      		pop r17
+ 471 00f0 0F91      		pop r16
+ 472 00f2 FF90      		pop r15
+ 473 00f4 EF90      		pop r14
+ 474 00f6 DF90      		pop r13
+ 475 00f8 CF90      		pop r12
+ 476 00fa BF90      		pop r11
+ 477 00fc AF90      		pop r10
+ 478 00fe 0895      		ret
+ 479               		.cfi_endproc
+ 480               	.LFE8:
+ 482               		.local	stringActive.2027
+ 483               		.comm	stringActive.2027,1,1
+ 484               		.local	count.2025
+ 485               		.comm	count.2025,1,1
+ 486               		.local	incomingString.2026
+ 487               		.comm	incomingString.2026,48,1
+ 488               		.text
+ 489               	.Letext0:
+ 490               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdlib.h"
+ 491               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/lib/avr-gcc/8/gcc/avr/8.1.0/include/stddef.h"
+ 492               		.file 4 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+ 493               		.file 5 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdio.h"
+ 494               		.file 6 "./utils/uart.h"
+ 495               		.file 7 "includes/chassisInput.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 chassisUART.c
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:5      *ABS*:000000000000003b __RAMPZ__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:6      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:7      *ABS*:0000000000000001 __zero_reg__
+                            *COM*:0000000000000001 portKey
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:15     .text.uart_process_byte:0000000000000000 uart_process_byte
+                             .bss:0000000000000000 stringActive.2027
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:483    .bss:0000000000000001 count.2025
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:485    .bss:0000000000000002 incomingString.2026
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:91     .text.uart_parse_input:0000000000000000 uart_parse_input
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:136    .text.uart_parse_poke:0000000000000000 uart_parse_poke
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//ccPrwK2v.s:197    .text.uart_send_real_time_data:0000000000000000 uart_send_real_time_data
+
+UNDEFINED SYMBOLS
+uart1_putc
+INPUT_accelerationPedal
+__do_clear_bss

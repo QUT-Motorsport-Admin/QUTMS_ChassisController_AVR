@@ -1,0 +1,951 @@
+   1               		.file	"main.c"
+   2               	__SP_H__ = 0x3e
+   3               	__SP_L__ = 0x3d
+   4               	__SREG__ = 0x3f
+   5               	__RAMPZ__ = 0x3b
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.text
+   9               	.Ltext0:
+  10               		.cfi_sections	.debug_frame
+  11               		.comm	portKey,1,1
+  12               	.global	buttonStateDebounceCount
+  13               		.section .bss
+  16               	buttonStateDebounceCount:
+  17 0000 00        		.zero	1
+  18               	.global	buttonStateLock
+  21               	buttonStateLock:
+  22 0001 00        		.zero	1
+  23               	.global	buttonState
+  26               	buttonState:
+  27 0002 00        		.zero	1
+  28               	.global	CAN_HEARTBEAT_COUNT_INVERTERS
+  31               	CAN_HEARTBEAT_COUNT_INVERTERS:
+  32 0003 00        		.zero	1
+  33               	.global	CAN_HEARTBEAT_COUNT_DATA
+  34               		.data
+  37               	CAN_HEARTBEAT_COUNT_DATA:
+  38 0000 01        		.byte	1
+  39               	.global	CAN_HEARTBEAT_COUNT_POWER
+  42               	CAN_HEARTBEAT_COUNT_POWER:
+  43 0001 02        		.byte	2
+  44               	.global	CAN_HEARTBEAT_ERROR_INVERTERS
+  47               	CAN_HEARTBEAT_ERROR_INVERTERS:
+  48 0002 64        		.byte	100
+  49               	.global	CAN_HEARTBEAT_ERROR_DATA
+  52               	CAN_HEARTBEAT_ERROR_DATA:
+  53 0003 65        		.byte	101
+  54               	.global	CAN_HEARTBEAT_ERROR_POWER
+  57               	CAN_HEARTBEAT_ERROR_POWER:
+  58 0004 66        		.byte	102
+  59               	.global	INPUT_PEDAL_THROTTLE_COUNT
+  62               	INPUT_PEDAL_THROTTLE_COUNT:
+  63 0005 03        		.byte	3
+  64               	.global	INPUT_PEDAL_BRAKE_COUNT
+  67               	INPUT_PEDAL_BRAKE_COUNT:
+  68 0006 04        		.byte	4
+  69               	.global	INPUT_TEMP_COUNT
+  72               	INPUT_TEMP_COUNT:
+  73 0007 05        		.byte	5
+  74               	.global	CAN_INPUT_SEND_TIME
+  75               		.section .bss
+  78               	CAN_INPUT_SEND_TIME:
+  79 0004 00        		.zero	1
+  80               		.section	.text.startup.main,"ax",@progbits
+  81               	.global	main
+  83               	main:
+  84               	.LFB11:
+  85               		.file 1 "main.c"
+   1:main.c        **** 
+   2:main.c        **** #include <avr/io.h>
+   3:main.c        **** #include <avr/interrupt.h>
+   4:main.c        **** #include <stdio.h>
+   5:main.c        **** #include <stdlib.h>
+   6:main.c        **** #include <string.h>
+   7:main.c        **** #include <stdbool.h>
+   8:main.c        **** #include <util/delay.h>
+   9:main.c        **** #include "utils/MCP2515.h"
+  10:main.c        **** #include "utils/uart.h"
+  11:main.c        **** #include "utils/a2d.h"
+  12:main.c        **** #include "includes/chassisInit.h"
+  13:main.c        **** #include "includes/chassisUART.h"
+  14:main.c        **** #include "includes/chassisLED.h"
+  15:main.c        **** #include "includes/chassisInput.h"
+  16:main.c        **** #include "includes/chassisCAN.h"
+  17:main.c        **** #include "includes/chassisError.h"
+  18:main.c        **** 
+  19:main.c        **** uint8_t buttonStateDebounceCount = 0; 
+  20:main.c        **** bool buttonStateLock = 0;
+  21:main.c        **** bool buttonState = 0;
+  22:main.c        **** 
+  23:main.c        **** // Variables used in the 1kHz CAN heartbeat loop
+  24:main.c        **** #define CAN_HEARTBEAT_TIME_INVERTERS (10)   // Defines the 10ms (100Hz) for the inverter trigger
+  25:main.c        **** #define CAN_HEARTBEAT_TIME_DATA (10)        // Defines the 10ms (100Hz) for the data trigger
+  26:main.c        **** #define CAN_HEARTBEAT_TIME_POWER (50)       // Defines the 50ms (20Hz) for the power trigger
+  27:main.c        **** uint8_t CAN_HEARTBEAT_COUNT_INVERTERS = 0;  // Number of iterations for the inverter heartbeat trig
+  28:main.c        **** uint8_t CAN_HEARTBEAT_COUNT_DATA = 1;       // Number of iterations for the data heartbeat trigger
+  29:main.c        **** uint8_t CAN_HEARTBEAT_COUNT_POWER = 2;      // Number of iterations for the power heartbeat trigger
+  30:main.c        **** 
+  31:main.c        **** #define CAN_HEARTBEAT_ERROR_DELAY (110)     // Milliseconds without return heartbeat, must be sligh
+  32:main.c        **** uint8_t CAN_HEARTBEAT_ERROR_INVERTERS = 100;// Time without successfull heartbeat for inverters
+  33:main.c        **** uint8_t CAN_HEARTBEAT_ERROR_DATA = 101;     // Time without successfull heartbeat for data
+  34:main.c        **** uint8_t CAN_HEARTBEAT_ERROR_POWER = 102;    // Time without successfull heartbeat for power
+  35:main.c        **** 
+  36:main.c        **** #define INPUT_TIME_PEDAL_THROTTLE  (10)     // Defines the 10ms (100Hz) for the input send trigger
+  37:main.c        **** #define INPUT_TIME_PEDAL_BRAKE  (10)        // Defines the 10ms (100Hz) for the input send trigger
+  38:main.c        **** #define INPUT_TIME_TEMP (100)               // Defines the 100ms (10Hz) for the input send trigger
+  39:main.c        **** uint8_t INPUT_PEDAL_THROTTLE_COUNT = 3;     // Number of iterations for the pot heartbeat trigger
+  40:main.c        **** uint8_t INPUT_PEDAL_BRAKE_COUNT = 4;        // Number of iterations for the pot heartbeat trigger
+  41:main.c        **** uint8_t INPUT_TEMP_COUNT = 5;               // Number of iterations for the temp heartbeat trigger
+  42:main.c        **** 
+  43:main.c        **** #define CAN_INPUT_SEND_DELAY (10)           // Defines the 200ms (5Hz) for the input send trigger
+  44:main.c        **** uint8_t CAN_INPUT_SEND_TIME = 0;            // Number of iterations for the input send trigger
+  45:main.c        **** 
+  46:main.c        **** int main(void) {    
+  86               		.loc 1 46 16 view -0
+  87               		.cfi_startproc
+  88               	/* prologue: function */
+  89               	/* frame size = 0 */
+  90               	/* stack size = 0 */
+  91               	.L__stack_usage = 0
+  47:main.c        **** 
+  48:main.c        ****     // Set Up
+  49:main.c        ****     firmware_init();
+  92               		.loc 1 49 5 view .LVU1
+  93 0000 0E94 0000 		call firmware_init
+  94               	.LVL0:
+  50:main.c        ****     timer_init();
+  95               		.loc 1 50 5 view .LVU2
+  96 0004 0E94 0000 		call timer_init
+  97               	.LVL1:
+  51:main.c        **** 
+  52:main.c        ****     // Enable Interupts
+  53:main.c        ****     sei();
+  98               		.loc 1 53 5 view .LVU3
+  99               	/* #APP */
+ 100               	 ;  53 "main.c" 1
+ 101 0008 7894      		sei
+ 102               	 ;  0 "" 2
+ 103               	/* #NOAPP */
+ 104               	.L3:
+  54:main.c        **** 
+  55:main.c        ****     // Main Poll
+  56:main.c        ****     // ------------------------------------------------------------------------
+  57:main.c        ****     while(1)
+ 105               		.loc 1 57 5 view .LVU4
+  58:main.c        ****     {
+  59:main.c        ****         for(long i = 0; i < 600000; i++) {
+ 106               		.loc 1 59 9 view .LVU5
+ 107               	.LBB2:
+ 108               		.loc 1 59 13 view .LVU6
+ 109               	.LVL2:
+ 110               		.loc 1 59 13 is_stmt 0 view .LVU7
+ 111               	.LBE2:
+  46:main.c        **** 
+ 112               		.loc 1 46 16 view .LVU8
+ 113 000a 80EC      		ldi r24,lo8(-64)
+ 114 000c 97E2      		ldi r25,lo8(39)
+ 115 000e A9E0      		ldi r26,lo8(9)
+ 116 0010 B0E0      		ldi r27,0
+ 117               	.LVL3:
+ 118               	.L2:
+ 119               	.LBB3:
+  60:main.c        **** 
+  61:main.c        ****         }
+ 120               		.loc 1 61 9 is_stmt 1 discriminator 3 view .LVU9
+ 121               		.loc 1 61 9 is_stmt 0 discriminator 3 view .LVU10
+ 122 0012 0197      		sbiw r24,1
+ 123 0014 A109      		sbc r26,__zero_reg__
+ 124 0016 B109      		sbc r27,__zero_reg__
+ 125               	.LVL4:
+  59:main.c        **** 
+ 126               		.loc 1 59 9 discriminator 3 view .LVU11
+ 127 0018 01F4      		brne .L2
+ 128               	.LBE3:
+  62:main.c        ****         PORTK |= 0b00100000;
+ 129               		.loc 1 62 9 is_stmt 1 view .LVU12
+ 130               		.loc 1 62 15 is_stmt 0 view .LVU13
+ 131 001a 8091 0801 		lds r24,264
+ 132               	.LVL5:
+ 133               		.loc 1 62 15 view .LVU14
+ 134 001e 8062      		ori r24,lo8(32)
+ 135 0020 8093 0801 		sts 264,r24
+  63:main.c        ****         uart_putc(68);
+ 136               		.loc 1 63 9 is_stmt 1 view .LVU15
+ 137 0024 84E4      		ldi r24,lo8(68)
+ 138 0026 0E94 0000 		call uart_putc
+ 139               	.LVL6:
+  64:main.c        ****         uart1_putc(68);
+ 140               		.loc 1 64 9 view .LVU16
+ 141 002a 84E4      		ldi r24,lo8(68)
+ 142 002c 0E94 0000 		call uart1_putc
+ 143               	.LVL7:
+  59:main.c        **** 
+ 144               		.loc 1 59 9 is_stmt 0 view .LVU17
+ 145 0030 00C0      		rjmp .L3
+ 146               		.cfi_endproc
+ 147               	.LFE11:
+ 149               		.section	.text.oneKHzTimer,"ax",@progbits
+ 150               	.global	oneKHzTimer
+ 152               	oneKHzTimer:
+ 153               	.LFB12:
+  65:main.c        ****         
+  66:main.c        ****     }
+  67:main.c        **** }
+  68:main.c        **** 
+  69:main.c        **** /**
+  70:main.c        ****  * @brief Core system's timer, 1ms, core of the sudo-RTOS system
+  71:main.c        ****  */
+  72:main.c        **** void oneKHzTimer() {
+ 154               		.loc 1 72 20 is_stmt 1 view -0
+ 155               		.cfi_startproc
+ 156               	/* prologue: function */
+ 157               	/* frame size = 0 */
+ 158               	/* stack size = 0 */
+ 159               	.L__stack_usage = 0
+  73:main.c        **** 
+  74:main.c        ****     // Check the button state
+  75:main.c        ****     // -> 50ms Timer / State Change
+  76:main.c        ****     // 50ms debounce, IE hold for 50ms and if held, change state
+  77:main.c        ****     // ------------------------------------------------------------------------
+  78:main.c        ****     // if(PRESSING_BUTTON) // No idea to which PIN set to check
+  79:main.c        ****     // {
+  80:main.c        ****     //     // Count up 1ms
+  81:main.c        ****     //     buttonStateDebounceCount++;
+  82:main.c        ****     //     // If 50ms have been counted
+  83:main.c        ****     //     if(buttonStateDebounceCount >= 50) 
+  84:main.c        ****     //     {
+  85:main.c        ****     //         // Lock the state change till un-press of button
+  86:main.c        ****     //         buttonStateLock = true;
+  87:main.c        ****     //         // 
+  88:main.c        ****     //         if(buttonStateDebounceCount > 254) { buttonStateDebounceCount = 50; }
+  89:main.c        ****     //         // Triggering every 50ms
+  90:main.c        ****     //         buttonState = !buttonState;
+  91:main.c        ****     //         led_toggle();
+  92:main.c        ****     //     }
+  93:main.c        ****     // } 
+  94:main.c        ****     // else 
+  95:main.c        ****     // {
+  96:main.c        ****     //     buttonStateLock = false;
+  97:main.c        ****     //     buttonStateDebounceCount = 0;
+  98:main.c        ****     // }
+  99:main.c        **** 
+ 100:main.c        ****     // Send CAN heartbeats -> Inverters: 100Hz, Data: 100Hz, Power: 20Hz
+ 101:main.c        ****     // 100Hz = 1 / 100 = 0.01s = 10ms, 20Hz = 1 / 20 = 0.05s = 50ms
+ 102:main.c        ****     // ------------------------------------------------------------------------
+ 103:main.c        ****     // if(CAN_HEARTBEAT_COUNT_INVERTERS > CAN_HEARTBEAT_TIME_INVERTERS)
+ 104:main.c        ****     // {
+ 105:main.c        ****     //     // Reset inverter heartbeat counter
+ 106:main.c        ****     //     CAN_HEARTBEAT_COUNT_INVERTERS = 0;
+ 107:main.c        ****     //     // Send inverter system heartbeat
+ 108:main.c        ****     //     // CAN_send(MCP2515_CAN1, )
+ 109:main.c        ****     // }
+ 110:main.c        ****     // if(CAN_HEARTBEAT_COUNT_DATA > CAN_HEARTBEAT_TIME_DATA)
+ 111:main.c        ****     // {
+ 112:main.c        ****     //     // Reset data heartbeat counter
+ 113:main.c        ****     //     CAN_HEARTBEAT_COUNT_DATA = 0;
+ 114:main.c        ****     //     // Send data system heartbeat
+ 115:main.c        ****     //     // CAN_send(MCP2515_CAN2, )
+ 116:main.c        ****     // }
+ 117:main.c        ****     // if(CAN_HEARTBEAT_COUNT_POWER > CAN_HEARTBEAT_TIME_POWER)
+ 118:main.c        ****     // {
+ 119:main.c        ****     //     // Reset power heartbeat counter
+ 120:main.c        ****     //     CAN_HEARTBEAT_COUNT_POWER = 0;
+ 121:main.c        ****     //     // Send power system heartbeat
+ 122:main.c        ****     //     // CAN_send(MCP2515_CAN2, )
+ 123:main.c        ****     // }
+ 124:main.c        ****     // CAN_HEARTBEAT_COUNT_INVERTERS++;
+ 125:main.c        ****     // CAN_HEARTBEAT_COUNT_DATA++;
+ 126:main.c        ****     // CAN_HEARTBEAT_COUNT_POWER++;
+ 127:main.c        **** 
+ 128:main.c        **** 
+ 129:main.c        **** 
+ 130:main.c        ****     // CAN Error counts -> Missing Receives
+ 131:main.c        ****     // ------------------------------------------------------------------------
+ 132:main.c        ****     // if(CAN_HEARTBEAT_ERROR_INVERTERS > CAN_HEARTBEAT_ERROR_DELAY)
+ 133:main.c        ****     // {
+ 134:main.c        ****     //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_NO_RESPONSE);
+ 135:main.c        ****     // }
+ 136:main.c        ****     // if(CAN_HEARTBEAT_ERROR_DATA > CAN_HEARTBEAT_ERROR_DELAY)
+ 137:main.c        ****     // {
+ 138:main.c        ****     //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_NO_RESPONSE);
+ 139:main.c        ****     // }
+ 140:main.c        ****     // if(CAN_HEARTBEAT_ERROR_POWER > CAN_HEARTBEAT_ERROR_DELAY)
+ 141:main.c        ****     // {
+ 142:main.c        ****     //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_NO_RESPONSE);
+ 143:main.c        ****     // }
+ 144:main.c        ****     // CAN_HEARTBEAT_ERROR_INVERTERS++;
+ 145:main.c        ****     // CAN_HEARTBEAT_ERROR_DATA++;
+ 146:main.c        ****     // CAN_HEARTBEAT_ERROR_POWER++;
+ 147:main.c        **** 
+ 148:main.c        **** 
+ 149:main.c        ****     // Send CAN input
+ 150:main.c        ****     // uint8_t tmpInputVal;
+ 151:main.c        ****     if(INPUT_PEDAL_THROTTLE_COUNT > INPUT_TIME_PEDAL_THROTTLE)
+ 160               		.loc 1 151 5 view .LVU19
+ 161               		.loc 1 151 7 is_stmt 0 view .LVU20
+ 162 0000 8091 0000 		lds r24,INPUT_PEDAL_THROTTLE_COUNT
+ 163 0004 8B30      		cpi r24,lo8(11)
+ 164 0006 00F0      		brlo .L6
+ 152:main.c        ****     {
+ 153:main.c        ****         INPUT_accelerationPedal = a2d_10bitCh(5);
+ 165               		.loc 1 153 9 is_stmt 1 view .LVU21
+ 166               		.loc 1 153 35 is_stmt 0 view .LVU22
+ 167 0008 85E0      		ldi r24,lo8(5)
+ 168 000a 0E94 0000 		call a2d_10bitCh
+ 169               	.LVL8:
+ 170               		.loc 1 153 33 view .LVU23
+ 171 000e 8093 0000 		sts INPUT_accelerationPedal,r24
+ 154:main.c        ****         // if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
+ 155:main.c        ****         //     // PORTK |= 0b00100000;
+ 156:main.c        ****         //     INPUT_accelerationPedal = tmpInputVal;
+ 157:main.c        ****         // }
+ 158:main.c        ****         INPUT_PEDAL_THROTTLE_COUNT = 0;
+ 172               		.loc 1 158 9 is_stmt 1 view .LVU24
+ 173               		.loc 1 158 36 is_stmt 0 view .LVU25
+ 174 0012 1092 0000 		sts INPUT_PEDAL_THROTTLE_COUNT,__zero_reg__
+ 175               	.L6:
+ 159:main.c        ****     }
+ 160:main.c        **** 
+ 161:main.c        ****     // if(INPUT_PEDAL_BRAKE_COUNT > INPUT_TIME_PEDAL_BRAKE)
+ 162:main.c        ****     // {
+ 163:main.c        ****     //     if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
+ 164:main.c        ****     //         INPUT_brakePedal = tmpInputVal;
+ 165:main.c        ****     //     }
+ 166:main.c        ****     //     INPUT_PEDAL_BRAKE_COUNT = 0;
+ 167:main.c        ****     // }
+ 168:main.c        ****     INPUT_PEDAL_THROTTLE_COUNT++;
+ 176               		.loc 1 168 5 is_stmt 1 view .LVU26
+ 177               		.loc 1 168 31 is_stmt 0 view .LVU27
+ 178 0016 8091 0000 		lds r24,INPUT_PEDAL_THROTTLE_COUNT
+ 179 001a 8F5F      		subi r24,lo8(-(1))
+ 180 001c 8093 0000 		sts INPUT_PEDAL_THROTTLE_COUNT,r24
+ 181               	/* epilogue start */
+ 169:main.c        ****     // INPUT_PEDAL_BRAKE_COUNT++;
+ 170:main.c        ****     
+ 171:main.c        **** 
+ 172:main.c        ****     // if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
+ 173:main.c        ****     //     INPUT_brakePressureBack = tmpInputVal;
+ 174:main.c        ****     // }
+ 175:main.c        ****     // if(INPUT_get_brakePressureFront(&tmpInputVal) == 0) {
+ 176:main.c        ****     //     INPUT_brakePressureFront = tmpInputVal;
+ 177:main.c        ****     // }
+ 178:main.c        **** }
+ 182               		.loc 1 178 1 view .LVU28
+ 183 0020 0895      		ret
+ 184               		.cfi_endproc
+ 185               	.LFE12:
+ 187               		.section	.text.__vector_17,"ax",@progbits
+ 188               	.global	__vector_17
+ 190               	__vector_17:
+ 191               	.LFB13:
+ 179:main.c        **** 
+ 180:main.c        **** // -------------------------------------------------- Interrupt Service Routines ------------------
+ 181:main.c        **** 
+ 182:main.c        **** /**
+ 183:main.c        ****  * @brief Called whenever the 1Khz timer triggers
+ 184:main.c        ****  */
+ 185:main.c        **** ISR(TIMER1_COMPA_vect)
+ 186:main.c        **** {
+ 192               		.loc 1 186 1 is_stmt 1 view -0
+ 193               		.cfi_startproc
+ 194 0000 1F92      		push r1
+ 195               	.LCFI0:
+ 196               		.cfi_def_cfa_offset 3
+ 197               		.cfi_offset 1, -2
+ 198 0002 0F92      		push r0
+ 199               	.LCFI1:
+ 200               		.cfi_def_cfa_offset 4
+ 201               		.cfi_offset 0, -3
+ 202 0004 0FB6      		in r0,__SREG__
+ 203 0006 0F92      		push r0
+ 204 0008 1124      		clr __zero_reg__
+ 205 000a 0BB6      		in r0,__RAMPZ__
+ 206 000c 0F92      		push r0
+ 207 000e 2F93      		push r18
+ 208               	.LCFI2:
+ 209               		.cfi_def_cfa_offset 5
+ 210               		.cfi_offset 18, -4
+ 211 0010 3F93      		push r19
+ 212               	.LCFI3:
+ 213               		.cfi_def_cfa_offset 6
+ 214               		.cfi_offset 19, -5
+ 215 0012 4F93      		push r20
+ 216               	.LCFI4:
+ 217               		.cfi_def_cfa_offset 7
+ 218               		.cfi_offset 20, -6
+ 219 0014 5F93      		push r21
+ 220               	.LCFI5:
+ 221               		.cfi_def_cfa_offset 8
+ 222               		.cfi_offset 21, -7
+ 223 0016 6F93      		push r22
+ 224               	.LCFI6:
+ 225               		.cfi_def_cfa_offset 9
+ 226               		.cfi_offset 22, -8
+ 227 0018 7F93      		push r23
+ 228               	.LCFI7:
+ 229               		.cfi_def_cfa_offset 10
+ 230               		.cfi_offset 23, -9
+ 231 001a 8F93      		push r24
+ 232               	.LCFI8:
+ 233               		.cfi_def_cfa_offset 11
+ 234               		.cfi_offset 24, -10
+ 235 001c 9F93      		push r25
+ 236               	.LCFI9:
+ 237               		.cfi_def_cfa_offset 12
+ 238               		.cfi_offset 25, -11
+ 239 001e AF93      		push r26
+ 240               	.LCFI10:
+ 241               		.cfi_def_cfa_offset 13
+ 242               		.cfi_offset 26, -12
+ 243 0020 BF93      		push r27
+ 244               	.LCFI11:
+ 245               		.cfi_def_cfa_offset 14
+ 246               		.cfi_offset 27, -13
+ 247 0022 EF93      		push r30
+ 248               	.LCFI12:
+ 249               		.cfi_def_cfa_offset 15
+ 250               		.cfi_offset 30, -14
+ 251 0024 FF93      		push r31
+ 252               	.LCFI13:
+ 253               		.cfi_def_cfa_offset 16
+ 254               		.cfi_offset 31, -15
+ 255               	/* prologue: Signal */
+ 256               	/* frame size = 0 */
+ 257               	/* stack size = 16 */
+ 258               	.L__stack_usage = 16
+ 187:main.c        ****     oneKHzTimer();
+ 259               		.loc 1 187 5 view .LVU30
+ 260 0026 0E94 0000 		call oneKHzTimer
+ 261               	.LVL9:
+ 262               	/* epilogue start */
+ 188:main.c        ****     // led_toggle();
+ 189:main.c        **** }
+ 263               		.loc 1 189 1 is_stmt 0 view .LVU31
+ 264 002a FF91      		pop r31
+ 265 002c EF91      		pop r30
+ 266 002e BF91      		pop r27
+ 267 0030 AF91      		pop r26
+ 268 0032 9F91      		pop r25
+ 269 0034 8F91      		pop r24
+ 270 0036 7F91      		pop r23
+ 271 0038 6F91      		pop r22
+ 272 003a 5F91      		pop r21
+ 273 003c 4F91      		pop r20
+ 274 003e 3F91      		pop r19
+ 275 0040 2F91      		pop r18
+ 276 0042 0F90      		pop r0
+ 277 0044 0BBE      		out __RAMPZ__,r0
+ 278 0046 0F90      		pop r0
+ 279 0048 0FBE      		out __SREG__,r0
+ 280 004a 0F90      		pop r0
+ 281 004c 1F90      		pop r1
+ 282 004e 1895      		reti
+ 283               		.cfi_endproc
+ 284               	.LFE13:
+ 286               		.section	.text.__vector_2,"ax",@progbits
+ 287               	.global	__vector_2
+ 289               	__vector_2:
+ 290               	.LFB14:
+ 190:main.c        **** 
+ 191:main.c        **** /**
+ 192:main.c        ****  * @brief Called whenever CANBUS 1 interupt is triggered
+ 193:main.c        ****  *        * When ever there is data waiting in CAN 1
+ 194:main.c        ****  */
+ 195:main.c        **** ISR(INT1_vect) {
+ 291               		.loc 1 195 16 is_stmt 1 view -0
+ 292               		.cfi_startproc
+ 293 0000 1F92      		push r1
+ 294               	.LCFI14:
+ 295               		.cfi_def_cfa_offset 3
+ 296               		.cfi_offset 1, -2
+ 297 0002 0F92      		push r0
+ 298               	.LCFI15:
+ 299               		.cfi_def_cfa_offset 4
+ 300               		.cfi_offset 0, -3
+ 301 0004 0FB6      		in r0,__SREG__
+ 302 0006 0F92      		push r0
+ 303 0008 1124      		clr __zero_reg__
+ 304 000a 0BB6      		in r0,__RAMPZ__
+ 305 000c 0F92      		push r0
+ 306 000e 2F93      		push r18
+ 307               	.LCFI16:
+ 308               		.cfi_def_cfa_offset 5
+ 309               		.cfi_offset 18, -4
+ 310 0010 3F93      		push r19
+ 311               	.LCFI17:
+ 312               		.cfi_def_cfa_offset 6
+ 313               		.cfi_offset 19, -5
+ 314 0012 4F93      		push r20
+ 315               	.LCFI18:
+ 316               		.cfi_def_cfa_offset 7
+ 317               		.cfi_offset 20, -6
+ 318 0014 5F93      		push r21
+ 319               	.LCFI19:
+ 320               		.cfi_def_cfa_offset 8
+ 321               		.cfi_offset 21, -7
+ 322 0016 6F93      		push r22
+ 323               	.LCFI20:
+ 324               		.cfi_def_cfa_offset 9
+ 325               		.cfi_offset 22, -8
+ 326 0018 7F93      		push r23
+ 327               	.LCFI21:
+ 328               		.cfi_def_cfa_offset 10
+ 329               		.cfi_offset 23, -9
+ 330 001a 8F93      		push r24
+ 331               	.LCFI22:
+ 332               		.cfi_def_cfa_offset 11
+ 333               		.cfi_offset 24, -10
+ 334 001c 9F93      		push r25
+ 335               	.LCFI23:
+ 336               		.cfi_def_cfa_offset 12
+ 337               		.cfi_offset 25, -11
+ 338 001e AF93      		push r26
+ 339               	.LCFI24:
+ 340               		.cfi_def_cfa_offset 13
+ 341               		.cfi_offset 26, -12
+ 342 0020 BF93      		push r27
+ 343               	.LCFI25:
+ 344               		.cfi_def_cfa_offset 14
+ 345               		.cfi_offset 27, -13
+ 346 0022 EF93      		push r30
+ 347               	.LCFI26:
+ 348               		.cfi_def_cfa_offset 15
+ 349               		.cfi_offset 30, -14
+ 350 0024 FF93      		push r31
+ 351               	.LCFI27:
+ 352               		.cfi_def_cfa_offset 16
+ 353               		.cfi_offset 31, -15
+ 354 0026 CF93      		push r28
+ 355               	.LCFI28:
+ 356               		.cfi_def_cfa_offset 17
+ 357               		.cfi_offset 28, -16
+ 358 0028 DF93      		push r29
+ 359               	.LCFI29:
+ 360               		.cfi_def_cfa_offset 18
+ 361               		.cfi_offset 29, -17
+ 362 002a CDB7      		in r28,__SP_L__
+ 363 002c DEB7      		in r29,__SP_H__
+ 364               	.LCFI30:
+ 365               		.cfi_def_cfa_register 28
+ 366 002e 2D97      		sbiw r28,13
+ 367               	.LCFI31:
+ 368               		.cfi_def_cfa_offset 31
+ 369 0030 DEBF      		out __SP_H__,r29
+ 370 0032 CDBF      		out __SP_L__,r28
+ 371               	/* prologue: Signal */
+ 372               	/* frame size = 13 */
+ 373               	/* stack size = 31 */
+ 374               	.L__stack_usage = 31
+ 196:main.c        **** 	// Details about the message we're attempting to pull from the CAN bus
+ 197:main.c        **** 	uint8_t data[8];
+ 375               		.loc 1 197 2 view .LVU33
+ 198:main.c        **** 	uint32_t ID;
+ 376               		.loc 1 198 2 view .LVU34
+ 199:main.c        **** 	uint8_t numBytes;
+ 377               		.loc 1 199 2 view .LVU35
+ 200:main.c        **** 
+ 201:main.c        **** 	// Get the data from the CAN bus and process it
+ 202:main.c        **** 	CAN_pull_packet(MCP2515_CAN1, &numBytes, data, &ID);
+ 378               		.loc 1 202 2 view .LVU36
+ 379 0034 9E01      		movw r18,r28
+ 380 0036 275F      		subi r18,-9
+ 381 0038 3F4F      		sbci r19,-1
+ 382 003a AE01      		movw r20,r28
+ 383 003c 4F5F      		subi r20,-1
+ 384 003e 5F4F      		sbci r21,-1
+ 385 0040 BE01      		movw r22,r28
+ 386 0042 635F      		subi r22,-13
+ 387 0044 7F4F      		sbci r23,-1
+ 388 0046 81E0      		ldi r24,lo8(1)
+ 389 0048 0E94 0000 		call CAN_pull_packet
+ 390               	.LVL10:
+ 391               	/* epilogue start */
+ 203:main.c        **** 
+ 204:main.c        ****     // If the data packet is crap
+ 205:main.c        ****     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_RESPONSE_MALFORMED);
+ 206:main.c        **** }
+ 392               		.loc 1 206 1 is_stmt 0 view .LVU37
+ 393 004c 2D96      		adiw r28,13
+ 394 004e 0FB6      		in __tmp_reg__,__SREG__
+ 395 0050 F894      		cli
+ 396 0052 DEBF      		out __SP_H__,r29
+ 397 0054 0FBE      		out __SREG__,__tmp_reg__
+ 398 0056 CDBF      		out __SP_L__,r28
+ 399 0058 DF91      		pop r29
+ 400 005a CF91      		pop r28
+ 401 005c FF91      		pop r31
+ 402 005e EF91      		pop r30
+ 403 0060 BF91      		pop r27
+ 404 0062 AF91      		pop r26
+ 405 0064 9F91      		pop r25
+ 406 0066 8F91      		pop r24
+ 407 0068 7F91      		pop r23
+ 408 006a 6F91      		pop r22
+ 409 006c 5F91      		pop r21
+ 410 006e 4F91      		pop r20
+ 411 0070 3F91      		pop r19
+ 412 0072 2F91      		pop r18
+ 413 0074 0F90      		pop r0
+ 414 0076 0BBE      		out __RAMPZ__,r0
+ 415 0078 0F90      		pop r0
+ 416 007a 0FBE      		out __SREG__,r0
+ 417 007c 0F90      		pop r0
+ 418 007e 1F90      		pop r1
+ 419 0080 1895      		reti
+ 420               		.cfi_endproc
+ 421               	.LFE14:
+ 423               		.section	.text.__vector_1,"ax",@progbits
+ 424               	.global	__vector_1
+ 426               	__vector_1:
+ 427               	.LFB15:
+ 207:main.c        **** 
+ 208:main.c        **** /**
+ 209:main.c        ****  * @brief Called whenever CANBUS 2 interupt is triggered
+ 210:main.c        ****  *        * When ever there is data waiting in CAN 2
+ 211:main.c        ****  */
+ 212:main.c        **** ISR(INT0_vect)	{
+ 428               		.loc 1 212 16 is_stmt 1 view -0
+ 429               		.cfi_startproc
+ 430 0000 1F92      		push r1
+ 431               	.LCFI32:
+ 432               		.cfi_def_cfa_offset 3
+ 433               		.cfi_offset 1, -2
+ 434 0002 0F92      		push r0
+ 435               	.LCFI33:
+ 436               		.cfi_def_cfa_offset 4
+ 437               		.cfi_offset 0, -3
+ 438 0004 0FB6      		in r0,__SREG__
+ 439 0006 0F92      		push r0
+ 440 0008 1124      		clr __zero_reg__
+ 441 000a 0BB6      		in r0,__RAMPZ__
+ 442 000c 0F92      		push r0
+ 443 000e 2F93      		push r18
+ 444               	.LCFI34:
+ 445               		.cfi_def_cfa_offset 5
+ 446               		.cfi_offset 18, -4
+ 447 0010 3F93      		push r19
+ 448               	.LCFI35:
+ 449               		.cfi_def_cfa_offset 6
+ 450               		.cfi_offset 19, -5
+ 451 0012 4F93      		push r20
+ 452               	.LCFI36:
+ 453               		.cfi_def_cfa_offset 7
+ 454               		.cfi_offset 20, -6
+ 455 0014 5F93      		push r21
+ 456               	.LCFI37:
+ 457               		.cfi_def_cfa_offset 8
+ 458               		.cfi_offset 21, -7
+ 459 0016 6F93      		push r22
+ 460               	.LCFI38:
+ 461               		.cfi_def_cfa_offset 9
+ 462               		.cfi_offset 22, -8
+ 463 0018 7F93      		push r23
+ 464               	.LCFI39:
+ 465               		.cfi_def_cfa_offset 10
+ 466               		.cfi_offset 23, -9
+ 467 001a 8F93      		push r24
+ 468               	.LCFI40:
+ 469               		.cfi_def_cfa_offset 11
+ 470               		.cfi_offset 24, -10
+ 471 001c 9F93      		push r25
+ 472               	.LCFI41:
+ 473               		.cfi_def_cfa_offset 12
+ 474               		.cfi_offset 25, -11
+ 475 001e AF93      		push r26
+ 476               	.LCFI42:
+ 477               		.cfi_def_cfa_offset 13
+ 478               		.cfi_offset 26, -12
+ 479 0020 BF93      		push r27
+ 480               	.LCFI43:
+ 481               		.cfi_def_cfa_offset 14
+ 482               		.cfi_offset 27, -13
+ 483 0022 EF93      		push r30
+ 484               	.LCFI44:
+ 485               		.cfi_def_cfa_offset 15
+ 486               		.cfi_offset 30, -14
+ 487 0024 FF93      		push r31
+ 488               	.LCFI45:
+ 489               		.cfi_def_cfa_offset 16
+ 490               		.cfi_offset 31, -15
+ 491 0026 CF93      		push r28
+ 492               	.LCFI46:
+ 493               		.cfi_def_cfa_offset 17
+ 494               		.cfi_offset 28, -16
+ 495 0028 DF93      		push r29
+ 496               	.LCFI47:
+ 497               		.cfi_def_cfa_offset 18
+ 498               		.cfi_offset 29, -17
+ 499 002a CDB7      		in r28,__SP_L__
+ 500 002c DEB7      		in r29,__SP_H__
+ 501               	.LCFI48:
+ 502               		.cfi_def_cfa_register 28
+ 503 002e 2D97      		sbiw r28,13
+ 504               	.LCFI49:
+ 505               		.cfi_def_cfa_offset 31
+ 506 0030 DEBF      		out __SP_H__,r29
+ 507 0032 CDBF      		out __SP_L__,r28
+ 508               	/* prologue: Signal */
+ 509               	/* frame size = 13 */
+ 510               	/* stack size = 31 */
+ 511               	.L__stack_usage = 31
+ 213:main.c        **** 	// Details about the message we're attempting to pull from the CAN bus
+ 214:main.c        **** 	uint8_t data[8];
+ 512               		.loc 1 214 2 view .LVU39
+ 215:main.c        **** 	uint32_t ID;
+ 513               		.loc 1 215 2 view .LVU40
+ 216:main.c        **** 	uint8_t numBytes;
+ 514               		.loc 1 216 2 view .LVU41
+ 217:main.c        **** 
+ 218:main.c        **** 	// Get the data from the CAN bus and process it
+ 219:main.c        **** 	CAN_pull_packet(MCP2515_CAN2, &numBytes, data, &ID);
+ 515               		.loc 1 219 2 view .LVU42
+ 516 0034 9E01      		movw r18,r28
+ 517 0036 275F      		subi r18,-9
+ 518 0038 3F4F      		sbci r19,-1
+ 519 003a AE01      		movw r20,r28
+ 520 003c 4F5F      		subi r20,-1
+ 521 003e 5F4F      		sbci r21,-1
+ 522 0040 BE01      		movw r22,r28
+ 523 0042 635F      		subi r22,-13
+ 524 0044 7F4F      		sbci r23,-1
+ 525 0046 82E0      		ldi r24,lo8(2)
+ 526 0048 0E94 0000 		call CAN_pull_packet
+ 527               	.LVL11:
+ 528               	/* epilogue start */
+ 220:main.c        **** 
+ 221:main.c        ****     // If the data packet is crap
+ 222:main.c        ****     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_RESPONSE_MALFORMED);
+ 223:main.c        **** }
+ 529               		.loc 1 223 1 is_stmt 0 view .LVU43
+ 530 004c 2D96      		adiw r28,13
+ 531 004e 0FB6      		in __tmp_reg__,__SREG__
+ 532 0050 F894      		cli
+ 533 0052 DEBF      		out __SP_H__,r29
+ 534 0054 0FBE      		out __SREG__,__tmp_reg__
+ 535 0056 CDBF      		out __SP_L__,r28
+ 536 0058 DF91      		pop r29
+ 537 005a CF91      		pop r28
+ 538 005c FF91      		pop r31
+ 539 005e EF91      		pop r30
+ 540 0060 BF91      		pop r27
+ 541 0062 AF91      		pop r26
+ 542 0064 9F91      		pop r25
+ 543 0066 8F91      		pop r24
+ 544 0068 7F91      		pop r23
+ 545 006a 6F91      		pop r22
+ 546 006c 5F91      		pop r21
+ 547 006e 4F91      		pop r20
+ 548 0070 3F91      		pop r19
+ 549 0072 2F91      		pop r18
+ 550 0074 0F90      		pop r0
+ 551 0076 0BBE      		out __RAMPZ__,r0
+ 552 0078 0F90      		pop r0
+ 553 007a 0FBE      		out __SREG__,r0
+ 554 007c 0F90      		pop r0
+ 555 007e 1F90      		pop r1
+ 556 0080 1895      		reti
+ 557               		.cfi_endproc
+ 558               	.LFE15:
+ 560               		.section	.text.__vector_9,"ax",@progbits
+ 561               	.global	__vector_9
+ 563               	__vector_9:
+ 564               	.LFB16:
+ 224:main.c        **** 
+ 225:main.c        **** /**
+ 226:main.c        ****  * @brief Called whenever CANBUS 3 interupt is triggered
+ 227:main.c        ****  *        * When ever there is data waiting in CAN 3
+ 228:main.c        ****  */
+ 229:main.c        **** ISR(PCINT0_vect) {
+ 565               		.loc 1 229 18 is_stmt 1 view -0
+ 566               		.cfi_startproc
+ 567 0000 1F92      		push r1
+ 568               	.LCFI50:
+ 569               		.cfi_def_cfa_offset 3
+ 570               		.cfi_offset 1, -2
+ 571 0002 0F92      		push r0
+ 572               	.LCFI51:
+ 573               		.cfi_def_cfa_offset 4
+ 574               		.cfi_offset 0, -3
+ 575 0004 0FB6      		in r0,__SREG__
+ 576 0006 0F92      		push r0
+ 577 0008 1124      		clr __zero_reg__
+ 578 000a 0BB6      		in r0,__RAMPZ__
+ 579 000c 0F92      		push r0
+ 580 000e 2F93      		push r18
+ 581               	.LCFI52:
+ 582               		.cfi_def_cfa_offset 5
+ 583               		.cfi_offset 18, -4
+ 584 0010 3F93      		push r19
+ 585               	.LCFI53:
+ 586               		.cfi_def_cfa_offset 6
+ 587               		.cfi_offset 19, -5
+ 588 0012 4F93      		push r20
+ 589               	.LCFI54:
+ 590               		.cfi_def_cfa_offset 7
+ 591               		.cfi_offset 20, -6
+ 592 0014 5F93      		push r21
+ 593               	.LCFI55:
+ 594               		.cfi_def_cfa_offset 8
+ 595               		.cfi_offset 21, -7
+ 596 0016 6F93      		push r22
+ 597               	.LCFI56:
+ 598               		.cfi_def_cfa_offset 9
+ 599               		.cfi_offset 22, -8
+ 600 0018 7F93      		push r23
+ 601               	.LCFI57:
+ 602               		.cfi_def_cfa_offset 10
+ 603               		.cfi_offset 23, -9
+ 604 001a 8F93      		push r24
+ 605               	.LCFI58:
+ 606               		.cfi_def_cfa_offset 11
+ 607               		.cfi_offset 24, -10
+ 608 001c 9F93      		push r25
+ 609               	.LCFI59:
+ 610               		.cfi_def_cfa_offset 12
+ 611               		.cfi_offset 25, -11
+ 612 001e AF93      		push r26
+ 613               	.LCFI60:
+ 614               		.cfi_def_cfa_offset 13
+ 615               		.cfi_offset 26, -12
+ 616 0020 BF93      		push r27
+ 617               	.LCFI61:
+ 618               		.cfi_def_cfa_offset 14
+ 619               		.cfi_offset 27, -13
+ 620 0022 EF93      		push r30
+ 621               	.LCFI62:
+ 622               		.cfi_def_cfa_offset 15
+ 623               		.cfi_offset 30, -14
+ 624 0024 FF93      		push r31
+ 625               	.LCFI63:
+ 626               		.cfi_def_cfa_offset 16
+ 627               		.cfi_offset 31, -15
+ 628 0026 CF93      		push r28
+ 629               	.LCFI64:
+ 630               		.cfi_def_cfa_offset 17
+ 631               		.cfi_offset 28, -16
+ 632 0028 DF93      		push r29
+ 633               	.LCFI65:
+ 634               		.cfi_def_cfa_offset 18
+ 635               		.cfi_offset 29, -17
+ 636 002a CDB7      		in r28,__SP_L__
+ 637 002c DEB7      		in r29,__SP_H__
+ 638               	.LCFI66:
+ 639               		.cfi_def_cfa_register 28
+ 640 002e 2D97      		sbiw r28,13
+ 641               	.LCFI67:
+ 642               		.cfi_def_cfa_offset 31
+ 643 0030 DEBF      		out __SP_H__,r29
+ 644 0032 CDBF      		out __SP_L__,r28
+ 645               	/* prologue: Signal */
+ 646               	/* frame size = 13 */
+ 647               	/* stack size = 31 */
+ 648               	.L__stack_usage = 31
+ 230:main.c        **** 	// Details about the message we're attempting to pull from the CAN bus
+ 231:main.c        **** 	uint8_t data[8];
+ 649               		.loc 1 231 2 view .LVU45
+ 232:main.c        **** 	uint32_t ID;
+ 650               		.loc 1 232 2 view .LVU46
+ 233:main.c        **** 	uint8_t numBytes;
+ 651               		.loc 1 233 2 view .LVU47
+ 234:main.c        **** 
+ 235:main.c        **** 	// Get the data from the CAN bus and process it
+ 236:main.c        **** 	CAN_pull_packet(MCP2515_CAN3, &numBytes, data, &ID);
+ 652               		.loc 1 236 2 view .LVU48
+ 653 0034 9E01      		movw r18,r28
+ 654 0036 275F      		subi r18,-9
+ 655 0038 3F4F      		sbci r19,-1
+ 656 003a AE01      		movw r20,r28
+ 657 003c 4F5F      		subi r20,-1
+ 658 003e 5F4F      		sbci r21,-1
+ 659 0040 BE01      		movw r22,r28
+ 660 0042 635F      		subi r22,-13
+ 661 0044 7F4F      		sbci r23,-1
+ 662 0046 84E0      		ldi r24,lo8(4)
+ 663 0048 0E94 0000 		call CAN_pull_packet
+ 664               	.LVL12:
+ 665               	/* epilogue start */
+ 237:main.c        **** 
+ 238:main.c        ****     // If the data packet is crap
+ 239:main.c        ****     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_RESPONSE_MALFORMED);
+ 240:main.c        **** }...
+ 666               		.loc 1 240 1 is_stmt 0 view .LVU49
+ 667 004c 2D96      		adiw r28,13
+ 668 004e 0FB6      		in __tmp_reg__,__SREG__
+ 669 0050 F894      		cli
+ 670 0052 DEBF      		out __SP_H__,r29
+ 671 0054 0FBE      		out __SREG__,__tmp_reg__
+ 672 0056 CDBF      		out __SP_L__,r28
+ 673 0058 DF91      		pop r29
+ 674 005a CF91      		pop r28
+ 675 005c FF91      		pop r31
+ 676 005e EF91      		pop r30
+ 677 0060 BF91      		pop r27
+ 678 0062 AF91      		pop r26
+ 679 0064 9F91      		pop r25
+ 680 0066 8F91      		pop r24
+ 681 0068 7F91      		pop r23
+ 682 006a 6F91      		pop r22
+ 683 006c 5F91      		pop r21
+ 684 006e 4F91      		pop r20
+ 685 0070 3F91      		pop r19
+ 686 0072 2F91      		pop r18
+ 687 0074 0F90      		pop r0
+ 688 0076 0BBE      		out __RAMPZ__,r0
+ 689 0078 0F90      		pop r0
+ 690 007a 0FBE      		out __SREG__,r0
+ 691 007c 0F90      		pop r0
+ 692 007e 1F90      		pop r1
+ 693 0080 1895      		reti
+ 694               		.cfi_endproc
+ 695               	.LFE16:
+ 697               		.text
+ 698               	.Letext0:
+ 699               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+ 700               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/lib/avr-gcc/8/gcc/avr/8.1.0/include/stddef.h"
+ 701               		.file 4 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdio.h"
+ 702               		.file 5 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdlib.h"
+ 703               		.file 6 "utils/uart.h"
+ 704               		.file 7 "includes/chassisInput.h"
+ 705               		.file 8 "includes/chassisCAN.h"
+ 706               		.file 9 "utils/a2d.h"
+ 707               		.file 10 "includes/chassisInit.h"
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 main.c
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:5      *ABS*:000000000000003b __RAMPZ__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:6      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:7      *ABS*:0000000000000001 __zero_reg__
+                            *COM*:0000000000000001 portKey
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:16     .bss:0000000000000000 buttonStateDebounceCount
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:21     .bss:0000000000000001 buttonStateLock
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:26     .bss:0000000000000002 buttonState
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:31     .bss:0000000000000003 CAN_HEARTBEAT_COUNT_INVERTERS
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:37     .data:0000000000000000 CAN_HEARTBEAT_COUNT_DATA
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:42     .data:0000000000000001 CAN_HEARTBEAT_COUNT_POWER
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:47     .data:0000000000000002 CAN_HEARTBEAT_ERROR_INVERTERS
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:52     .data:0000000000000003 CAN_HEARTBEAT_ERROR_DATA
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:57     .data:0000000000000004 CAN_HEARTBEAT_ERROR_POWER
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:62     .data:0000000000000005 INPUT_PEDAL_THROTTLE_COUNT
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:67     .data:0000000000000006 INPUT_PEDAL_BRAKE_COUNT
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:72     .data:0000000000000007 INPUT_TEMP_COUNT
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:78     .bss:0000000000000004 CAN_INPUT_SEND_TIME
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:83     .text.startup.main:0000000000000000 main
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:152    .text.oneKHzTimer:0000000000000000 oneKHzTimer
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:190    .text.__vector_17:0000000000000000 __vector_17
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:289    .text.__vector_2:0000000000000000 __vector_2
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:426    .text.__vector_1:0000000000000000 __vector_1
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cccU3ylP.s:563    .text.__vector_9:0000000000000000 __vector_9
+
+UNDEFINED SYMBOLS
+firmware_init
+timer_init
+uart_putc
+uart1_putc
+a2d_10bitCh
+INPUT_accelerationPedal
+CAN_pull_packet
+__do_copy_data
+__do_clear_bss
