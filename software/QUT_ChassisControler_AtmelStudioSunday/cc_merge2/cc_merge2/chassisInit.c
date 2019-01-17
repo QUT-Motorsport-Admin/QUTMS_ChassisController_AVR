@@ -95,7 +95,7 @@ void firmware_init()
 	MCP2515_init(DATA_CAN);
 
 	// Enable the pullup on the input. This allows the pin to be active low
-	// PORTJ |= (1<<PINJ6);
+	PORTJ |= (1<<PINJ6);
 
 	// Initialise inverter structs
 	// for(uint8_t i = 0; i < NUM_INVERTERS; i++)
