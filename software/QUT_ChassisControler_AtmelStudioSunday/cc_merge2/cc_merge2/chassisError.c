@@ -617,7 +617,7 @@ void send_error_message(char start[], char message[], uint16_t part_number)
 	snprintf(errorData, MAX_ERROR_MESSAGE_LENGTH + 10, "%s %s", start, messageWithNumber);
 	
 	// Send error data over UART
-	// uart_send_data(errorData, MAX_ERROR_MESSAGE_LENGTH + 10);
+	UART_sendPacket(errorData, MAX_ERROR_MESSAGE_LENGTH + 10);
 }
 
 /**
@@ -629,23 +629,63 @@ void send_error_message(char start[], char message[], uint16_t part_number)
  * 
  * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
  **/
-// void shutdown_probe()
-// {
-// 	if(STOP_BRAKE_OVERTRAVEL)shutdown_state(SHDN_BRAKE_OVERTRAVEL);
-// 	if(STOP_DRIVER_ESTOP)shutdown_state(SHDN_DRIVER_ESTOP);
-// 	if(STOP_INERTIA_SWITCH)shutdown_state(SHDN_INERTIA_SWITCH);
-// 	if(STOP_LEFT_FRONT_UPRIGHT)shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);
-// 	if(STOP_RIGHT_FRONT_UPRIGHT)shutdown_state(SHDN_RIGHT_FRONT_UPRIGHT);
-// }
+void shutdown_probe()
+{
+	if (STOP_BRAKE_OVERTRAVEL & 1U)
+		shutdown_state((SHDN_BRAKE_OVERTRAVEL));
+	
+	if (STOP_DRIVER_ESTOP & 1U)
+		shutdown_state(SHDN_DRIVER_ESTOP);
+		
+	if (STOP_INERTIA_SWITCH & 1U)
+		shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);
+		
+	if (STOP_LEFT_FRONT_UPRIGHT & 1U)
+		shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);	
+		
+	if (STOP_RIGHT_FRONT_UPRIGHT & 1U)
+		shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);	
+	
+	// if(STOP_BRAKE_OVERTRAVEL)shutdown_state(SHDN_BRAKE_OVERTRAVEL);
+	// if(STOP_DRIVER_ESTOP)shutdown_state(SHDN_DRIVER_ESTOP);
+ 	// if(STOP_INERTIA_SWITCH)shutdown_state(SHDN_INERTIA_SWITCH);
+ 	// if(STOP_LEFT_FRONT_UPRIGHT)shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);
+ 	// if(STOP_RIGHT_FRONT_UPRIGHT)shutdown_state(SHDN_RIGHT_FRONT_UPRIGHT);
+}
 
 /**
  * shutdown_state()
- * Input:	shutdownFlag	-
+ * Input:	shutdownFlag
  * Returns: none
  * 
  * Not implemented yet
  **/
-// void shutdown_state(uint16_t shutdownFlag)
-// {
-// 	//do shutdown reporting here
-// }
+void shutdown_state(uint16_t shutdownFlag)
+{
+	char error_msg[40];
+	switch (shutdownFlag)
+	{
+		case SHDN_BRAKE_OVERTRAVEL:
+			error_msg = "SHDN: BRAKE OVERTRAVEL\0";
+		break;
+	
+		case SHDN_DRIVER_ESTOP:
+			error_msg = "SHDN: DRIVER ESTOP\0";
+		break;
+		
+		case SHDN_INERTIA_SWITCH:
+			error_msg = "SHDN: INERTIA SWITCH\0";
+		break;
+		
+		case SHDN_LEFT_FRONT_UPRIGHT:
+			error_msg = "SHDN: LEFT FRONT UPRIGHT\0";
+		break;
+		
+		case SHDN_RIGHT_FRONT_UPRIGHT:
+			error_msg = "SHDN: RIGHT FRONT UPRIGHT\0";
+		break;
+		
+		default: error_msg = "Unknown Shutdown Command."; break;
+	};
+	UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+}

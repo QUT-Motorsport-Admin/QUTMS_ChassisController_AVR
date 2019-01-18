@@ -58,6 +58,20 @@
 #define ERROR_STRING_WARN   "!WARNING!" /**< String Representation of Moderate Severity Level */
 #define ERROR_STRING_ERROR  "##ERROR##" /**< String Representation of Critical Severity Level */
 
+#define SHDN_BRAKE_OVERTRAVEL			0
+#define SHDN_DRIVER_ESTOP				1
+#define SHDN_INERTIA_SWITCH				2
+#define SHDN_LEFT_FRONT_UPRIGHT			3
+#define SHDN_RIGHT_FRONT_UPRIGHT		4
+
+uint8_t STOP_FLAGS = 0;
+
+#define STOP_BRAKE_OVERTRAVEL		(STOP_FLAGS >> 0)
+#define STOP_DRIVER_ESTOP			(STOP_FLAGS >> 1)
+#define STOP_INERTIA_SWITCH			(STOP_FLAGS >> 2)
+#define STOP_LEFT_FRONT_UPRIGHT		(STOP_FLAGS >> 3)
+#define STOP_RIGHT_FRONT_UPRIGHT	(STOP_FLAGS	>> 4)
+
 /**
  * @brief Generates an error message, and takes the necessary actions depending on the severity and error. 
  * 
