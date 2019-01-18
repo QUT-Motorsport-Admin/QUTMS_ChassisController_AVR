@@ -8,6 +8,10 @@
  */
 
 #include "chassisError.h"
+#include "uart.h"
+#include <string.h>
+
+uint8_t SHDN_FLAGS = 0;
 
 /**
  * throw_error_code()
@@ -631,20 +635,11 @@ void send_error_message(char start[], char message[], uint16_t part_number)
  **/
 void shutdown_probe()
 {
-	if (STOP_BRAKE_OVERTRAVEL & 1U)
-		shutdown_state((SHDN_BRAKE_OVERTRAVEL));
-	
-	if (STOP_DRIVER_ESTOP & 1U)
-		shutdown_state(SHDN_DRIVER_ESTOP);
-		
-	if (STOP_INERTIA_SWITCH & 1U)
-		shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);
-		
-	if (STOP_LEFT_FRONT_UPRIGHT & 1U)
-		shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);	
-		
-	if (STOP_RIGHT_FRONT_UPRIGHT & 1U)
-		shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);	
+	if (STOP_BRAKE_OVERTRAVEL) shutdown_state(SHDN_BRAKE_OVERTRAVEL);
+	if (STOP_DRIVER_ESTOP) shutdown_state(SHDN_DRIVER_ESTOP);
+	if (STOP_INERTIA_SWITCH) shutdown_state(SHDN_INERTIA_SWITCH);
+	if (STOP_LEFT_FRONT_UPRIGHT) shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);
+	if (STOP_RIGHT_FRONT_UPRIGHT) shutdown_state(SHDN_RIGHT_FRONT_UPRIGHT);
 	
 	// if(STOP_BRAKE_OVERTRAVEL)shutdown_state(SHDN_BRAKE_OVERTRAVEL);
 	// if(STOP_DRIVER_ESTOP)shutdown_state(SHDN_DRIVER_ESTOP);
@@ -666,26 +661,27 @@ void shutdown_state(uint16_t shutdownFlag)
 	switch (shutdownFlag)
 	{
 		case SHDN_BRAKE_OVERTRAVEL:
-			error_msg = "SHDN: BRAKE OVERTRAVEL\0";
+			strcpy(error_msg, "SHDN: BRAKE OVERTRAVEL\0");
 		break;
 	
 		case SHDN_DRIVER_ESTOP:
-			error_msg = "SHDN: DRIVER ESTOP\0";
+			strcpy(error_msg, "SHDN: DRIVER ESTOP\0");
 		break;
 		
 		case SHDN_INERTIA_SWITCH:
-			error_msg = "SHDN: INERTIA SWITCH\0";
+			strcpy(error_msg, "SHDN: INERTIA SWITCH\0");
 		break;
 		
 		case SHDN_LEFT_FRONT_UPRIGHT:
-			error_msg = "SHDN: LEFT FRONT UPRIGHT\0";
+			strcpy(error_msg, "SHDN: LEFT FRONT UPRIGHT\0");
 		break;
 		
 		case SHDN_RIGHT_FRONT_UPRIGHT:
-			error_msg = "SHDN: RIGHT FRONT UPRIGHT\0";
+			strcpy(error_msg, "SHDN: RIGHT FRONT UPRIGHT\0");
 		break;
 		
-		default: error_msg = "Unknown Shutdown Command."; break;
+		default:
+			strcpy(error_msg, "Unknown shutdown command."); break;
 	};
 	UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
 }

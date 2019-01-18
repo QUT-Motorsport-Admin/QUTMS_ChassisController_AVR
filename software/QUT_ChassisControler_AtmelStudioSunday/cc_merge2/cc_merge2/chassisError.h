@@ -64,13 +64,13 @@
 #define SHDN_LEFT_FRONT_UPRIGHT			3
 #define SHDN_RIGHT_FRONT_UPRIGHT		4
 
-uint8_t STOP_FLAGS = 0;
+extern uint8_t STOP_FLAGS;
 
-#define STOP_BRAKE_OVERTRAVEL		(STOP_FLAGS >> 0)
-#define STOP_DRIVER_ESTOP			(STOP_FLAGS >> 1)
-#define STOP_INERTIA_SWITCH			(STOP_FLAGS >> 2)
-#define STOP_LEFT_FRONT_UPRIGHT		(STOP_FLAGS >> 3)
-#define STOP_RIGHT_FRONT_UPRIGHT	(STOP_FLAGS	>> 4)
+#define STOP_BRAKE_OVERTRAVEL		(STOP_FLAGS >> 0) & 1UL
+#define STOP_DRIVER_ESTOP			(STOP_FLAGS >> 1) & 1UL
+#define STOP_INERTIA_SWITCH			(STOP_FLAGS >> 2) & 1UL
+#define STOP_LEFT_FRONT_UPRIGHT		(STOP_FLAGS >> 3) & 1UL
+#define STOP_RIGHT_FRONT_UPRIGHT	(STOP_FLAGS >> 4) & 1UL
 
 /**
  * @brief Generates an error message, and takes the necessary actions depending on the severity and error. 
@@ -123,5 +123,9 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
  * @return void
  */
 void send_error_message(char start[], char message[], uint16_t part_number);
+
+void shutdown_probe();
+
+void shutdown_state(uint16_t shutdownFlag);
 
 #endif // CHASSIS_ERROR_H
