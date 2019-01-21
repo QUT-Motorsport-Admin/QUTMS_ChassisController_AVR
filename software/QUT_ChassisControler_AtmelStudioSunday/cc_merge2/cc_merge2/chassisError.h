@@ -64,13 +64,11 @@
 #define SHDN_LEFT_FRONT_UPRIGHT			3
 #define SHDN_RIGHT_FRONT_UPRIGHT		4
 
-extern uint8_t STOP_FLAGS;
-
-#define STOP_BRAKE_OVERTRAVEL		(STOP_FLAGS >> 0) & 1UL
-#define STOP_DRIVER_ESTOP			(STOP_FLAGS >> 1) & 1UL
-#define STOP_INERTIA_SWITCH			(STOP_FLAGS >> 2) & 1UL
-#define STOP_LEFT_FRONT_UPRIGHT		(STOP_FLAGS >> 3) & 1UL
-#define STOP_RIGHT_FRONT_UPRIGHT	(STOP_FLAGS >> 4) & 1UL
+#define STOP_BRAKE_OVERTRAVEL       (shutdownState >> 0) & 1UL
+#define STOP_DRIVER_ESTOP           (shutdownState >> 1) & 1UL
+#define STOP_INERTIA_SWITCH         (shutdownState >> 2) & 1UL
+#define STOP_LEFT_FRONT_UPRIGHT     (shutdownState >> 3) & 1UL
+#define STOP_RIGHT_FRONT_UPRIGHT    (shutdownState >> 4) & 1UL
 
 /**
  * @brief Generates an error message, and takes the necessary actions depending on the severity and error. 

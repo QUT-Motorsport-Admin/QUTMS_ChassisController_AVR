@@ -650,38 +650,39 @@ void shutdown_probe()
 
 /**
  * shutdown_state()
- * Input:	shutdownFlag
- * Returns: none
+ * Input:	None
+ * Returns: None
  * 
- * Not implemented yet
+ * Reads shutdownState defined in main.h. If bit is set, send message over UART.
+ * 
  **/
 void shutdown_state(uint16_t shutdownFlag)
 {
 	char error_msg[40];
-	switch (shutdownFlag)
+
+	if (STOP_BRAKE_OVERTRAVEL)
 	{
-		case SHDN_BRAKE_OVERTRAVEL:
-			strcpy(error_msg, "SHDN: BRAKE OVERTRAVEL\0");
-		break;
-	
-		case SHDN_DRIVER_ESTOP:
-			strcpy(error_msg, "SHDN: DRIVER ESTOP\0");
-		break;
-		
-		case SHDN_INERTIA_SWITCH:
-			strcpy(error_msg, "SHDN: INERTIA SWITCH\0");
-		break;
-		
-		case SHDN_LEFT_FRONT_UPRIGHT:
-			strcpy(error_msg, "SHDN: LEFT FRONT UPRIGHT\0");
-		break;
-		
-		case SHDN_RIGHT_FRONT_UPRIGHT:
-			strcpy(error_msg, "SHDN: RIGHT FRONT UPRIGHT\0");
-		break;
-		
-		default:
-			strcpy(error_msg, "Unknown shutdown command."); break;
-	};
-	UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+		strcpy(error_msg, "SHDN: BRAKE OVERTRAVEL\0");
+		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+	}
+	if (STOP_DRIVER_ESTOP)
+	{
+		strcpy(error_msg, "SHDN: DRIVER ESTOP\0");
+		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+	}
+	if (STOP_INERTIA_SWITCH)
+	{
+		strcpy(error_msg, "SHDN: INERTIA SWITCH\0");
+		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+	}
+	if (STOP_LEFT_FRONT_UPRIGHT)
+	{
+		strcpy(error_msg, "SHDN: LEFT FRONT UPRIGHT\0");
+		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+	}
+	if (STOP_RIGHT_FRONT_UPRIGHT)
+	{
+		strcpy(error_msg, "SHDN: RIGHT FRONT UPRIGHT\0");
+		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+	}
 }
