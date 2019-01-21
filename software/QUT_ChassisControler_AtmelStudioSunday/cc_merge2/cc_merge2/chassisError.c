@@ -663,26 +663,26 @@ void shutdown_state(uint16_t shutdownFlag)
 	if (STOP_BRAKE_OVERTRAVEL)
 	{
 		strcpy(error_msg, "SHDN: BRAKE OVERTRAVEL\0");
-		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+		UART_sendPacket(error_msg, strlen(error_msg));
 	}
 	if (STOP_DRIVER_ESTOP)
 	{
 		strcpy(error_msg, "SHDN: DRIVER ESTOP\0");
-		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+		UART_sendPacket(error_msg, strlen(error_msg));
 	}
 	if (STOP_INERTIA_SWITCH)
 	{
 		strcpy(error_msg, "SHDN: INERTIA SWITCH\0");
-		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+		UART_sendPacket(error_msg, strlen(error_msg));
 	}
 	if (STOP_LEFT_FRONT_UPRIGHT)
 	{
 		strcpy(error_msg, "SHDN: LEFT FRONT UPRIGHT\0");
-		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+		UART_sendPacket(error_msg, strlen(error_msg));
 	}
 	if (STOP_RIGHT_FRONT_UPRIGHT)
 	{
 		strcpy(error_msg, "SHDN: RIGHT FRONT UPRIGHT\0");
-		UART_sendPacket(error_msg, sizeof(error_msg) / sizeof(char));
+		UART_sendPacket(error_msg, strlen(error_msg));
 	}
 }
