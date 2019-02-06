@@ -635,11 +635,6 @@ void send_error_message(char start[], char message[], uint16_t part_number)
  **/
 void shutdown_probe()
 {
-	if (STOP_BRAKE_OVERTRAVEL) shutdown_state(SHDN_BRAKE_OVERTRAVEL);
-	if (STOP_DRIVER_ESTOP) shutdown_state(SHDN_DRIVER_ESTOP);
-	if (STOP_INERTIA_SWITCH) shutdown_state(SHDN_INERTIA_SWITCH);
-	if (STOP_LEFT_FRONT_UPRIGHT) shutdown_state(SHDN_LEFT_FRONT_UPRIGHT);
-	if (STOP_RIGHT_FRONT_UPRIGHT) shutdown_state(SHDN_RIGHT_FRONT_UPRIGHT);
 	
 	// if(STOP_BRAKE_OVERTRAVEL)shutdown_state(SHDN_BRAKE_OVERTRAVEL);
 	// if(STOP_DRIVER_ESTOP)shutdown_state(SHDN_DRIVER_ESTOP);
@@ -658,31 +653,5 @@ void shutdown_probe()
  **/
 void shutdown_state(uint16_t shutdownFlag)
 {
-	char error_msg[40];
 
-	if (STOP_BRAKE_OVERTRAVEL)
-	{
-		strcpy(error_msg, "SHDN: BRAKE OVERTRAVEL\0");
-		UART_sendPacket(error_msg, strlen(error_msg));
-	}
-	if (STOP_DRIVER_ESTOP)
-	{
-		strcpy(error_msg, "SHDN: DRIVER ESTOP\0");
-		UART_sendPacket(error_msg, strlen(error_msg));
-	}
-	if (STOP_INERTIA_SWITCH)
-	{
-		strcpy(error_msg, "SHDN: INERTIA SWITCH\0");
-		UART_sendPacket(error_msg, strlen(error_msg));
-	}
-	if (STOP_LEFT_FRONT_UPRIGHT)
-	{
-		strcpy(error_msg, "SHDN: LEFT FRONT UPRIGHT\0");
-		UART_sendPacket(error_msg, strlen(error_msg));
-	}
-	if (STOP_RIGHT_FRONT_UPRIGHT)
-	{
-		strcpy(error_msg, "SHDN: RIGHT FRONT UPRIGHT\0");
-		UART_sendPacket(error_msg, strlen(error_msg));
-	}
 }

@@ -512,7 +512,7 @@ void uart_putc(unsigned char data)
 		while ( tmphead == UART_TxTail ){
 			;// wait for free space in buffer 
 		}
-    
+		
 		UART_TxBuf[tmphead] = data;
 		UART_TxHead = tmphead;
 
@@ -567,9 +567,12 @@ Returns:  none
 **************************************************************************/
 void uart_puts(const char *s )
 {
-    while (*s) 
+    while (*s)
+	{
+	  
       uart_putc(*s++);
-
+	  
+	}
 }/* uart_puts */
 
 void uart1_puts(const char *t )

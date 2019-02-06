@@ -32,7 +32,7 @@ void CAN_pull_packet(uint8_t CANbus, uint8_t* numBytes, uint8_t* data, uint32_t*
 		case 1:	// Message in RXB0
 			MCP2515_PullCanPacket(CANbus, MCP2515_RXB0SIDH, numBytes, data, ID);
 			break;
-		case 2: // Message in RXB1
+		case 2: // Message in RXB1=
 			MCP2515_PullCanPacket(CANbus, MCP2515_RXB1SIDH, numBytes, data, ID);
 			break;
 		case 3: // Message in both buffers

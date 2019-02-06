@@ -11,6 +11,7 @@ uint8_t shutdownState = 0;
 
 volatile uint8_t testError = 0;
 
+char out[96] = {'\0'}; // CAN 1 SUFF
 uint8_t inverterArray[8] = {0,0,0,0,0,0,0,0};
 uint8_t PDMarray[8] = {0,0,0,0,0,0,0,0};
 uint8_t WheelArray[8] = {0,0,10,10,0,0,40,200};
@@ -31,7 +32,7 @@ int main(void) {
     while(1) {
 		
 		if(isCharAvailable() == 1)uart_process_byte(receiveChar());
-
+		uart1_puts("Hello World!\n");
 	}
 	
 	return 0;
@@ -120,8 +121,8 @@ void oneKHzTimer(void)
 		 // Reset power heartbeat counter
 		 CANheartbeatCountPDM = 0;
 		 // Send power system heartbeat
-		 if(armedState == 1)PDMarray[0] |= 202; // 192
-		 else PDMarray[0] &= ~202; // 192
+		 if(armedState == 1)PDMarray[0] |= 192;
+		 else PDMarray[0] &= ~192;
 		 CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_PDM_ID | 1);
 	 }
 	 
@@ -221,8 +222,7 @@ void oneKHzTimer(void)
  */
 ISR(TIMER0_COMPA_vect)
 {
-    oneKHzTimer();
-    // led_toggle();
+    oneKHzTimer();	
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -239,12 +239,18 @@ ISR(INT1_vect) {
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
-
+	led_toggle();
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(TRACTIVE_CAN, &numBytes, data, &ID);
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_RESPONSE_MALFORMED);
+	
+	
+	sprintf(out, "%x,%x,%x,%x,%x,%x,%x,%x", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+	//uart1_puts(out);
+	//uart_puts(out);
+	//uart1_puts(data);
 }
 
 /**
@@ -256,12 +262,13 @@ ISR(INT0_vect)	{
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
-
+	//led_toggle();
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(POWER_CAN, &numBytes, data, &ID);
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_RESPONSE_MALFORMED);
+		
 }
 
 /**
@@ -279,4 +286,7 @@ ISR(PCINT0_vect) {
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_RESPONSE_MALFORMED);
+
+	
+
 }
