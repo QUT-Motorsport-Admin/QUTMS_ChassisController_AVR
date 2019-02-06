@@ -120,8 +120,8 @@ void oneKHzTimer(void)
 		 // Reset power heartbeat counter
 		 CANheartbeatCountPDM = 0;
 		 // Send power system heartbeat
-		 if(armedState == 1)PDMarray[0] |= 192;
-		 else PDMarray[0] &= ~192;
+		 if(armedState == 1)PDMarray[0] |= 202; // 192
+		 else PDMarray[0] &= ~202; // 192
 		 CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_PDM_ID | 1);
 	 }
 	 
