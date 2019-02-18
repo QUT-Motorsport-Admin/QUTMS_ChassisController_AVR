@@ -18,7 +18,7 @@ uint8_t inverterArray[8] = {0,0,0,0,0,0,0,0};
 uint8_t PDMarray[8] = {0,0,0,0,0,0,0,0};
 uint8_t WheelArray[8] = {0,0,10,10,0,0,40,200};
 
-volatile uint8_t out = 0;
+volatile uint8_t ouft = 0;
 
 int main(void) {    
 
@@ -118,6 +118,7 @@ void oneKHzTimer(void)
 	 if(CANheartbeatCountWheel > CAN_HEARTBEAT_TIME_WHEEL)
 	 {
 		 // Reset data heartbeat counter
+		 //led_toggle();
 		 CANheartbeatCountWheel = 0;
 		 // Send data system heartbeat
 		 CAN_send(DATA_CAN, 8, WheelArray, HEARTBEAT_WHEEL_ID | 1);
@@ -239,15 +240,15 @@ void oneKHzTimer(void)
  */
 ISR(TIMER0_COMPA_vect)
 {
-<<<<<<< HEAD
+//<<<<<<< HEAD
     oneKHzTimer();
 	//uart_puts("HelloWorld!");
 	//char msg[12];
 	//sprintf(msg, "r: %d", out);
 	//uart_puts(msg);
-=======
+//=======
     oneKHzTimer();	
->>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
+//>>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -264,26 +265,26 @@ ISR(INT1_vect) {
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
-	led_toggle();
-<<<<<<< HEAD
+	//led_toggle();
+//<<<<<<< HEAD
 	RecievedMsgInv = 1;
-=======
->>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
+//=======
+//>>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(TRACTIVE_CAN, &numBytes, data, &ID);
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_RESPONSE_MALFORMED);
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	//out++;
-=======
+//=======
 	
 	
-	sprintf(out, "%x,%x,%x,%x,%x,%x,%x,%x", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
+	//sprintf(out, "%x,%x,%x,%x,%x,%x,%x,%x", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
 	//uart1_puts(out);
 	//uart_puts(out);
 	//uart1_puts(data);
->>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
+//>>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
 }
 
 /**
@@ -313,6 +314,7 @@ ISR(PCINT0_vect) {
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
+	led_toggle();
 	//led_toggle();
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(DATA_CAN, &numBytes, data, &ID);
