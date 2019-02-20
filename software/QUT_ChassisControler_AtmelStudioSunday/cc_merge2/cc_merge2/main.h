@@ -45,7 +45,7 @@
 
 #define CAR_ARM_HV (1)                      // Used to set the car's armed state to high
 #define CAR_DISARM_HV (0)                   // Used to set the car's armed state to low
-extern uint8_t armedState;					// Stores the car's armed state
+extern uint8_t isArmedState;					// Stores the car's armed state
 extern uint8_t ignitionState;				// Stores the car's ignition switch/button state
 
 extern uint8_t shutdownState;				// Stores the car's current state of its shutdown circuity

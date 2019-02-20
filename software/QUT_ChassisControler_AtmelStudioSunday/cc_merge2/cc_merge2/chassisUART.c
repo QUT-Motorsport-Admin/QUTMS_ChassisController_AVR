@@ -186,7 +186,7 @@ void UART_formTestPacket(void) {
 	
 	if(fakeThrottle++ > 100)fakeThrottle = 0;
     uint8_t testPacketArray[4];
-    testPacketArray[0] = (ignitionState) | (armedState << 1) | (shutdownState << 2); // Button states - 1
+    testPacketArray[0] = (ignitionState) | (isArmedState << 1) | (shutdownState << 2); // Button states - 1
     testPacketArray[1] = INPUT_accelerationPedal;   // Throttle Pedal Percentage - 1
     testPacketArray[2] = INPUT_brakePedal;          // Brake Pedal Percentage - 1
     testPacketArray[3] = INPUT_steeringAngle;       // Steering Angle - 1   -> RADIAN(x -> -0.99 < 0 < 0.99) * 100 + 100
