@@ -23,6 +23,7 @@
 
 // Error Codes
 #define ERROR_GENERAL                       (0)     /**< Error Code: Generic error for the system */
+#define ERROR_BAD_CONFIG                    (1)     /**< Error Code: Config miss match somewhere, IE Out of spec */
 
 #define ERROR_CANBUS_1_NO_RESPONSE          (111)   /**< Error Code: CANBUS 1 has no response */
 #define ERROR_CANBUS_1_RESPONSE_MALFORMED   (112)   /**< Error Code: CANBUS 1's response was malformed */

@@ -6,23 +6,9 @@
  **/
 
 #include "chassisUART.h"
-#include "chassisInput.h"
 
-// char *UART_getString(void) {
-//     unsigned char string[255], x, i;
-//     while((x = uart1_getc()) != UART_NO_DATA) {
-//         string[i++] = x;
-//     }
-//     return string;
-    
-// }
+uint8_t debugPDMSig = 0;
 
-// void UART_sendString(const char *s) {
-//     uart1_puts(*s);
-// }
-
-
-// OLD ------------------------------------------------------------------------
 
 void uart_process_byte(char data)
 {
@@ -130,7 +116,7 @@ void uart_parse_poke(unsigned char* s)
  * 
  * Organizes all data stored in memory regarding the other devices into a message to be sent via UART
  **/
-// void _uart_send_real_time_data (void)
+// void uart_send_real_time_data (void)
 // {
 // 	uint8_t outgoingString[34];
 // 	outgoingString[0] = 45;					//always start with capital D
@@ -175,7 +161,7 @@ void uart_parse_poke(unsigned char* s)
 	
 // 	outgoingString[26] = (enableSwitch_A);
 // 	outgoingString[27] = (steeringAngle >> 8);
-//     outgoingString[28] = (steeringAngle);
+//  outgoingString[28] = (steeringAngle);
 // 	outgoingString[29] = 128;
 // 	outgoingString[30] = 128;
 // 	outgoingString[31] = 128;
@@ -195,67 +181,19 @@ void uart_parse_poke(unsigned char* s)
 // 	for (int i = 0; i < 32; i++) uart1_putc(outgoingString[i]);
 // }
 
-void uart_send_real_time_data (void)
-{
-	uint8_t outgoingString[34];
-	outgoingString[0] = 45;					//always start with capital D
-	outgoingString[1] = 1;					//packet type (locked at 1 for now)
-	
-	outgoingString[2] = 0;
-	outgoingString[3] = 0;	//average volts
-	
-	outgoingString[4] = 0;
-	outgoingString[5] = 0;	//average temp
+void UART_formTestPacket(void) {
+    uint8_t testPacketArray[4];
+    testPacketArray[0] = (ignitionState) | (armedState << 1) | (shutdownState << 2); // Button states - 1
+    testPacketArray[1] = INPUT_accelerationPedal;   // Throttle Pedal Percentage - 1
+    testPacketArray[2] = INPUT_brakePedal;          // Brake Pedal Percentage - 1
+    testPacketArray[3] = INPUT_steeringAngle;       // Steering Angle - 1
+                                                    //  -> RADIAN(x -> -0.99 < 0 < 0.99) * 100 + 100
+    UART_sendPacket(testPacketArray);
+}
 
-	outgoingString[6] = 0;
-	outgoingString[7] = 0;	//average volts
-	
-	outgoingString[8] = 0;
-	outgoingString[9] = 0;	//min temp
-	
-	outgoingString[10] = 0;
-	outgoingString[11] = 0; 
-	
-	outgoingString[12] = 0;
-	outgoingString[13] = 0;
-	
-	outgoingString[14] = 0;
-	outgoingString[15] = 0;
-	
-	outgoingString[16] = 0;
-	outgoingString[17] = 0;
-	
-	outgoingString[18] = 0;
-	outgoingString[19] = 0;
-	
-	outgoingString[20] = 0;
-	
-	outgoingString[21] = 0;
-	
-	outgoingString[22] = (INPUT_accelerationPedal >> 8);
-	outgoingString[23] = INPUT_accelerationPedal;	//demand given by the pedal position
-	
-	outgoingString[24] = 0;
-	outgoingString[25] = 0;		//rpm of inverters
-	
-	outgoingString[26] = 0;
-	outgoingString[27] = 0;
-    outgoingString[28] = 0;
-	outgoingString[29] = 128;
-	outgoingString[30] = 128;
-	outgoingString[31] = 128;
-	
-	for(int i = 0; i < 4; i++)
-	{
-		for(int j = 0; j < 7; j++)
-		{
-			if(outgoingString[(i*7) + j] == 68)			//test if the ith by jth byte is a 68
-			{
-				outgoingString[i + 28] |= (1 << j);		//set the corresponding bit in last 4 bytes to say this should be a 68
-				outgoingString[(i*7) + j] = 0;			//any non 68 number really - doesnt matter
-			}
-		}
-	}
-	
-	for (int i = 0; i < 32; i++) uart1_putc(outgoingString[i]);
+void UART_sendPacket(uint8_t outgoingString[]) {
+    uint8_t *ptr = outgoingString;
+    while (*ptr++) {
+        uart1_putc(*ptr);
+    }
 }

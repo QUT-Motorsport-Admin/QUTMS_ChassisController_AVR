@@ -81,6 +81,28 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 		    }			
 		break;
 
+        case ERROR_BAD_CONFIG:					
+			switch (severity) {
+				case ERROR_LEVEL_INFO:
+				// Logging behaviour for Info-level logs
+				send_error_message(ERROR_STRING_INFO, "Bad Config", part_number);
+				// Additional Info Handling
+				break;
+
+				case ERROR_LEVEL_WARN:
+				// Loggging behaviour for Warning-level logs
+				send_error_message(ERROR_STRING_WARN, "Bad Config!", part_number);
+				// Additional Warning Handling
+				break;
+
+				case ERROR_LEVEL_ERROR:
+				// Logging behaviour for Error-level logs
+				send_error_message(ERROR_STRING_ERROR, "BAD CONFIG", part_number);
+				// Additional Error Handling
+				break;
+			}			
+		break;
+
         // CANBUS based errors
         // --------------------------------------------------------------------
 
@@ -361,7 +383,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 
 				case ERROR_LEVEL_WARN:
 				// Loggging behaviour for Warning-level logs
-				send_error_message(ERROR_STRING_WARN, "Brakes %d Pressure Warnning!", part_number);
+				send_error_message(ERROR_STRING_WARN, "Brakes %d Pressure Warning!", part_number);
 				// Additional Warning Handling
 				break;
 
@@ -573,7 +595,7 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 		// If the description contains a single %d, it can be used to indicate a part number
 		// case ERROR_CODE:					
 		// 	switch (severity) {
-		// 		case ERROR_STRING_INFO:
+		// 		case ERROR_LEVEL_INFO:
 		// 		// Logging behaviour for Info-level logs
 		// 		send_error_message(ERROR_STRING_INFO, "Info Description", part_number);
 		//		// Additional Info Handling

@@ -8,11 +8,62 @@
    8               		.text
    9               	.Ltext0:
   10               		.cfi_sections	.debug_frame
-  11               		.section	.text.pdm_init,"ax",@progbits
-  12               	.global	pdm_init
-  14               	pdm_init:
-  15               	.LFB4:
-  16               		.file 1 "includes/chassisPDM.c"
+  11               		.comm	portKey,1,1
+  12               	.global	pdmInverterONTemp
+  13               		.section	.rodata
+  16               	pdmInverterONTemp:
+  17 0000 35        		.byte	53
+  18               	.global	pdmInverterOFFTemp
+  21               	pdmInverterOFFTemp:
+  22 0001 32        		.byte	50
+  23               	.global	pdmTempSensorONTemp
+  26               	pdmTempSensorONTemp:
+  27 0002 35        		.byte	53
+  28               	.global	pdmTempSensorOFFTemp
+  31               	pdmTempSensorOFFTemp:
+  32 0003 32        		.byte	50
+  33               	.global	RADIATOR_CALIBRATION_VALUES
+  36               	RADIATOR_CALIBRATION_VALUES:
+  37 0004 2103      		.word	801
+  38 0006 2003      		.word	800
+  39 0008 1F03      		.word	799
+  40 000a 1D03      		.word	797
+  41 000c 1703      		.word	791
+  42 000e 1103      		.word	785
+  43 0010 FF02      		.word	767
+  44 0012 EE02      		.word	750
+  45 0014 DE02      		.word	734
+  46 0016 C302      		.word	707
+  47 0018 B102      		.word	689
+  48 001a 9F02      		.word	671
+  49 001c 7D02      		.word	637
+  50 001e 5602      		.word	598
+  51 0020 4502      		.word	581
+  52 0022 3202      		.word	562
+  53 0024 1102      		.word	529
+  54 0026 ED01      		.word	493
+  55 0028 D001      		.word	464
+  56 002a BB01      		.word	443
+  57 002c 6701      		.word	359
+  58 002e 5201      		.word	338
+  59 0030 3D01      		.word	317
+  60 0032 2901      		.word	297
+  61 0034 1601      		.word	278
+  62 0036 EA00      		.word	234
+  63 0038 CC00      		.word	204
+  64               	.global	pdmRightTemp
+  65               		.section .bss
+  68               	pdmRightTemp:
+  69 0000 00        		.zero	1
+  70               	.global	pdmLeftTemp
+  73               	pdmLeftTemp:
+  74 0001 00        		.zero	1
+  75               		.section	.text.PDM_convertADCToC,"ax",@progbits
+  76               	.global	PDM_convertADCToC
+  78               	PDM_convertADCToC:
+  79               	.LVL0:
+  80               	.LFB11:
+  81               		.file 1 "includes/chassisPDM.c"
    1:includes/chassisPDM.c **** /**
    2:includes/chassisPDM.c ****  * @file chassisPDM.c
    3:includes/chassisPDM.c ****  * @author Jonn Dillon
@@ -21,63 +72,611 @@
    6:includes/chassisPDM.c ****  **/
    7:includes/chassisPDM.c **** 
    8:includes/chassisPDM.c **** #include "chassisPDM.h"
-   9:includes/chassisPDM.c **** #include "chassisCAN.h"
-  10:includes/chassisPDM.c **** 
-  11:includes/chassisPDM.c **** /**
-  12:includes/chassisPDM.c ****  * pdm_init()
-  13:includes/chassisPDM.c ****  * Input:	none
-  14:includes/chassisPDM.c ****  * Returns: none
-  15:includes/chassisPDM.c ****  * 
-  16:includes/chassisPDM.c ****  * Precharge the motor controllers and then enable relays to allow the starting of the car
-  17:includes/chassisPDM.c ****  **/
-  18:includes/chassisPDM.c **** void pdm_init()
-  19:includes/chassisPDM.c **** {
-  17               		.loc 1 19 1 view -0
-  18               		.cfi_startproc
-  19               	/* prologue: function */
-  20               	/* frame size = 0 */
-  21               	/* stack size = 0 */
-  22               	.L__stack_usage = 0
-  20:includes/chassisPDM.c **** 	// pdm.flags[0] |= PDM_ATOMIC_ALARM;						// Turn on the ready to drive alarm (RTD sound)
-  21:includes/chassisPDM.c **** 	// pdm.flags[1] |= PDM_PRECHARGE;							// Begin precharging the Motor controllers
-  22:includes/chassisPDM.c **** 	// // CAN_send_heartbeat(PDM_H, NORMAL, 1);
-  23:includes/chassisPDM.c **** 	// _delay_ms(2000);
-  24:includes/chassisPDM.c **** 	// pdm.flags[0] &= ~PDM_ATOMIC_ALARM;						// Stop sounding the RTD, we are ready to drive after o
-  25:includes/chassisPDM.c **** 	// pdm.flags[0] |= PDM_SHUTDOWN_PLUS|PDM_SHUTDOWN_MINUS;	// Enable the relays to allow the startin
-  26:includes/chassisPDM.c **** 	// pdm.flags[1] &= ~(PDM_PRECHARGE);						// Shutdown the precharge circuit after 2 seconds. shoul
-  27:includes/chassisPDM.c **** 	// // CAN_send_heartbeat(PDM_H, NORMAL, 1);
-  28:includes/chassisPDM.c **** }...
-  23               		.loc 1 28 1 view .LVU1
-  24               	/* epilogue start */
-  25 0000 0895      		ret
-  26               		.cfi_endproc
-  27               	.LFE4:
-  29               	.global	PDM_data
-  30               		.data
-  33               	PDM_data:
-  34 0000 02        		.byte	2
-  35 0001 00        		.byte	0
-  36 0002 00        		.byte	0
-  37 0003 00        		.byte	0
-  38               		.comm	pdm,4,1
-  39               		.text
-  40               	.Letext0:
-  41               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdlib.h"
-  42               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/lib/avr-gcc/8/gcc/avr/8.1.0/include/stddef.h"
-  43               		.file 4 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
-  44               		.file 5 "includes/chassisPDM.h"
+   9:includes/chassisPDM.c **** 
+  10:includes/chassisPDM.c **** uint8_t pdmRightTemp = 0;
+  11:includes/chassisPDM.c **** uint8_t pdmLeftTemp = 0;
+  12:includes/chassisPDM.c **** 
+  13:includes/chassisPDM.c **** uint8_t PDM_convertADCToC(uint16_t val) {
+  82               		.loc 1 13 41 view -0
+  83               		.cfi_startproc
+  84               	/* prologue: function */
+  85               	/* frame size = 0 */
+  86               	/* stack size = 0 */
+  87               	.L__stack_usage = 0
+  14:includes/chassisPDM.c ****     // Julius's old code...
+  15:includes/chassisPDM.c ****     int i = 0;
+  88               		.loc 1 15 5 view .LVU1
+  16:includes/chassisPDM.c ****     while (RADIATOR_CALIBRATION_VALUES[i] > val) i++;
+  89               		.loc 1 16 5 view .LVU2
+  90 0000 E0E0      		ldi r30,lo8(RADIATOR_CALIBRATION_VALUES)
+  91 0002 F0E0      		ldi r31,hi8(RADIATOR_CALIBRATION_VALUES)
+  15:includes/chassisPDM.c ****     while (RADIATOR_CALIBRATION_VALUES[i] > val) i++;
+  92               		.loc 1 15 9 is_stmt 0 view .LVU3
+  93 0004 50E0      		ldi r21,0
+  94 0006 40E0      		ldi r20,0
+  95               	.LVL1:
+  96               	.L2:
+  97               		.loc 1 16 39 discriminator 1 view .LVU4
+  98 0008 A191      		ld r26,Z+
+  99 000a B191      		ld r27,Z+
+ 100               		.loc 1 16 11 discriminator 1 view .LVU5
+ 101 000c 8A17      		cp r24,r26
+ 102 000e 9B07      		cpc r25,r27
+ 103 0010 00F0      		brlo .L3
+  17:includes/chassisPDM.c ****     unsigned int j = ((RADIATOR_CALIBRATION_VALUES[i-1] - val) * 30);
+ 104               		.loc 1 17 5 is_stmt 1 view .LVU6
+ 105               		.loc 1 17 51 is_stmt 0 view .LVU7
+ 106 0012 FA01      		movw r30,r20
+ 107 0014 EE0F      		lsl r30
+ 108 0016 FF1F      		rol r31
+ 109 0018 E050      		subi r30,lo8(-(RADIATOR_CALIBRATION_VALUES-2))
+ 110 001a F040      		sbci r31,hi8(-(RADIATOR_CALIBRATION_VALUES-2))
+ 111 001c 6081      		ld r22,Z
+ 112 001e 7181      		ldd r23,Z+1
+ 113               		.loc 1 17 57 view .LVU8
+ 114 0020 9B01      		movw r18,r22
+ 115 0022 281B      		sub r18,r24
+ 116 0024 390B      		sbc r19,r25
+ 117               		.loc 1 17 18 view .LVU9
+ 118 0026 EEE1      		ldi r30,lo8(30)
+ 119 0028 E29F      		mul r30,r18
+ 120 002a C001      		movw r24,r0
+ 121 002c E39F      		mul r30,r19
+ 122 002e 900D      		add r25,r0
+ 123 0030 1124      		clr __zero_reg__
+ 124               	.LVL2:
+  18:includes/chassisPDM.c ****     val = j / (RADIATOR_CALIBRATION_VALUES[i-1] - RADIATOR_CALIBRATION_VALUES[i]);
+ 125               		.loc 1 18 5 is_stmt 1 view .LVU10
+  19:includes/chassisPDM.c ****     return val + ((i * 3) + 25) * 10;
+ 126               		.loc 1 19 5 view .LVU11
+ 127               		.loc 1 19 22 is_stmt 0 view .LVU12
+ 128 0032 9A01      		movw r18,r20
+ 129 0034 220F      		lsl r18
+ 130 0036 331F      		rol r19
+ 131 0038 240F      		add r18,r20
+ 132 003a 351F      		adc r19,r21
+ 133               		.loc 1 19 27 view .LVU13
+ 134 003c 275E      		subi r18,-25
+ 135 003e 3F4F      		sbci r19,-1
+  18:includes/chassisPDM.c ****     val = j / (RADIATOR_CALIBRATION_VALUES[i-1] - RADIATOR_CALIBRATION_VALUES[i]);
+ 136               		.loc 1 18 49 view .LVU14
+ 137 0040 6A1B      		sub r22,r26
+ 138 0042 7B0B      		sbc r23,r27
+ 139               	.LVL3:
+  18:includes/chassisPDM.c ****     val = j / (RADIATOR_CALIBRATION_VALUES[i-1] - RADIATOR_CALIBRATION_VALUES[i]);
+ 140               		.loc 1 18 9 view .LVU15
+ 141 0044 0E94 0000 		call __udivmodhi4
+ 142               	.LVL4:
+  20:includes/chassisPDM.c **** }
+ 143               		.loc 1 20 1 view .LVU16
+ 144 0048 862F      		mov r24,r22
+ 145 004a 9AE0      		ldi r25,lo8(10)
+ 146 004c 299F      		mul r18,r25
+ 147 004e 800D      		add r24,r0
+ 148 0050 1124      		clr __zero_reg__
+ 149               	/* epilogue start */
+ 150 0052 0895      		ret
+ 151               	.LVL5:
+ 152               	.L3:
+  16:includes/chassisPDM.c ****     unsigned int j = ((RADIATOR_CALIBRATION_VALUES[i-1] - val) * 30);
+ 153               		.loc 1 16 50 is_stmt 1 discriminator 2 view .LVU17
+  16:includes/chassisPDM.c ****     unsigned int j = ((RADIATOR_CALIBRATION_VALUES[i-1] - val) * 30);
+ 154               		.loc 1 16 51 is_stmt 0 discriminator 2 view .LVU18
+ 155 0054 4F5F      		subi r20,-1
+ 156 0056 5F4F      		sbci r21,-1
+ 157               	.LVL6:
+  16:includes/chassisPDM.c ****     unsigned int j = ((RADIATOR_CALIBRATION_VALUES[i-1] - val) * 30);
+ 158               		.loc 1 16 51 discriminator 2 view .LVU19
+ 159 0058 00C0      		rjmp .L2
+ 160               		.cfi_endproc
+ 161               	.LFE11:
+ 163               		.section	.text.PDM_getChassisTemps,"ax",@progbits
+ 164               	.global	PDM_getChassisTemps
+ 166               	PDM_getChassisTemps:
+ 167               	.LFB12:
+  21:includes/chassisPDM.c **** 
+  22:includes/chassisPDM.c **** uint8_t PDM_getChassisTemps() {
+ 168               		.loc 1 22 31 is_stmt 1 view -0
+ 169               		.cfi_startproc
+ 170               	/* prologue: function */
+ 171               	/* frame size = 0 */
+ 172               	/* stack size = 0 */
+ 173               	.L__stack_usage = 0
+  23:includes/chassisPDM.c ****     pdmRightTemp = PDM_convertADCToC(a2d_10bitCh(PDM_TEMP_RIGHT_CH));
+ 174               		.loc 1 23 5 view .LVU21
+ 175               		.loc 1 23 38 is_stmt 0 view .LVU22
+ 176 0000 80E0      		ldi r24,0
+ 177 0002 0E94 0000 		call a2d_10bitCh
+ 178               	.LVL7:
+ 179               		.loc 1 23 20 view .LVU23
+ 180 0006 0E94 0000 		call PDM_convertADCToC
+ 181               	.LVL8:
+ 182               		.loc 1 23 18 view .LVU24
+ 183 000a 8093 0000 		sts pdmRightTemp,r24
+  24:includes/chassisPDM.c ****     pdmLeftTemp = PDM_convertADCToC(a2d_10bitCh(PDM_TEMP_LEFT_CH));
+ 184               		.loc 1 24 5 is_stmt 1 view .LVU25
+ 185               		.loc 1 24 37 is_stmt 0 view .LVU26
+ 186 000e 82E0      		ldi r24,lo8(2)
+ 187 0010 0E94 0000 		call a2d_10bitCh
+ 188               	.LVL9:
+ 189               		.loc 1 24 19 view .LVU27
+ 190 0014 0E94 0000 		call PDM_convertADCToC
+ 191               	.LVL10:
+ 192               		.loc 1 24 17 view .LVU28
+ 193 0018 8093 0000 		sts pdmLeftTemp,r24
+  25:includes/chassisPDM.c ****     return 1;
+ 194               		.loc 1 25 5 is_stmt 1 view .LVU29
+  26:includes/chassisPDM.c **** }
+ 195               		.loc 1 26 1 is_stmt 0 view .LVU30
+ 196 001c 81E0      		ldi r24,lo8(1)
+ 197               	/* epilogue start */
+ 198 001e 0895      		ret
+ 199               		.cfi_endproc
+ 200               	.LFE12:
+ 202               		.section	.text.PDM_fanPumpCalc,"ax",@progbits
+ 203               	.global	PDM_fanPumpCalc
+ 205               	PDM_fanPumpCalc:
+ 206               	.LVL11:
+ 207               	.LFB13:
+  27:includes/chassisPDM.c **** 
+  28:includes/chassisPDM.c **** uint8_t PDM_fanPumpCalc(
+  29:includes/chassisPDM.c ****     uint8_t * fanRightSpeed,
+  30:includes/chassisPDM.c ****     uint8_t * fanLeftSpeed,
+  31:includes/chassisPDM.c ****     uint8_t * pumpRightSpeed,
+  32:includes/chassisPDM.c ****     uint8_t * pumpLeftSpeed,
+  33:includes/chassisPDM.c ****     uint8_t * inverterTemps
+  34:includes/chassisPDM.c **** ) {
+ 208               		.loc 1 34 3 is_stmt 1 view -0
+ 209               		.cfi_startproc
+ 210               		.loc 1 34 3 is_stmt 0 view .LVU32
+ 211 0000 AF92      		push r10
+ 212               	.LCFI0:
+ 213               		.cfi_def_cfa_offset 3
+ 214               		.cfi_offset 10, -2
+ 215 0002 BF92      		push r11
+ 216               	.LCFI1:
+ 217               		.cfi_def_cfa_offset 4
+ 218               		.cfi_offset 11, -3
+ 219 0004 CF92      		push r12
+ 220               	.LCFI2:
+ 221               		.cfi_def_cfa_offset 5
+ 222               		.cfi_offset 12, -4
+ 223 0006 DF92      		push r13
+ 224               	.LCFI3:
+ 225               		.cfi_def_cfa_offset 6
+ 226               		.cfi_offset 13, -5
+ 227 0008 EF92      		push r14
+ 228               	.LCFI4:
+ 229               		.cfi_def_cfa_offset 7
+ 230               		.cfi_offset 14, -6
+ 231 000a FF92      		push r15
+ 232               	.LCFI5:
+ 233               		.cfi_def_cfa_offset 8
+ 234               		.cfi_offset 15, -7
+ 235 000c 0F93      		push r16
+ 236               	.LCFI6:
+ 237               		.cfi_def_cfa_offset 9
+ 238               		.cfi_offset 16, -8
+ 239 000e 1F93      		push r17
+ 240               	.LCFI7:
+ 241               		.cfi_def_cfa_offset 10
+ 242               		.cfi_offset 17, -9
+ 243 0010 CF93      		push r28
+ 244               	.LCFI8:
+ 245               		.cfi_def_cfa_offset 11
+ 246               		.cfi_offset 28, -10
+ 247 0012 DF93      		push r29
+ 248               	.LCFI9:
+ 249               		.cfi_def_cfa_offset 12
+ 250               		.cfi_offset 29, -11
+ 251               	/* prologue: function */
+ 252               	/* frame size = 0 */
+ 253               	/* stack size = 10 */
+ 254               	.L__stack_usage = 10
+ 255 0014 5C01      		movw r10,r24
+ 256 0016 6B01      		movw r12,r22
+ 257 0018 7A01      		movw r14,r20
+ 258 001a E901      		movw r28,r18
+  35:includes/chassisPDM.c ****     PDM_getChassisTemps(); // Pre-fills the global vars with the current temps of the temp sensors
+ 259               		.loc 1 35 5 is_stmt 1 view .LVU33
+ 260 001c 0E94 0000 		call PDM_getChassisTemps
+ 261               	.LVL12:
+  36:includes/chassisPDM.c ****     // Takes debug signal to force fans and pumps on
+  37:includes/chassisPDM.c ****     if(debugPDMSig) { // Global value, defined in ChassisUART.h & .c
+ 262               		.loc 1 37 5 view .LVU34
+ 263               		.loc 1 37 8 is_stmt 0 view .LVU35
+ 264 0020 8091 0000 		lds r24,debugPDMSig
+ 265               		.loc 1 37 7 view .LVU36
+ 266 0024 8823      		tst r24
+ 267 0026 01F0      		breq .L6
+  38:includes/chassisPDM.c ****         *fanRightSpeed = 100;
+ 268               		.loc 1 38 9 is_stmt 1 view .LVU37
+ 269               		.loc 1 38 24 is_stmt 0 view .LVU38
+ 270 0028 84E6      		ldi r24,lo8(100)
+ 271 002a F501      		movw r30,r10
+ 272 002c 8083      		st Z,r24
+  39:includes/chassisPDM.c ****         *fanLeftSpeed = 100;
+ 273               		.loc 1 39 9 is_stmt 1 view .LVU39
+ 274               		.loc 1 39 23 is_stmt 0 view .LVU40
+ 275 002e F601      		movw r30,r12
+ 276 0030 8083      		st Z,r24
+  40:includes/chassisPDM.c ****         *pumpRightSpeed = 100;
+ 277               		.loc 1 40 9 is_stmt 1 view .LVU41
+ 278               		.loc 1 40 25 is_stmt 0 view .LVU42
+ 279 0032 F701      		movw r30,r14
+ 280 0034 8083      		st Z,r24
+  41:includes/chassisPDM.c ****         *pumpLeftSpeed = 100;
+ 281               		.loc 1 41 9 is_stmt 1 view .LVU43
+ 282               		.loc 1 41 24 is_stmt 0 view .LVU44
+ 283 0036 8883      		st Y,r24
+ 284               	.L7:
+  42:includes/chassisPDM.c ****     } else { // If the debug signal is not forcing it on, calculate if it should be on
+  43:includes/chassisPDM.c **** 
+  44:includes/chassisPDM.c ****         // If either inverter temp is above 53c, pump on
+  45:includes/chassisPDM.c ****         uint8_t inverterAboveTempRight = 0;
+  46:includes/chassisPDM.c ****         uint8_t inverterAboveTempLeft = 0;
+  47:includes/chassisPDM.c ****         // throw_error_code(ERROR_LEVEL_WARN, ERROR_BAD_CONFIG);
+  48:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_FRONT_LEFT) != 0) {
+  49:includes/chassisPDM.c ****             // 0b00000110
+  50:includes/chassisPDM.c ****             // 0b00000001
+  51:includes/chassisPDM.c ****             // 0b00000000 0 == 0
+  52:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+  53:includes/chassisPDM.c ****                 *pumpLeftSpeed = 100;
+  54:includes/chassisPDM.c ****                 inverterAboveTempLeft++;
+  55:includes/chassisPDM.c ****             }
+  56:includes/chassisPDM.c ****         }
+  57:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_FRONT_RIGHT) != 0) {
+  58:includes/chassisPDM.c ****             // 0b00000110
+  59:includes/chassisPDM.c ****             // 0b00000010
+  60:includes/chassisPDM.c ****             // 0b00000010 2 != 0
+  61:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+  62:includes/chassisPDM.c ****                 *pumpRightSpeed = 100;
+  63:includes/chassisPDM.c ****                 inverterAboveTempRight++;
+  64:includes/chassisPDM.c ****             }
+  65:includes/chassisPDM.c ****         }
+  66:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_BACK_RIGHT) != 0) {
+  67:includes/chassisPDM.c ****             // 0b00000110
+  68:includes/chassisPDM.c ****             // 0b00000100
+  69:includes/chassisPDM.c ****             // 0b00000100 4 != 0
+  70:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+  71:includes/chassisPDM.c ****                 *pumpRightSpeed = 100;
+  72:includes/chassisPDM.c ****                 inverterAboveTempRight++;
+  73:includes/chassisPDM.c ****             }
+  74:includes/chassisPDM.c ****         }
+  75:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_BACK_LEFT) != 0) {
+  76:includes/chassisPDM.c ****             // 0b00000110
+  77:includes/chassisPDM.c ****             // 0b00001000
+  78:includes/chassisPDM.c ****             // 0b00000000 0 == 0
+  79:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+  80:includes/chassisPDM.c ****                 *pumpLeftSpeed = 100;
+  81:includes/chassisPDM.c ****                 inverterAboveTempLeft++;
+  82:includes/chassisPDM.c ****             }
+  83:includes/chassisPDM.c ****         }
+  84:includes/chassisPDM.c **** 
+  85:includes/chassisPDM.c ****         // Only below if all inverter temps are below 50c, pump off
+  86:includes/chassisPDM.c ****         if(inverterAboveTempRight > 0) {
+  87:includes/chassisPDM.c ****             *pumpRightSpeed = 0;
+  88:includes/chassisPDM.c ****         }
+  89:includes/chassisPDM.c ****         if(inverterAboveTempLeft > 0) {
+  90:includes/chassisPDM.c ****             *pumpLeftSpeed = 0;
+  91:includes/chassisPDM.c ****         }
+  92:includes/chassisPDM.c **** 
+  93:includes/chassisPDM.c **** 
+  94:includes/chassisPDM.c ****         if(pdmRightTemp >= pdmTempSensorONTemp) { // Fan on if the temp sensor is above 53c (Right)
+  95:includes/chassisPDM.c ****             // Turn the right fan on
+  96:includes/chassisPDM.c ****             *fanRightSpeed = 100;
+  97:includes/chassisPDM.c ****         }
+  98:includes/chassisPDM.c ****         if(pdmLeftTemp >= pdmTempSensorONTemp) { // Fan on if the temp sensor is above 53c (Left)
+  99:includes/chassisPDM.c ****             // Turn the left fan on
+ 100:includes/chassisPDM.c ****             *fanLeftSpeed = 100;
+ 101:includes/chassisPDM.c ****         }
+ 102:includes/chassisPDM.c **** 
+ 103:includes/chassisPDM.c ****         if(pdmRightTemp <= pdmTempSensorOFFTemp) { // Fan off if the temp sensor is below 50c (Righ
+ 104:includes/chassisPDM.c ****             // Turn the right fan off
+ 105:includes/chassisPDM.c ****             *fanRightSpeed = 0;
+ 106:includes/chassisPDM.c ****         }
+ 107:includes/chassisPDM.c ****         if(pdmLeftTemp <= pdmTempSensorOFFTemp) { // Fan off if the temp sensor is below 50c (Left)
+ 108:includes/chassisPDM.c ****             // Turn the left fan off
+ 109:includes/chassisPDM.c ****             *fanLeftSpeed = 0;
+ 110:includes/chassisPDM.c ****         }
+ 111:includes/chassisPDM.c ****     }
+ 112:includes/chassisPDM.c ****     return 1;
+ 285               		.loc 1 112 5 is_stmt 1 view .LVU45
+ 113:includes/chassisPDM.c **** }...
+ 286               		.loc 1 113 1 is_stmt 0 view .LVU46
+ 287 0038 81E0      		ldi r24,lo8(1)
+ 288               	/* epilogue start */
+ 289 003a DF91      		pop r29
+ 290 003c CF91      		pop r28
+ 291               	.LVL13:
+ 292               		.loc 1 113 1 view .LVU47
+ 293 003e 1F91      		pop r17
+ 294 0040 0F91      		pop r16
+ 295               	.LVL14:
+ 296               		.loc 1 113 1 view .LVU48
+ 297 0042 FF90      		pop r15
+ 298 0044 EF90      		pop r14
+ 299               	.LVL15:
+ 300               		.loc 1 113 1 view .LVU49
+ 301 0046 DF90      		pop r13
+ 302 0048 CF90      		pop r12
+ 303               	.LVL16:
+ 304               		.loc 1 113 1 view .LVU50
+ 305 004a BF90      		pop r11
+ 306 004c AF90      		pop r10
+ 307               	.LVL17:
+ 308               		.loc 1 113 1 view .LVU51
+ 309 004e 0895      		ret
+ 310               	.LVL18:
+ 311               	.L6:
+ 312               	.LBB2:
+  45:includes/chassisPDM.c ****         uint8_t inverterAboveTempRight = 0;
+ 313               		.loc 1 45 9 is_stmt 1 view .LVU52
+  46:includes/chassisPDM.c ****         uint8_t inverterAboveTempLeft = 0;
+ 314               		.loc 1 46 9 view .LVU53
+  48:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_FRONT_LEFT) != 0) {
+ 315               		.loc 1 48 9 view .LVU54
+  48:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_FRONT_LEFT) != 0) {
+ 316               		.loc 1 48 11 is_stmt 0 view .LVU55
+ 317 0050 9091 0000 		lds r25,CORE_invertersPresent
+ 318 0054 90FF      		sbrs r25,0
+ 319 0056 00C0      		rjmp .L21
+  52:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+ 320               		.loc 1 52 13 is_stmt 1 view .LVU56
+  52:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+ 321               		.loc 1 52 15 is_stmt 0 view .LVU57
+ 322 0058 F801      		movw r30,r16
+ 323 005a 9081      		ld r25,Z
+ 324 005c 9633      		cpi r25,lo8(54)
+ 325 005e 00F4      		brsh .+2
+ 326 0060 00C0      		rjmp .L21
+  53:includes/chassisPDM.c ****                 *pumpLeftSpeed = 100;
+ 327               		.loc 1 53 17 is_stmt 1 view .LVU58
+  53:includes/chassisPDM.c ****                 *pumpLeftSpeed = 100;
+ 328               		.loc 1 53 32 is_stmt 0 view .LVU59
+ 329 0062 94E6      		ldi r25,lo8(100)
+ 330 0064 9883      		st Y,r25
+  54:includes/chassisPDM.c ****                 inverterAboveTempLeft++;
+ 331               		.loc 1 54 17 is_stmt 1 view .LVU60
+ 332               	.LVL19:
+  54:includes/chassisPDM.c ****                 inverterAboveTempLeft++;
+ 333               		.loc 1 54 38 is_stmt 0 view .LVU61
+ 334 0066 91E0      		ldi r25,lo8(1)
+ 335               	.LVL20:
+ 336               	.L8:
+  57:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_FRONT_RIGHT) != 0) {
+ 337               		.loc 1 57 9 is_stmt 1 view .LVU62
+  57:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_FRONT_RIGHT) != 0) {
+ 338               		.loc 1 57 11 is_stmt 0 view .LVU63
+ 339 0068 2091 0000 		lds r18,CORE_invertersPresent
+ 340 006c 21FF      		sbrs r18,1
+ 341 006e 00C0      		rjmp .L9
+  61:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+ 342               		.loc 1 61 13 is_stmt 1 view .LVU64
+  61:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+ 343               		.loc 1 61 15 is_stmt 0 view .LVU65
+ 344 0070 F801      		movw r30,r16
+ 345 0072 2081      		ld r18,Z
+ 346 0074 2633      		cpi r18,lo8(54)
+ 347 0076 00F0      		brlo .L9
+  62:includes/chassisPDM.c ****                 *pumpRightSpeed = 100;
+ 348               		.loc 1 62 17 is_stmt 1 view .LVU66
+  62:includes/chassisPDM.c ****                 *pumpRightSpeed = 100;
+ 349               		.loc 1 62 33 is_stmt 0 view .LVU67
+ 350 0078 84E6      		ldi r24,lo8(100)
+ 351 007a F701      		movw r30,r14
+ 352 007c 8083      		st Z,r24
+  63:includes/chassisPDM.c ****                 inverterAboveTempRight++;
+ 353               		.loc 1 63 17 is_stmt 1 view .LVU68
+ 354               	.LVL21:
+  63:includes/chassisPDM.c ****                 inverterAboveTempRight++;
+ 355               		.loc 1 63 39 is_stmt 0 view .LVU69
+ 356 007e 81E0      		ldi r24,lo8(1)
+ 357               	.LVL22:
+ 358               	.L9:
+  66:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_BACK_RIGHT) != 0) {
+ 359               		.loc 1 66 9 is_stmt 1 view .LVU70
+  66:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_BACK_RIGHT) != 0) {
+ 360               		.loc 1 66 11 is_stmt 0 view .LVU71
+ 361 0080 2091 0000 		lds r18,CORE_invertersPresent
+ 362 0084 22FF      		sbrs r18,2
+ 363 0086 00C0      		rjmp .L10
+  70:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+ 364               		.loc 1 70 13 is_stmt 1 view .LVU72
+  70:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+ 365               		.loc 1 70 15 is_stmt 0 view .LVU73
+ 366 0088 F801      		movw r30,r16
+ 367 008a 2081      		ld r18,Z
+ 368 008c 2633      		cpi r18,lo8(54)
+ 369 008e 00F0      		brlo .L10
+  71:includes/chassisPDM.c ****                 *pumpRightSpeed = 100;
+ 370               		.loc 1 71 17 is_stmt 1 view .LVU74
+  71:includes/chassisPDM.c ****                 *pumpRightSpeed = 100;
+ 371               		.loc 1 71 33 is_stmt 0 view .LVU75
+ 372 0090 24E6      		ldi r18,lo8(100)
+ 373 0092 F701      		movw r30,r14
+ 374 0094 2083      		st Z,r18
+  72:includes/chassisPDM.c ****                 inverterAboveTempRight++;
+ 375               		.loc 1 72 17 is_stmt 1 view .LVU76
+  72:includes/chassisPDM.c ****                 inverterAboveTempRight++;
+ 376               		.loc 1 72 39 is_stmt 0 view .LVU77
+ 377 0096 8F5F      		subi r24,lo8(-(1))
+ 378               	.LVL23:
+ 379               	.L10:
+  75:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_BACK_LEFT) != 0) {
+ 380               		.loc 1 75 9 is_stmt 1 view .LVU78
+  75:includes/chassisPDM.c ****         if((CORE_invertersPresent & CORE_INVERTER_BACK_LEFT) != 0) {
+ 381               		.loc 1 75 11 is_stmt 0 view .LVU79
+ 382 0098 2091 0000 		lds r18,CORE_invertersPresent
+ 383 009c 23FF      		sbrs r18,3
+ 384 009e 00C0      		rjmp .L11
+  79:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+ 385               		.loc 1 79 13 is_stmt 1 view .LVU80
+  79:includes/chassisPDM.c ****             if((*inverterTemps + 0) > pdmTempSensorONTemp) {
+ 386               		.loc 1 79 15 is_stmt 0 view .LVU81
+ 387 00a0 F801      		movw r30,r16
+ 388 00a2 2081      		ld r18,Z
+ 389 00a4 2633      		cpi r18,lo8(54)
+ 390 00a6 00F0      		brlo .L11
+  80:includes/chassisPDM.c ****                 *pumpLeftSpeed = 100;
+ 391               		.loc 1 80 17 is_stmt 1 view .LVU82
+  80:includes/chassisPDM.c ****                 *pumpLeftSpeed = 100;
+ 392               		.loc 1 80 32 is_stmt 0 view .LVU83
+ 393 00a8 24E6      		ldi r18,lo8(100)
+ 394 00aa 2883      		st Y,r18
+  81:includes/chassisPDM.c ****                 inverterAboveTempLeft++;
+ 395               		.loc 1 81 17 is_stmt 1 view .LVU84
+ 396               	.LVL24:
+  86:includes/chassisPDM.c ****         if(inverterAboveTempRight > 0) {
+ 397               		.loc 1 86 9 view .LVU85
+  86:includes/chassisPDM.c ****         if(inverterAboveTempRight > 0) {
+ 398               		.loc 1 86 11 is_stmt 0 view .LVU86
+ 399 00ac 8111      		cpse r24,__zero_reg__
+ 400 00ae 00C0      		rjmp .L12
+ 401               	.LVL25:
+ 402               	.L16:
+  90:includes/chassisPDM.c ****             *pumpLeftSpeed = 0;
+ 403               		.loc 1 90 13 is_stmt 1 view .LVU87
+  90:includes/chassisPDM.c ****             *pumpLeftSpeed = 0;
+ 404               		.loc 1 90 28 is_stmt 0 view .LVU88
+ 405 00b0 1882      		st Y,__zero_reg__
+ 406               	.L13:
+  94:includes/chassisPDM.c ****         if(pdmRightTemp >= pdmTempSensorONTemp) { // Fan on if the temp sensor is above 53c (Right)
+ 407               		.loc 1 94 9 is_stmt 1 view .LVU89
+  94:includes/chassisPDM.c ****         if(pdmRightTemp >= pdmTempSensorONTemp) { // Fan on if the temp sensor is above 53c (Right)
+ 408               		.loc 1 94 11 is_stmt 0 view .LVU90
+ 409 00b2 8091 0000 		lds r24,pdmRightTemp
+ 410               	.LVL26:
+  94:includes/chassisPDM.c ****         if(pdmRightTemp >= pdmTempSensorONTemp) { // Fan on if the temp sensor is above 53c (Right)
+ 411               		.loc 1 94 11 view .LVU91
+ 412 00b6 8533      		cpi r24,lo8(53)
+ 413 00b8 00F0      		brlo .L17
+  96:includes/chassisPDM.c ****             *fanRightSpeed = 100;
+ 414               		.loc 1 96 13 is_stmt 1 view .LVU92
+  96:includes/chassisPDM.c ****             *fanRightSpeed = 100;
+ 415               		.loc 1 96 28 is_stmt 0 view .LVU93
+ 416 00ba 84E6      		ldi r24,lo8(100)
+ 417 00bc F501      		movw r30,r10
+ 418 00be 8083      		st Z,r24
+ 419               	.L17:
+  98:includes/chassisPDM.c ****         if(pdmLeftTemp >= pdmTempSensorONTemp) { // Fan on if the temp sensor is above 53c (Left)
+ 420               		.loc 1 98 9 is_stmt 1 view .LVU94
+  98:includes/chassisPDM.c ****         if(pdmLeftTemp >= pdmTempSensorONTemp) { // Fan on if the temp sensor is above 53c (Left)
+ 421               		.loc 1 98 11 is_stmt 0 view .LVU95
+ 422 00c0 8091 0000 		lds r24,pdmLeftTemp
+ 423 00c4 8533      		cpi r24,lo8(53)
+ 424 00c6 00F0      		brlo .L18
+ 100:includes/chassisPDM.c ****             *fanLeftSpeed = 100;
+ 425               		.loc 1 100 13 is_stmt 1 view .LVU96
+ 100:includes/chassisPDM.c ****             *fanLeftSpeed = 100;
+ 426               		.loc 1 100 27 is_stmt 0 view .LVU97
+ 427 00c8 84E6      		ldi r24,lo8(100)
+ 428 00ca F601      		movw r30,r12
+ 429 00cc 8083      		st Z,r24
+ 430               	.L18:
+ 103:includes/chassisPDM.c ****         if(pdmRightTemp <= pdmTempSensorOFFTemp) { // Fan off if the temp sensor is below 50c (Righ
+ 431               		.loc 1 103 9 is_stmt 1 view .LVU98
+ 103:includes/chassisPDM.c ****         if(pdmRightTemp <= pdmTempSensorOFFTemp) { // Fan off if the temp sensor is below 50c (Righ
+ 432               		.loc 1 103 11 is_stmt 0 view .LVU99
+ 433 00ce 8091 0000 		lds r24,pdmRightTemp
+ 434 00d2 8333      		cpi r24,lo8(51)
+ 435 00d4 00F4      		brsh .L19
+ 105:includes/chassisPDM.c ****             *fanRightSpeed = 0;
+ 436               		.loc 1 105 13 is_stmt 1 view .LVU100
+ 105:includes/chassisPDM.c ****             *fanRightSpeed = 0;
+ 437               		.loc 1 105 28 is_stmt 0 view .LVU101
+ 438 00d6 F501      		movw r30,r10
+ 439 00d8 1082      		st Z,__zero_reg__
+ 440               	.L19:
+ 107:includes/chassisPDM.c ****         if(pdmLeftTemp <= pdmTempSensorOFFTemp) { // Fan off if the temp sensor is below 50c (Left)
+ 441               		.loc 1 107 9 is_stmt 1 view .LVU102
+ 107:includes/chassisPDM.c ****         if(pdmLeftTemp <= pdmTempSensorOFFTemp) { // Fan off if the temp sensor is below 50c (Left)
+ 442               		.loc 1 107 11 is_stmt 0 view .LVU103
+ 443 00da 8091 0000 		lds r24,pdmLeftTemp
+ 444 00de 8333      		cpi r24,lo8(51)
+ 445 00e0 00F0      		brlo .+2
+ 446 00e2 00C0      		rjmp .L7
+ 109:includes/chassisPDM.c ****             *fanLeftSpeed = 0;
+ 447               		.loc 1 109 13 is_stmt 1 view .LVU104
+ 109:includes/chassisPDM.c ****             *fanLeftSpeed = 0;
+ 448               		.loc 1 109 27 is_stmt 0 view .LVU105
+ 449 00e4 F601      		movw r30,r12
+ 450 00e6 1082      		st Z,__zero_reg__
+ 451 00e8 00C0      		rjmp .L7
+ 452               	.LVL27:
+ 453               	.L21:
+  46:includes/chassisPDM.c ****         uint8_t inverterAboveTempLeft = 0;
+ 454               		.loc 1 46 17 view .LVU106
+ 455 00ea 90E0      		ldi r25,0
+ 456 00ec 00C0      		rjmp .L8
+ 457               	.LVL28:
+ 458               	.L12:
+  81:includes/chassisPDM.c ****                 inverterAboveTempLeft++;
+ 459               		.loc 1 81 38 view .LVU107
+ 460 00ee 9F5F      		subi r25,lo8(-(1))
+ 461               	.LVL29:
+ 462               	.L14:
+  87:includes/chassisPDM.c ****             *pumpRightSpeed = 0;
+ 463               		.loc 1 87 13 is_stmt 1 view .LVU108
+  87:includes/chassisPDM.c ****             *pumpRightSpeed = 0;
+ 464               		.loc 1 87 29 is_stmt 0 view .LVU109
+ 465 00f0 F701      		movw r30,r14
+ 466 00f2 1082      		st Z,__zero_reg__
+ 467 00f4 00C0      		rjmp .L15
+ 468               	.L11:
+  86:includes/chassisPDM.c ****         if(inverterAboveTempRight > 0) {
+ 469               		.loc 1 86 9 is_stmt 1 view .LVU110
+  86:includes/chassisPDM.c ****         if(inverterAboveTempRight > 0) {
+ 470               		.loc 1 86 11 is_stmt 0 view .LVU111
+ 471 00f6 8111      		cpse r24,__zero_reg__
+ 472 00f8 00C0      		rjmp .L14
+ 473               	.L15:
+  89:includes/chassisPDM.c ****         if(inverterAboveTempLeft > 0) {
+ 474               		.loc 1 89 9 is_stmt 1 view .LVU112
+  89:includes/chassisPDM.c ****         if(inverterAboveTempLeft > 0) {
+ 475               		.loc 1 89 11 is_stmt 0 view .LVU113
+ 476 00fa 9923      		tst r25
+ 477 00fc 01F0      		breq .L13
+ 478 00fe 00C0      		rjmp .L16
+ 479               	.LBE2:
+ 480               		.cfi_endproc
+ 481               	.LFE13:
+ 483               		.text
+ 484               	.Letext0:
+ 485               		.file 2 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdlib.h"
+ 486               		.file 3 "/usr/local/Cellar/avr-gcc/8.1.0/lib/avr-gcc/8/gcc/avr/8.1.0/include/stddef.h"
+ 487               		.file 4 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdint.h"
+ 488               		.file 5 "/usr/local/Cellar/avr-gcc/8.1.0/avr/include/stdio.h"
+ 489               		.file 6 "./includes/chassisInput.h"
+ 490               		.file 7 "./utils/uart.h"
+ 491               		.file 8 "./main.h"
+ 492               		.file 9 "./includes/chassisUART.h"
+ 493               		.file 10 "includes/chassisPDM.h"
+ 494               		.file 11 "./utils/a2d.h"
 DEFINED SYMBOLS
                             *ABS*:0000000000000000 chassisPDM.c
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc8CfJ2X.s:2      *ABS*:000000000000003e __SP_H__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc8CfJ2X.s:3      *ABS*:000000000000003d __SP_L__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc8CfJ2X.s:4      *ABS*:000000000000003f __SREG__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc8CfJ2X.s:5      *ABS*:000000000000003b __RAMPZ__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc8CfJ2X.s:6      *ABS*:0000000000000000 __tmp_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc8CfJ2X.s:7      *ABS*:0000000000000001 __zero_reg__
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc8CfJ2X.s:14     .text.pdm_init:0000000000000000 pdm_init
-/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cc8CfJ2X.s:33     .data:0000000000000000 PDM_data
-                            *COM*:0000000000000004 pdm
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:2      *ABS*:000000000000003e __SP_H__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:3      *ABS*:000000000000003d __SP_L__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:4      *ABS*:000000000000003f __SREG__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:5      *ABS*:000000000000003b __RAMPZ__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:6      *ABS*:0000000000000000 __tmp_reg__
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:7      *ABS*:0000000000000001 __zero_reg__
+                            *COM*:0000000000000001 portKey
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:16     .rodata:0000000000000000 pdmInverterONTemp
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:21     .rodata:0000000000000001 pdmInverterOFFTemp
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:26     .rodata:0000000000000002 pdmTempSensorONTemp
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:31     .rodata:0000000000000003 pdmTempSensorOFFTemp
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:36     .rodata:0000000000000004 RADIATOR_CALIBRATION_VALUES
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:68     .bss:0000000000000000 pdmRightTemp
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:73     .bss:0000000000000001 pdmLeftTemp
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:78     .text.PDM_convertADCToC:0000000000000000 PDM_convertADCToC
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:166    .text.PDM_getChassisTemps:0000000000000000 PDM_getChassisTemps
+/var/folders/my/0z6f376568j9tywzmdyvysy80000gn/T//cclsBQRS.s:205    .text.PDM_fanPumpCalc:0000000000000000 PDM_fanPumpCalc
 
 UNDEFINED SYMBOLS
+__udivmodhi4
+a2d_10bitCh
+debugPDMSig
+CORE_invertersPresent
 __do_copy_data
 __do_clear_bss
