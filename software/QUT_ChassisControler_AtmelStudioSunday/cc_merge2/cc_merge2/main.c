@@ -5,7 +5,13 @@ uint16_t ignitionStateDebounceCount = 0;
 uint8_t ignitionStateLock = 0;
 uint8_t ignitionState = 0;
 
-uint8_t armedState = 0;
+uint8_t isArmedState = 0;
+uint8_t prevArmedState = 0;
+uint8_t isSirenOn = 0;
+static uint16_t sirenOnDuration = 2000; // 2000 milliseconds = 2 seconds
+uint16_t sirenOnCount = 0;
+
+uint8_t isBrakeLightOn = 0;
 
 uint8_t shutdownState = 0;
 
@@ -28,6 +34,7 @@ int main(void) {
 
     // Grab the state of the shutdown circuity
     shutdownState = 0;
+	isSirenOn = 0;
 	_delay_ms(500);
     // Enable Interupts
     sei();		
@@ -35,11 +42,11 @@ int main(void) {
     // ------------------------------------------------------------------------
     while(1) {
 		
-		if(isCharAvailable() == 1)uart_process_byte(receiveChar());
-		uart1_puts("Hello World!\n");
+		//if(isCharAvailable() == 1)uart_process_byte(receiveChar());
+		//uart1_puts("Hello World!\n");
 	}
 	
-	return 0;
+	// return 0; // Never return from an embedded program, does bad things if this ever triggers
 }
 
 /**
@@ -49,20 +56,19 @@ void oneKHzTimer(void)
 {
 	static int test_counter = 0;
 
-    static uint16_t CANheartbeatCountInverters = 0;		// Number of iterations for the inverter heartbeat trigger
-    static uint16_t CANheartbeatCountWheel = 1;			// Number of iterations for the data heartbeat trigger
-    static uint16_t CANheartbeatCountPDM = 2;			// Number of iterations for the power heartbeat trigger
+    static uint16_t CANheartbeatCountInverters = 0;			// Number of iterations for the inverter heartbeat trigger
+    static uint16_t CANheartbeatCountWheel = 1;				// Number of iterations for the data heartbeat trigger
+    static uint16_t CANheartbeatCountPDM = 2;				// Number of iterations for the power heartbeat trigger
 	static uint16_t CANheartbeatCountShutdown = 3;			// Number of iterations for the power heartbeat trigger
-	static uint16_t CANheartbeatCountAMU = 4;			// Number of iterations for the power heartbeat trigger
+	static uint16_t CANheartbeatCountAMU = 4;				// Number of iterations for the power heartbeat trigger
 
     // static uint8_t CanHeartbeatErrorInverters = 100;		// Time without successfull heartbeat for inverters
     // static uint8_t CanHeartbeatErrorData = 101;			// Time without successfull heartbeat for data
     // static uint8_t CanHeartbeatErrorPower = 102;			// Time without successfull heartbeat for power
 
-    static uint8_t InputPedalThrottleCount = 3;				// Number of iterations for the pot heartbeat trigger
-    static uint8_t InputPedalBrakeCount = 4;				// Number of iterations for the pot heartbeat trigger
-	static uint8_t InputSteeringCount = 5;			// Number of iterations for the pot heartbeat trigger
-    // static uint8_t InputTempCount = 5;					// Number of iterations for the temp heartbeat trigger
+    static uint8_t InputPedalThrottleCount = 5;				// Number of iterations for the throttle pedal heartbeat trigger
+    static uint8_t InputPedalBrakeCount = 6;				// Number of iterations for the break pedel heartbeat trigger
+	static uint8_t InputSteeringCount = 7;					// Number of iterations for the steering angle heartbeat trigger
 
     // static uint8_t CANInputSendTime = 0;					// Number of iterations for the input send trigger
 
@@ -87,8 +93,14 @@ void oneKHzTimer(void)
             //If this is the first time though from a previous press
             if(ignitionStateLock == 0) {
                 ignitionStateLock = 1;		// Disabled first run though after press
-                armedState ^= 1;
+                isArmedState ^= 1;
+				// If the armed state has just been turned on, activate the siren
+				if(isArmedState == 1) {
+					led_toggle();
+					isSirenOn = 1;
+				}
             }
+			
         }
     }
     else {
@@ -97,12 +109,18 @@ void oneKHzTimer(void)
         ignitionStateDebounceCount = 0; // Resets the counter for time the button is pressed
     }
 	
+	// Additionally, see if the siren needs to sound that the HV is on
+	if(isSirenOn == 1) { // Checks to see if the siren should be active
+		if(sirenOnCount++ > sirenOnDuration) { // Counts up time, and if over allowance
+			isSirenOn = 0; // Turn of siren
+			sirenOnCount = 0;
+		}
+	}
+	
      //Send CAN heartbeats -> Inverters: 100Hz, Data: 100Hz, Power: 20Hz
      //100Hz = 1 / 100 = 0.01s = 10ms, 20Hz = 1 / 20 = 0.05s = 50ms
      //------------------------------------------------------------------------
     
-	
-	 inverterArray[0] = INPUT_accelerationPedal;//CAN_HEARTBEAT_TIME_INVERTERS
 	 if(CANheartbeatCountInverters >= CAN_HEARTBEAT_TIME_INVERTERS)
 	 {
 		 // Reset inverter heartbeat counter
@@ -130,16 +148,6 @@ void oneKHzTimer(void)
 		 // Reset power heartbeat counter
 		 CANheartbeatCountPDM = 0;
 		 // Send power system heartbeat
-		 //if(armedState == 1)PDMarray[0] |= 255; //192
-		 PDMarray[0] |= 255; // testing CAN
-		 PDMarray[1] |= 255; // testing CAN
-		 PDMarray[2] |= 255; // testing CAN
-		 PDMarray[3] |= 255; // testing CAN
-		 PDMarray[4] |= 0; // testing CAN
-		 PDMarray[5] |= 0; // testing CAN
-		 PDMarray[6] |= 0; // testing CAN
-		 PDMarray[7] |= 0; // testing CAN
-		 //else PDMarray[0] &= ~255;
 		 CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_PDM_ID | 1);
 	 }
 	 
@@ -165,8 +173,10 @@ void oneKHzTimer(void)
 	 CANheartbeatCountPDM++;
 	 CANheartbeatCountShutdown++;
 	 CANheartbeatCountAMU++;
+	 
     // CAN Error counts -> Missing Receives
     // ------------------------------------------------------------------------
+	
     // if(CanHeartbeatErrorInverters > CAN_HEARTBEAT_ERROR_DELAY)
     // {
     //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_NO_RESPONSE);
@@ -184,52 +194,73 @@ void oneKHzTimer(void)
     // CanHeartbeatErrorPower++;
 
 
-    // Send CAN input
+	// Gather all input pedals
+	//------------------------------------------------------------------------
+	
     uint8_t tmpInputVal;
     if(InputPedalThrottleCount > INPUT_TIME_PEDAL_THROTTLE)
     {
 		//INPUT_accelerationPedal = a2d_10bitCh(5);
-
         if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
              INPUT_accelerationPedal = tmpInputVal;
         }
         InputPedalThrottleCount = 0;
     }
-
     if(InputPedalBrakeCount > INPUT_TIME_PEDAL_BRAKE)
     {
         //INPUT_brakePedal = (uint8_t)(a2d_10bitCh(8)/4);
         if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
              INPUT_brakePedal = tmpInputVal;
 		}
-		
         InputPedalBrakeCount = 0;
     }
-	
 	if(InputSteeringCount > INPUT_TIME_STEERING)
 	{
-		INPUT_steeringAngle = (uint8_t)(a2d_8bitCh(INPUT_STEERING_ANGLE_CH));
-		//if(INPUT_get_steeringWheel(&tmpInputVal) == 0) {
-			//INPUT_steeringAngle = tmpInputVal;
-		//}
-		
+		//INPUT_steeringAngle = (uint16_t)(a2d_8bitCh(4));
+		if(INPUT_get_steeringWheel(&tmpInputVal) == 0) {
+			INPUT_steeringAngle = tmpInputVal;
+		}
 		InputSteeringCount = 0;
 	}
+	//if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
+	//    INPUT_brakePressureBack = tmpInputVal;
+	//}
+	//if(INPUT_get_brakePressureFront(&tmpInputVal) == 0) {
+	//    INPUT_brakePressureFront = tmpInputVal;
+	//}
 	
     InputPedalThrottleCount++;
     InputPedalBrakeCount++;
 	InputSteeringCount++;
+	
+	// Brake light code
+	if(INPUT_brakePedal > INPUT_PEDAL_BRAKE_LIGHT_ON) {
+		isBrakeLightOn = 1;
+	} else {
+		isBrakeLightOn = 0;
+	}
     
 	
 	inverterArray[0] = INPUT_accelerationPedal;
-	WheelArray[1] = INPUT_accelerationPedal;
-
-    // if(INPUT_get_brakePressureBack(&tmpInputVal) == 0) {
-    //     INPUT_brakePressureBack = tmpInputVal;
-    // }
-    // if(INPUT_get_brakePressureFront(&tmpInputVal) == 0) {
-    //     INPUT_brakePressureFront = tmpInputVal;
-    // }
+	inverterArray[1] = INPUT_brakePedal;
+	inverterArray[2] = INPUT_steeringAngle;
+	inverterArray[3] = isArmedState;
+	inverterArray[4] = sirenOnCount;
+	inverterArray[5] = isSirenOn;
+	inverterArray[6] = isBrakeLightOn;
+	
+	WheelArray[0] = INPUT_accelerationPedal;
+    WheelArray[1] = INPUT_brakePedal;
+	WheelArray[2] = INPUT_steeringAngle;
+	WheelArray[3] = isArmedState;
+	WheelArray[4] = sirenOnCount;
+	WheelArray[5] = isSirenOn;
+	WheelArray[6] = isBrakeLightOn;
+	
+	PDMarray[0] = 0b11001111 | isSirenOn << 6 | isBrakeLightOn << 5;
+	PDMarray[1] = isArmedState;
+	PDMarray[2] = isSirenOn;
+	PDMarray[3] = isBrakeLightOn;
 	
 }
 
@@ -240,15 +271,11 @@ void oneKHzTimer(void)
  */
 ISR(TIMER0_COMPA_vect)
 {
-//<<<<<<< HEAD
     oneKHzTimer();
 	//uart_puts("HelloWorld!");
 	//char msg[12];
 	//sprintf(msg, "r: %d", out);
 	//uart_puts(msg);
-//=======
-    oneKHzTimer();	
-//>>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -266,25 +293,18 @@ ISR(INT1_vect) {
 	uint32_t ID;
 	uint8_t numBytes;
 	//led_toggle();
-//<<<<<<< HEAD
 	RecievedMsgInv = 1;
-//=======
-//>>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(TRACTIVE_CAN, &numBytes, data, &ID);
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_RESPONSE_MALFORMED);
-//<<<<<<< HEAD
 	//out++;
-//=======
-	
 	
 	//sprintf(out, "%x,%x,%x,%x,%x,%x,%x,%x", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
 	//uart1_puts(out);
 	//uart_puts(out);
 	//uart1_puts(data);
-//>>>>>>> 0a4ff588dbf784d6cf79b0fcd045ae5d7599cab8
 }
 
 /**
@@ -314,8 +334,7 @@ ISR(PCINT0_vect) {
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
-	led_toggle();
-	//led_toggle();
+	// led_toggle();
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(DATA_CAN, &numBytes, data, &ID);
 

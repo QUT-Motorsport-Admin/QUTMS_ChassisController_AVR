@@ -10,17 +10,17 @@
 uint16_t INPUT_ADC_ERROR = 40;                          /**< 3% Lower trim */
 uint16_t INPUT_ADC_THRESH = 3;                          /**< 90% Upper trim */
 
-uint16_t INPUT_PEDAL_BRAKE_CH1_HIGH =	  665;          /**< Temporary Value, High Brake Pedal Application */
-uint16_t INPUT_PEDAL_BRAKE_CH1_LOW =      426;          /**< Temporary Value, Low Brake Pedal Application */
-uint16_t INPUT_PEDAL_BRAKE_CH2_HIGH =     686;	        /**< Temporary Value, High Brake Pedal Application */
-uint16_t INPUT_PEDAL_BRAKE_CH2_LOW =      455;          /**< Temporary Value, Low Brake Pedal Application */
+uint16_t INPUT_PEDAL_BRAKE_CH1_HIGH =	  665;          /**< High Brake Pedal Application */
+uint16_t INPUT_PEDAL_BRAKE_CH1_LOW =      466;          /**< Low Brake Pedal Application */
+uint16_t INPUT_PEDAL_BRAKE_CH2_HIGH =     686;	        /**< High Brake Pedal Application */
+uint16_t INPUT_PEDAL_BRAKE_CH2_LOW =      495;          /**< Low Brake Pedal Application */
 uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON =     20;           /**< Temporary Value, must be updated with testing. Moderate Brake Pedal Application */
 uint16_t INPUT_PEDAL_THROTTLE_CH1_HIGH =  497;	        /**< High Throttle Pedal Application */
 uint16_t INPUT_PEDAL_THROTTLE_CH1_LOW =   325;	        /**< Low Throttle Pedal Application */
 uint16_t INPUT_PEDAL_THROTTLE_CH2_HIGH =  498;          /**< High Throttle Pedal Application */
 uint16_t INPUT_PEDAL_THROTTLE_CH2_LOW =   314;	        /**< Low Throttle Pedal Application */
-uint16_t INPUT_STEERING_RIGHT =			  498;          /**< Right Steering Application */
-uint16_t INPUT_STEERING_LEFT =			  314;	        /**< Left Steering Application */
+uint16_t INPUT_STEERING_RIGHT =			  900;          /**< Right Steering Application */
+uint16_t INPUT_STEERING_LEFT =			  150;	        /**< Left Steering Application */
 uint16_t INPUT_PRESSURE_BRAKE_HIGH = 1022;              /**< High pressure lim in brake */
 uint16_t INPUT_PRESSURE_BRAKE_LOW  = 1;                 /**< Low pressure lim in brake */
 uint16_t INPUT_PEDAL_DELTA_THRESH_L = 0;                /**< Low Value for pedal sensor discrepancy */
@@ -113,9 +113,9 @@ uint8_t INPUT_get_steeringWheel(uint8_t *val) {
 	uint8_t state = INPUT_read_steeringWheel(&rawValue);
 	// Convert Value
 	*val = INPUT_scaleInput(
-	&rawValue,
-	INPUT_STEERING_RIGHT,
-	INPUT_STEERING_LEFT
+		&rawValue,
+		INPUT_STEERING_RIGHT,
+		INPUT_STEERING_LEFT
 	);
 	// Error States
 	switch (state) {
@@ -160,10 +160,12 @@ uint8_t INPUT_get_brakePressureBack(uint16_t *val) {
  * @return uint8_t 
  */
 uint8_t INPUT_scaleInput(uint16_t * value, uint16_t max, uint16_t min) {
+	uint8_t result = 0;
+	// High or low size filtering
+	if(*value > max) return 100;
+	if(*value < min) return 0;
     uint8_t tmp = (((*value - (min - INPUT_ADC_THRESH)) * 100) / ((max + INPUT_ADC_THRESH) - (min - INPUT_ADC_THRESH)));
-    return tmp > 100 ? 100 : tmp < 0 ? 0 : tmp;
-	// To solve pedal problem 100 ? 100 became 76 ? 0
-	// Why? the upmost value of the pedal is 75. thus, any more is from the stuck pedal
+    return tmp;
 }
 
 /**
@@ -276,13 +278,14 @@ uint8_t INPUT_read_brakePedal(uint16_t * brake) {
 uint8_t INPUT_read_steeringWheel(uint16_t * steeringAngle) {
 
     //TODO: Fill buffers with int reads values
+	uint8_t errorState = 0;
     static uint16_t history[10];
     static uint8_t historyIndex = 0;
 
 	uint8_t returnState = 0;
 	
     // Read the values of the two throttle sensors and verify if the received values are valid
-    history[historyIndex] = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
+    history[historyIndex++] = a2d_10bitCh(INPUT_STEERING_ANGLE_CH);
 
     if(historyIndex >= ADC_SAMPLES) { historyIndex = 0; }
 
@@ -291,10 +294,11 @@ uint8_t INPUT_read_steeringWheel(uint16_t * steeringAngle) {
         average += history[i];
     }
     average /= ADC_SAMPLES;
-
-	if(average < (INPUT_STEERING_LEFT - INPUT_ADC_ERROR)) { returnState |= 1; } // Check if the value we received is valid
-    if(average > (INPUT_STEERING_RIGHT + INPUT_ADC_ERROR)) { returnState |= 2; } // Check if the value we received is valid
-	return 0;
+	*steeringAngle = average;
+	
+	if(average < (INPUT_STEERING_LEFT - INPUT_ADC_ERROR)) { errorState += 1; } // Check if the value we received is valid
+    if(average > (INPUT_STEERING_RIGHT + INPUT_ADC_ERROR)) { errorState += 2; } // Check if the value we received is valid
+	return errorState;
 }
 
 /**

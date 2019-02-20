@@ -29,10 +29,10 @@
 // Variables used in the 1kHz CAN heartbeat loop
 #define CAN_HEARTBEAT_TIME_INVERTERS (10)   // Defines the 10ms (100Hz) for the inverter trigger
 #define CAN_HEARTBEAT_TIME_DATA (10)        // Defines the 10ms (100Hz) for the data trigger
-#define CAN_HEARTBEAT_TIME_PDM (50)       // Defines the 50ms (20Hz) for the power trigger
+#define CAN_HEARTBEAT_TIME_PDM (50)			// Defines the 50ms (20Hz) for the power trigger
 #define CAN_HEARTBEAT_TIME_WHEEL (50)       // Defines the 50ms (20Hz) for the power trigger
-#define CAN_HEARTBEAT_TIME_SHUTDOWN (100)       // Defines the 50ms (20Hz) for the power trigger
-#define CAN_HEARTBEAT_TIME_AMU (50)       // Defines the 50ms (20Hz) for the power trigger
+#define CAN_HEARTBEAT_TIME_SHUTDOWN (100)   // Defines the 50ms (20Hz) for the power trigger
+#define CAN_HEARTBEAT_TIME_AMU (50)			// Defines the 50ms (20Hz) for the power trigger
 
 #define CAN_HEARTBEAT_ERROR_DELAY (110)     // Milliseconds without return heartbeat, must be slightly larger than largest heartbeat time x2
 
@@ -45,9 +45,9 @@
 
 #define CAR_ARM_HV (1)                      // Used to set the car's armed state to high
 #define CAR_DISARM_HV (0)                   // Used to set the car's armed state to low
-extern uint8_t armedState;              // Stores the car's armed state
-extern uint8_t ignitionState;           // Stores the car's ignition switch/button state
+extern uint8_t armedState;					// Stores the car's armed state
+extern uint8_t ignitionState;				// Stores the car's ignition switch/button state
 
-extern uint8_t shutdownState;           // Stores the car's current state of its shutdown circuity
+extern uint8_t shutdownState;				// Stores the car's current state of its shutdown circuity
 
 extern uint8_t PDMarray[8];

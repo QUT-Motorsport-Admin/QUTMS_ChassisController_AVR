@@ -46,8 +46,7 @@ extern uint8_t INPUT_accelerationPedal;
 extern uint8_t INPUT_brakePedal;
 extern uint8_t INPUT_brakePressureFront;
 extern uint8_t INPUT_brakePressureBack;
-
-
+extern uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON;
 
 
 uint8_t INPUT_scaleInput(uint16_t * value, uint16_t max, uint16_t min);
