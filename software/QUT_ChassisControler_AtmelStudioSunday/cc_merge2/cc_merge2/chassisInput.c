@@ -14,7 +14,7 @@ uint16_t INPUT_PEDAL_BRAKE_CH1_HIGH =	  665;          /**< High Brake Pedal Appl
 uint16_t INPUT_PEDAL_BRAKE_CH1_LOW =      466;          /**< Low Brake Pedal Application */
 uint16_t INPUT_PEDAL_BRAKE_CH2_HIGH =     686;	        /**< High Brake Pedal Application */
 uint16_t INPUT_PEDAL_BRAKE_CH2_LOW =      495;          /**< Low Brake Pedal Application */
-uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON =     20;           /**< Temporary Value, must be updated with testing. Moderate Brake Pedal Application */
+uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON =     7;            /**< Moderate Brake Pedal Application (7% Brake) */
 uint16_t INPUT_PEDAL_THROTTLE_CH1_HIGH =  497;	        /**< High Throttle Pedal Application */
 uint16_t INPUT_PEDAL_THROTTLE_CH1_LOW =   325;	        /**< Low Throttle Pedal Application */
 uint16_t INPUT_PEDAL_THROTTLE_CH2_HIGH =  498;          /**< High Throttle Pedal Application */
@@ -160,7 +160,6 @@ uint8_t INPUT_get_brakePressureBack(uint16_t *val) {
  * @return uint8_t 
  */
 uint8_t INPUT_scaleInput(uint16_t * value, uint16_t max, uint16_t min) {
-	uint8_t result = 0;
 	// High or low size filtering
 	if(*value > max) return 100;
 	if(*value < min) return 0;
@@ -229,14 +228,12 @@ uint8_t INPUT_read_brakePedal(uint16_t * brake) {
     static uint16_t secondaryHistory[10];
     static uint8_t historyIndex = 0;
 
-	uint8_t returnState = 0;
+	//uint8_t returnState = 0;
     // Read the values of the two throttle sensors and verify if the received values are valid
     primaryHistory[historyIndex] = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH1);
     secondaryHistory[historyIndex++] = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH2);
 
     if(historyIndex >= ADC_SAMPLES) { historyIndex = 0; }
-	
-	
 	
     uint16_t primaryAverage = 0;
     uint16_t secondaryAverage = 0;
@@ -251,7 +248,7 @@ uint8_t INPUT_read_brakePedal(uint16_t * brake) {
 
     *brake = primaryAverage; 
 
-
+	uint8_t returnState = 0;
 	if(primaryAverage < (INPUT_PEDAL_BRAKE_CH1_LOW - INPUT_ADC_ERROR)) returnState |= 1;
 	
 	else if(primaryAverage > (INPUT_PEDAL_BRAKE_CH1_HIGH + INPUT_ADC_ERROR)) returnState |= 2;
@@ -264,6 +261,15 @@ uint8_t INPUT_read_brakePedal(uint16_t * brake) {
 	if(delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H) { returnState |= 16; }  
 		
 	return returnState;
+	
+	//if(primaryAverage < INPUT_PEDAL_BRAKE_CH1_LOW - INPUT_ADC_ERROR ||
+	//secondaryAverage < INPUT_PEDAL_BRAKE_CH2_LOW - INPUT_ADC_ERROR ) { return 1; }
+	//else if(primaryAverage > INPUT_PEDAL_BRAKE_CH1_HIGH - INPUT_ADC_ERROR ||
+	//secondaryAverage > INPUT_PEDAL_BRAKE_CH2_HIGH - INPUT_ADC_ERROR ) { return 2; }
+	//// Verify if the difference between sensors is within acceptable values
+	//else if(delta < INPUT_PEDAL_DELTA_THRESH_L ||
+	//delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
+	//return 0;
 }
 
 /**
@@ -282,7 +288,7 @@ uint8_t INPUT_read_steeringWheel(uint16_t * steeringAngle) {
     static uint16_t history[10];
     static uint8_t historyIndex = 0;
 
-	uint8_t returnState = 0;
+	//uint8_t returnState = 0;
 	
     // Read the values of the two throttle sensors and verify if the received values are valid
     history[historyIndex++] = a2d_10bitCh(INPUT_STEERING_ANGLE_CH);

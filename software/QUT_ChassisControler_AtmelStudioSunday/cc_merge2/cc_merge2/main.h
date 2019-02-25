@@ -31,7 +31,7 @@
 #define CAN_HEARTBEAT_TIME_DATA (10)        // Defines the 10ms (100Hz) for the data trigger
 #define CAN_HEARTBEAT_TIME_PDM (50)			// Defines the 50ms (20Hz) for the power trigger
 #define CAN_HEARTBEAT_TIME_WHEEL (50)       // Defines the 50ms (20Hz) for the power trigger
-#define CAN_HEARTBEAT_TIME_SHUTDOWN (100)   // Defines the 50ms (20Hz) for the power trigger
+#define CAN_HEARTBEAT_TIME_SHUTDOWN (100)   // Defines the 100ms (10Hz) for the power trigger
 #define CAN_HEARTBEAT_TIME_AMU (50)			// Defines the 50ms (20Hz) for the power trigger
 
 #define CAN_HEARTBEAT_ERROR_DELAY (110)     // Milliseconds without return heartbeat, must be slightly larger than largest heartbeat time x2
@@ -50,4 +50,4 @@ extern uint8_t ignitionState;				// Stores the car's ignition switch/button stat
 
 extern uint8_t shutdownState;				// Stores the car's current state of its shutdown circuity
 
-extern uint8_t PDMarray[8];
+extern uint8_t PDMarray[5];

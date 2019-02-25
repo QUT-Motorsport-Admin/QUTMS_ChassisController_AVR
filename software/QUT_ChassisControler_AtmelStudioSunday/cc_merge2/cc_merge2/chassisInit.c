@@ -21,10 +21,12 @@ void external_interrupt_init()
 	//INT1 for CAN1, INT0 for CAN2, PCINT7 for CAN3
 	EICRA |= (2<<ISC00)|(2<<ISC10);
 	EIMSK  = (1<<INT0) | (1<<INT1);
+	
 	//Enable interrupts for PCINT7:0
 	PCICR  = (1<<PCIE0)|(0<<PCIE1);
 	//CAN C interrupt
 	PCMSK0 = (1<<PCINT7);
+	
 	// Dig In #1 interrupt - not needed now
 	//PCMSK1 = (1<<PCINT15);
 }

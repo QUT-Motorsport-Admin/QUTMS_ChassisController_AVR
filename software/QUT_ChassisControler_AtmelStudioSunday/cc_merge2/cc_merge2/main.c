@@ -21,7 +21,7 @@ volatile uint8_t testError = 0;
 
 char out[96] = {'\0'}; // CAN 1 SUFF
 uint8_t inverterArray[8] = {0,0,0,0,0,0,0,0};
-uint8_t PDMarray[8] = {0,0,0,0,0,0,0,0};
+uint8_t PDMarray[5] = {0,0,0,0,0};
 uint8_t WheelArray[8] = {0,0,10,10,0,0,40,200};
 
 volatile uint8_t ouft = 0;
@@ -54,13 +54,11 @@ int main(void) {
  */
 void oneKHzTimer(void)
 {
-	static int test_counter = 0;
-
     static uint16_t CANheartbeatCountInverters = 0;			// Number of iterations for the inverter heartbeat trigger
     static uint16_t CANheartbeatCountWheel = 1;				// Number of iterations for the data heartbeat trigger
     static uint16_t CANheartbeatCountPDM = 2;				// Number of iterations for the power heartbeat trigger
 	static uint16_t CANheartbeatCountShutdown = 3;			// Number of iterations for the power heartbeat trigger
-	static uint16_t CANheartbeatCountAMU = 4;				// Number of iterations for the power heartbeat trigger
+	//static uint16_t CANheartbeatCountAMU = 4;				// Number of iterations for the power heartbeat trigger
 
     // static uint8_t CanHeartbeatErrorInverters = 100;		// Time without successfull heartbeat for inverters
     // static uint8_t CanHeartbeatErrorData = 101;			// Time without successfull heartbeat for data
@@ -68,19 +66,7 @@ void oneKHzTimer(void)
 
     static uint8_t InputPedalThrottleCount = 5;				// Number of iterations for the throttle pedal heartbeat trigger
     static uint8_t InputPedalBrakeCount = 6;				// Number of iterations for the break pedel heartbeat trigger
-	static uint8_t InputSteeringCount = 7;					// Number of iterations for the steering angle heartbeat trigger
-
-    // static uint8_t CANInputSendTime = 0;					// Number of iterations for the input send trigger
-
-	// flash the LED to show the system is running
-	if(test_counter++ > 100)
-	{
-		//PORTK ^= 32;
-		test_counter = 0;
-		//UART_formTestPacket();
-	}
-	
-	
+	static uint8_t InputSteeringCount = 7;					// Number of iterations for the steering angle heartbeat trigger	
 	
     // Check the ignition button state
     // 1s debounce, IE hold for 50ms and if held, change state
@@ -96,7 +82,7 @@ void oneKHzTimer(void)
                 isArmedState ^= 1;
 				// If the armed state has just been turned on, activate the siren
 				if(isArmedState == 1) {
-					led_toggle();
+					//led_toggle();
 					isSirenOn = 1;
 				}
             }
@@ -140,39 +126,38 @@ void oneKHzTimer(void)
 		 CANheartbeatCountWheel = 0;
 		 // Send data system heartbeat
 		 CAN_send(DATA_CAN, 8, WheelArray, HEARTBEAT_WHEEL_ID | 1);
-		 
 	 }
 	 
 	 if(CANheartbeatCountPDM > CAN_HEARTBEAT_TIME_PDM)
 	 {
 		 // Reset power heartbeat counter
 		 CANheartbeatCountPDM = 0;
-		 // Send power system heartbeat
-		 CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_PDM_ID | 1);
+		 // Send power system heartbeat (5 bytes in PDM array)
+		 CAN_send(POWER_CAN, 5, PDMarray, HEARTBEAT_PDM_ID | 1);
 	 }
 	 
 	 if(CANheartbeatCountShutdown > CAN_HEARTBEAT_TIME_SHUTDOWN)
 	 {
 		 // Reset power heartbeat counter
 		 CANheartbeatCountShutdown = 0;
-		 // Send shutdown heartbeat (dont care what for now)
-		 //CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_SHUTDOWN_ID | 1);
+		 // Send shutdown heartbeat (dont care what for now) (5 bytes in PDM array)
+		 CAN_send(POWER_CAN, 5, PDMarray, HEARTBEAT_SHUTDOWN_ID | 1);
 	 }
 	 
-	 if(CANheartbeatCountAMU > CAN_HEARTBEAT_TIME_AMU)
-	 {
-		 // Reset power heartbeat counter
-		 CANheartbeatCountAMU = 0;
-		 // Send shutdown heartbeat (dont care what for now)
-		 //CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_AMU_ID | 1);
-	 }
+	 //if(CANheartbeatCountAMU > CAN_HEARTBEAT_TIME_AMU)
+	 //{
+		 //// Reset power heartbeat counter
+		 //CANheartbeatCountAMU = 0;
+		 //// Send shutdown heartbeat (dont care what for now)
+		 ////CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_AMU_ID | 1);
+	 //}
 	 
 	 // the adding commented to test a counting system in the inverters if statement
 	 CANheartbeatCountInverters++;
 	 CANheartbeatCountWheel++;
 	 CANheartbeatCountPDM++;
 	 CANheartbeatCountShutdown++;
-	 CANheartbeatCountAMU++;
+	 //CANheartbeatCountAMU++;
 	 
     // CAN Error counts -> Missing Receives
     // ------------------------------------------------------------------------
@@ -200,7 +185,7 @@ void oneKHzTimer(void)
     uint8_t tmpInputVal;
     if(InputPedalThrottleCount > INPUT_TIME_PEDAL_THROTTLE)
     {
-		//INPUT_accelerationPedal = a2d_10bitCh(5);
+		//INPUT_accelerationPedal = (uint8_t)(a2d_10bitCh(5)); // Raw ADC sample
         if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
              INPUT_accelerationPedal = tmpInputVal;
         }
@@ -208,7 +193,7 @@ void oneKHzTimer(void)
     }
     if(InputPedalBrakeCount > INPUT_TIME_PEDAL_BRAKE)
     {
-        //INPUT_brakePedal = (uint8_t)(a2d_10bitCh(8)/4);
+        //INPUT_brakePedal = (uint8_t)(a2d_10bitCh(8)); // Raw ADC sample
         if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
              INPUT_brakePedal = tmpInputVal;
 		}
@@ -216,7 +201,7 @@ void oneKHzTimer(void)
     }
 	if(InputSteeringCount > INPUT_TIME_STEERING)
 	{
-		//INPUT_steeringAngle = (uint16_t)(a2d_8bitCh(4));
+		//INPUT_steeringAngle = (uint16_t)(a2d_8bitCh(4)); // Raw ADC sample
 		if(INPUT_get_steeringWheel(&tmpInputVal) == 0) {
 			INPUT_steeringAngle = tmpInputVal;
 		}
@@ -256,11 +241,13 @@ void oneKHzTimer(void)
 	WheelArray[4] = sirenOnCount;
 	WheelArray[5] = isSirenOn;
 	WheelArray[6] = isBrakeLightOn;
-	
-	PDMarray[0] = 0b11001111 | isSirenOn << 6 | isBrakeLightOn << 5;
-	PDMarray[1] = isArmedState;
-	PDMarray[2] = isSirenOn;
-	PDMarray[3] = isBrakeLightOn;
+
+	// Fill PDM Array
+	PDMarray[0] = 0b11001111 | isSirenOn << 5 | isBrakeLightOn << 4;
+	PDMarray[1] = 100;
+	PDMarray[2] = 100;
+	PDMarray[3] = 100;
+	PDMarray[4] = 100;
 	
 }
 
@@ -334,7 +321,7 @@ ISR(PCINT0_vect) {
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
-	// led_toggle();
+	led_toggle();
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(DATA_CAN, &numBytes, data, &ID);
 
