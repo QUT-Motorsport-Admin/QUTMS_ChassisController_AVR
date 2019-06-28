@@ -56,6 +56,29 @@
     </com_atmel_avrdbg_tool_atmelice>
     <avrtoolinterface>ISP</avrtoolinterface>
     <avrtoolinterfaceclock>125000</avrtoolinterfaceclock>
+    <custom>
+      <ToolOptions xmlns="">
+        <InterfaceProperties>
+        </InterfaceProperties>
+        <InterfaceName>ISP</InterfaceName>
+      </ToolOptions>
+      <ToolType xmlns="">custom</ToolType>
+      <ToolNumber xmlns="">
+      </ToolNumber>
+      <ToolName xmlns="">Custom Programming Tool</ToolName>
+    </custom>
+    <com_atmel_avrdbg_tool_stk500>
+      <ToolOptions>
+        <InterfaceProperties>
+          <IspClock>125000</IspClock>
+        </InterfaceProperties>
+        <InterfaceName>ISP</InterfaceName>
+      </ToolOptions>
+      <ToolType>com.atmel.avrdbg.tool.stk500</ToolType>
+      <ToolNumber>
+      </ToolNumber>
+      <ToolName>STK500</ToolName>
+    </com_atmel_avrdbg_tool_stk500>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>

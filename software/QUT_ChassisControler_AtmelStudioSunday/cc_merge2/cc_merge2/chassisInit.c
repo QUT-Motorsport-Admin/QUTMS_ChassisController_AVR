@@ -9,6 +9,7 @@
 
 #include "chassisInit.h"
 #include "main.h"
+#include "chassisInput.h"
 
 /**
  * @brief Sets up the microcontroller to allow external interrupts. The External Interrupts are triggered by the INT7:0 pin or any of the PCINT23:0 pins.
@@ -110,6 +111,8 @@ void firmware_init()
 	// }
 
 	// accumulators[0].ID=ACCUMULATOR_FRONT;
+	
+	INPUT_init_input();
 }
 
 /**

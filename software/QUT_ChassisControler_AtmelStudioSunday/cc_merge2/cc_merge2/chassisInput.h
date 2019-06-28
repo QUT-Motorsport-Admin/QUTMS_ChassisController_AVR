@@ -141,4 +141,10 @@ uint8_t INPUT_read_brakePressureFront(uint16_t * fntPressure);
  */
 uint8_t INPUT_read_brakePressureBack(uint16_t * bkPressure);
 
+/**
+ * @brief INPUT_init_input
+ * 
+ */
+void INPUT_init_input();
+
 #endif // CHASSIS_INPUT_H

@@ -13,6 +13,9 @@
 #include <avr/io.h>
 #include "main.h"
 
+#define UART_DELIMITER 0
+#define UART_DELIMITER_AMOUNT 7
+
 void uart_process_byte(char data);
 void uart_parse_input(unsigned char* s);
 void uart_parse_poke(unsigned char* s);

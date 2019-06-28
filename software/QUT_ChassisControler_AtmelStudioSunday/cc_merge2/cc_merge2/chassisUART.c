@@ -6,6 +6,7 @@
  **/
 
 #include "chassisUART.h"
+#include "chassisInput.h"
 
 void uart_process_byte(char data)
 {
@@ -182,29 +183,61 @@ void uart_parse_poke(unsigned char* s)
 
 void UART_formTestPacket(void) {
 	
-	static uint8_t fakeThrottle = 0;
+    uint8_t testPacketArray[15];
 	
-	if(fakeThrottle++ > 100)fakeThrottle = 0;
-    uint8_t testPacketArray[4];
-    testPacketArray[0] = (ignitionState) | (isArmedState << 1) | (shutdownState << 2); // Button states - 1
-    testPacketArray[1] = INPUT_accelerationPedal;   // Throttle Pedal Percentage - 1
-    testPacketArray[2] = INPUT_brakePedal;          // Brake Pedal Percentage - 1
-    testPacketArray[3] = INPUT_steeringAngle;       // Steering Angle - 1   -> RADIAN(x -> -0.99 < 0 < 0.99) * 100 + 100
-           
-    UART_sendPacket(testPacketArray, 4);
+	uint16_t rawPedalThrottleCH1 = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
+	uint16_t rawPedalThrottleCH2 = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH2);
+	uint16_t rawPedalBrakeCH1 = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH1);
+	uint16_t rawPedalBrakeCH2 = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH2);
+	uint16_t rawSteering = a2d_10bitCh(INPUT_STEERING_ANGLE_CH);
+	
+	uint8_t testSpeed = 1;
+	
+	testPacketArray[0] = rawPedalThrottleCH1 >> 8;
+	testPacketArray[1] = rawPedalThrottleCH1;
+	testPacketArray[2] = rawPedalThrottleCH2 >> 8;
+	testPacketArray[3] = rawPedalThrottleCH2;
+	testPacketArray[4] = (uint8_t)rawPedalThrottleCH1 - (uint8_t)rawPedalThrottleCH2;
+	testPacketArray[5] = rawPedalBrakeCH1 >> 8;
+	testPacketArray[6] = rawPedalBrakeCH1;
+	testPacketArray[7] = rawPedalBrakeCH2 >> 8;
+	testPacketArray[8] = rawPedalBrakeCH2;
+	testPacketArray[9] = (uint8_t)rawPedalBrakeCH2 - (uint8_t)rawPedalBrakeCH1;
+	testPacketArray[10] = 0;
+	INPUT_get_accelPedal(&testSpeed);
+	testPacketArray[11] = testSpeed; 
+	testPacketArray[12] = 0;
+	testPacketArray[13] = rawSteering >> 8;
+	testPacketArray[14] = rawSteering | 0b00000000;
+	
+    UART_sendPacket(testPacketArray, 15);
+	
+	/*
+	uint8_t testPacketArray[1];
+	
+	//uint8_t pedalThrottle;
+	//INPUT_get_accelPedal(&pedalThrottle);
+	//uint8_t pedalBrake;
+	//INPUT_get_brakePedal(&pedalBrake);
+	uint8_t steeringAngle;
+	INPUT_get_steeringWheel(&steeringAngle);
+	
+	//testPacketArray[0] = pedalThrottle;
+	//testPacketArray[0] = pedalBrake;
+	testPacketArray[2] = steeringAngle;
+	
+	UART_sendPacket(testPacketArray, 1);
+	*/
 }
 
 void UART_sendPacket(uint8_t outgoingString[], uint8_t length) {
-    //uint8_t *ptr = outgoingString;
-	
-	//int testADC = a2d_10bitCh(5);
-	//char  testString[5];
-	//itoa(testADC, testString, 10);
-	uart_putc('D');
-	int i = 0;
+	//uart_putc('D');
+	int8_t i = 0;
     for(i = 0; i < length; i++) {
         uart_putc(outgoingString[i]);
     }
-	uart_putc('\r');
-	uart_putc('\n');
+	i = 0;
+	for(i = 0; i <= UART_DELIMITER_AMOUNT; i++) {
+		uart_putc(UART_DELIMITER);
+	}
 }

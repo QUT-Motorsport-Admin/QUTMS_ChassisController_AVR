@@ -10,19 +10,25 @@ uint8_t prevArmedState = 0;
 uint8_t isSirenOn = 0;
 static uint16_t sirenOnDuration = 2000; // 2000 milliseconds = 2 seconds
 uint16_t sirenOnCount = 0;
+static uint16_t preChargeOnDuration = 5000; // 2000 milliseconds = 2 seconds
+uint16_t preChargeOnCount = 0;
+uint8_t isPreChargeOn = 0;
+uint8_t isContactorHighOn = 0;
 
 uint8_t isBrakeLightOn = 0;
+uint8_t isCoolingPumpLeftOn = 1;
+uint8_t isCoolingPumpRightOn = 1;
+uint8_t isCoolingFanLeftOn = 1;
+uint8_t isCoolingFanRightOn = 1;
 
 uint8_t shutdownState = 0;
-
-uint8_t RecievedMsgInv = 1;
 
 volatile uint8_t testError = 0;
 
 char out[96] = {'\0'}; // CAN 1 SUFF
 uint8_t inverterArray[8] = {0,0,0,0,0,0,0,0};
 uint8_t PDMarray[5] = {0,0,0,0,0};
-uint8_t WheelArray[8] = {0,0,10,10,0,0,40,200};
+uint8_t WheelArray[8] = {0,0,0,0,0,0,0,0};
 
 volatile uint8_t ouft = 0;
 
@@ -58,7 +64,7 @@ void oneKHzTimer(void)
     static uint16_t CANheartbeatCountWheel = 1;				// Number of iterations for the data heartbeat trigger
     static uint16_t CANheartbeatCountPDM = 2;				// Number of iterations for the power heartbeat trigger
 	static uint16_t CANheartbeatCountShutdown = 3;			// Number of iterations for the power heartbeat trigger
-	//static uint16_t CANheartbeatCountAMU = 4;				// Number of iterations for the power heartbeat trigger
+	static uint16_t CANheartbeatCountAMU = 4;				// Number of iterations for the power heartbeat trigger
 
     // static uint8_t CanHeartbeatErrorInverters = 100;		// Time without successfull heartbeat for inverters
     // static uint8_t CanHeartbeatErrorData = 101;			// Time without successfull heartbeat for data
@@ -74,7 +80,7 @@ void oneKHzTimer(void)
 	if(!(PINJ & (1<<PJ6))) // Checking Pin J6 (69)
     {
         ignitionState = 1; // Tracks that the ignition button is on
-        if(ignitionStateDebounceCount++ > 2000) // If 1s has been counted
+        if(ignitionStateDebounceCount++ > 1500) // If 1.5s has been counted
 		{
             //If this is the first time though from a previous press
             if(ignitionStateLock == 0) {
@@ -82,8 +88,16 @@ void oneKHzTimer(void)
                 isArmedState ^= 1;
 				// If the armed state has just been turned on, activate the siren
 				if(isArmedState == 1) {
-					//led_toggle();
+					led_toggle();
 					isSirenOn = 1;
+					isContactorHighOn = 1;
+					isPreChargeOn = 1;
+				} else {
+					led_toggle();
+					// Turnning it all off just in case
+					isContactorHighOn = 0;
+					isPreChargeOn = 0;
+					isSirenOn = 0;
 				}
             }
 			
@@ -103,82 +117,14 @@ void oneKHzTimer(void)
 		}
 	}
 	
-     //Send CAN heartbeats -> Inverters: 100Hz, Data: 100Hz, Power: 20Hz
-     //100Hz = 1 / 100 = 0.01s = 10ms, 20Hz = 1 / 20 = 0.05s = 50ms
-     //------------------------------------------------------------------------
-    
-	 if(CANheartbeatCountInverters >= CAN_HEARTBEAT_TIME_INVERTERS)
-	 {
-		 // Reset inverter heartbeat counter
-		 CANheartbeatCountInverters = 0;
-		 // To wait for Inv message
-		 RecievedMsgInv = 0;
-		 // Send inverter system heartbeat 0b0100100000000000000000000011110
-		 CAN_send(TRACTIVE_CAN, 8, inverterArray, 0x4666666);
-	 }else if(CANheartbeatCountInverters > CAN_HEARTBEAT_TIME_INVERTERS * 2){
-		// Inverter dead, shutdown
-	 }
-	 
-	 if(CANheartbeatCountWheel > CAN_HEARTBEAT_TIME_WHEEL)
-	 {
-		 // Reset data heartbeat counter
-		 //led_toggle();
-		 CANheartbeatCountWheel = 0;
-		 // Send data system heartbeat
-		 CAN_send(DATA_CAN, 8, WheelArray, HEARTBEAT_WHEEL_ID | 1);
-	 }
-	 
-	 if(CANheartbeatCountPDM > CAN_HEARTBEAT_TIME_PDM)
-	 {
-		 // Reset power heartbeat counter
-		 CANheartbeatCountPDM = 0;
-		 // Send power system heartbeat (5 bytes in PDM array)
-		 CAN_send(POWER_CAN, 5, PDMarray, HEARTBEAT_PDM_ID | 1);
-	 }
-	 
-	 if(CANheartbeatCountShutdown > CAN_HEARTBEAT_TIME_SHUTDOWN)
-	 {
-		 // Reset power heartbeat counter
-		 CANheartbeatCountShutdown = 0;
-		 // Send shutdown heartbeat (dont care what for now) (5 bytes in PDM array)
-		 CAN_send(POWER_CAN, 5, PDMarray, HEARTBEAT_SHUTDOWN_ID | 1);
-	 }
-	 
-	 //if(CANheartbeatCountAMU > CAN_HEARTBEAT_TIME_AMU)
-	 //{
-		 //// Reset power heartbeat counter
-		 //CANheartbeatCountAMU = 0;
-		 //// Send shutdown heartbeat (dont care what for now)
-		 ////CAN_send(POWER_CAN, 8, PDMarray, HEARTBEAT_AMU_ID | 1);
-	 //}
-	 
-	 // the adding commented to test a counting system in the inverters if statement
-	 CANheartbeatCountInverters++;
-	 CANheartbeatCountWheel++;
-	 CANheartbeatCountPDM++;
-	 CANheartbeatCountShutdown++;
-	 //CANheartbeatCountAMU++;
-	 
-    // CAN Error counts -> Missing Receives
-    // ------------------------------------------------------------------------
+	// Manage the Precharge time
+	if(isPreChargeOn == 1) { // Checks to see if the siren should be active
+		if(preChargeOnCount++ > preChargeOnDuration) { // Counts up time, and if over allowance
+			isPreChargeOn = 0;
+			preChargeOnCount = 0;
+		}
+	}
 	
-    // if(CanHeartbeatErrorInverters > CAN_HEARTBEAT_ERROR_DELAY)
-    // {
-    //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_NO_RESPONSE);
-    // }
-    // if(CanHeartbeatErrorData > CAN_HEARTBEAT_ERROR_DELAY)
-    // {
-    //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_NO_RESPONSE);
-    // }
-    // if(CanHeartbeatErrorPower > CAN_HEARTBEAT_ERROR_DELAY)
-    // {
-    //     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_NO_RESPONSE);
-    // }
-    // CanHeartbeatErrorInverters++;
-    // CanHeartbeatErrorData++;
-    // CanHeartbeatErrorPower++;
-
-
 	// Gather all input pedals
 	//------------------------------------------------------------------------
 	
@@ -225,29 +171,98 @@ void oneKHzTimer(void)
 		isBrakeLightOn = 0;
 	}
     
+	// Creating CANBUS Packet data for transmission
+	//------------------------------------------------------------------------
 	
 	inverterArray[0] = INPUT_accelerationPedal;
 	inverterArray[1] = INPUT_brakePedal;
 	inverterArray[2] = INPUT_steeringAngle;
 	inverterArray[3] = isArmedState;
 	inverterArray[4] = sirenOnCount;
-	inverterArray[5] = isSirenOn;
-	inverterArray[6] = isBrakeLightOn;
+	inverterArray[5] = isContactorHighOn << 7 | isPreChargeOn << 6 | isSirenOn << 5 | isBrakeLightOn << 4 |
+	isCoolingFanLeftOn << 3 | isCoolingPumpLeftOn << 2 | isCoolingFanRightOn << 1 | isCoolingPumpRightOn | 0; // General State
 	
 	WheelArray[0] = INPUT_accelerationPedal;
     WheelArray[1] = INPUT_brakePedal;
 	WheelArray[2] = INPUT_steeringAngle;
 	WheelArray[3] = isArmedState;
 	WheelArray[4] = sirenOnCount;
-	WheelArray[5] = isSirenOn;
-	WheelArray[6] = isBrakeLightOn;
+	WheelArray[5] = isContactorHighOn << 7 | isPreChargeOn << 6 | isSirenOn << 5 | isBrakeLightOn << 4 |
+	isCoolingFanLeftOn << 3 | isCoolingPumpLeftOn << 2 | isCoolingFanRightOn << 1 | isCoolingPumpRightOn | 0; // General State
 
 	// Fill PDM Array
-	PDMarray[0] = 0b11001111 | isSirenOn << 5 | isBrakeLightOn << 4;
-	PDMarray[1] = 100;
-	PDMarray[2] = 100;
-	PDMarray[3] = 100;
-	PDMarray[4] = 100;
+	PDMarray[0] = isContactorHighOn << 7 | isPreChargeOn << 6 | isSirenOn << 5 | isBrakeLightOn << 4 | 
+				  isCoolingFanLeftOn << 3 | isCoolingPumpLeftOn << 2 | isCoolingFanRightOn << 1 | isCoolingPumpRightOn | 0; // General State
+	PDMarray[1] = 100; // 
+	PDMarray[2] = 100; // 
+	PDMarray[3] = 100; // 
+	PDMarray[4] = 100; // 
+	
+	// CANBUS Sending
+	// Send CAN heartbeats -> Inverters: 100Hz, Data: 100Hz, Power: 20Hz
+	// 100Hz = 1 / 100 = 0.01s = 10ms, 20Hz = 1 / 20 = 0.05s = 50ms
+	//------------------------------------------------------------------------
+	
+	if(CANheartbeatCountInverters >= CAN_HEARTBEAT_TIME_INVERTERS) {
+		// Reset inverter heartbeat counter
+		CANheartbeatCountInverters = 0;
+		// Send inverter system heartbeat 0b0100100000000000000000000011110
+		CAN_send(TRACTIVE_CAN, 8, inverterArray, HEARTBEAT_INV_ID);
+		
+	}
+	if(CANheartbeatCountWheel > CAN_HEARTBEAT_TIME_WHEEL) {
+		// Reset data heartbeat counter
+		CANheartbeatCountWheel = 0;
+		// Send data system heartbeat
+		CAN_send(DATA_CAN, 8, WheelArray, HEARTBEAT_WHEEL_ID | 1);
+	}
+	if(CANheartbeatCountPDM > CAN_HEARTBEAT_TIME_PDM) {
+		// Reset power heartbeat counter
+		CANheartbeatCountPDM = 0;
+		// isContactorHighOn ^= 1;
+		// Send power system heartbeat (5 bytes in PDM array)
+		CAN_send(POWER_CAN, 5, PDMarray, HEARTBEAT_PDM_ID | 1);
+	}
+	if(CANheartbeatCountShutdown > CAN_HEARTBEAT_TIME_SHUTDOWN)
+	{
+		// Reset power heartbeat counter
+		CANheartbeatCountShutdown = 0;
+		// Send shutdown heartbeat (dont care what for now) (5 bytes in PDM array)
+		// CAN_send(POWER_CAN, 5, WheelArray, HEARTBEAT_SHUTDOWN_ID | 1);
+	}
+	if(CANheartbeatCountAMU > CAN_HEARTBEAT_TIME_AMU) {
+		// Reset power heartbeat counter
+		CANheartbeatCountAMU = 0;
+		// Send shutdown heartbeat (dont care what for now)
+		// CAN_send(POWER_CAN, 5, PDMarray, HEARTBEAT_AMU_ID | 1);
+		UART_formTestPacket();
+	}
+	
+	// the adding commented to test a counting system in the inverters if statement
+	CANheartbeatCountInverters++;
+	CANheartbeatCountWheel++;
+	CANheartbeatCountPDM++;
+	CANheartbeatCountShutdown++;
+	CANheartbeatCountAMU++;
+	
+	// CAN Error counts -> Missing Receives
+	// ------------------------------------------------------------------------
+	
+	// if(CanHeartbeatErrorInverters > CAN_HEARTBEAT_ERROR_DELAY)
+	// {
+	//     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_NO_RESPONSE);
+	// }
+	// if(CanHeartbeatErrorData > CAN_HEARTBEAT_ERROR_DELAY)
+	// {
+	//     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_2_NO_RESPONSE);
+	// }
+	// if(CanHeartbeatErrorPower > CAN_HEARTBEAT_ERROR_DELAY)
+	// {
+	//     throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_3_NO_RESPONSE);
+	// }
+	// CanHeartbeatErrorInverters++;
+	// CanHeartbeatErrorData++;
+	// CanHeartbeatErrorPower++;
 	
 }
 
@@ -259,10 +274,6 @@ void oneKHzTimer(void)
 ISR(TIMER0_COMPA_vect)
 {
     oneKHzTimer();
-	//uart_puts("HelloWorld!");
-	//char msg[12];
-	//sprintf(msg, "r: %d", out);
-	//uart_puts(msg);
 }
 
 ISR(TIMER1_COMPA_vect)
@@ -279,19 +290,15 @@ ISR(INT1_vect) {
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
-	//led_toggle();
-	RecievedMsgInv = 1;
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(TRACTIVE_CAN, &numBytes, data, &ID);
+	led_toggle();
 
     // If the data packet is crap
     // throw_error_code(ERROR_LEVEL_WARN, ERROR_CANBUS_1_RESPONSE_MALFORMED);
 	//out++;
 	
 	//sprintf(out, "%x,%x,%x,%x,%x,%x,%x,%x", data[0], data[1], data[2], data[3], data[4], data[5], data[6], data[7]);
-	//uart1_puts(out);
-	//uart_puts(out);
-	//uart1_puts(data);
 }
 
 /**
@@ -321,7 +328,7 @@ ISR(PCINT0_vect) {
 	uint8_t data[8];
 	uint32_t ID;
 	uint8_t numBytes;
-	led_toggle();
+	//led_toggle();
 	// Get the data from the CAN bus and process it
 	CAN_pull_packet(DATA_CAN, &numBytes, data, &ID);
 

@@ -442,6 +442,22 @@ void throw_error_code_with_number(uint16_t severity, uint16_t error_code, uint16
 				break;
 			}			
 		break;
+		
+		case ERROR_BRAKES_ERROR:
+		switch (severity) {
+			case ERROR_LEVEL_INFO:
+			// Logging behaviour for Info-level logs
+			send_error_message(ERROR_STRING_INFO, "Brake Function Normal", part_number);
+			// Additional Info Handling
+			break;
+
+			case ERROR_LEVEL_ERROR:
+			// Logging behaviour for Error-level logs
+			send_error_message(ERROR_STRING_ERROR, "BRAKE CRITICAL MALFUNCTION", part_number);
+			// Additional Error Handling
+			break;
+		}
+		break;
 
 		case ERROR_STEERING_ANGLE_LEFT:					
 			switch (severity) {
