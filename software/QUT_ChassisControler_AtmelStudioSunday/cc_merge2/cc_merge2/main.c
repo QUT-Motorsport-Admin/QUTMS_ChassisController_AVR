@@ -10,7 +10,7 @@ uint8_t prevArmedState = 0;
 uint8_t isSirenOn = 0;
 static uint16_t sirenOnDuration = 2000; // 2000 milliseconds = 2 seconds
 uint16_t sirenOnCount = 0;
-static uint16_t preChargeOnDuration = 5000; // 2000 milliseconds = 2 seconds
+static uint16_t preChargeOnDuration = 250; // 2000 milliseconds = 2 seconds
 uint16_t preChargeOnCount = 0;
 uint8_t isPreChargeOn = 0;
 uint8_t isContactorHighOn = 0;
@@ -90,7 +90,6 @@ void oneKHzTimer(void)
 				if(isArmedState == 1) {
 					led_toggle();
 					isSirenOn = 1;
-					isContactorHighOn = 1;
 					isPreChargeOn = 1;
 				} else {
 					led_toggle();
@@ -122,6 +121,7 @@ void oneKHzTimer(void)
 		if(preChargeOnCount++ > preChargeOnDuration) { // Counts up time, and if over allowance
 			isPreChargeOn = 0;
 			preChargeOnCount = 0;
+			isContactorHighOn = 1;
 		}
 	}
 	
