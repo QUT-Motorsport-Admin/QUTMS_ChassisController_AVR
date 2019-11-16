@@ -37,8 +37,8 @@ uint16_t INPUT_PRESSURE_BRAKE_HIGH = 1022;              /**< High pressure lim i
 uint16_t INPUT_PRESSURE_BRAKE_LOW  = 1;                 /**< Low pressure lim in brake */
 
 // PEDAL DELTA THRESHOLDS
-uint16_t INPUT_PEDAL_DELTA_THRESH_H = 30;                /**< Low Value for pedal sensor discrepancy */
-uint16_t INPUT_PEDAL_DELTA_THRESH_L = 00;                /**< Low Value for pedal sensor discrepancy */
+uint16_t INPUT_PEDAL_DELTA_THRESH_H = 1023;                /**< Low Value for pedal sensor discrepancy */
+uint16_t INPUT_PEDAL_DELTA_THRESH_L = 0;                /**< Low Value for pedal sensor discrepancy */
 
 uint8_t INPUT_steeringAngle = 0;
 uint8_t INPUT_accelerationPedal = 0;

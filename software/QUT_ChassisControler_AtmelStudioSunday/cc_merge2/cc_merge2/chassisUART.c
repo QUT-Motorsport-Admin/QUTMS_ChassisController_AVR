@@ -8,6 +8,8 @@
 #include "chassisUART.h"
 #include "chassisInput.h"
 
+#include "stdlib.h"
+
 void uart_process_byte(char data)
 {
 	//PORTA ^= 32;
@@ -183,7 +185,8 @@ void uart_parse_poke(unsigned char* s)
 
 void UART_formTestPacket(void) {
 	
-    uint8_t testPacketArray[15];
+    uint8_t testPacketArray[18];
+	char tempString[10];
 	
 	uint16_t rawPedalThrottleCH1 = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
 	uint16_t rawPedalThrottleCH2 = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH2);
@@ -191,8 +194,35 @@ void UART_formTestPacket(void) {
 	uint16_t rawPedalBrakeCH2 = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH2);
 	uint16_t rawSteering = a2d_10bitCh(INPUT_STEERING_ANGLE_CH);
 	
-	uint8_t testSpeed = 1;
+	uint8_t tmpInputVal;
+	if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
+		INPUT_accelerationPedal = tmpInputVal;
+	}
+	if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
+		INPUT_brakePedal = tmpInputVal;
+	}
+	if(INPUT_get_steeringWheel(&tmpInputVal) == 0) {
+		INPUT_steeringAngle = tmpInputVal;
+	}
 	
+	uint8_t testSpeed = 1;
+	int i;
+	itoa(INPUT_accelerationPedal, tempString, 10);
+	for(i = 0; i < 4; i++) testPacketArray[i] = tempString[i];
+	testPacketArray[4] = '\t';
+	itoa(INPUT_brakePedal, tempString, 10);
+	for(i = 0; i < 4; i++) testPacketArray[i+5] = tempString[i];
+	testPacketArray[9] = '\t';
+	itoa(rawPedalBrakeCH1, tempString, 10);
+	for(i = 0; i < 4; i++) testPacketArray[i+10] = tempString[i];
+	testPacketArray[14] = '\t';
+	itoa(rawPedalBrakeCH2, tempString, 10);
+	for(i = 0; i < 4; i++) testPacketArray[i+15] = tempString[i];
+	testPacketArray[19] = 13;
+	testPacketArray[20] = 10;
+
+	for (i = 0; i < 21; i++)uart_putc(testPacketArray[i]);
+	/*
 	testPacketArray[0] = rawPedalThrottleCH1 >> 8;
 	testPacketArray[1] = rawPedalThrottleCH1;
 	testPacketArray[2] = rawPedalThrottleCH2 >> 8;
@@ -209,8 +239,25 @@ void UART_formTestPacket(void) {
 	testPacketArray[12] = 0;
 	testPacketArray[13] = rawSteering >> 8;
 	testPacketArray[14] = rawSteering | 0b00000000;
+	*/
 	
-    UART_sendPacket(testPacketArray, 15);
+	int payload = a2d_10bitCh(10);
+	
+	itoa(payload, tempString, 10);
+	
+	testPacketArray[0] = tempString[0];
+	testPacketArray[1] = tempString[1];
+	testPacketArray[2] = tempString[2];
+	testPacketArray[3] = 13;
+	testPacketArray[4] = 10;
+    
+	uart_putc(testPacketArray[0]);
+	uart_putc(testPacketArray[1]);
+	uart_putc(testPacketArray[2]);
+	uart_putc(testPacketArray[3]);
+	uart_putc(testPacketArray[4]);
+	
+	
 	
 	/*
 	uint8_t testPacketArray[1];

@@ -93,7 +93,7 @@ void oneKHzTimer(void)
 					isPreChargeOn = 1;
 				} else {
 					led_toggle();
-					// Turnning it all off just in case
+					// Turning it all off just in case
 					isContactorHighOn = 0;
 					isPreChargeOn = 0;
 					isSirenOn = 0;
