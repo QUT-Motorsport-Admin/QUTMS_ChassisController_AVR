@@ -1,54 +1,61 @@
-# Prerequisites
-*.d
+# Various Altium files
+*.PrjPCBStructure
+*.SchDocPreview
+*.PcbDocPreview
+__Previews
+*.PrjPcbStructure
+*.Dat
+*.REP 
+*.TLT
+*.LOG
+*.log
+*.htm
+*.$$$
 
-# Object files
+#useless dirs
+Project\ Outputs
+Project\ Logs
+Project Outputs for*
+
+#History
+History
+
+#Exports, but not manual ones
+exports/*
+!exports/manual
+
+#Python stuff
+scripts/__pycache__/
+*.bak
+*.dwl
+*.dwl2
+
+# Created by https://www.gitignore.io/api/atmelstudio
+# Edit at https://www.gitignore.io/?templates=atmelstudio
+
+### AtmelStudio ###
+## Ignore Atmel Studio temporary files and build results
+# https://www.microchip.com/mplab/avr-support/atmel-studio-7
+
+# Atmel Studio is powered by an older version of Visual Studio,
+# so most of the project and solution files are the same as VS files,
+# only prefixed by an `at`.
+
+#Build Directories
+[Dd]ebug/
+[Rr]elease/
+
+#Build Results
 *.o
-*.ko
-*.obj
+*.d
+*.eep
 *.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
 *.hex
+*.map
+*.srec
 
-# Debug files
-*.dSYM/
-*.su
-*.idb
-*.pdb
+#User Specific Files
+*.atsuo
+*.vs/
 
-# Kernel Module Compile Results
-*.mod*
-*.cmd
-.tmp_versions/
-modules.order
-Module.symvers
-Mkfile.old
-dkms.conf
-
-Thumbs.db
+# End of https://www.gitignore.io/api/atmelstudio
