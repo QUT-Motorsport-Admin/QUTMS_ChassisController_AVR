@@ -1,4 +1,0 @@
-#!/bin/bash
-
-avr-gcc 
-avrdude -c atmelice_isp -p m1280 -P usb -U flash:w:main.hex
