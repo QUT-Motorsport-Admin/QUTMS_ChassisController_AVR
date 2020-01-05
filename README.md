@@ -1,30 +1,24 @@
-![QUTMS_Banner](https://raw.githubusercontent.com/Technosasquach/QUTMS_Master/master/src/qutmsBanner.jpg)
+![PCB Image](https://raw.githubusercontent.com/QUT-Motorsport/QUTMS_ChassisController/master/chassis_controller_pcb.png)
 
-# QUT Motorsport - Chassis Controller
+# Chassis Controller
 
-### What
-What is the system
-### Why
-Why is it there, what's its main purpose
-### How
-How does it work, interact with other systems, what's it responding to, what's it enacting on
-### Where
-Where does it sit in the grand scheme of things, what's its heirachy, where is it physically in the car
-### Who
-Who are the people that have worked on it over time
+The role of the chassis controller is to manage and coordinate all of the electrical systems on the car. At regular intervals it reads inputs and monitors devices on the car, checking they are responding to heartbeat messages within a specified time.
 
-## Specific README's
-These will cover any specific features, outlines or documentation that a programmer/designer should know about. Any specifics, or this outside the overview/outline please update an entry in the wiki
+## Features
 
-[Hardware](https://github.com/Technosasquach/QUTMS_ChassisController/tree/master/hardware "Hardware")
+- 3 CANBUS interfaces using the MCP2515 controller
+- 2 UART serial interfaces
+- 14 analog inputs
+- 9 digital inputs
+- Dual 5A H-bridge throttle controller
+- 60 pin MoTeC compatible connector
 
-[Software](https://github.com/Technosasquach/QUTMS_ChassisController/tree/master/software "Software")
+## System Architecture
 
-## System
+### Serial Communication
+The chassis controller has two UART interfaces, one which is dedicated to debugging. There is a [specification](https://docs.google.com/spreadsheets/d/1M0LFDXtBvufXvVOvwZmF34SnBRF86Ai6lYGNQQMeDdA/edit?usp=sharing "QUTMS_UART_Packet_Def") for a protocol to be used when the chassis controller is communicating with configuration software.
 
-This link is for the UART comms, it may be updated in the future to include the CANBUS system. This document specs out the UART interface that the chassis controller will be using to communicate to the Configuration Software.
-[QUTMS_UART_Packet_Def](https://docs.google.com/spreadsheets/d/1M0LFDXtBvufXvVOvwZmF34SnBRF86Ai6lYGNQQMeDdA/edit?usp=sharing "QUTMS_UART_Packet_Def")
 
-The following is an early rough diagram
+### Block Diagram
 
 ![RoughOutline](Chassis_Controller.png)
