@@ -76,6 +76,10 @@ void io_init()
 
 	DDRK  = 0b00100000;		//PK5 = debugging LED;
 	// PORTK = 0b00100000;
+
+	// pullup pedal inputs to force a fault mode when disconnected
+	PORTK |= (1 << PK2) | (1 << PK0);
+	PORTF |= (1 << PF5) | (1 << PF2);
 	
 	// Enable external interrupts in order for the CAN bus to communicate with us
 	external_interrupt_init();
