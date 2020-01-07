@@ -30,8 +30,8 @@
 
 #define INPUT_PEDAL_BRAKE_CH1 (10)                      /**< Brake Pedal POT Ch1 on ADC */
 #define INPUT_PEDAL_BRAKE_CH2 (8)                       /**< Brake Pedal POT Ch2 on ADC */
-#define INPUT_PEDAL_THROTTLE_CH1 (5)                    /**< Throttle Pedal POT Ch1 on ADC */ // Channel is confirmed
-#define INPUT_PEDAL_THROTTLE_CH2 (2)                    /**< Throttle Pedal POT Ch2 on ADC */ // Channel is confirmed
+#define INPUT_PEDAL_THROTTLE_CH1 (5)                    /**< Throttle Pedal POT Ch1 on ADC */
+#define INPUT_PEDAL_THROTTLE_CH2 (2)                    /**< Throttle Pedal POT Ch2 on ADC */
 #define INPUT_PRESSURE_BRAKE_FRONT (11)                 /**< Brake pressure front POT Ch on ADC (AN6) */
 #define INPUT_PRESSURE_BRAKE_BACK  (7)                  /**< Brake pressure back POT Ch on ADC (AN7) */
 
