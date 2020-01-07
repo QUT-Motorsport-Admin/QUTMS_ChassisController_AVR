@@ -5,20 +5,6 @@
  * @brief Defines and outlines all variables and definitions related to everything related to input within the car.
  **/
 
-/**
- * Confirmed and tested values from the ADC when working properly
- * 
- * Throttle Primary     CH1     ADC5    Right   MIN 325     MAX 497
- * Throttle Secondary   CH2     ADC2    Left    MIN 314     MAX 498
- *                                              DIF 11      DIF 1
- * 
- * Brake    Primary     CH1     ADC10   Right   MIN 426     MAX 665
- * Brake    Secondary   CH2     ADC8    Left    MIN 455     MAX 686
- *                                              DIF 29      DIF 21
- *
- *Steering	Single		CH1		ADC4			TBA			TBA
- */
-
 #ifndef CHASSIS_INPUT_H
 #define CHASSIS_INPUT_H
 
