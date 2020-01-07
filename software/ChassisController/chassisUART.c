@@ -184,97 +184,34 @@ void uart_parse_poke(unsigned char* s)
 // }
 
 void UART_formTestPacket(void) {
-	
-    uint8_t testPacketArray[18];
-	char tempString[10];
-	
 	uint16_t rawPedalThrottleCH1 = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
 	uint16_t rawPedalThrottleCH2 = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH2);
 	uint16_t rawPedalBrakeCH1 = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH1);
 	uint16_t rawPedalBrakeCH2 = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH2);
-	uint16_t rawSteering = a2d_10bitCh(INPUT_STEERING_ANGLE_CH);
 	
-	uint8_t tmpInputVal;
-	if(INPUT_get_accelPedal(&tmpInputVal) == 0) {
-		INPUT_accelerationPedal = tmpInputVal;
-	}
-	if(INPUT_get_brakePedal(&tmpInputVal) == 0) {
-		INPUT_brakePedal = tmpInputVal;
-	}
-	if(INPUT_get_steeringWheel(&tmpInputVal) == 0) {
-		INPUT_steeringAngle = tmpInputVal;
-	}
-	
-	uint8_t testSpeed = 1;
-	int i;
-	itoa(INPUT_accelerationPedal, tempString, 10);
-	for(i = 0; i < 4; i++) testPacketArray[i] = tempString[i];
-	testPacketArray[4] = '\t';
-	itoa(INPUT_brakePedal, tempString, 10);
-	for(i = 0; i < 4; i++) testPacketArray[i+5] = tempString[i];
-	testPacketArray[9] = '\t';
-	itoa(rawPedalBrakeCH1, tempString, 10);
-	for(i = 0; i < 4; i++) testPacketArray[i+10] = tempString[i];
-	testPacketArray[14] = '\t';
-	itoa(rawPedalBrakeCH2, tempString, 10);
-	for(i = 0; i < 4; i++) testPacketArray[i+15] = tempString[i];
-	testPacketArray[19] = 13;
-	testPacketArray[20] = 10;
+	char throttleCh1String[4] = {0};
+	itoa(rawPedalThrottleCH1, throttleCh1String, 10);
+	for (int i = 0; i < 4; i++) uart_putc(throttleCh1String[i]);
 
-	for (i = 0; i < 21; i++)uart_putc(testPacketArray[i]);
-	/*
-	testPacketArray[0] = rawPedalThrottleCH1 >> 8;
-	testPacketArray[1] = rawPedalThrottleCH1;
-	testPacketArray[2] = rawPedalThrottleCH2 >> 8;
-	testPacketArray[3] = rawPedalThrottleCH2;
-	testPacketArray[4] = (uint8_t)rawPedalThrottleCH1 - (uint8_t)rawPedalThrottleCH2;
-	testPacketArray[5] = rawPedalBrakeCH1 >> 8;
-	testPacketArray[6] = rawPedalBrakeCH1;
-	testPacketArray[7] = rawPedalBrakeCH2 >> 8;
-	testPacketArray[8] = rawPedalBrakeCH2;
-	testPacketArray[9] = (uint8_t)rawPedalBrakeCH2 - (uint8_t)rawPedalBrakeCH1;
-	testPacketArray[10] = 0;
-	INPUT_get_accelPedal(&testSpeed);
-	testPacketArray[11] = testSpeed; 
-	testPacketArray[12] = 0;
-	testPacketArray[13] = rawSteering >> 8;
-	testPacketArray[14] = rawSteering | 0b00000000;
-	*/
-	
-	int payload = a2d_10bitCh(10);
-	
-	itoa(payload, tempString, 10);
-	
-	testPacketArray[0] = tempString[0];
-	testPacketArray[1] = tempString[1];
-	testPacketArray[2] = tempString[2];
-	testPacketArray[3] = 13;
-	testPacketArray[4] = 10;
-    
-	uart_putc(testPacketArray[0]);
-	uart_putc(testPacketArray[1]);
-	uart_putc(testPacketArray[2]);
-	uart_putc(testPacketArray[3]);
-	uart_putc(testPacketArray[4]);
-	
-	
-	
-	/*
-	uint8_t testPacketArray[1];
-	
-	//uint8_t pedalThrottle;
-	//INPUT_get_accelPedal(&pedalThrottle);
-	//uint8_t pedalBrake;
-	//INPUT_get_brakePedal(&pedalBrake);
-	uint8_t steeringAngle;
-	INPUT_get_steeringWheel(&steeringAngle);
-	
-	//testPacketArray[0] = pedalThrottle;
-	//testPacketArray[0] = pedalBrake;
-	testPacketArray[2] = steeringAngle;
-	
-	UART_sendPacket(testPacketArray, 1);
-	*/
+	uart_putc(',');
+
+	char throttleCh2String[4] = {0};
+	itoa(rawPedalThrottleCH2, throttleCh2String, 10);
+	for (int i = 0; i < 4; i++) uart_putc(throttleCh2String[i]);
+
+	uart_putc(',');
+
+	char brakeCh1String[4] = {0};
+	itoa(rawPedalBrakeCH1, brakeCh1String, 10);
+	for (int i = 0; i < 4; i++) uart_putc(brakeCh1String[i]);
+
+	uart_putc(',');
+
+	char brakeCh2String[4] = {0};
+	itoa(rawPedalBrakeCH2, brakeCh2String, 10);
+	for (int i = 0; i < 4; i++) uart_putc(brakeCh2String[i]);
+
+	uart_putc('\n');
 }
 
 void UART_sendPacket(uint8_t outgoingString[], uint8_t length) {
