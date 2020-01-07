@@ -26,6 +26,7 @@
 #include <stdlib.h>
 #include <avr/io.h>
 #include "chassisError.h"
+#include "a2d.h"
 
 #define INPUT_PEDAL_BRAKE_CH1 (10)                      /**< Brake Pedal POT Ch1 on ADC */
 #define INPUT_PEDAL_BRAKE_CH2 (8)                       /**< Brake Pedal POT Ch2 on ADC */
@@ -145,6 +146,6 @@ uint8_t INPUT_read_brakePressureBack(uint16_t * bkPressure);
  * @brief INPUT_init_input
  * 
  */
-void INPUT_init_input();
+//void INPUT_init_input();
 
 #endif // CHASSIS_INPUT_H
