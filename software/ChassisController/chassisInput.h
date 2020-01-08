@@ -28,109 +28,109 @@
 
 #define ADC_SAMPLES	(8)                                 /**< Samples required for ADC */
 
-extern uint8_t INPUT_steeringAngle;
+extern int8_t INPUT_steeringAngle;
 extern uint8_t INPUT_accelerationPedal;
 extern uint8_t INPUT_brakePedal;
 extern uint8_t INPUT_brakePressureFront;
 extern uint8_t INPUT_brakePressureBack;
-extern uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON;
+extern const uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON;
 
 
-uint8_t INPUT_scaleInput(uint16_t * value, uint16_t max, uint16_t min);
+uint8_t INPUT_scaleInput(uint16_t* value, uint16_t max, uint16_t min);
 
 /**
  * @brief INPUT_get_accelPedal
- * 
+ *
  * Provides wrapper with error calling on INPUT_read_accelPedal
- * 
+ *
  * @param val Given value to populate
  * @return uint8_t State of read
  */
-uint8_t INPUT_get_accelPedal(uint8_t * val);
+uint8_t INPUT_get_accelPedal(uint8_t* val);
 
 /**
  * @brief INPUT_get_brakePedal
- * 
+ *
  * Provides wrapper with error calling on INPUT_read_brakePedal
- * 
+ *
  * @param val Given value to populate
  * @return uint8_t State of read
  */
-uint8_t INPUT_get_brakePedal(uint8_t * val);
+uint8_t INPUT_get_brakePedal(uint8_t* val);
 
 /**
  * @brief INPUT_get_steeringWheel
- * 
+ *
  * Provides wrapper with error calling on INPUT_read_steeringWheel
- * 
+ *
  * @param val Given value to populate
  * @return uint8_t State of read
  */
-uint8_t INPUT_get_steeringWheel(uint8_t * val);
+uint8_t INPUT_get_steeringWheel(int8_t* val);
 
 /**
  * @brief INPUT_get_brakePressureFront
- * 
+ *
  * Provides wrapper with error calling on INPUT_read_brakePressureFront
- * 
+ *
  * @param val Given value to populate
  * @return uint8_t State of read
  */
-uint8_t INPUT_get_brakePressureFront(uint16_t * val);
+uint8_t INPUT_get_brakePressureFront(uint16_t* val);
 
 /**
  * @brief INPUT_get_brakePressureBack
- * 
+ *
  * Provides wrapper with error calling on INPUT_read_brakePressureBack
- * 
+ *
  * @param val Given value to populate
  * @return uint8_t State of read
  */
-uint8_t INPUT_get_brakePressureBack(uint16_t * val);
+uint8_t INPUT_get_brakePressureBack(uint16_t* val);
 
 /**
  * @brief INPUT_read_accelPedal
- * 
+ *
  * @param throttle Given uint16_t pointer to populate
  * @return uint8_t 0 if the value is out of spec
  */
-uint8_t INPUT_read_accelPedal(uint16_t * throttle);
+uint8_t INPUT_read_accelPedal(uint16_t* throttle);
 
 /**
  * @brief INPUT_read_brakePedal
- * 
+ *
  * @param brake Given uint16_t pointer to populate
  * @return uint8_t 0 if the value is out of spec
  */
-uint8_t INPUT_read_brakePedal(uint16_t * brake);
+uint8_t INPUT_read_brakePedal(uint16_t* brake);
 
 /**
  * @brief INPUT_read_steeringWheel
- * 
+ *
  * @param brake Given uint16_t pointer to populate
  * @return uint8_t 0 if the value is out of spec
  */
-uint8_t INPUT_read_steeringWheel(uint16_t * brake);
+uint8_t INPUT_read_steeringWheel(uint16_t* brake);
 
 /**
  * @brief INPUT_read_brakePressureFront
- * 
+ *
  * @param fntPressure Given uint16_t pointer to populate
  * @return uint8_t 0 if the value is out of spec
  */
-uint8_t INPUT_read_brakePressureFront(uint16_t * fntPressure);
+uint8_t INPUT_read_brakePressureFront(uint16_t* fntPressure);
 
 /**
  * @brief INPUT_read_brakePressureBack
- * 
+ *
  * @param bkPressure Given uint16_t pointer to populate
  * @return uint8_t  0 if the value is out of spec
  */
-uint8_t INPUT_read_brakePressureBack(uint16_t * bkPressure);
+uint8_t INPUT_read_brakePressureBack(uint16_t* bkPressure);
 
 /**
  * @brief INPUT_init_input
- * 
+ *
  */
 //void INPUT_init_input();
 
