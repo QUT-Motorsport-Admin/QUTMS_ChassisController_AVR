@@ -111,8 +111,6 @@ void firmware_init()
 	// }
 
 	// accumulators[0].ID=ACCUMULATOR_FRONT;
-	
-	INPUT_init_input();
 }
 
 /**

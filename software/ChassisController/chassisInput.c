@@ -12,21 +12,21 @@ uint16_t INPUT_ADC_THRESH = 3;                          /**< 90% Upper trim */
 uint16_t INPUT_BUFFER = 10;
 
 // BRAKE PEDAL
-uint16_t INPUT_PEDAL_BRAKE_CH1_HIGH =	  575;          /**< High Brake Pedal Application DONT SET, OVERWRIDDEN */
+uint16_t INPUT_PEDAL_BRAKE_CH1_HIGH =	  440;          /**< High Brake Pedal Application DONT SET, OVERWRIDDEN */
 uint16_t INPUT_PEDAL_BRAKE_CH1_DIFF =	  250;          /**< Brake Pedal Travel Difference */
-uint16_t INPUT_PEDAL_BRAKE_CH1_LOW =      385;          /**< Low Brake Pedal Application */
-uint16_t INPUT_PEDAL_BRAKE_CH2_HIGH =     600;	        /**< High Brake Pedal Application DONT SET, OVERWRIDDEN */
+uint16_t INPUT_PEDAL_BRAKE_CH1_LOW =      350;          /**< Low Brake Pedal Application */
+uint16_t INPUT_PEDAL_BRAKE_CH2_HIGH =     430;	        /**< High Brake Pedal Application DONT SET, OVERWRIDDEN */
 uint16_t INPUT_PEDAL_BRAKE_CH2_DIFF =	  220;			/**< Brake Pedal Travel Difference */
-uint16_t INPUT_PEDAL_BRAKE_CH2_LOW =      405;          /**< Low Brake Pedal Application */
+uint16_t INPUT_PEDAL_BRAKE_CH2_LOW =      340;          /**< Low Brake Pedal Application */
 uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON =     10;           /**< Moderate Brake Pedal Application (7% Brake) */
 
 // THROTTLE PEDAL
-uint16_t INPUT_PEDAL_THROTTLE_CH1_HIGH =  490;	        /**< High Throttle Pedal Application DONT SET, OVERWRIDDEN */
+uint16_t INPUT_PEDAL_THROTTLE_CH1_HIGH =  465;	        /**< High Throttle Pedal Application DONT SET, OVERWRIDDEN */
 uint16_t INPUT_PEDAL_THROTTLE_CH1_DIFF =  200;          /**< Brake Pedal Travel Difference */
-uint16_t INPUT_PEDAL_THROTTLE_CH1_LOW =   310;	        /**< Low Throttle Pedal Application */
-uint16_t INPUT_PEDAL_THROTTLE_CH2_HIGH =  460;          /**< High Throttle Pedal Application DONT SET, OVERWRIDDEN */
+uint16_t INPUT_PEDAL_THROTTLE_CH1_LOW =   275;	        /**< Low Throttle Pedal Application */
+uint16_t INPUT_PEDAL_THROTTLE_CH2_HIGH =  535;          /**< High Throttle Pedal Application DONT SET, OVERWRIDDEN */
 uint16_t INPUT_PEDAL_THROTTLE_CH2_DIFF =  200;          /**< Brake Pedal Travel Difference */
-uint16_t INPUT_PEDAL_THROTTLE_CH2_LOW =   300;	        /**< Low Throttle Pedal Application */
+uint16_t INPUT_PEDAL_THROTTLE_CH2_LOW =   335;	        /**< Low Throttle Pedal Application */
 
 // STEERING ANGLE
 uint16_t INPUT_STEERING_RIGHT =			  900;          /**< Right Steering Application */
@@ -184,47 +184,31 @@ uint8_t INPUT_scaleInput(uint16_t * value, uint16_t max, uint16_t min) {
 }
 
 /**
- * Example Code:
- * uint16_t val = 0;
- * if(INPUT_read_accelPedal(*val) == 0) {
- *     // Use val some way
- * } else {
- *     // Val is in error
- * }
+ * @brief Reads the inputs from the ADCs and checks for faults with the given input values
+ *
+ * @param *throttle Pointer to the throttle value
+ * @returns Error state
  */
 uint8_t INPUT_read_accelPedal(uint16_t *throttle) {
 
-    //TODO: Fill buffers with int reads values
-    static uint16_t primaryHistory[ADC_SAMPLES];
-    static uint16_t secondaryHistory[ADC_SAMPLES];
-    static uint8_t historyIndex = 0;
+	*throttle = 0;
 
-    // Read the values of the two throttle sensors and verify if the received values are valid
-    primaryHistory[historyIndex] = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
-    secondaryHistory[historyIndex++] = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH2);
+	const uint16_t channel1 = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
 
-    if(historyIndex >= ADC_SAMPLES) { historyIndex = 0; }
+	if (channel1 < (INPUT_PEDAL_THROTTLE_CH1_LOW - 10) || channel1 > (INPUT_PEDAL_THROTTLE_CH1_HIGH + 10))
+		return 1; // outside allowable range
 
-    uint16_t primaryAverage = 0;
-    uint16_t secondaryAverage = 0;
-    for(uint8_t i = 0; i < ADC_SAMPLES; i++) {
-        primaryAverage += primaryHistory[i];
-        secondaryAverage += secondaryHistory[i];
-    }
-    primaryAverage /= ADC_SAMPLES;
-    secondaryAverage /= ADC_SAMPLES;
+	const uint16_t channel2 = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH2);
 
-    uint16_t delta = abs(primaryAverage - secondaryAverage); // Calculate the difference between the two values
+	if (channel2 < (INPUT_PEDAL_THROTTLE_CH2_LOW - 10) || channel2 > (INPUT_PEDAL_THROTTLE_CH2_HIGH + 10))
+		return 1; // outside allowable range
 
-    *throttle = primaryAverage; 
+	const uint16_t delta = abs(channel1 - channel2);
 
-	if(primaryAverage < INPUT_PEDAL_THROTTLE_CH1_LOW - INPUT_ADC_ERROR ||
-       secondaryAverage < INPUT_PEDAL_THROTTLE_CH2_LOW - INPUT_ADC_ERROR ) { return 1; }
-	else if(primaryAverage > INPUT_PEDAL_THROTTLE_CH1_HIGH - INPUT_ADC_ERROR ||
-            secondaryAverage > INPUT_PEDAL_THROTTLE_CH2_HIGH - INPUT_ADC_ERROR ) { return 2; }
-	// Verify if the difference between sensors is within acceptable values
-	else if(delta < INPUT_PEDAL_DELTA_THRESH_L ||
-            delta > INPUT_PEDAL_DELTA_THRESH_H) { return 3; }
+	if (delta < INPUT_PEDAL_DELTA_THRESH_L || delta > INPUT_PEDAL_DELTA_THRESH_H)
+		return 1; // potentiometer difference is not within range
+
+	*throttle = channel1;
 	return 0;
 }
 
@@ -378,56 +362,4 @@ uint8_t INPUT_read_brakePressureBack(uint16_t * bkPressure) {
 	if(average < INPUT_PRESSURE_BRAKE_LOW) { return 1; } // Check if the value we received is valid
     if(average > INPUT_PRESSURE_BRAKE_HIGH) { return 2; } // Check if the value we received is valid
 	return 0;
-}
-
-/*
- * Point of this function is to deal with the ever increasing shift in the input pots
- * Will set the lowest to what its currently sensing plus a buffer
- */
-void INPUT_init_input() {
-	
-	uint16_t primaryHistory[ADC_SAMPLES];
-	uint16_t secondaryHistory[ADC_SAMPLES];
-	uint16_t primaryAverage = 0;
-	uint16_t secondaryAverage = 0;
-	
-	
-	// BRAKE SETTING
-	
-	for(uint8_t i = 0; i < ADC_SAMPLES; i++) {
-		primaryHistory[i] = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH1);
-		secondaryHistory[i] = a2d_10bitCh(INPUT_PEDAL_BRAKE_CH2);
-	}
-	
-	for(uint8_t i = 0; i < ADC_SAMPLES; i++) {
-		primaryAverage += primaryHistory[i];
-		secondaryAverage += secondaryHistory[i];
-	}
-	primaryAverage /= ADC_SAMPLES;
-	secondaryAverage /= ADC_SAMPLES;
-	
-	INPUT_PEDAL_BRAKE_CH1_LOW = primaryAverage + INPUT_BUFFER;
-	INPUT_PEDAL_BRAKE_CH2_LOW = secondaryAverage + INPUT_BUFFER;
-	INPUT_PEDAL_BRAKE_CH1_HIGH = primaryAverage + INPUT_BUFFER + INPUT_PEDAL_BRAKE_CH1_DIFF;
-	INPUT_PEDAL_BRAKE_CH2_HIGH = secondaryAverage + INPUT_BUFFER + INPUT_PEDAL_BRAKE_CH2_DIFF;
-	
-	
-	// THROTTLE SETTING
-
-	for(uint8_t i = 0; i < ADC_SAMPLES; i++) {
-		primaryHistory[i] = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH1);
-		secondaryHistory[i] = a2d_10bitCh(INPUT_PEDAL_THROTTLE_CH2);
-	}
-	
-	for(uint8_t i = 0; i < ADC_SAMPLES; i++) {
-		primaryAverage += primaryHistory[i];
-		secondaryAverage += secondaryHistory[i];
-	}
-	primaryAverage /= ADC_SAMPLES;
-	secondaryAverage /= ADC_SAMPLES;
-	
-	INPUT_PEDAL_THROTTLE_CH1_LOW = primaryAverage + INPUT_BUFFER;
-	INPUT_PEDAL_THROTTLE_CH2_LOW = secondaryAverage + INPUT_BUFFER;
-	INPUT_PEDAL_THROTTLE_CH1_HIGH = primaryAverage + INPUT_BUFFER + INPUT_PEDAL_THROTTLE_CH1_DIFF;
-	INPUT_PEDAL_THROTTLE_CH2_HIGH = secondaryAverage + INPUT_BUFFER + INPUT_PEDAL_THROTTLE_CH2_DIFF;
 }
