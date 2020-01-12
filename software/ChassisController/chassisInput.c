@@ -12,33 +12,33 @@ const uint16_t INPUT_ADC_THRESH = 3;                          /**< 90% Upper tri
 const uint16_t INPUT_BUFFER = 10;
 
 // BRAKE PEDAL
-const uint16_t INPUT_PEDAL_BRAKE_CH1_HIGH =	  440;          /**< High Brake Pedal Application DONT SET, OVERWRIDDEN */
-const uint16_t INPUT_PEDAL_BRAKE_CH1_DIFF =	  250;          /**< Brake Pedal Travel Difference */
-const uint16_t INPUT_PEDAL_BRAKE_CH1_LOW =      350;          /**< Low Brake Pedal Application */
-const uint16_t INPUT_PEDAL_BRAKE_CH2_HIGH =     430;	        /**< High Brake Pedal Application DONT SET, OVERWRIDDEN */
-const uint16_t INPUT_PEDAL_BRAKE_CH2_DIFF =	  220;			/**< Brake Pedal Travel Difference */
-const uint16_t INPUT_PEDAL_BRAKE_CH2_LOW =      340;          /**< Low Brake Pedal Application */
-const uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON =     10;           /**< Moderate Brake Pedal Application (7% Brake) */
+const uint16_t INPUT_PEDAL_BRAKE_CH1_HIGH	=	440;	/// Maximum brake pedal input
+const uint16_t INPUT_PEDAL_BRAKE_CH1_DIFF	=	250;	/// Brake pedal input difference
+const uint16_t INPUT_PEDAL_BRAKE_CH1_LOW	=	350;	/// Minimum brake pedal input
+const uint16_t INPUT_PEDAL_BRAKE_CH2_HIGH	=	430;	/// Maximum brake pedal input
+const uint16_t INPUT_PEDAL_BRAKE_CH2_DIFF	=	220;	/// Brake pedal input difference
+const uint16_t INPUT_PEDAL_BRAKE_CH2_LOW	=	340;	/// Minimum brake pedal input
+const uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON	=	10;		/// Brake light illumination threshold
 
 // THROTTLE PEDAL
-const uint16_t INPUT_PEDAL_THROTTLE_CH1_HIGH =  465;	        /**< High Throttle Pedal Application DONT SET, OVERWRIDDEN */
-const uint16_t INPUT_PEDAL_THROTTLE_CH1_DIFF =  200;          /**< Brake Pedal Travel Difference */
-const uint16_t INPUT_PEDAL_THROTTLE_CH1_LOW =   275;	        /**< Low Throttle Pedal Application */
-const uint16_t INPUT_PEDAL_THROTTLE_CH2_HIGH =  535;          /**< High Throttle Pedal Application DONT SET, OVERWRIDDEN */
-const uint16_t INPUT_PEDAL_THROTTLE_CH2_DIFF =  200;          /**< Brake Pedal Travel Difference */
-const uint16_t INPUT_PEDAL_THROTTLE_CH2_LOW =   335;	        /**< Low Throttle Pedal Application */
+const uint16_t INPUT_PEDAL_THROTTLE_CH1_HIGH	=	465;	/// Maximum brake pedal input
+const uint16_t INPUT_PEDAL_THROTTLE_CH1_DIFF	=	200;	/// Throttle pedal input difference
+const uint16_t INPUT_PEDAL_THROTTLE_CH1_LOW		=	275;	/// Minimum brake pedal input
+const uint16_t INPUT_PEDAL_THROTTLE_CH2_HIGH	=	535;	/// Maximum brake pedal input
+const uint16_t INPUT_PEDAL_THROTTLE_CH2_DIFF	=	200;	/// Throttle pedal input difference
+const uint16_t INPUT_PEDAL_THROTTLE_CH2_LOW		=	335;	/// Minimum brake pedal input
 
 // STEERING ANGLE
-const uint16_t INPUT_STEERING_RIGHT =			  800;          /**< Right Steering Application */
-const uint16_t INPUT_STEERING_LEFT =			  150;	        /**< Left Steering Application */
+const uint16_t INPUT_STEERING_RIGHT	=	800;	/// Right lock steering input
+const uint16_t INPUT_STEERING_LEFT	=	150;	/// Left lock steering input
 
 // BRAKE PRESSURE
-const uint16_t INPUT_PRESSURE_BRAKE_HIGH = 1022;              /**< High pressure lim in brake */
-const uint16_t INPUT_PRESSURE_BRAKE_LOW  = 1;                 /**< Low pressure lim in brake */
+const uint16_t INPUT_PRESSURE_BRAKE_HIGH	=	1022;	/// Maximum brake pressure input
+const uint16_t INPUT_PRESSURE_BRAKE_LOW		=	1;		/// Minimum brake pressure input
 
 // PEDAL DELTA THRESHOLDS
-const uint16_t INPUT_PEDAL_DELTA_THRESH_H = 1023;                /**< Low Value for pedal sensor discrepancy */
-const uint16_t INPUT_PEDAL_DELTA_THRESH_L = 0;                /**< Low Value for pedal sensor discrepancy */
+const uint16_t INPUT_PEDAL_DELTA_THRESH_H = 1023;	/// Maximum pedal input difference
+const uint16_t INPUT_PEDAL_DELTA_THRESH_L = 0;		/// Minimum pedal input difference
 
 int8_t INPUT_steeringAngle = 0;
 uint8_t INPUT_accelerationPedal = 0;
