@@ -1,22 +1,8 @@
-/**
- * @file chassisInit.c
- * @author Jonn Dillon
- * @date 16/4/2018
- * @brief Handles all initialisation processes for the chassis controller
- **/
-
-
 #include "chassisInit.h"
 #include "main.h"
 #include "chassisInput.h"
 #include "SPI.h"
 
-/**
- * @brief Sets up the microcontroller to allow external interrupts. The External Interrupts are triggered by the INT7:0 pin or any of the PCINT23:0 pins.
- * 
- * Reference: ATmega Datasheet Chapter 15 (External Interrupts)
- * 
- */
 void external_interrupt_init()
 {
 	//INT1 for CAN1, INT0 for CAN2, PCINT7 for CAN3
@@ -32,10 +18,6 @@ void external_interrupt_init()
 	//PCMSK1 = (1<<PCINT15);
 }
 
-/**
- * @brief Configures the pins required for IO.
- * 
- */
 void io_init()
 {
 	//pins 8, 9 and 14 for MCP2515_STB high so the things respond (PE6, PE7, PH2)
@@ -71,10 +53,6 @@ void io_init()
 	external_interrupt_init();
 }
 
-/**
- * @brief Set up all devices in the ATmega and MCP2515. Initiates structs to hold data from other devices
- * 
- */
 void firmware_init()
 {
 	io_init();
@@ -101,12 +79,6 @@ void firmware_init()
 	// }
 }
 
-/**
- * @brief Initiates a timer set on Clear Timer Compare Match (CTC) Mode.
- * 
- * Reference: ATmega Datasheet Chapter 17 (16-bit Timer/Counter)
- * 
- */
 void timer_init()
 {
     // Set up 1Khz timer
