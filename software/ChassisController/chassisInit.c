@@ -119,7 +119,6 @@ void firmware_init()
  */
 void timer_init()
 {
-    // http://ww1.microchip.com/downloads/en/DeviceDoc/Atmel-2549-8-bit-AVR-Microcontroller-ATmega640-1280-1281-2560-2561_datasheet.pdf
     // Set up 1Khz timer
     TCCR0A |= (1 << WGM01);                 // Setting CTC on timer0
     TCCR0B |= (1 << CS01)|(1 << CS00);      // Set up 64 prescaler (16Mhz / 64)
