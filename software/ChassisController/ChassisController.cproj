@@ -176,12 +176,6 @@
     <Compile Include="chassisCAN.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="chassisEEPROM.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="chassisEEPROM.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="chassisError.c">
       <SubType>compile</SubType>
     </Compile>
