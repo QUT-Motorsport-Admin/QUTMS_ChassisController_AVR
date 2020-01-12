@@ -33,17 +33,7 @@ void external_interrupt_init()
 }
 
 /**
- * @brief Configures the pins required for IO. Each port pin consists of three register bits: DDxn, PORTxn, and PINxn set by the following registers
- * 
- * 	DDRx   - Sets the direction of PINxn in bit DDxn (1 -> output, 0 -> input)
- * 
- * 	PORTx  - Activates the pull-up resistor for PINxn in bit PORTxn. The pull-up resistor will only be activated if written as logic 1 AND set as an input
- * 
- *  PINx   - The Port Input Pins I/O location is read only. 
- *           Writing a logic one to a bit in the PINx Register, will result in a toggle in the corresponding bit in the Data Register.
- * 		     Writing a logic one to PINxn toggles the value of PORTxn, independent on the value of DDRxn
- * 
- * Reference: ATmega Datasheet Chapter 13 (I/O-Ports)
+ * @brief Configures the pins required for IO.
  * 
  */
 void io_init()
