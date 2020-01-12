@@ -109,8 +109,6 @@ void firmware_init()
 	// 	inverters[i].RPM = 0;
 	// 	inverters[i].temperature = 0;
 	// }
-
-	// accumulators[0].ID=ACCUMULATOR_FRONT;
 }
 
 /**
