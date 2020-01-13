@@ -169,6 +169,11 @@ void oneKHzTimer(void)
     InputPedalBrakeCount++;
     InputSteeringCount++;
 
+    if (INPUT_accelerationPedal > 30 && INPUT_brakePedal > 30) {
+        // if both pedals are pressed we don't want to go forward
+        INPUT_accelerationPedal = 0;
+    }
+
     // Brake light code
     if(INPUT_brakePedal > INPUT_PEDAL_BRAKE_LIGHT_ON) {
         isBrakeLightOn = 1;
@@ -236,6 +241,18 @@ void oneKHzTimer(void)
         // CAN_send(POWER_CAN, 5, PDMarray, HEARTBEAT_AMU_ID | 1);
 
         //UART_formTestPacket();
+
+        // OUTPUT BRAKE AND ACCEL PEDALS TO SERIAL
+        char tempString[4] = {0};
+        itoa(INPUT_brakePedal, tempString, 10);
+        for (int i = 0; i < 4; i++) uart_putc(tempString[i]);
+
+        uart_putc('\t');
+
+        itoa(INPUT_accelerationPedal, tempString, 10);
+        for (int i = 0; i < 4; i++) uart_putc(tempString[i]);
+
+        uart_putc('\n');
 
     }
 
