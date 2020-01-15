@@ -23,10 +23,10 @@ const uint16_t INPUT_PEDAL_BRAKE_LIGHT_ON	=	10;		/// Brake light illumination th
 // THROTTLE PEDAL
 const uint16_t INPUT_PEDAL_THROTTLE_CH1_HIGH	=	465;	/// Maximum brake pedal input
 const uint16_t INPUT_PEDAL_THROTTLE_CH1_DIFF	=	200;	/// Throttle pedal input difference
-const uint16_t INPUT_PEDAL_THROTTLE_CH1_LOW		=	275;	/// Minimum brake pedal input
+const uint16_t INPUT_PEDAL_THROTTLE_CH1_LOW		=	290;	/// Minimum brake pedal input
 const uint16_t INPUT_PEDAL_THROTTLE_CH2_HIGH	=	535;	/// Maximum brake pedal input
 const uint16_t INPUT_PEDAL_THROTTLE_CH2_DIFF	=	200;	/// Throttle pedal input difference
-const uint16_t INPUT_PEDAL_THROTTLE_CH2_LOW		=	335;	/// Minimum brake pedal input
+const uint16_t INPUT_PEDAL_THROTTLE_CH2_LOW		=	345;	/// Minimum brake pedal input
 
 // STEERING ANGLE
 const uint16_t INPUT_STEERING_RIGHT	=	800;	/// Right lock steering input
