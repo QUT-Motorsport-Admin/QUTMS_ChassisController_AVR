@@ -28,3 +28,11 @@ DTM-3P Connector
 | 3 | RX |
 
 Remember that for serial to work RX and TX must be swapped or "crossed over" during the wiring.
+
+## RS232 RF Modem
+
+The XBee-PRO PKG-R® modules we have are a really simple way to make the debug connection to the chassis controller wireless. If working correctly they should be plug-n-play, so they're very easy to use.
+
+The advertised range is around 12000m which should be enough to receive data from any point on a regular FSAE track. For example, lakeside raceway is around 250m from the furthest point on their small test track to the pits and the main track is around 600m to the furthest point to its respective pits.
+
+The datasheet for this device is located in the datasheets folder of this repo.
